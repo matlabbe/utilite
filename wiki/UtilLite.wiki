@@ -1,0 +1,15 @@
+#summary UtilLite++
+
+= Introduction =
+
+This c++ library includes cross-platform (Windows, Linux, Mac) useful utilities :
+*multi-threading (+safe inter-thread communication), 
+*logging, 
+*timing,
+for fast prototyping.
+
+If you use Qt, UtilLite++ includes easy to use simple Widgets to plot in real-time some statistics, changing algorithm parameters on runtime safely.
+
+
+= Details =
+
