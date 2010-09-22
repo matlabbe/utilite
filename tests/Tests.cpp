@@ -567,14 +567,14 @@ void Tests::testDirectory()
 	CPPUNIT_ASSERT( UDirectory::removeDir("./LogTestUtil/dummyDirectory") == true );
 	CPPUNIT_ASSERT( UDirectory::removeDir("./LogTestUtil/dummyDirectory") == false );
 
-	UDirectory dir("./data/090206-3", "jpg");
-	std::vector<std::string> fileNames = uListToVector(uSplit("1.jpg 2.jpg 3.jpg 4.jpg 5.jpg 6.jpg 7.jpg 8.jpg 9.jpg 10.jpg 11.jpg", ' '));
+	UDirectory dir("./data", "x");
+	std::vector<std::string> fileNames = uListToVector(uSplit("1.x 2.x 10.x 11.x 101.x", ' '));
 	unsigned int i=0;
 	for(; i<fileNames.size(); ++i)
 	{
 		CPPUNIT_ASSERT(fileNames[i].compare(dir.getNextFileName()) == 0);
 	}
-	CPPUNIT_ASSERT(i == 11);
+	CPPUNIT_ASSERT(i == 5);
 }
 
 void Tests::testFile()
