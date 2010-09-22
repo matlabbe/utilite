@@ -1,0 +1,172 @@
+# Top-Level CmakeLists.txt
+cmake_minimum_required(VERSION 2.6)
+
+# it _must_ go before PROJECT(UtiLite) in order to work
+#if (NOT CMAKE_INSTALL_PREFIX)
+#    if (WIN32)
+#        set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR} CACHE INTERNAL "" FORCE)
+#    else()
+#        set(CMAKE_INSTALL_PREFIX "/usr" CACHE INTERNAL "" FORCE)
+#    end()
+#endif()
+
+PROJECT( UtiLite )
+
+SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules")
+
+#######################
+# VERSION
+#######################
+SET(UTILITE_VERSION "0.1.0")
+
+STRING(REGEX MATCHALL "[0-9]" UTILITE_VERSION_PARTS "${UTILITE_VERSION}")
+
+LIST(GET UTILITE_VERSION_PARTS 0 UTILITE_VERSION_MAJOR)
+LIST(GET UTILITE_VERSION_PARTS 1 UTILITE_VERSION_MINOR)
+LIST(GET UTILITE_VERSION_PARTS 2 UTILITE_VERSION_PATCH)
+
+SET(UTILITE_SOVERSION "${UTILITE_VERSION_MAJOR}.${UTILITE_VERSION_MINOR}")
+
+#######################
+# COMPILATION PARAMS
+#######################
+#Debug, default Release
+IF (NOT CMAKE_BUILD_TYPE) 
+    SET (CMAKE_BUILD_TYPE "Release") 
+ENDIF ()
+
+SET(UTILITE_DEBUG_POSTFIX "d")
+
+ADD_DEFINITIONS( "-Wall" )
+IF(WIN32 AND NOT MINGW)
+    ADD_DEFINITIONS("-wd4100 -wd4512 -wd4548 -wd4619 -wd4625 -wd4626 -wd4668 -wd4710 -wd4820")
+ELSE ()
+	ADD_DEFINITIONS("-Wno-unknown-pragmas")
+ENDIF()
+OPTION( BUILD_SHARED_LIBS "Set to OFF to build static libraries" ON )
+
+# GCC 4 required
+IF(UNIX OR MINGW)
+    INCLUDE("${CMAKE_MODULE_PATH}/CompareVersionStrings.cmake")
+    EXEC_PROGRAM( gcc ARGS "-dumpversion" OUTPUT_VARIABLE GCC_VERSION )
+    COMPARE_VERSION_STRINGS("${GCC_VERSION}" "4.0.0" result)
+    IF(result LESS 0)
+        MESSAGE(FATAL_ERROR "GCC ${GCC_VERSION} found, but version 4.x.x minimum is required")
+    ENDIF(result LESS 0)
+ENDIF(UNIX OR MINGW)
+
+#The CDT Error Parser cannot handle error messages that span 
+#more than one line, which is the default gcc behavior. 
+#In order to force gcc to generate single line error messages with no line wrapping
+IF(CMAKE_COMPILER_IS_GNUCC)
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fmessage-length=0")
+ENDIF(CMAKE_COMPILER_IS_GNUCC)
+IF(CMAKE_COMPILER_IS_GNUCXX)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmessage-length=0")
+ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+
+# [Eclipse] Automatic Discovery of Include directories (Optional, but handy) 
+#SET(CMAKE_VERBOSE_MAKEFILE ON)
+
+#######################
+# Uninstall target, for "make uninstall"
+#######################
+CONFIGURE_FILE(
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+  IMMEDIATE @ONLY)
+
+ADD_CUSTOM_TARGET(uninstall
+  "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+
+#######################
+# OUTPUT DIR
+#######################
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+
+#######################
+# DEPENDENCIES
+#######################
+IF(UNIX)
+   FIND_PACKAGE(Pthreads REQUIRED)
+ENDIF(UNIX)
+
+FIND_PACKAGE(CppUnit)
+
+#######################
+# SOURCES
+#######################
+ADD_SUBDIRECTORY( src )
+ADD_SUBDIRECTORY( resource_generator )
+ADD_SUBDIRECTORY( examples )
+
+IF(CPPUNIT_FOUND)
+  ADD_SUBDIRECTORY( tests )
+ELSE(CPPUNIT_FOUND)
+  MESSAGE(STATUS "CppUnit is not found, tests for the ${PROJECT_NAME} project won't be compiled...")
+ENDIF(CPPUNIT_FOUND)
+
+#######################
+# CPACK (Packaging)
+#######################
+INCLUDE(InstallRequiredSystemLibraries)
+
+SET(CPACK_PACKAGE_NAME "UtiLite")
+SET(CPACK_PACKAGE_VENDOR "UtiLite project")
+
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "UtiLite SDK contains useful cross-platform utilities (Inter-thread communication, Logger, Timer, Resource file generator) for developing easily multi-threaded applications")
+
+#SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/Description.txt")
+#SET(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.txt")
+SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING.LESSER.txt")
+
+SET(CPACK_PACKAGE_VERSION_MAJOR "${UTILITE_VERSION_MAJOR}")
+SET(CPACK_PACKAGE_VERSION_MINOR "${UTILITE_VERSION_MINOR}")
+SET(CPACK_PACKAGE_VERSION_PATCH "${UTILITE_VERSION_PATCH}")
+
+#SET(CPACK_PACKAGE_INSTALL_DIRECTORY "UtiLite${UTILITE_VERSION_MAJOR}.${UTILITE_VERSION_MINOR}")
+
+#SET(CPACK_PACKAGE_EXECUTABLES "")
+
+#SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+
+IF(WIN32)
+  SET(CPACK_GENERATOR "NSIS")
+  SET(CPACK_SOURCE_GENERATOR "ZIP")
+  SET(CPACK_NSIS_PACKAGE_NAME "UtiLite ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+  
+  #SET(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}\\\\utils\\\\utilite.ico")
+  #SET(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}\\\\utils\\\\utilite.ico")
+  #SET(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}\\\\utils\\\\utilite.ico")
+  #SET(CPACK_NSIS_INSTALLED_ICON_NAME "${CMAKE_SOURCE_DIR}\\\\utils\\\\utilite.ico")
+  
+  SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\www.code.google.com/p/utilite")
+  SET(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\www.code.google.com/p/utilite")
+  SET(CPACK_NSIS_DISPLAY_NAME "UtiLite SDK")
+  SET(CPACK_NSIS_CONTACT "matlabbe@gmail.com")
+  
+  SET(CPACK_NSIS_MODIFY_PATH ON)
+  
+ELSEIF(APPLE)
+  SET(CPACK_GENERATOR "PackageMaker;TBZ2")
+  SET(CPACK_SOURCE_GENERATOR "TBZ2")
+  
+ELSE()
+  SET(CPACK_GENERATOR "DEB;TBZ2")
+  SET(CPACK_SOURCE_GENERATOR "TBZ2")
+  
+  SET(CPACK_DEBIAN_PACKAGE_NAME "${CPACK_PACKAGE_NAME}")
+  SET(CPACK_DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+  SET(CPACK_DEBIAN_ARCHITECTURE i686)
+  SET(CPACK_DEBIAN_PACKAGE_DEPENDS "")
+  SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "matlabbe@gmail.com")
+  SET(CPACK_DEBIAN_PACKAGE_DESCRIPTION "${CPACK_PACKAGE_DESCRIPTION_SUMMARY}")
+  SET(CPACK_DEBIAN_PACKAGE_SECTION "devel")
+  SET(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+  SET(CPACK_DEBIAN_PACKAGE_RECOMMENDS "")
+  SET(CPACK_DEBIAN_PACKAGE_SUGGESTS "")
+ENDIF()
+
+INCLUDE(CPack)
