@@ -455,11 +455,7 @@ inline int uStrNumCmp(const std::string & a, const std::string & b)
 			}
 			else
 			{
-#ifdef WIN32
 				result = listA[i].compare(listB[i]);
-#else
-				result = strcoll(listA[i].c_str(), listB[i].c_str());
-#endif
 			}
 		}
 		else if(uIsDigit(listA[i].at(0)))
@@ -472,11 +468,7 @@ inline int uStrNumCmp(const std::string & a, const std::string & b)
 		}
 		else
 		{
-#ifdef WIN32
 			result = listA[i].compare(listB[i]);
-#else
-			result = strcoll(listA[i].c_str(), listB[i].c_str());
-#endif
 		}
 
 		if(result != 0)
