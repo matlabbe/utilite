@@ -9,7 +9,7 @@
 #ifndef _Win32_
 #define _Win32_
 
-#include "UtilExp.h"
+#include "UtiLiteExp.h"
 
   #if !defined(_WINDOWS_)
   // WIN32 Excludes

@@ -572,7 +572,8 @@ void Tests::testDirectory()
 	unsigned int i=0;
 	for(; i<fileNames.size(); ++i)
 	{
-		CPPUNIT_ASSERT(fileNames[i].compare(dir.getNextFileName()) == 0);
+		std::string next = dir.getNextFileName();
+		CPPUNIT_ASSERT(fileNames[i].compare(next) == 0);
 	}
 	CPPUNIT_ASSERT(i == 5);
 }
@@ -698,13 +699,13 @@ void Tests::testTimer()
 	SLEEP(100);
 	timer.stop();
 	uValue = timer.getInterval();
-	CPPUNIT_ASSERT(uValue >= 0.1 && uValue < 0.11);
+	CPPUNIT_ASSERT(uValue >= 0.09 && uValue < 0.11);
 
 	//ticks
 	timer.start();
 	SLEEP(100);
 	uValue = timer.ticks();
-	CPPUNIT_ASSERT(uValue >= 0.1 && uValue < 0.11);
+	CPPUNIT_ASSERT(uValue >= 0.09 && uValue < 0.11);
 }
 
 void Tests::testObjDeletionThread()
