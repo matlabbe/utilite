@@ -38,10 +38,13 @@
 #include "UFile.h"
 #include "UDirectory.h"
 
+#include "ULogger.h"
+
 #ifdef WIN32
+
 bool sortCallback(const std::string & a, const std::string & b)
 {
-	return strNumCmp(a,b) < 0;
+	return uStrNumCmp(a,b) < 0;
 }
 #elif __APPLE__
 int sortCallback(const void * aa, const void * bb)
@@ -76,7 +79,7 @@ void UDirectory::update()
 	{
 #ifdef WIN32
 		WIN32_FIND_DATA fileInformation;
-		HANDLE hFile  = ::FindFirstFile(_path.c_str(), &fileInformation);
+		HANDLE hFile  = ::FindFirstFile((_path+"\\*").c_str(), &fileInformation);
 		if(hFile != INVALID_HANDLE_VALUE)
 		{
 			do
@@ -84,9 +87,9 @@ void UDirectory::update()
 				_fileNames.push_back(fileInformation.cFileName);
 			} while(::FindNextFile(hFile, &fileInformation) == TRUE);
 			::FindClose(hFile);
-			std::vector<std::string> vFileNames = toVector(_fileNames);
+			std::vector<std::string> vFileNames = uListToVector(_fileNames);
 			std::sort(vFileNames.begin(), vFileNames.end(), sortCallback);
-			_fileNames = toList(vFileNames);
+			_fileNames = uVectorToList(vFileNames);
 		}
 #else
 		int nameListSize;
