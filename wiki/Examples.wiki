@@ -1,9 +1,8 @@
 #summary Here is some examples of what is can be done by the library.
 
 = Events =
-The communication used between threads is events-based. [Explains more... how it works...]
-
-[Insert image Communication...] 
+The communication used between threads is events-based. (Explains more... how it works...)
+(Insert image Communication...)
 
 {{{
 // Main include of the library
