@@ -41,7 +41,7 @@ public:
      * @param code the event code.
      * TODO : Remove the code, not required for most of all implemented events
      */
-    UEvent(int code) : code_(code) {}
+    UEvent(int code = 0) : code_(code) {}
 
     virtual ~UEvent() {}
 
