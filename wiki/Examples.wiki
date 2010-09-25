@@ -1,14 +1,103 @@
-#summary One-sentence summary of this page.
+= UEventsManager, UEventsHandler, UEvents =
+Here is the same example as on the project home page but with comments.
 
-= Introduction =
+{{{
+#include <UEventsManager.h>
+#include <UEventsHandler.h>
+#include <UEvent.h>
+#include <ULogger.h>
 
-Add your content here.
+// UtiLite.h can be used if we don't want to include
+// each separated objects.
+//#include <UtiLite.h>
 
-http://utilite.googlecode.com/svn/trunk/doc/iCIl.png
+// Create a custom event, called SpecialEvent.
+class SpecialEvent : public UEvent
+{
+public:
+   SpecialEvent(int code) : UEvent(code) {}
+   ~SpecialEvent() {}
 
-= Details =
+   // Inherited method from UEvent.
+   virtual std::string getClassName() const {
+	   return "SpecialEvent";
+   }
+};
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+// Create an events handler.
+class EventsPrinter : public UEventsHandler
+{
+public:
+   EventsPrinter() {}
+   ~EventsPrinter() {}
+
+protected:
+   // Inherited method from UEventsHandler.
+   virtual void handleEvent(UEvent * e) {
+      // Only handle SpecialEvent type
+      if(e->getClassName().compare("SpecialEvent") == 0) {
+         // Logger syntax is the same as a "printf()".
+         ULOGGER_INFO("SpecialEvent \"%d\" received!", e->getCode());
+      }
+   }
+};
+
+int main(int argc, char * argv[])
+{
+   // Set the logger type. The choices are kTypeConsole,
+   // kTypeFile or kTypeNoLog (nothing is logged).
+   ULogger::setType(ULogger::kTypeConsole);
+
+   // Set the logger severity level (kDebug, kInfo, kWarning, kError).
+   // All log entries under the severity level are not logged. Here,
+   // only debug messages are not logged.
+   ULogger::setLevel(ULogger::kInfo);
+
+   // Use a predefined Macro to easy logging. It can be
+   // called anywhere in the application as the logger is
+   // a Singleton.
+   ULOGGER_DEBUG("This message won't be logged because the "
+                 "severity level of the logger is set to kInfo.");
+   ULOGGER_INFO("This message is logged.");
+
+   // Lets create a simple EventsPrinter that will log all
+   // events it will received.
+   EventsPrinter p;
+
+   // Register the EventsPrinter to the EventsManager to
+   // receive events posted in the application.
+   UEventsManager::addHandler(&p);
+
+   // Post some events. As ULogger, UEventsManager
+   // is a Singleton and posting events is ThreadSafe.
+   UEventsManager::post(new SpecialEvent(1));
+   UEventsManager::post(new SpecialEvent(2));
+   UEventsManager::post(new SpecialEvent(5));
+   UEventsManager::post(new SpecialEvent(7));
+   UEventsManager::post(new SpecialEvent(11));
+
+   // Let some times to process the events and quit.
+   uSleep(10);
+
+   // Cleanup
+   UEventsManager::removeHandler(&p);
+
+   return 0;
+}
+}}}
+
+Output :
+{{{
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:53::main() This message is logged.
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "1" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "2" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "5" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "7" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "11" received!
+}}}
+
+= UThreadNode =
+todo...
+
+= UThreadNode =
+todo...
