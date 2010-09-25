@@ -23,8 +23,8 @@
 #include <list>
 #include "UStl.h"
 
-UEventsManager* UEventsManager::_instance = 0;
-UDestroyer<UEventsManager> UEventsManager::_destroyer;
+UEventsManager* UEventsManager::instance_ = 0;
+UDestroyer<UEventsManager> UEventsManager::destroyer_;
 
 void UEventsManager::addHandler(UEventsHandler* handler)
 {
@@ -36,20 +36,20 @@ void UEventsManager::removeHandler(UEventsHandler* handler)
     UEventsManager::getInstance()->_removeHandler(handler);
 }
 
-void UEventsManager::postEvent(UEvent * event, bool async)
+void UEventsManager::post(UEvent * event, bool async)
 {
     UEventsManager::getInstance()->_postEvent(event, async);
 }
 
 UEventsManager* UEventsManager::getInstance()
 {
-    if(!_instance)
+    if(!instance_)
     {
-        _instance = new UEventsManager();
-        _destroyer.setDoomed(_instance);
-        _instance->startThread(); // Start the thread
+        instance_ = new UEventsManager();
+        destroyer_.setDoomed(instance_);
+        instance_->start(); // Start the thread
     }
-    return _instance;
+    return instance_;
 }
 
 UEventsManager::UEventsManager()
@@ -58,40 +58,40 @@ UEventsManager::UEventsManager()
 
 UEventsManager::~UEventsManager()
 {
-	LOGGER_DEBUG("");
-    this->killSafely();
+	ULOGGER_DEBUG("");
+    this->kill();
 
     // Free memory
-    for(std::list<UEvent*>::iterator it=_events.begin(); it!=_events.end(); ++it)
+    for(std::list<UEvent*>::iterator it=events_.begin(); it!=events_.end(); ++it)
     {
         delete *it;
     }
-    _events.clear();
+    events_.clear();
 
-    _handlers.clear();
+    handlers_.clear();
 
-    _instance = 0;
+    instance_ = 0;
 
     //printf("EventsManager is destroyed...\n\r");
 }
 
-void UEventsManager::threadInnerLoop()
+void UEventsManager::mainLoop()
 {
-    _postEventSem.acquire();
+    postEventSem_.acquire();
     if(!this->isKilled())
     {
 		dispatchEvents();
     }
 }
 
-void UEventsManager::killSafelyInner()
+void UEventsManager::killCleanup()
 {
-    _postEventSem.release();
+    postEventSem_.release();
 }
 
 void UEventsManager::dispatchEvents()
 {
-    if(_events.size() == 0)
+    if(events_.size() == 0)
     {
         return;
     }
@@ -102,12 +102,12 @@ void UEventsManager::dispatchEvents()
     // Copy events in a buffer :
     // Other threads can post events 
     // while events are handled.
-    _eventsMutex.Lock();
+    eventsMutex_.lock();
     {
-        eventsBuf = _events;
-        _events.clear();
+        eventsBuf = events_;
+        events_.clear();
     }
-    _eventsMutex.Unlock();
+    eventsMutex_.unlock();
 
 	// Past events to handlers
 	for(it=eventsBuf.begin(); it!=eventsBuf.end(); ++it)
@@ -121,19 +121,19 @@ void UEventsManager::dispatchEvents()
 void UEventsManager::dispatchEvent(UEvent * event)
 {
 	UEventsHandler * handler;
-	_handlersMutex.Lock();
-	for(std::list<UEventsHandler*>::iterator it=_handlers.begin(); it!=_handlers.end(); ++it)
+	handlersMutex_.lock();
+	for(std::list<UEventsHandler*>::iterator it=handlers_.begin(); it!=handlers_.end(); ++it)
 	{
 		handler = *it;
-		_handlersMutex.Unlock();
+		handlersMutex_.unlock();
 
 		// To be able to add/remove an handler in a handleEvent call (without a deadlock)
 		// @see _addHandler(), _removeHandler()
 		handler->handleEvent(event);
 
-		_handlersMutex.Lock();
+		handlersMutex_.lock();
 	}
-	_handlersMutex.Unlock();
+	handlersMutex_.unlock();
 
 }
 
@@ -141,11 +141,11 @@ void UEventsManager::_addHandler(UEventsHandler* handler)
 {
     if(!this->isKilled())
     {
-        _handlersMutex.Lock();
+        handlersMutex_.lock();
         {
         	//make sure it is not already in the list
         	bool handlerFound = false;
-        	for(std::list<UEventsHandler*>::iterator it=_handlers.begin(); it!=_handlers.end(); ++it)
+        	for(std::list<UEventsHandler*>::iterator it=handlers_.begin(); it!=handlers_.end(); ++it)
         	{
         		if(*it == handler)
         		{
@@ -154,10 +154,10 @@ void UEventsManager::_addHandler(UEventsHandler* handler)
         	}
         	if(!handlerFound)
         	{
-        		_handlers.push_back(handler);
+        		handlers_.push_back(handler);
         	}
         }
-        _handlersMutex.Unlock();
+        handlersMutex_.unlock();
     }
 }
 
@@ -165,18 +165,18 @@ void UEventsManager::_removeHandler(UEventsHandler* handler)
 {
     if(!this->isKilled())
     {
-        _handlersMutex.Lock();
+        handlersMutex_.lock();
         {
-            for (std::list<UEventsHandler*>::iterator it = _handlers.begin(); it!=_handlers.end(); ++it)
+            for (std::list<UEventsHandler*>::iterator it = handlers_.begin(); it!=handlers_.end(); ++it)
             {
                 if(*it == handler)
                 {
-                    _handlers.erase(it);
+                    handlers_.erase(it);
                     break;
                 }
             }
         }
-        _handlersMutex.Unlock();
+        handlersMutex_.unlock();
     }
 }
 
@@ -186,14 +186,14 @@ void UEventsManager::_postEvent(UEvent * event, bool async)
     {
     	if(async)
     	{
-			_eventsMutex.Lock();
+			eventsMutex_.lock();
 			{
-				_events.push_back(event);
+				events_.push_back(event);
 			}
-			_eventsMutex.Unlock();
+			eventsMutex_.unlock();
 
 			// Signal the EventsManager that an Event is added
-			_postEventSem.release();
+			postEventSem_.release();
     	}
     	else
     	{

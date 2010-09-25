@@ -41,7 +41,7 @@ public:
      * @param code the event code.
      * TODO : Remove the code, not required for most of all implemented events
      */
-    UEvent(int code) : _code(code) {}
+    UEvent(int code) : code_(code) {}
 
     virtual ~UEvent() {}
 
@@ -54,12 +54,12 @@ public:
      */
     virtual std::string getClassName() const = 0; // TODO : macro?
 
-    int getCode() const {return _code;}
+    int getCode() const {return code_;}
 
 protected:
 
 private:
-    int _code; /**< The event's code. */
+    int code_; /**< The event's code. */
 };
 
 #endif

@@ -39,7 +39,7 @@ public:
 		  while(1)
 		  {
 		  	  code = pthread_cond_wait(&_cond, &_waitMutex);
-		  	  //LOGGER_DEBUG("code = %d", code);
+		  	  //ULOGGER_DEBUG("code = %d", code);
 		  	  //if(code == 0)
 		  		//  continue;
 		  	  break;
@@ -49,7 +49,7 @@ public:
 	  pthread_mutex_unlock(&_waitMutex);
   }
 
-  bool tryAcquire(int n)
+  bool acquireTry(int n)
   {
 	  pthread_mutex_lock(&_waitMutex);
 	  if(n > _available)

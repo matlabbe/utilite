@@ -1,24 +1,24 @@
 #ifndef SIMPLESTATETHREAD_H
 #define SIMPLESTATETHREAD_H
 
-#include "UStateThread.h"
+#include "UThreadNode.h"
 
 #include <string>
 
-class SimpleStateThread : public UStateThread
+class SimpleStateThread : public UThreadNode
 {
 public:
 	SimpleStateThread(bool killItself = false) : _killItself(killItself) {}
-    virtual ~SimpleStateThread() {this->killSafely();}
+    virtual ~SimpleStateThread() {this->kill();}
 
 protected:
 
 private:
-    virtual void threadInnerLoop()
+    virtual void mainLoop()
     {
     	if(_killItself)
     	{
-    		killSafely();
+    		kill();
     	}
     	else
     	{
@@ -28,7 +28,7 @@ private:
 
     void doSomeWork() const
     {
-        SLEEP(10);
+    	uSleep(10);
     }
 
 private:

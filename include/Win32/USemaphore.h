@@ -11,17 +11,13 @@
 #ifndef _Semaphore_Win32_
 #define _Semaphore_Win32_
 
-#include "Win32.h"
+#include "UWin32.h"
 
 #define SEM_VALUE_MAX ((int) ((~0u) >> 1))
 
 class UTILITE_EXP USemaphore
 {
-  HANDLE S;
-  void operator=(const USemaphore &S){}
-  USemaphore(const USemaphore &S){}
-
-  public:
+public:
   USemaphore( int init = 0 )
   { S = CreateSemaphore(0,init,SEM_VALUE_MAX,0); }
 
@@ -34,20 +30,25 @@ class UTILITE_EXP USemaphore
 		  WaitForSingleObject((HANDLE)S,INFINITE);
   }
 
-  int Wait_Try() const
+  int acquireTry() const
   { return ((WaitForSingleObject((HANDLE)S,INFINITE)==WAIT_OBJECT_0)?0:EAGAIN); }
 
   int release(int n = 1) const
   { return (ReleaseSemaphore((HANDLE)S,n,0)?0:ERANGE); }
 
-  int Value() const
+  int value() const
   { LONG V = -1; ReleaseSemaphore((HANDLE)S,0,&V); return V; }
 
-  void Reset( int init = 0 )
+  void reset( int init = 0 )
   {
     CloseHandle(S);
     S = CreateSemaphore(0,init,SEM_VALUE_MAX,0);
   }
+
+private:
+  HANDLE S;
+  void operator=(const USemaphore &S){}
+  USemaphore(const USemaphore &S){}
 };
 
 #endif // !_Semaphore_Win32_

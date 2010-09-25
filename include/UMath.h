@@ -25,43 +25,6 @@
 #include <math.h>
 #include <list>
 #include <vector>
-#include "ULogger.h"
-
-/**
- * Do a full cross correlation between 2 arrays.
- * @param vA the first array
- * @param vB the second array
- * @param sizeA the size of the first array
- * @param sizeB the size of the second array
- * @return the resulting correlation vector of size = (sizeA + sizeB)-1
- */
-std::vector<float> UTILITE_EXP uXCorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB);
-
-/**
- * Do a cross correlation between 2 arrays at a specified index.
- * The mean and the std dev are automatically computed for each array.
- * @param vA the first array
- * @param vB the second array
- * @param sizeA the size of the first array
- * @param sizeB the size of the second array
- * @param index the index to correlate
- * @return the resulting correlation value
- */
-float UTILITE_EXP uXCorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB, unsigned int index);
-
-/**
- * Do a cross correlation between 2 arrays at a specified index.
- * @param vA the first array
- * @param vB the second array
- * @param sizeA the size of the first array
- * @param sizeB the size of the second array
- * @param index the index to correlate
- * @param meanA the mean of the array A
- * @param meanB the mean of the array B
- * @param stdDevAB the std dev of the 2 arrays: stdDevAB = stdDevA*stdDevB
- * @return the resulting correlation value
- */
-float UTILITE_EXP uXCorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB, unsigned int index, float meanA, float meanB, float stdDevAB);
 
 /**
  * Get the maximum of a vector.
@@ -283,6 +246,137 @@ template<class T>
 inline T uStdDev(const std::vector<T> & v, const T & m)
 {
 	return uStdDev(v.data(), v.size(), m);
+}
+
+/**
+ * Do a full cross correlation between 2 arrays.
+ * @param vA the first array
+ * @param vB the second array
+ * @param sizeA the size of the first array
+ * @param sizeB the size of the second array
+ * @return the resulting correlation vector of size = (sizeA + sizeB)-1
+ */
+inline std::vector<float> uXCorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB)
+{
+	if(!vA || !vB || sizeA == 0 || sizeB == 0)
+	{
+		return std::vector<float>();
+	}
+
+	std::vector<float> result(sizeA+sizeB-1);
+
+	float meanA = uMean(vA, sizeA);
+	float meanB = uMean(vB, sizeB);
+
+	float stdDevA = uStdDev(vA, sizeA, meanA);
+	float stdDevB = uStdDev(vB, sizeB, meanB);
+
+	float resultA;
+	float resultB;
+
+	float den = stdDevA * stdDevB * result.size();
+
+	int posA;
+	int posB;
+	unsigned int j;
+	unsigned int endLoop = sizeA;
+	if(sizeB<sizeA)
+	{
+		endLoop = sizeB;
+	}
+
+	for(unsigned int i=0; i<endLoop; i++)
+	{
+		posA = sizeA - i - 1;
+		posB = sizeB - i - 1;
+		resultA = 0;
+		resultB = 0;
+		for(j=0; (j + posB) < sizeB && (j + posA) < sizeA; ++j)
+		{
+			resultA += (vA[j] - meanA) * (vB[j + posB] - meanB);
+			resultB += (vA[j + posA] - meanA) * (vB[j] - meanB);
+		}
+		result[i] = resultA / den;
+		result[result.size()-1 -i] = resultB / den;
+	}
+
+	return result;
+}
+
+/**
+ * Do a cross correlation between 2 arrays at a specified index.
+ * @param vA the first array
+ * @param vB the second array
+ * @param sizeA the size of the first array
+ * @param sizeB the size of the second array
+ * @param index the index to correlate
+ * @param meanA the mean of the array A
+ * @param meanB the mean of the array B
+ * @param stdDevAB the std dev of the 2 arrays: stdDevAB = stdDevA*stdDevB
+ * @return the resulting correlation value
+ */
+inline float uXCorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB, unsigned int index, float meanA, float meanB, float stdDevAB)
+{
+	float result = 0;
+	if(!vA || !vB || sizeA == 0 || sizeB == 0)
+	{
+		return result;
+	}
+
+	unsigned int size = sizeA + sizeB - 1;
+
+	if(index < size)
+	{
+		int posB = sizeB - index - 1;
+		unsigned int i;
+		if(posB >= 0)
+		{
+			for(i=0; (i + posB) < sizeB && i < sizeA; ++i)
+			{
+				result += (vA[i] - meanA) * (vB[i + posB] - meanB);
+			}
+		}
+		if(posB < 0)
+		{
+			int posA = posB*-1;
+			for(i=0; (i+posA) < sizeA && i < sizeB; ++i)
+			{
+				result += (vA[i+posA] - meanA) * (vB[i] - meanB);
+			}
+		}
+	}
+
+	if(sizeA > sizeB)
+	{
+		result /= (stdDevAB * sizeA);
+	}
+	else
+	{
+		result /= (stdDevAB * sizeB);
+	}
+
+	return result;
+}
+
+/**
+ * Do a cross correlation between 2 arrays at a specified index.
+ * The mean and the std dev are automatically computed for each array.
+ * @param vA the first array
+ * @param vB the second array
+ * @param sizeA the size of the first array
+ * @param sizeB the size of the second array
+ * @param index the index to correlate
+ * @return the resulting correlation value
+ */
+inline float uXCorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB, unsigned int index)
+{
+	float meanA = uMean(vA, sizeA);
+	float meanB = uMean(vB, sizeB);
+
+	float stdDevA = uStdDev(vA, sizeA, meanA);
+	float stdDevB = uStdDev(vB, sizeB, meanB);
+
+	return uXCorr(vA, vB, sizeA, sizeB, index, meanA, meanB, stdDevA * stdDevB);
 }
 
 #endif // MATHFUNCTIONS_H_

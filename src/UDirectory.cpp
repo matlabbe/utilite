@@ -63,10 +63,10 @@ int sortCallback( const dirent ** a,  const dirent ** b)
 
 UDirectory::UDirectory(const std::string & path, const std::string & extensions)
 {
-	_extensions = uListToVector(uSplit(extensions, ' '));
-	_path = path;
+	extensions_ = uListToVector(uSplit(extensions, ' '));
+	path_ = path;
 	this->update();
-	_iFileName = _fileNames.begin();
+	iFileName_ = fileNames_.begin();
 }
 
 UDirectory::~UDirectory()
@@ -75,31 +75,31 @@ UDirectory::~UDirectory()
 
 void UDirectory::update()
 {
-	if(exists(_path))
+	if(exists(path_))
 	{
 #ifdef WIN32
 		WIN32_FIND_DATA fileInformation;
-		HANDLE hFile  = ::FindFirstFile((_path+"\\*").c_str(), &fileInformation);
+		HANDLE hFile  = ::FindFirstFile((path_+"\\*").c_str(), &fileInformation);
 		if(hFile != INVALID_HANDLE_VALUE)
 		{
 			do
 			{
-				_fileNames.push_back(fileInformation.cFileName);
+				fileNames_.push_back(fileInformation.cFileName);
 			} while(::FindNextFile(hFile, &fileInformation) == TRUE);
 			::FindClose(hFile);
-			std::vector<std::string> vFileNames = uListToVector(_fileNames);
+			std::vector<std::string> vFileNames = uListToVector(fileNames_);
 			std::sort(vFileNames.begin(), vFileNames.end(), sortCallback);
-			_fileNames = uVectorToList(vFileNames);
+			fileNames_ = uVectorToList(vFileNames);
 		}
 #else
 		int nameListSize;
 		struct dirent ** nameList = 0;
-		nameListSize =	scandir(_path.c_str(), &nameList, 0, sortCallback);
+		nameListSize =	scandir(path_.c_str(), &nameList, 0, sortCallback);
 		if(nameList && nameListSize>0)
 		{
 			for (int i=0;i<nameListSize;++i)
 			{
-				_fileNames.push_back(nameList[i]->d_name);
+				fileNames_.push_back(nameList[i]->d_name);
 				free(nameList[i]);
 			}
 			free(nameList);
@@ -107,20 +107,20 @@ void UDirectory::update()
 #endif
 
 		//filter extensions...
-		std::list<std::string>::iterator iter = _fileNames.begin();
+		std::list<std::string>::iterator iter = fileNames_.begin();
 		bool valid;
-		while(iter!=_fileNames.end())
+		while(iter!=fileNames_.end())
 		{
 			valid = false;
-			if(_extensions.size() == 0 &&
+			if(extensions_.size() == 0 &&
 			   iter->compare(".") != 0 &&
 			   iter->compare("..") != 0)
 			{
 				valid = true;
 			}
-			for(unsigned int i=0; i<_extensions.size(); ++i)
+			for(unsigned int i=0; i<extensions_.size(); ++i)
 			{
-				if(UFile::getExtension(*iter).compare(_extensions[i]) == 0)
+				if(UFile::getExtension(*iter).compare(extensions_[i]) == 0)
 				{
 					valid = true;
 					break;
@@ -128,36 +128,36 @@ void UDirectory::update()
 			}
 			if(!valid)
 			{
-				iter = _fileNames.erase(iter);
+				iter = fileNames_.erase(iter);
 			}
 			else
 			{
 				++iter;
 			}
 		}
-		_iFileName = _fileNames.begin();
+		iFileName_ = fileNames_.begin();
 	}
 }
 
 bool UDirectory::isValid()
 {
-	return exists(_path);
+	return exists(path_);
 }
 
 std::string UDirectory::getNextFileName()
 {
 	std::string fileName;
-	if(_iFileName != _fileNames.end())
+	if(iFileName_ != fileNames_.end())
 	{
-		fileName = *_iFileName;
-		++_iFileName;
+		fileName = *iFileName_;
+		++iFileName_;
 	}
 	return fileName;
 }
 
 void UDirectory::rewind()
 {
-	_iFileName = _fileNames.begin();
+	iFileName_ = fileNames_.begin();
 }
 
 

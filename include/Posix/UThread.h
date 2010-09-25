@@ -17,7 +17,13 @@
 
 #include <pthread.h>
 
-#define SLEEP(ms) {struct timespec req;struct timespec rem ={0};req.tv_sec = ms / 1000;req.tv_nsec = (ms - req.tv_sec * 1000) * 1000 * 1000; nanosleep (&req, &rem);}
+inline void uSleep(unsigned int ms)
+{
+	struct timespec req;
+	struct timespec rem ={0};
+	req.tv_sec = ms / 1000;
+	req.tv_nsec = (ms - req.tv_sec * 1000) * 1000 * 1000; nanosleep (&req, &rem);
+}
 
 
 #define InvalidHandle 0
@@ -68,7 +74,7 @@ class UThread
       const bool          & CancelAsync     = false
     )
     {
-      M_Create().Lock();
+      M_Create().lock();
       pthread_attr_t attr;
       pthread_attr_init(&attr);
 
@@ -88,7 +94,7 @@ class UThread
       if(H) *H = h;
       if ( !R ) S_Create().Wait();
 
-      M_Create().Unlock();
+      M_Create().unlock();
       return errno;
     }
 
@@ -101,7 +107,7 @@ class UThread
       const bool          & CancelAsync     = false
     ) const
     {
-      M_Create().Lock();
+      M_Create().lock();
       pthread_attr_t attr;
       pthread_attr_init(&attr);
 
@@ -121,7 +127,7 @@ class UThread
       if(H) *H = h;
       if ( !R ) S_Create().Wait();
 
-      M_Create().Unlock();
+      M_Create().unlock();
       return errno;
     }
 
@@ -219,7 +225,7 @@ class UThread<void>
       const bool          & CancelAsync     = false
     )
     {
-      M_Create().Lock();
+      M_Create().lock();
       pthread_attr_t attr;
       pthread_attr_init(&attr);
 
@@ -239,7 +245,7 @@ class UThread<void>
       if(H) *H = h;
       if ( !R ) S_Create().acquire();
 
-      M_Create().Unlock();
+      M_Create().unlock();
       return errno;
     }
 
@@ -251,7 +257,7 @@ class UThread<void>
       const bool          & CancelAsync     = false
     ) const
     {
-      M_Create().Lock();
+      M_Create().lock();
       pthread_attr_t attr;
       pthread_attr_init(&attr);
 
@@ -271,7 +277,7 @@ class UThread<void>
       if(H) *H = h;
       if ( !R ) S_Create().acquire();
 
-      M_Create().Unlock();
+      M_Create().unlock();
       return errno;
     }
 
@@ -284,7 +290,7 @@ class UThread<void>
       const bool          & CancelAsync     = false
     ) const
     {
-      M_Create().Lock();
+      M_Create().lock();
       pthread_attr_t attr;
       pthread_attr_init(&attr);
 
@@ -305,7 +311,7 @@ class UThread<void>
 
       if ( !R ) S_Create().acquire();
 
-      M_Create().Unlock();
+      M_Create().unlock();
       return errno;
     }
 

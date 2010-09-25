@@ -78,6 +78,11 @@ protected:
      */
     virtual ~UEventsHandler();
 
+    /**
+     * Post an event. Same has calling UEventsManager::post();
+     */
+    void post(UEvent * event, bool async = true);
+
 private:
     
 };

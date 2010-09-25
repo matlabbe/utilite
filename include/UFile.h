@@ -68,32 +68,32 @@ public:
 	static std::string getExtension(const std::string &filePath);
 
 public:
-	UFile(const std::string & path) : _path(path) {}
+	UFile(const std::string & path) : path_(path) {}
 	~UFile() {}
 
-	bool isValid() {return exists(_path);}
-	bool exists() {return exists(_path);}
-	long length() {return length(_path);}
+	bool isValid() {return exists(path_);}
+	bool exists() {return exists(path_);}
+	long length() {return length(path_);}
 	int rename(const std::string &newName)
 	{
 		std::string ext = this->getExtension();
-		std::string newPath = UDirectory::getDir(_path) + std::string("/") + newName;
+		std::string newPath = UDirectory::getDir(path_) + std::string("/") + newName;
 		if(ext.size())
 		{
-			newPath += std::string(".") + getExtension(_path);
+			newPath += std::string(".") + getExtension(path_);
 		}
-		int result = rename(_path, newPath);
+		int result = rename(path_, newPath);
 		if(result == 0)
 		{
-			_path = newPath;
+			path_ = newPath;
 		}
 		return result;
 	}
-	std::string getName() {return getName(_path);}
-	std::string getExtension() {return getExtension(_path);}
+	std::string getName() {return getName(path_);}
+	std::string getExtension() {return getExtension(path_);}
 
 private:
-	std::string _path;
+	std::string path_;
 };
 
 #endif

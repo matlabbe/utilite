@@ -36,11 +36,14 @@
 #ifndef _Thread_Win32_
 #define _Thread_Win32_
 
-#include "Win32.h"
+#include "UWin32.h"
 #include "USemaphore.h"
 #include "UMutex.h"
 
-#define SLEEP(ms) Sleep((unsigned int)ms)
+inline void uSleep(unsigned int ms)
+{
+	Sleep(ms);
+}
 
 #ifdef _CRT_
 # include <process.h>
@@ -129,7 +132,7 @@ class UTILITE_EXP UThread
       const bool          & CancelAsync     = false    // UNUSED
     )
     {
-      M_Create().Lock();
+      M_Create().lock();
 
       Instance I(Param,0,Function);
 
@@ -138,14 +141,14 @@ class UTILITE_EXP UThread
       if ( Hnd == CREATE_THREAD_FAILED )
       {
         if ( H ) *H = InvalidHandle;
-        M_Create().Unlock();
+        M_Create().unlock();
         return CREATE_THREAD_ERROR;
       }
 
       if ( H ) *H = Hnd;
 
       S_Create().Wait();
-      M_Create().Unlock();
+      M_Create().unlock();
 
       if ( CreateDetached ) CLOSE_HANDLE(Hnd);
       return 0;
@@ -160,7 +163,7 @@ class UTILITE_EXP UThread
       const bool          & CancelAsync     = false    // UNUSED
     ) const
     {
-      M_Create().Lock();
+      M_Create().lock();
 
       Instance I(Param,const_cast<UThread *>(this));
 
@@ -169,14 +172,14 @@ class UTILITE_EXP UThread
       if ( Hnd == CREATE_THREAD_FAILED )
       {
         if ( H ) *H = InvalidHandle;
-        M_Create().Unlock();
+        M_Create().unlock();
         return CREATE_THREAD_ERROR;
       }
 
       if ( H ) *H = Hnd;
 
       S_Create().Wait();
-      M_Create().Unlock();
+      M_Create().unlock();
 
       if ( CreateDetached ) CLOSE_HANDLE(Hnd);
       return 0;

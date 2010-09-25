@@ -4,21 +4,21 @@
 #include "UEventsManager.h"
 #include "EventA.h"
 #include "EventB.h"
-#include "UStateThread.h"
+#include "UThreadNode.h"
 
 #include "ULogger.h"
 
 
 #include <string>
 
-class ThreadA : public UEventsHandler, public UStateThread
+class ThreadA : public UEventsHandler, public UThreadNode
 {
 public:
     ThreadA(const int &workTime, const std::string &msg) : _workTime(workTime), _msg(msg){}
     virtual ~ThreadA()
     {
     	UEventsManager::removeHandler(this);
-    	this->killSafely();
+    	this->kill();
     }
 
     virtual void handleEvent(UEvent* anEvent)
@@ -28,7 +28,7 @@ public:
 			if(anEvent->getClassName().compare("EventB") == 0)
 			{
 				doSomethingWithEvent((EventB*)anEvent);
-				this->killSafely();
+				this->kill();
 			}
     	}
     }
@@ -36,15 +36,15 @@ public:
 protected:
 
 private:
-    virtual void threadInnerLoop()
+    virtual void mainLoop()
     {
         doSomeWork();
-        UEventsManager::postEvent(new EventA(EventA::TEST, _msg));
+        UEventsManager::post(new EventA(EventA::TEST, _msg));
     }
 
     void doSomeWork() const
     {
-        SLEEP(_workTime);
+        uSleep(_workTime);
     }
 
     void doSomethingWithEvent(EventB* anEvent) const

@@ -81,9 +81,9 @@
 #include "UProcessInfo.h"
 #include "UMutex.h"
 #include "USemaphore.h"
-#include "UStateThread.h"
+#include "UThreadNode.h"
 #include "UTimer.h"
-#include "UMathFunctions.h"
 #include "UVariant.h"
+#include "UMath.h"
 
 #endif /* UTIL_H_ */

@@ -1,4 +1,4 @@
-#include "UStateThread.h"
+#include "UThreadNode.h"
 #include <stdio.h>
 
 /**
@@ -16,29 +16,29 @@
  * @endcode
  */
 
-class SimpleThread : public UStateThread
+class SimpleThread : public UThreadNode
 {
 public:
 	SimpleThread() : _loopCount(0) {}
 	~SimpleThread()
 	{
 		printf("SimpleThread destructor\n");
-		this->killSafely();
+		this->kill();
 	}
 
 protected:
-	virtual void threadBeforeLoop()
+	virtual void startInit()
 	{
 		printf("This is called once before entering the main thread loop.\n");
 		_loopCount = 1;
 	}
 
-	virtual void threadInnerLoop()
+	virtual void mainLoop()
 	{
 		if(_loopCount < 3)
 		{
 			printf("This is the loop %d...\n", _loopCount++);
-			SLEEP(10);
+			uSleep(10);
 		}
 		else
 		{
@@ -48,7 +48,7 @@ protected:
 		}
 	}
 
-	virtual void killSafelyInner()
+	virtual void killCleanup()
 	{
 		printf("Releasing the semaphore...\n");
 		_aSemaphore.acquire();
@@ -62,9 +62,9 @@ int main(int argc, char * argv[])
 {
 	SimpleThread t;
 	printf("Example with the StateThread class\n\n");
-	t.startThread();
-	SLEEP(100);
-	t.killSafely();
+	t.start();
+	uSleep(100);
+	t.kill();
 	return 0;
 }
 

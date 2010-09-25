@@ -26,7 +26,7 @@
 UTimer::UTimer()
 {
 #ifdef WIN32
-    QueryPerformanceFrequency(&_frequency);
+    QueryPerformanceFrequency(&frequency_);
 #endif
     start(); // This will initialize the private counters
 }
@@ -44,23 +44,23 @@ double UTimer::now()
 
 void UTimer::start()
 {
-    QueryPerformanceCounter(&_startTimeRecorded);
-    _stopTimeRecorded = _startTimeRecorded;
+    QueryPerformanceCounter(&startTimeRecorded_);
+    stopTimeRecorded_ = startTimeRecorded_;
 }
 void UTimer::stop()
 {
-    QueryPerformanceCounter(&_stopTimeRecorded);
+    QueryPerformanceCounter(&stopTimeRecorded_);
 
 }
 double UTimer::getElapsedTime()
 {
 	LARGE_INTEGER now;
 	QueryPerformanceCounter(&now);
-    return double(now.QuadPart - _startTimeRecorded.QuadPart) / _frequency.QuadPart;
+    return double(now.QuadPart - startTimeRecorded_.QuadPart) / frequency_.QuadPart;
 }
 double UTimer::getInterval()
 {
-    return double(_stopTimeRecorded.QuadPart - _startTimeRecorded.QuadPart) / _frequency.QuadPart;
+    return double(stopTimeRecorded_.QuadPart - startTimeRecorded_.QuadPart) / frequency_.QuadPart;
 }
 #else
 double UTimer::now()
@@ -72,23 +72,23 @@ double UTimer::now()
 
 void UTimer::start()
 {
-    gettimeofday(&_startTimeRecorded, NULL);
-    _stopTimeRecorded = _startTimeRecorded;
+    gettimeofday(&startTimeRecorded_, NULL);
+    stopTimeRecorded_ = startTimeRecorded_;
 }
 void UTimer::stop()
 {
-    gettimeofday(&_stopTimeRecorded, NULL);
+    gettimeofday(&stopTimeRecorded_, NULL);
 
 }
 double UTimer::getElapsedTime()
 {
-	return UTimer::now() - double(_startTimeRecorded.tv_sec) + double(_startTimeRecorded.tv_usec) / 1000000;
+	return UTimer::now() - double(startTimeRecorded_.tv_sec) + double(startTimeRecorded_.tv_usec) / 1000000;
 
 }
 double UTimer::getInterval()
 {
-	double start = double(_startTimeRecorded.tv_sec) + double(_startTimeRecorded.tv_usec) / 1000000;
-	double stop = double(_stopTimeRecorded.tv_sec) + double(_stopTimeRecorded.tv_usec) / 1000000;
+	double start = double(startTimeRecorded_.tv_sec) + double(startTimeRecorded_.tv_usec) / 1000000;
+	double stop = double(stopTimeRecorded_.tv_sec) + double(stopTimeRecorded_.tv_usec) / 1000000;
 	return stop - start;
 }
 #endif
