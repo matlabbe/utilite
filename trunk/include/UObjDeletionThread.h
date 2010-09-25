@@ -20,7 +20,7 @@
 #ifndef OBJDELETIONTHREAD_H_
 #define OBJDELETIONTHREAD_H_
 
-#include "UStateThread.h"
+#include "UThreadNode.h"
 #include "UEvent.h"
 #include "UEventsManager.h"
 
@@ -33,55 +33,55 @@ public:
 };
 
 template<class T>
-class ObjDeletionThread : public UStateThread
+class ObjDeletionThread : public UThreadNode
 {
 public:
 	ObjDeletionThread(T * obj, int id=0) :
-		_obj(obj),
-		_id(id),
-		_waitMs(0) {}
+		obj_(obj),
+		id_(id),
+		waitMs_(0) {}
 
 	virtual ~ObjDeletionThread()
 	{
-		this->killSafely();
-		if(_obj)
+		this->kill();
+		if(obj_)
 		{
-			delete _obj;
+			delete obj_;
 		}
 	}
-	void startDeletion(int waitMs = 0) {_waitMs = waitMs; this->startThread();}
-	int id() const {return _id;}
+	void startDeletion(int waitMs = 0) {waitMs_ = waitMs; this->start();}
+	int id() const {return id_;}
 	void setObj(T * obj)
 	{
-		this->killSafely();
-		if(_obj)
+		this->kill();
+		if(obj_)
 		{
-			delete _obj;
-			_obj = 0;
+			delete obj_;
+			obj_ = 0;
 		}
-		_obj = obj;
+		obj_ = obj;
 	}
 
 private:
-	virtual void threadInnerLoop()
+	virtual void mainLoop()
 	{
-		if(_waitMs)
+		if(waitMs_)
 		{
-			SLEEP(_waitMs);
+			uSleep(waitMs_);
 		}
-		if(_obj)
+		if(obj_)
 		{
-			delete _obj;
-			_obj = 0;
+			delete obj_;
+			obj_ = 0;
 		}
-		this->killSafely();
-		UEventsManager::postEvent(new ObjDeletedEvent(_id), false);
+		this->kill();
+		UEventsManager::post(new ObjDeletedEvent(id_), false);
 	}
 
 private:
-	T * _obj;
-	int _id;
-	int _waitMs;
+	T * obj_;
+	int id_;
+	int waitMs_;
 };
 
 #endif /* OBJDELETIONTHREAD_H_ */

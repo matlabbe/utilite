@@ -35,12 +35,12 @@
 /**
  * Convenient macros for logging...
  */
-#define LOGGER_DEBUG(...)   LOGGER_LOG(ULogger::kDebug,   __VA_ARGS__)
-#define LOGGER_INFO(...)    LOGGER_LOG(ULogger::kInfo,    __VA_ARGS__)
-#define LOGGER_WARN(...) LOGGER_LOG(ULogger::kWarning, __VA_ARGS__)
-#define LOGGER_ERROR(...)   LOGGER_LOG(ULogger::kError,   __VA_ARGS__)
+#define ULOGGER_DEBUG(...)   ULOGGER_LOG(ULogger::kDebug,   __VA_ARGS__)
+#define ULOGGER_INFO(...)    ULOGGER_LOG(ULogger::kInfo,    __VA_ARGS__)
+#define ULOGGER_WARN(...) 	 ULOGGER_LOG(ULogger::kWarning, __VA_ARGS__)
+#define ULOGGER_ERROR(...)   ULOGGER_LOG(ULogger::kError,   __VA_ARGS__)
 
-#define LOGGER_LOG(level, ...) ULogger::write(level, __FILE__, __LINE__, __FUNCTION__, __VA_ARGS__)
+#define ULOGGER_LOG(level, ...) ULogger::write(level, __FILE__, __LINE__, __FUNCTION__, __VA_ARGS__)
 
 /**
  * This class is used to log messages with time on a console, in a file 
@@ -87,16 +87,16 @@ public:
     static void setType(Type type, const std::string &fileName = kDefaultLogFileName, bool append = true);
 
     // Setters
-    static void setPrintTime(bool printTime) {_printTime = printTime;}
-    static void setPrintLevel(bool printLevel) {_printLevel = printLevel;}
-    static void setPrintEndline(bool printEndline) {_printEndline = printEndline;}
-    static void setPrintWhere(bool printWhere) {_printWhere = printWhere;}
-    static void setPrintWhereFullPath(bool printWhereFullPath) {_printWhereFullPath = printWhereFullPath;}
+    static void setPrintTime(bool printTime) {printTime_ = printTime;}
+    static void setPrintLevel(bool printLevel) {printLevel_ = printLevel;}
+    static void setPrintEndline(bool printEndline) {printEndline_ = printEndline;}
+    static void setPrintWhere(bool printWhere) {printWhere_ = printWhere;}
+    static void setPrintWhereFullPath(bool printWhereFullPath) {printWhereFullPath_ = printWhereFullPath;}
 
     /**
      * Set logger level
      */
-    static void setLevel(ULogger::Level level) {_level = level;}
+    static void setLevel(ULogger::Level level) {level_ = level;}
 
     /**
      * reset default parameters of the Logger
@@ -112,7 +112,7 @@ public:
      * @see _write()
      * @param msg the message to write.
      * @param ... the variable arguments
-     * @deprecated use LOGGER_DEBUG(), LOGGER_INFO(), LOGGER_WARNING() or LOGGER_ERROR()
+     * @deprecated use ULOGGER_DEBUG(), ULOGGER_INFO(), ULOGGER_WARNING() or UULOGGER_ERROR()
      */
     static void write(const char* msg, ...);
 
@@ -190,7 +190,7 @@ private:
     /**
      * Create an instance according to type. See the Abstract factory 
      * pattern for further explanation.
-     * @see _type
+     * @see type_
      * @return the reference on the new logger
      */
     static ULogger* createInstance();
@@ -209,74 +209,74 @@ private:
     /**
      * The Logger instance pointer.
      */
-    static ULogger* _instance;
+    static ULogger* instance_;
 
     /**
      * The Logger's destroyer
      */
-    static UDestroyer<ULogger> _destroyer;
+    static UDestroyer<ULogger> destroyer_;
 
     /**
      * If the logger prints the time for each message. 
      * Default is true.
      */
-    static bool _printTime;
+    static bool printTime_;
 
     /**
      * If the logger prints the level for each message. 
      * Default is true.
      */
-    static bool _printLevel;
+    static bool printLevel_;
 
     /**
      * If the logger prints the end line for each message. 
      * Default is true.
      */
-    static bool _printEndline;
+    static bool printEndline_;
 
     /**
 	 * If the logger prints where the message is logged (fileName::function():line).
 	 * Default is true.
 	 */
-    static bool _printWhere;
+    static bool printWhere_;
 
     /**
 	 * If the logger prints the full path of the source file
 	 * where the message is written. Only works when
-	 * "_printWhere" is true.
+	 * "printWhere_" is true.
 	 * Default is false.
 	 */
-    static bool _printWhereFullPath;
+    static bool printWhereFullPath_;
 
     /**
 	 * If the logger limit the size of the "where" path to
 	 * characters. If the path is over 8 characters, a "~"
-	 * is added. Only works when "_printWhereFullPath" is false.
+	 * is added. Only works when "printWhereFullPath_" is false.
 	 * Default is false.
 	 */
-    static bool _limitWhereLength;
+    static bool limitWhereLength_;
 
     /**
      * The type of the logger.
      */
-    static Type _type;
+    static Type type_;
 
     /**
 	 * The severity of the log.
 	 */
-    static Level _level;
+    static Level level_;
 
-    static const char * _levelName[4];
+    static const char * levelName_[4];
 
     /**
      * Mutex used when writing.
      */
-    static UMutex _writeMutex;
+    static UMutex writeMutex_;
 
     /**
      * Mutex used when a logger is created.
      */
-    static UMutex _instanceMutex;
+    static UMutex instanceMutex_;
 };
 
 #endif

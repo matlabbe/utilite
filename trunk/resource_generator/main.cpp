@@ -42,6 +42,11 @@ int main(int argc, char * argv[])
 	{
 		showUsage();
 	}
+	else if(argc == 2 && strcmp(argv[1], "-v") == 0)
+	{
+		printf("%s\n", UTILITE_VERSION);
+		exit(0);
+	}
 
 	std::string targetDir = UDirectory::currentDir(); // By default, use the current directory
 	std::string nspace; // namespace

@@ -34,5 +34,5 @@ Developer (Using Eclipse)
 Notes
 **************
 Memory leaks check (Linux):
- >valgrind --tool=memcheck --leak-check=yes ./testutilite
+ >valgrind --tool=memcheck --leak-check=yes ./testUtiLite
   There are some memory errors with vfprintf() or write(), but the more important is at the end of the report in the summary "LEAK SUMMARY".

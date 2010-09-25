@@ -6,10 +6,9 @@ SET(SRC_FILES
     UDirectory.cpp
     UConversion.cpp
     ULogger.cpp
-    UStateThread.cpp
+    UThreadNode.cpp
     UTimer.cpp
     UProcessInfo.cpp
-    UMathFunctions.cpp
 )
 
 SET(INCLUDE_DIRS

@@ -23,14 +23,14 @@
 #include "UtiLiteExp.h" // DLL export/import defines
 
 #include "UEventsHandler.h"
-#include "UStateThread.h"
+#include "UThreadNode.h"
 #include "ULogger.h"
 #include "UDestroyer.h"
 
 #include <list>
 
 // TODO Not implemented... for multithreading event handling
-class UEventDispatcher : public UStateThread
+class UEventDispatcher : public UThreadNode
 {
 public:
 	~UEventDispatcher();
@@ -44,7 +44,7 @@ protected:
 	 *
 	 * @see StateThread
 	 */
-	virtual void threadInnerLoop();
+	virtual void mainLoop();
 
 private:
 	/**
@@ -53,7 +53,7 @@ private:
 	 *
 	 * @see StateThread
 	 */
-	virtual void killSafelyInner();
+	virtual void killCleanup();
 
 private:
 	UEvent * _event;
@@ -67,7 +67,7 @@ private:
  * like the design pattern Mediator. It is also a Singleton, so 
  * it can be used anywhere in the application. 
  *
- * To send an event, use EventsManager::postEvent(new Event()).
+ * To send an event, use EventsManager::post(new Event()).
  * Events are automatically deleted after they are posted.
  *
  * The EventsManager have a list of handlers to which 
@@ -75,11 +75,11 @@ private:
  * EventsManager::addHandler(EventsHandler*). To remove, use
  * EventsManager::removeHandler(EventsHandler*).
  *
- * @see postEvent()
+ * @see post()
  * @see addHandler()
  * @see removeHandler()
  */
-class UTILITE_EXP UEventsManager : public UStateThread{
+class UTILITE_EXP UEventsManager : public UThreadNode{
 
 public:
 
@@ -114,7 +114,7 @@ public:
      * @see _postEvent()
      * @param anEvent the event to be posted.
      */
-    static void postEvent(UEvent * event, bool async = true);
+    static void post(UEvent * event, bool async = true);
     
 protected:
 
@@ -157,7 +157,7 @@ protected:
      *
      * @see StateThread
      */
-    virtual void threadInnerLoop();
+    virtual void mainLoop();
 
 private:
 
@@ -167,7 +167,7 @@ private:
      *
      * @see StateThread
      */
-    virtual void killSafelyInner();
+    virtual void killCleanup();
 
     /**
      * This method dispatches asynchronised events to all handlers.
@@ -206,13 +206,13 @@ private:
     
 private:
     
-    static UEventsManager* _instance;            /**< The EventsManager instance pointer. */
-    static UDestroyer<UEventsManager> _destroyer; /**< The EventsManager's destroyer. */
-    std::list<UEvent*> _events;                /**< The events list. */
-    std::list<UEventsHandler*> _handlers;      /**< The handlers list. */
-    UMutex _eventsMutex;                         /**< The mutex of the events list, */
-    UMutex _handlersMutex;                       /**< The mutex of the handlers list. */
-    USemaphore _postEventSem;                    /**< Semaphore used to signal when an events is posted. */
+    static UEventsManager* instance_;            /**< The EventsManager instance pointer. */
+    static UDestroyer<UEventsManager> destroyer_; /**< The EventsManager's destroyer. */
+    std::list<UEvent*> events_;                /**< The events list. */
+    std::list<UEventsHandler*> handlers_;      /**< The handlers list. */
+    UMutex eventsMutex_;                         /**< The mutex of the events list, */
+    UMutex handlersMutex_;                       /**< The mutex of the handlers list. */
+    USemaphore postEventSem_;                    /**< Semaphore used to signal when an events is posted. */
 };
 
 #endif

@@ -8,18 +8,18 @@
 #ifndef SEMAPHORETHREAD_H_
 #define SEMAPHORETHREAD_H_
 
-#include "UStateThread.h"
+#include "UThreadNode.h"
 
-class SemaphoreThread : public UStateThread
+class SemaphoreThread : public UThreadNode
 {
 public:
 	SemaphoreThread(USemaphore * sem) : _sem(sem), _count(0) {}
-    virtual ~SemaphoreThread() {this->killSafely();}
+    virtual ~SemaphoreThread() {this->kill();}
     int count() {return _count;}
 protected:
 
 private:
-    virtual void killSafelyInner()
+    virtual void killCleanup()
     {
     	if(_sem)
     	{
@@ -27,12 +27,12 @@ private:
     	}
     }
 
-    virtual void threadInnerLoop()
+    virtual void mainLoop()
     {
     	if(_sem)
     	{
     		_sem->acquire();
-    		SLEEP(50);
+    		uSleep(50);
     		_count++;
     	}
     }

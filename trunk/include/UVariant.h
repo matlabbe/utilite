@@ -31,33 +31,33 @@ public:
 
 	template<class T>
 	const T data() const {
-		if(_data)
-			return (T)_data;
-		return (const T)_constData;
+		if(data_)
+			return (T)data_;
+		return (const T)constData_;
 	}
 
 	template<class T>
 	T takeDataOwnership() {
-		T data = (T)_data;
-		_constData = 0;
-		_data=0;
+		T data = (T)data_;
+		constData_ = 0;
+		data_=0;
 		return data;
 	}
 
 protected:
 	UVariant(void * data) :
-		_data(data),
-		_constData(0)
+		data_(data),
+		constData_(0)
 	{}
 
 	UVariant(const void * data) :
-		_data(0),
-		_constData(data)
+		data_(0),
+		constData_(data)
 	{}
 
 protected:
-	void * _data;
-	const void * _constData;
+	void * data_;
+	const void * constData_;
 };
 
 #endif /* VARIANT_H_ */

@@ -74,10 +74,10 @@ public:
 	void rewind();
 
 private:
-	std::string _path;
-	std::vector<std::string> _extensions;
-	std::list<std::string> _fileNames;
-	std::list<std::string>::iterator _iFileName;
+	std::string path_;
+	std::vector<std::string> extensions_;
+	std::list<std::string> fileNames_;
+	std::list<std::string>::iterator iFileName_;
 };
 
 #endif /* DIRECTORY_H_ */

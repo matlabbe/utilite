@@ -13,7 +13,7 @@
 #include "SimpleStateThread.h"
 #include "UFile.h"
 #include "UDirectory.h"
-#include "UMathFunctions.h"
+#include "UMath.h"
 #include "UTimer.h"
 #include "UObjDeletionThread.h"
 #include "SemaphoreThread.h"
@@ -57,37 +57,37 @@ void Tests::testStateThread()
 	//Logger::setType(Logger::kTypeConsole);
 	//Logger::setLevel(Logger::kDebug);
 
-	//LOGGER_DEBUG("***threadStatic.startThread();***");
+	//ULOGGER_DEBUG("***threadStatic.start();***");
 	CPPUNIT_ASSERT( threadStatic.isIdle() );
-	threadStatic.startThread();
+	threadStatic.start();
 	CPPUNIT_ASSERT( threadStatic.isRunning() );
-	threadStatic.killSafely();
+	threadStatic.kill();
 	CPPUNIT_ASSERT( threadStatic.isKilled() );
-	threadStatic.startThread();
+	threadStatic.start();
 	CPPUNIT_ASSERT( threadStatic.isRunning() );
 
-	//LOGGER_DEBUG("***SimpleStateThread thread;***");
+	//ULOGGER_DEBUG("***SimpleStateThread thread;***");
 	SimpleStateThread thread;
 	CPPUNIT_ASSERT( thread.isIdle() );
-	thread.startThread();
+	thread.start();
 	CPPUNIT_ASSERT( thread.isRunning() );
-	thread.killSafely();
+	thread.kill();
 	CPPUNIT_ASSERT( thread.isKilled() );
 
 	SimpleStateThread threadAutoKill(true);
 	CPPUNIT_ASSERT( threadAutoKill.isIdle() );
-	threadAutoKill.startThread();
-	SLEEP(10);
+	threadAutoKill.start();
+	uSleep(10);
 	CPPUNIT_ASSERT( threadAutoKill.isKilled() );
-	threadAutoKill.killSafely();
+	threadAutoKill.kill();
 	CPPUNIT_ASSERT( threadAutoKill.isKilled() );
 
-	//LOGGER_DEBUG("***threadA->startThread();***");
+	//ULOGGER_DEBUG("***threadA->start();***");
 	ThreadA  * threadA = new ThreadA(150, "Sweet !!! what is wrote on my back ?" );
 	CPPUNIT_ASSERT( threadA->isIdle() );
-	threadA->startThread();
+	threadA->start();
 	CPPUNIT_ASSERT( threadA->isRunning() );
-	threadA->killSafely();
+	threadA->kill();
 	CPPUNIT_ASSERT( threadA->isKilled() );
 	delete threadA;
 }
@@ -98,41 +98,41 @@ void Tests::testSemaphore()
 	//Logger::setLevel(Logger::kDebug);
 	USemaphore sem;
 	SemaphoreThread semThr(&sem);
-	semThr.startThread();
-	SLEEP(100);
+	semThr.start();
+	uSleep(100);
 	sem.release();
-	SLEEP(100);
+	uSleep(100);
 	sem.release(2);
-	SLEEP(60);
+	uSleep(60);
 	sem.release(2);
-	SLEEP(240);
+	uSleep(240);
 	sem.release(10);
-	SLEEP(510);
+	uSleep(510);
 	sem.release(0);
 	sem.release(1);
-	SLEEP(100);
+	uSleep(100);
 	sem.release();
-	SLEEP(60);
+	uSleep(60);
 	sem.release();
-	SLEEP(60);
+	uSleep(60);
 	sem.release();
-	SLEEP(60);
+	uSleep(60);
 	sem.release();
-	SLEEP(60);
+	uSleep(60);
 	sem.release();
-	SLEEP(60);
+	uSleep(60);
 	sem.release();
-	SLEEP(60);
+	uSleep(60);
 	sem.release();
-	SLEEP(60);
+	uSleep(60);
 	sem.release();
-	SLEEP(60);
+	uSleep(60);
 	sem.release();
-	SLEEP(200);
+	uSleep(200);
 	//printf("\n count = semThr.count()=%d", semThr.count());
 	CPPUNIT_ASSERT( semThr.count() == 25);
 
-	semThr.killSafely();
+	semThr.kill();
 }
 
 void Tests::testEventsManager()
@@ -157,10 +157,10 @@ void Tests::testEventsManager()
     UEventsManager::addHandler(&threadB);
 
     /* Start thread's task */
-    threadA.startThread();
-    threadB.startThread();
+    threadA.start();
+    threadB.start();
 
-    SLEEP(250); // wait 0.25 sec and exit
+    uSleep(250); // wait 0.25 sec and exit
 
     /* Remove handlers */
     UEventsManager::removeHandler(&threadA);
@@ -168,15 +168,15 @@ void Tests::testEventsManager()
 
     ULogger::write("Killing threads...");
     /* Kill threads      														*/
-    /* -I recommend the use of killSafely(), the thread will finish normally.   */
+    /* -I recommend the use of kill(), the thread will finish normally.   */
     /*     All mutex locked by this thread will be unlocked. 					*/
     /* -Use kill() when we don't care about when the thread finishes...         */
     /*     The problem with this is if the the thread is calling a function     */
     /*     with a Mutex and it locks it, he will never unlock the mutex...      */
     /*     it's very bad because other threads can be waiting for this mutex    */
     /*     and they will never end.												*/
-    threadA.killSafely();
-    threadB.killSafely();
+    threadA.kill();
+    threadB.kill();
 
     // Setup variables of the test
     std::string resultStr;
@@ -696,14 +696,14 @@ void Tests::testTimer()
 
 	//start/stop/getInterval
 	timer.start();
-	SLEEP(100);
+	uSleep(100);
 	timer.stop();
 	uValue = timer.getInterval();
 	CPPUNIT_ASSERT(uValue >= 0.09 && uValue < 0.11);
 
 	//ticks
 	timer.start();
-	SLEEP(100);
+	uSleep(100);
 	uValue = timer.ticks();
 	CPPUNIT_ASSERT(uValue >= 0.09 && uValue < 0.11);
 }

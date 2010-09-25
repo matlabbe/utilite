@@ -16,11 +16,7 @@
 
 class UMutex
 {
-  mutable pthread_mutex_t M;
-  void operator=(UMutex &M) {}
-  UMutex( const UMutex &M ) {}
-
-  public:
+public:
 
   UMutex()
   {
@@ -34,14 +30,19 @@ class UMutex
   virtual ~UMutex()
   { pthread_mutex_unlock(&M); pthread_mutex_destroy(&M); }
 
-  int Lock() const
+  int lock() const
   { return pthread_mutex_lock(&M); }
 
-  int Lock_Try() const
+  int lockTry() const
   { return pthread_mutex_trylock(&M); }
 
-  int Unlock() const
+  int unlock() const
   { return pthread_mutex_unlock(&M); }
+
+private:
+  mutable pthread_mutex_t M;
+  void operator=(UMutex &M) {}
+  UMutex( const UMutex &M ) {}
 };
 
 #endif // !_Mutex_Posix_

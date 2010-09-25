@@ -32,20 +32,20 @@ template <class DOOMED>
 class UTILITE_EXP UDestroyer 
 {
 public:
-    UDestroyer(DOOMED* doomed = 0)  : _doomed(doomed) {}
+    UDestroyer(DOOMED* doomed = 0)  : doomed_(doomed) {}
     
     ~UDestroyer()
     {
-        if(_doomed)
+        if(doomed_)
         {
-            delete _doomed;
-            _doomed = 0;
+            delete doomed_;
+            doomed_ = 0;
         }
     }
 
     void setDoomed(DOOMED* doomed)
     {
-        _doomed = doomed;
+        doomed_ = doomed;
     }
 
 private:
@@ -55,7 +55,7 @@ private:
     void operator=(const UDestroyer<DOOMED>&);
 
 private:
-    DOOMED* _doomed;
+    DOOMED* doomed_;
 };
 
 #endif

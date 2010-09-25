@@ -24,3 +24,8 @@ UEventsHandler::~UEventsHandler()
 {
 	UEventsManager::removeHandler(this);
 }
+
+void UEventsHandler::post(UEvent * event, bool async)
+{
+	UEventsManager::post(event, async);
+}
