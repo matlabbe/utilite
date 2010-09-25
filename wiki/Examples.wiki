@@ -1,7 +1,4 @@
 = Events =
-Here is the same example as on the project home page.
-
-== Code ==
 {{{
 // Main include of the library
 #include <UtiLite.h>
@@ -94,8 +91,6 @@ Output :
 [ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "7" received!
 [ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "11" received!
 }}}
-
-== Comments ==
 
 = UThreadNode =
 todo...
