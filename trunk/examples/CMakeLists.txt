@@ -17,3 +17,13 @@ simpleThreadExample
 PROPERTIES
  DEBUG_POSTFIX d
 )
+
+ADD_EXECUTABLE(eventsExample eventsExample.cpp)
+TARGET_LINK_LIBRARIES(eventsExample utilite)
+
+SET_TARGET_PROPERTIES(
+eventsExample 
+PROPERTIES
+ DEBUG_POSTFIX d
+)
+

@@ -49,7 +49,8 @@ protected:
      * the dispatching loop is done; the faster the 
      * events are received. If a handling function 
      * takes too much time, the events list can grow 
-     * faster than it is emptied.
+     * faster than it is emptied. The event can be
+     * modified but must not be deleted.
      *
      */
     virtual void handleEvent(UEvent * anEvent) = 0;
