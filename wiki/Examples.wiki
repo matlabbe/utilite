@@ -1,19 +1,11 @@
-= UEventsManager, UEventsHandler, UEvents =
-Here is the same example as on the project home page but with comments.
+= Events =
+Here is the same example as on the project home page.
 
+== Code ==
 {{{
-#include <UEventsManager.h>
-#include <UEventsHandler.h>
-#include <UEvent.h>
-#include <ULogger.h>
+#include <UtiLite.h>
 
-// UtiLite.h can be used if we don't want to include
-// each separated objects.
-//#include <UtiLite.h>
-
-// Create a custom event, called SpecialEvent.
-class SpecialEvent : public UEvent
-{
+class SpecialEvent : public UEvent {
 public:
    SpecialEvent(int code) : UEvent(code) {}
    ~SpecialEvent() {}
@@ -96,6 +88,46 @@ Output :
 [ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "11" received!
 }}}
 
+== Comments ==
+Let breakdown the example.
+
+Main include file of the library.
+{{{
+#include <UtiLite.h>
+}}}
+
+Create a custom event, called SpecialEvent.
+{{{
+class SpecialEvent : public UEvent {
+}}}
+
+The UEvent class provides a general field 'code' to put simple data.
+{{{
+SpecialEvent(int code) : UEvent(code) {}
+}}}
+
+The pure virtual method 'getClassName()' must be redefined by inherited classes and populated with their exact name. The name can be then used to determine the concrete class of an UEvent.
+{{{
+   virtual std::string getClassName() const {
+	   return "SpecialEvent";
+   }
+}}}
+
+Create an events handler to receive UEvents from the UEventsManager. 
+{{{
+class EventsPrinter : public UEventsHandler {
+}}}
+
+The pure virtual method 'handleEvent(UEvent*)' must be redefined by inherited classes of UEventsHandler. This method will be called each time a new event is posted to the EventsManager. Since we receive all events, here we compare the UEvent class name with the one we want to handle.
+{{{
+   virtual void handleEvent(UEvent * e) {
+      // Only handle SpecialEvent type
+      if(e->getClassName().compare("SpecialEvent") == 0) {
+         // Logger syntax is the same as a "printf()".
+         ULOGGER_INFO("SpecialEvent \"%d\" received!", e->getCode());
+      }
+   }
+}}}
 = UThreadNode =
 todo...
 
