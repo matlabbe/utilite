@@ -9,8 +9,8 @@
 //
 /////////////////////////////////////////////////////////////////////
 
-#ifndef _Mutex_Posix_
-#define _Mutex_Posix_
+#ifndef _U_Mutex_Posix_
+#define _U_Mutex_Posix_
 
 #include <pthread.h>
 
@@ -45,4 +45,4 @@ private:
   UMutex( const UMutex &M ) {}
 };
 
-#endif // !_Mutex_Posix_
+#endif // !_U_Mutex_Posix_

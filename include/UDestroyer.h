@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DESTROYER_H
-#define DESTROYER_H
+#ifndef UDESTROYER_H
+#define UDESTROYER_H
 
 #include "UtiLiteExp.h" // DLL export/import defines
 
@@ -58,4 +58,4 @@ private:
     DOOMED* doomed_;
 };
 
-#endif
+#endif // UDESTROYER_H

@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PROCESSINFO_H_
-#define PROCESSINFO_H_
+#ifndef UPROCESSINFO_H
+#define UPROCESSINFO_H
 
 #include "UtiLiteExp.h" // DLL export/import defines
 
@@ -38,4 +38,4 @@ public:
 	static long int getMemoryUsage();
 };
 
-#endif /* PROCESSINFO_H_ */
+#endif /* UPROCESSINFO_H */

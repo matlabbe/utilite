@@ -9,8 +9,8 @@
 //
 /////////////////////////////////////////////////////////////////////
 
-#ifndef _Semaphore_Posix_
-#define _Semaphore_Posix_
+#ifndef _U_Semaphore_Posix_
+#define _U_Semaphore_Posix_
 
 #include <pthread.h>
 
@@ -86,4 +86,4 @@ private:
 
 };
 
-#endif // !_Semaphore_Posix_
+#endif // !_U_Semaphore_Posix_

@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _Thread_
-#define _Thread_
+#ifndef UTHREAD_H
+#define UTHREAD_H
 
 #include <errno.h>
 
@@ -33,4 +33,4 @@
   #include "Posix/UThread.h"
 #endif
 
-#endif // !_Thread_
+#endif // UTHREAD_H

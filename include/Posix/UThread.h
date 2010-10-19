@@ -9,8 +9,8 @@
 //
 /////////////////////////////////////////////////////////////////////
 
-#ifndef _Thread_Posix_
-#define _Thread_Posix_
+#ifndef _U_Thread_Posix_
+#define _U_Thread_Posix_
 
 #include "USemaphore.h"
 #include "UMutex.h"
@@ -368,4 +368,4 @@ class UThread<void>
     };
 };
 
-#endif // !_Thread_Posix_
+#endif // !_U_Thread_Posix_

@@ -9,8 +9,8 @@
 //
 /////////////////////////////////////////////////////////////////////
 
-#ifndef _Mutex_Win32_
-#define _Mutex_Win32_
+#ifndef _U_Mutex_Win32_
+#define _U_Mutex_Win32_
 
 #include "UWin32.h"
 
@@ -41,4 +41,4 @@ private:
   UMutex( const UMutex &M ) {}
 };
 
-#endif // !_Mutex_Win32_
+#endif // !_U_Mutex_Win32_

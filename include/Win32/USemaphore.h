@@ -8,8 +8,8 @@
 //    - Resource counting mechanism
 //
 /////////////////////////////////////////////////////////////////////
-#ifndef _Semaphore_Win32_
-#define _Semaphore_Win32_
+#ifndef _U_Semaphore_Win32_
+#define _U_Semaphore_Win32_
 
 #include "UWin32.h"
 
@@ -51,4 +51,4 @@ private:
   USemaphore(const USemaphore &S){}
 };
 
-#endif // !_Semaphore_Win32_
+#endif // !_U_Semaphore_Win32_

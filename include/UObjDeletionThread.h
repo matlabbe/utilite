@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef OBJDELETIONTHREAD_H_
-#define OBJDELETIONTHREAD_H_
+#ifndef UOBJDELETIONTHREAD_H
+#define UOBJDELETIONTHREAD_H
 
 #include "UThreadNode.h"
 #include "UEvent.h"
@@ -84,4 +84,4 @@ private:
 	int waitMs_;
 };
 
-#endif /* OBJDELETIONTHREAD_H_ */
+#endif /* UOBJDELETIONTHREAD_H */

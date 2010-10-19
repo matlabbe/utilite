@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DIRECTORY_H_
-#define DIRECTORY_H_
+#ifndef UDIRECTORY_H
+#define UDIRECTORY_H
 
 #include "UtiLiteExp.h" // DLL export/import defines
 
@@ -80,4 +80,4 @@ private:
 	std::list<std::string>::iterator iFileName_;
 };
 
-#endif /* DIRECTORY_H_ */
+#endif /* UDIRECTORY_H */

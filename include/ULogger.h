@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LOGGER_H
-#define LOGGER_H
+#ifndef ULOGGER_H
+#define ULOGGER_H
 
 #include "UtiLiteExp.h" // DLL export/import defines
 
@@ -279,4 +279,4 @@ private:
     static UMutex instanceMutex_;
 };
 
-#endif
+#endif // ULOGGER_H
