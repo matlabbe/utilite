@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TIMER_H
-#define TIMER_H
+#ifndef UTIMER_H
+#define UTIMER_H
 
 #include "UtiLiteExp.h" // DLL export/import defines
 
@@ -108,4 +108,4 @@ private:
 #endif
 };
 
-#endif //TIMER_H
+#endif //UTIMER_H

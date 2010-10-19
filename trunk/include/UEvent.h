@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EVENT_H
-#define EVENT_H
+#ifndef UEVENT_H
+#define UEVENT_H
 
 #include "UtiLiteExp.h" // DLL export/import defines
 
@@ -62,4 +62,4 @@ private:
     int code_; /**< The event's code. */
 };
 
-#endif
+#endif // UEVENT_H

@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef VARIANT_H_
-#define VARIANT_H_
+#ifndef UVARIANT_H
+#define UVARIANT_H
 
 #include <string>
 
@@ -60,4 +60,4 @@ protected:
 	const void * constData_;
 };
 
-#endif /* VARIANT_H_ */
+#endif /* UVARIANT_H */

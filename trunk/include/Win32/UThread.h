@@ -33,8 +33,8 @@
 //    a Join() WILL wait on a Detach()'ed thread.
 //
 /////////////////////////////////////////////////////////////////////
-#ifndef _Thread_Win32_
-#define _Thread_Win32_
+#ifndef _U_Thread_Win32_
+#define _U_Thread_Win32_
 
 #include "UWin32.h"
 #include "USemaphore.h"
@@ -379,4 +379,4 @@ class UTILITE_EXP UThread<void>
     }
 };
 
-#endif // !_Thread_Win32_
+#endif // !_U_Thread_Win32_

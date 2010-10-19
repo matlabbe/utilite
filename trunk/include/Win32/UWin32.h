@@ -6,8 +6,8 @@
 //    - Windows includes
 //
 /////////////////////////////////////////////////////////////////////
-#ifndef _Win32_
-#define _Win32_
+#ifndef _U_Win32_
+#define _U_Win32_
 
 #include "UtiLiteExp.h"
 
@@ -61,4 +61,4 @@
   #  include <windows.h>
   #endif
 
-#endif // !_Win32_
+#endif // !_U_Win32_

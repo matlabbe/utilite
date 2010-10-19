@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTIL_H_
-#define UTIL_H_
+#ifndef UTILITE_H
+#define UTILITE_H
 
 /**
  * @namespace Util
@@ -86,4 +86,4 @@
 #include "UVariant.h"
 #include "UMath.h"
 
-#endif /* UTIL_H_ */
+#endif /* UTILITE_H */

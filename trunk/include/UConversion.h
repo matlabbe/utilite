@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CONVERSION_H_
-#define CONVERSION_H_
+#ifndef UCONVERSION_H
+#define UCONVERSION_H
 
 #include "UtiLiteExp.h" // DLL export/import defines
 
@@ -194,4 +194,4 @@ unsigned char UTILITE_EXP uHex2ascii(const unsigned char & c, bool rightPart);
  */
 unsigned char UTILITE_EXP uAscii2hex(const unsigned char & c);
 
-#endif /* CONVERSION_H_ */
+#endif /* UCONVERSION_H */

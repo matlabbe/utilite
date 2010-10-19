@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EVENTSHANDLER_H
-#define EVENTSHANDLER_H
+#ifndef UEVENTSHANDLER_H
+#define UEVENTSHANDLER_H
 
 #include "UtiLiteExp.h" // DLL export/import defines
 
@@ -88,4 +88,4 @@ private:
     
 };
 
-#endif
+#endif // UEVENTSHANDLER_H

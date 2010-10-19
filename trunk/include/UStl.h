@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTILSTL_H_
-#define UTILSTL_H_
+#ifndef USTL_H
+#define USTL_H
 
 #include <list>
 #include <map>
@@ -480,4 +480,4 @@ inline int uStrNumCmp(const std::string & a, const std::string & b)
 	return result;
 }
 
-#endif /* UTILSTL_H_ */
+#endif /* USTL_H */

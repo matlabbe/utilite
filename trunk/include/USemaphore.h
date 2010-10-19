@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _Semaphore_
-#define _Semaphore_
+#ifndef USEMAPHORE_H
+#define USEMAPHORE_H
 
 #include <errno.h>
 
@@ -28,4 +28,4 @@
   #include "Posix/USemaphore.h"
 #endif
 
-#endif // !_Semaphore_
+#endif // USEMAPHORE_H

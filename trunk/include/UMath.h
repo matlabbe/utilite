@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MATHFUNCTIONS_H_
-#define MATHFUNCTIONS_H_
+#ifndef UMATH_H
+#define UMATH_H
 
 #include "UtiLiteExp.h" // DLL export/import defines
 
@@ -379,4 +379,4 @@ inline float uXCorr(const float * vA, const float * vB, unsigned int sizeA, unsi
 	return uXCorr(vA, vB, sizeA, sizeB, index, meanA, meanB, stdDevA * stdDevB);
 }
 
-#endif // MATHFUNCTIONS_H_
+#endif // UMATH_H

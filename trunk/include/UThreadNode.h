@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef STATETHREAD_H
-#define STATETHREAD_H
+#ifndef UTHREADNODE_H
+#define UTHREADNODE_H
 
 #include "UtiLiteExp.h" // DLL export/import defines
 
@@ -220,4 +220,4 @@ private:
     UMutex killSafelyMutex_;	/**< Mutex used to protect the kill() method. */
 };
 
-#endif
+#endif // UTHREADNODE_H

@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _Mutex_
-#define _Mutex_
+#ifndef UMUTEX_H
+#define UMUTEX_H
 
 #include <errno.h>
 
@@ -28,4 +28,4 @@
   #include "Posix/UMutex.h"
 #endif
 
-#endif // !_Mutex_
+#endif // UMUTEX_H

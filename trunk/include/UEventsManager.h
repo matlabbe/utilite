@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EVENTSMANAGER_H
-#define EVENTSMANAGER_H
+#ifndef UEVENTSMANAGER_H
+#define UEVENTSMANAGER_H
 
 #include "UtiLiteExp.h" // DLL export/import defines
 
@@ -215,4 +215,4 @@ private:
     USemaphore postEventSem_;                    /**< Semaphore used to signal when an events is posted. */
 };
 
-#endif
+#endif // UEVENTSMANAGER_H
