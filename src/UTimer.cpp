@@ -67,7 +67,7 @@ double UTimer::now()
 {
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    return double(tv.tv_sec + tv.tv_usec) / 1000000;
+    return double(tv.tv_sec) + double(tv.tv_usec) / 1000000.0;
 }
 
 void UTimer::start()
@@ -82,13 +82,13 @@ void UTimer::stop()
 }
 double UTimer::getElapsedTime()
 {
-	return UTimer::now() - double(startTimeRecorded_.tv_sec) + double(startTimeRecorded_.tv_usec) / 1000000;
+	return UTimer::now() - double(startTimeRecorded_.tv_sec) + double(startTimeRecorded_.tv_usec) / 1000000.0;
 
 }
 double UTimer::getInterval()
 {
-	double start = double(startTimeRecorded_.tv_sec) + double(startTimeRecorded_.tv_usec) / 1000000;
-	double stop = double(stopTimeRecorded_.tv_sec) + double(stopTimeRecorded_.tv_usec) / 1000000;
+	double start = double(startTimeRecorded_.tv_sec) + double(startTimeRecorded_.tv_usec) / 1000000.0;
+	double stop = double(stopTimeRecorded_.tv_sec) + double(stopTimeRecorded_.tv_usec) / 1000000.0;
 	return stop - start;
 }
 #endif

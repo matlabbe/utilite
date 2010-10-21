@@ -694,6 +694,16 @@ void Tests::testTimer()
 	CPPUNIT_ASSERT(timer.getInterval() == 0.0);
 	CPPUNIT_ASSERT(timer.now() > 0.0);
 
+	double timeA = timer.now();
+	uSleep(1000);
+	double timeB = timer.now();
+	uSleep(1000);
+	double timeC = timer.now();
+
+	//printf("timeA=%fs, timeB=%fs, timeC=%fs", timeA, timeB, timeC);
+	CPPUNIT_ASSERT(timeB > timeA+0.9);
+	CPPUNIT_ASSERT(timeC > timeB+0.9);
+
 	//start/stop/getInterval
 	timer.start();
 	uSleep(100);
