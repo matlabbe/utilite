@@ -141,6 +141,22 @@ inline std::vector<V> uValues(const std::map<K, V> & m)
 }
 
 /**
+ * Get all values from a std::map.
+ * @param m the map
+ * @return the list of values
+ */
+template<class K, class V>
+inline std::list<V> uValuesList(const std::map<K, V> & m)
+{
+	std::list<V> l;
+	for(typename std::map<K, V>::const_iterator iter = m.begin(); iter!=m.end(); ++iter)
+	{
+		l.push_back(iter->second);
+	}
+	return l;
+}
+
+/**
  * Get the value of a specified key from a std::map.
  * @param m the map
  * @param key the key
@@ -154,7 +170,7 @@ inline V uValue(const std::map<K, V> & m, const K & key, const V & defaultValue 
 	typename std::map<K, V>::const_iterator i = m.find(key);
 	if(i != m.end())
 	{
-		v = (*i).second;
+		v = i->second;
 	}
 	return v;
 }
@@ -174,7 +190,7 @@ inline V uTake(std::map<K, V> & m, const K & key, const V & defaultValue = V())
 	typename std::map<K, V>::iterator i = m.find(key);
 	if(i != m.end())
 	{
-		v = (*i).second;
+		v = i->second;
 		m.erase(i);
 	}
 	else
