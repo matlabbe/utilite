@@ -44,9 +44,9 @@ inline std::list<K> uUniqueKeys(const std::multimap<K, V> & mm)
 	typename std::list<K>::reverse_iterator lastValue;
 	for(typename std::multimap<K, V>::const_iterator iter = mm.begin(); iter!=mm.end(); ++iter)
 	{
-		if(iter == mm.begin() || (iter != mm.begin() && *lastValue != (*iter).first))
+		if(iter == mm.begin() || (iter != mm.begin() && *lastValue != iter->first))
 		{
-			l.push_back((*iter).first);
+			l.push_back(iter->first);
 			lastValue = l.rbegin();
 		}
 	}
@@ -64,7 +64,7 @@ inline std::list<K> uKeys(const std::multimap<K, V> & mm)
 	std::list<K> l;
 	for(typename std::multimap<K, V>::const_iterator iter = mm.begin(); iter!=mm.end(); ++iter)
 	{
-		l.push_back((*iter).first);
+		l.push_back(iter->first);
 	}
 	return l;
 }
@@ -80,7 +80,7 @@ inline std::list<V> uValues(const std::multimap<K, V> & mm)
 	std::list<V> l;
 	for(typename std::multimap<K, V>::const_iterator iter = mm.begin(); iter!=mm.end(); ++iter)
 	{
-		l.push_back((*iter).second);
+		l.push_back(iter->second);
 	}
 	return l;
 }
@@ -99,7 +99,7 @@ inline std::list<V> uValues(const std::multimap<K, V> & mm, const K & key)
 	range = mm.equal_range(key);
 	for(typename std::multimap<K, V>::const_iterator iter = range.first; iter!=range.second; ++iter)
 	{
-		l.push_back((*iter).second);
+		l.push_back(iter->second);
 	}
 	return l;
 }
@@ -116,10 +116,26 @@ inline std::vector<K> uKeys(const std::map<K, V> & m)
 	int i=0;
 	for(typename std::map<K, V>::const_iterator iter = m.begin(); iter!=m.end(); ++iter)
 	{
-		v[i] = (*iter).first;
+		v[i] = iter->first;
 		++i;
 	}
 	return v;
+}
+
+/**
+ * Get all keys from a std::map.
+ * @param m the map
+ * @return the list of keys
+ */
+template<class K, class V>
+inline std::list<K> uKeysList(const std::map<K, V> & m)
+{
+	std::list<K> l;
+	for(typename std::map<K, V>::const_iterator iter = m.begin(); iter!=m.end(); ++iter)
+	{
+		l.push_back(iter->first);
+	}
+	return l;
 }
 
 /**
@@ -134,7 +150,7 @@ inline std::vector<V> uValues(const std::map<K, V> & m)
 	int i=0;
 	for(typename std::map<K, V>::const_iterator iter = m.begin(); iter!=m.end(); ++iter)
 	{
-		v[i] = (*iter).second;
+		v[i] = iter->second;
 		++i;
 	}
 	return v;
