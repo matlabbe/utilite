@@ -45,7 +45,7 @@ bool ULogger::printWhere_ = true;
 bool ULogger::printWhereFullPath_ = false;
 bool ULogger::limitWhereLength_ = false;
 ULogger::Level ULogger::level_ = kInfo; // By default, we show all info msgs + upper level (Warning, Error)
-const char * ULogger::levelName_[4] = {"DEBUG", " INFO", " WARN", "ERROR"};
+const char * ULogger::levelName_[5] = {"DEBUG", " INFO", " WARN", "ERROR", "FATAL"};
 ULogger* ULogger::instance_ = 0;
 UDestroyer<ULogger> ULogger::destroyer_;
 ULogger::Type ULogger::type_ = ULogger::kTypeNoLog; // Default nothing
@@ -280,6 +280,7 @@ void ULogger::write(ULogger::Level level,
     		color = COLOR_YELLOW;
     		break;
     	case kError:
+    	case kFatal:
     		color = COLOR_RED;
     		break;
     	default:
@@ -385,6 +386,12 @@ void ULogger::write(ULogger::Level level,
 		}
 		writeMutex_.unlock();
 
+		if(level == kFatal)
+		{
+			printf("\n*******\nFatal error occured!\n*******\n");
+			printf("  %s%s%s%s\n", levelStr.c_str(), time.c_str(), whereStr.c_str(), msg);
+			exit(1);
+		}
     }
 }
 
