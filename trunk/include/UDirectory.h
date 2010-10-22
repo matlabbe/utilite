@@ -64,6 +64,12 @@ public:
 	 */
 	static bool removeDir(const std::string & dirPath);
 
+	/**
+	 * Return the "home" directory.
+	 * @return the directory path.
+	 */
+	static std::string homeDir();
+
 public:
 	UDirectory(const std::string & path, const std::string & extensions = "");
 	~UDirectory();
