@@ -23,6 +23,7 @@
   #include <Windows.h>
   #include <direct.h>
   #include <algorithm>
+  #include <conio.h>
 #else
   #include <dirent.h>
   #include <sys/stat.h>
@@ -259,4 +260,17 @@ bool UDirectory::removeDir(const std::string & dirPath)
 	status = rmdir(dirPath.c_str());
 #endif
 	return status==0;
+}
+
+std::string UDirectory::homeDir()
+{
+	std::string path;
+#if WIN32
+	char profilePath[250];
+	ExpandEnvironmentStrings("%userprofile%",profilePath,250);
+	path = profilePath;
+#else
+	path = getenv("HOME");
+#endif
+	return path;
 }
