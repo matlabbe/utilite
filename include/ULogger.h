@@ -41,6 +41,7 @@
 #define ULOGGER_INFO(...)    ULOGGER_LOG(ULogger::kInfo,    __VA_ARGS__)
 #define ULOGGER_WARN(...) 	 ULOGGER_LOG(ULogger::kWarning, __VA_ARGS__)
 #define ULOGGER_ERROR(...)   ULOGGER_LOG(ULogger::kError,   __VA_ARGS__)
+#define ULOGGER_FATAL(...)   ULOGGER_LOG(ULogger::kFatal,   __VA_ARGS__)
 
 /**
  * This class is used to log messages with time on a console, in a file 
@@ -73,7 +74,7 @@ public:
     /**
      * Logger levels
      */
-    enum Level{kDebug, kInfo, kWarning, kError};
+    enum Level{kDebug, kInfo, kWarning, kError, kFatal};
 
     /**
      * Set the type of the logger.
@@ -266,7 +267,7 @@ private:
 	 */
     static Level level_;
 
-    static const char * levelName_[4];
+    static const char * levelName_[5];
 
     /**
      * Mutex used when writing.
