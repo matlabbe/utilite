@@ -23,6 +23,7 @@
 #include "UStl.h"
 #include <fstream>
 #include <string>
+#include <string.h>
 
 #ifdef WIN32
 #include <Windows.h>
