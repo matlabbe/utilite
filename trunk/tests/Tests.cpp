@@ -2,20 +2,20 @@
 #include "Tests.h"
 
 //Headers for the test BEGIN
-#include "UEventsManager.h"
-#include "ULogger.h"
+#include "utilite/UEventsManager.h"
+#include "utilite/ULogger.h"
 #include "ThreadA.h"
 #include "ThreadB.h"
 #include <fstream>
 #include <string.h>
-#include "UConversion.h"
-#include "UStl.h"
+#include "utilite/UConversion.h"
+#include "utilite/UStl.h"
 #include "SimpleStateThread.h"
-#include "UFile.h"
-#include "UDirectory.h"
-#include "UMath.h"
-#include "UTimer.h"
-#include "UObjDeletionThread.h"
+#include "utilite/UFile.h"
+#include "utilite/UDirectory.h"
+#include "utilite/UMath.h"
+#include "utilite/UTimer.h"
+#include "utilite/UObjDeletionThread.h"
 #include "SemaphoreThread.h"
 
 //Headers for the test END

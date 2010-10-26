@@ -20,9 +20,9 @@
 #ifndef UTHREADNODE_H
 #define UTHREADNODE_H
 
-#include "UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteExp.h" // DLL export/import defines
 
-#include "UThread.h"
+#include "utilite/UThread.h"
 
 /**
  * This class is a thread with states. There are 3 types of
@@ -37,7 +37,7 @@
  *
  * Example:
  * @code
- * 		#include "UThreadNode.h"
+ * 		#include "utilite/UThreadNode.h"
  * 		#include <stdio.h>
  * 		class SimpleThread : public UThreadNode
  * 		{

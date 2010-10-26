@@ -20,7 +20,7 @@
 #ifndef UEVENT_H
 #define UEVENT_H
 
-#include "UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteExp.h" // DLL export/import defines
 
 #include <string>
 

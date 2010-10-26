@@ -17,11 +17,11 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "UEventsManager.h"
-#include "ULogger.h"
-#include "UEvent.h"
+#include "utilite/UEventsManager.h"
+#include "utilite/ULogger.h"
+#include "utilite/UEvent.h"
 #include <list>
-#include "UStl.h"
+#include "utilite/UStl.h"
 
 UEventsManager* UEventsManager::instance_ = 0;
 UDestroyer<UEventsManager> UEventsManager::destroyer_;

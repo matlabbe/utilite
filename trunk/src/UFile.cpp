@@ -17,10 +17,10 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "UFile.h"
+#include "utilite/UFile.h"
 
 #include <fstream>
-#include "UStl.h"
+#include "utilite/UStl.h"
 
 bool UFile::exists(const std::string &filePath)
 {

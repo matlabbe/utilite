@@ -20,7 +20,7 @@
 #ifndef UCONVERSION_H
 #define UCONVERSION_H
 
-#include "UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteExp.h" // DLL export/import defines
 
 #include <string>
 #include <vector>

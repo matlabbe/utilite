@@ -17,10 +17,10 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "ULogger.h"
-#include "UConversion.h"
-#include "UFile.h"
-#include "UStl.h"
+#include "utilite/ULogger.h"
+#include "utilite/UConversion.h"
+#include "utilite/UFile.h"
+#include "utilite/UStl.h"
 #include <fstream>
 #include <string>
 #include <string.h>

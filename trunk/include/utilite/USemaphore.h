@@ -23,9 +23,9 @@
 #include <errno.h>
 
 #ifdef WIN32
-  #include "Win32/USemaphore.h"
+  #include "utilite/Win32/USemaphore.h"
 #else
-  #include "Posix/USemaphore.h"
+  #include "utilite/Posix/USemaphore.h"
 #endif
 
 #endif // USEMAPHORE_H

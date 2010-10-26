@@ -20,7 +20,7 @@
 #ifndef UPROCESSINFO_H
 #define UPROCESSINFO_H
 
-#include "UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteExp.h" // DLL export/import defines
 
 /**
  * This class is used to get some informations

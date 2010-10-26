@@ -20,9 +20,9 @@
 #ifndef FILE_H
 #define FILE_H
 
-#include "UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteExp.h" // DLL export/import defines
 
-#include "UDirectory.h"
+#include "utilite/UDirectory.h"
 #include <string>
 
 class UTILITE_EXP UFile

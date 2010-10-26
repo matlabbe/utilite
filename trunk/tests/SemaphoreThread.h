@@ -8,7 +8,7 @@
 #ifndef SEMAPHORETHREAD_H_
 #define SEMAPHORETHREAD_H_
 
-#include "UThreadNode.h"
+#include "utilite/UThreadNode.h"
 
 class SemaphoreThread : public UThreadNode
 {

@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "UEventsHandler.h"
-#include "UEventsManager.h"
+#include "utilite/UEventsHandler.h"
+#include "utilite/UEventsManager.h"
 
 UEventsHandler::~UEventsHandler()
 {

@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <fstream>
-#include "ULogger.h"
+#include "utilite/ULogger.h"
 #ifdef _MSC_VER
 // Use Visual C++'s memory checking functionality
 #define _CRTDBG_MAP_ALLOC

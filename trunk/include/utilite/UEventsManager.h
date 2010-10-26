@@ -20,12 +20,12 @@
 #ifndef UEVENTSMANAGER_H
 #define UEVENTSMANAGER_H
 
-#include "UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteExp.h" // DLL export/import defines
 
-#include "UEventsHandler.h"
-#include "UThreadNode.h"
-#include "ULogger.h"
-#include "UDestroyer.h"
+#include "utilite/UEventsHandler.h"
+#include "utilite/UThreadNode.h"
+#include "utilite/ULogger.h"
+#include "utilite/UDestroyer.h"
 
 #include <list>
 

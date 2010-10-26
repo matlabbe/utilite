@@ -20,7 +20,7 @@
 #ifndef UEVENTSHANDLER_H
 #define UEVENTSHANDLER_H
 
-#include "UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteExp.h" // DLL export/import defines
 
 class UEvent;
 

@@ -1,7 +1,7 @@
 # Top-Level CmakeLists.txt
 cmake_minimum_required(VERSION 2.6)
 
-# it _must_ go before PROJECT(UtiLite) in order to work
+# it _must_ go before PROJECT(utilite) in order to work
 #if (NOT CMAKE_INSTALL_PREFIX)
 #    if (WIN32)
 #        set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR} CACHE INTERNAL "" FORCE)
@@ -10,14 +10,14 @@ cmake_minimum_required(VERSION 2.6)
 #    end()
 #endif()
 
-PROJECT( UtiLite )
+PROJECT( utilite )
 
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules")
 
 #######################
 # VERSION
 #######################
-SET(UTILITE_VERSION "0.2.1")
+SET(UTILITE_VERSION "0.2.2")
 
 STRING(REGEX MATCHALL "[0-9]" UTILITE_VERSION_PARTS "${UTILITE_VERSION}")
 
