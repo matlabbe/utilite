@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "UTimer.h"
-#include "ULogger.h"
+#include "utilite/UTimer.h"
+#include "utilite/ULogger.h"
 
 ///////////////////////
 // public:

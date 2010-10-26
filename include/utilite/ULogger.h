@@ -20,10 +20,10 @@
 #ifndef ULOGGER_H
 #define ULOGGER_H
 
-#include "UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteExp.h" // DLL export/import defines
 
-#include "UMutex.h"
-#include "UDestroyer.h"
+#include "utilite/UMutex.h"
+#include "utilite/UDestroyer.h"
 
 #include <stdio.h>
 #include <time.h>

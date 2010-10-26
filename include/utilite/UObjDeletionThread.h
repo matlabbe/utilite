@@ -20,9 +20,9 @@
 #ifndef UOBJDELETIONTHREAD_H
 #define UOBJDELETIONTHREAD_H
 
-#include "UThreadNode.h"
-#include "UEvent.h"
-#include "UEventsManager.h"
+#include "utilite/UThreadNode.h"
+#include "utilite/UEvent.h"
+#include "utilite/UEventsManager.h"
 
 class ObjDeletedEvent : public UEvent
 {

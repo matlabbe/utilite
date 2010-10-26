@@ -20,7 +20,7 @@
 #ifndef UDESTROYER_H
 #define UDESTROYER_H
 
-#include "UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteExp.h" // DLL export/import defines
 
 /**
  * This class is used to delete a dynamicaly created 

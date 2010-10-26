@@ -20,7 +20,7 @@
 #ifndef UMATH_H
 #define UMATH_H
 
-#include "UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteExp.h" // DLL export/import defines
 
 #include <math.h>
 #include <list>

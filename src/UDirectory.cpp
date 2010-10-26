@@ -17,7 +17,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "UDirectory.h"
+#include "utilite/UDirectory.h"
 
 #ifdef WIN32
   #include <Windows.h>
@@ -35,11 +35,11 @@
   #include <string.h>
 #endif
 
-#include "UStl.h"
-#include "UFile.h"
-#include "UDirectory.h"
+#include "utilite/UStl.h"
+#include "utilite/UFile.h"
+#include "utilite/UDirectory.h"
 
-#include "ULogger.h"
+#include "utilite/ULogger.h"
 
 #ifdef WIN32
 

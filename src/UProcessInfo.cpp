@@ -17,7 +17,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "UProcessInfo.h"
+#include "utilite/UProcessInfo.h"
 
 #ifdef WIN32
 #include "Windows.h"
@@ -25,7 +25,7 @@
 #else
 #include <fstream>
 #include <stdlib.h>
-#include "UStl.h"
+#include "utilite/UStl.h"
 #endif
 
 UProcessInfo::UProcessInfo() {

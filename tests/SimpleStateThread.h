@@ -1,7 +1,7 @@
 #ifndef SIMPLESTATETHREAD_H
 #define SIMPLESTATETHREAD_H
 
-#include "UThreadNode.h"
+#include "utilite/UThreadNode.h"
 
 #include <string>
 

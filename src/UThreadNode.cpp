@@ -17,8 +17,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "UThreadNode.h"
-#include "ULogger.h"
+#include "utilite/UThreadNode.h"
+#include "utilite/ULogger.h"
 
 ////////////////////////////
 // public:

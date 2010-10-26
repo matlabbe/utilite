@@ -6,8 +6,8 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "ULogger.h"
-#include "UDirectory.h"
+#include "utilite/ULogger.h"
+#include "utilite/UDirectory.h"
 
 class Tests : public CppUnit::TestFixture  {
 

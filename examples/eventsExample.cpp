@@ -1,7 +1,7 @@
-#include <UEventsManager.h>
-#include <UEventsHandler.h>
-#include <UEvent.h>
-#include <ULogger.h>
+#include <utilite/UEventsManager.h>
+#include <utilite/UEventsHandler.h>
+#include <utilite/UEvent.h>
+#include <utilite/ULogger.h>
 
 // UtiLite.h can be used if we don't want to include
 // each separated objects.

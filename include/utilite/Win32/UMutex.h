@@ -12,7 +12,7 @@
 #ifndef _U_Mutex_Win32_
 #define _U_Mutex_Win32_
 
-#include "UWin32.h"
+#include "utilite/Win32/UWin32.h"
 
 class UTILITE_EXP UMutex
 {

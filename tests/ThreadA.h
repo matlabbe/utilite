@@ -1,12 +1,12 @@
 #ifndef THREADA_H
 #define THREADA_H
 
-#include "UEventsManager.h"
+#include "utilite/UEventsManager.h"
 #include "EventA.h"
 #include "EventB.h"
-#include "UThreadNode.h"
+#include "utilite/UThreadNode.h"
 
-#include "ULogger.h"
+#include "utilite/ULogger.h"
 
 
 #include <string>

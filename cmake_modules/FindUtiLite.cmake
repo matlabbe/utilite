@@ -10,10 +10,9 @@
 # 
      
 FIND_PATH(UTILITE_INCLUDE_DIR 
-          UEventsManager.h
-	  PATH_SUFFIXES UtiLite ../include/UtiLite)
+          utilite/UEventsManager.h)
 
-FIND_LIBRARY(UTILITE_LIBRARY NAMES utilite PATH_SUFFIXES ../lib)
+FIND_LIBRARY(UTILITE_LIBRARY NAMES utilite)
 
 FIND_PROGRAM(URESOURCEGENERATOR_EXEC NAME uresourcegenerator PATHS)  
 

@@ -1,7 +1,7 @@
 #ifndef EVENTB_H
 #define EVENTB_H
 
-#include "UEvent.h"
+#include "utilite/UEvent.h"
 #include <string>
 
 class EventB : public UEvent
