@@ -7,7 +7,7 @@ The communication used between threads is events-based. (Explains more... how it
 
 {{{
 // Main include of the library
-#include <UtiLite.h>
+#include <utilite/UtiLite.h>
 
 // Create a custom event.
 // The pure virtual method "getClassName()" of UEvent 
