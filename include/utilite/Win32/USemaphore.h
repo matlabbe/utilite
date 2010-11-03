@@ -11,7 +11,7 @@
 #ifndef _U_Semaphore_Win32_
 #define _U_Semaphore_Win32_
 
-#include "utilite/UWin32.h"
+#include "utilite/Win32/UWin32.h"
 
 #define SEM_VALUE_MAX ((int) ((~0u) >> 1))
 

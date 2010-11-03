@@ -143,7 +143,7 @@ IF(WIN32)
   IF(MINGW_GCC_RUNTIME_DLL)
     INSTALL(FILES ${MINGW_GCC_RUNTIME_DLL} DESTINATION bin)
   ELSE()
-    MESSAGE(SEND_ERROR "Could not find libgcc_s_dw2-1.dll which is needed for a proper install")
+    #MESSAGE(SEND_ERROR "Could not find libgcc_s_dw2-1.dll which is needed for a proper install")
   ENDIF()
 
   SET(CPACK_GENERATOR "NSIS;ZIP")
