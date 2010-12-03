@@ -68,8 +68,6 @@
   *
   */
 
-// TODO Prefix library include files with "U"
-
 #include "utilite/UStl.h"
 #include "utilite/UConversion.h"
 #include "utilite/UDirectory.h"

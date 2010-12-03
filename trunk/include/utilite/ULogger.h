@@ -43,6 +43,12 @@
 #define ULOGGER_ERROR(...)   ULOGGER_LOG(ULogger::kError,   __VA_ARGS__)
 #define ULOGGER_FATAL(...)   ULOGGER_LOG(ULogger::kFatal,   __VA_ARGS__)
 
+#define UDEBUG(...)   ULOGGER_DEBUG(__VA_ARGS__)
+#define UINFO(...)    ULOGGER_INFO(__VA_ARGS__)
+#define UWARN(...) 	  ULOGGER_WARN(__VA_ARGS__)
+#define UERROR(...)   ULOGGER_ERROR(__VA_ARGS__)
+#define UFATAL(...)   ULOGGER_FATAL(__VA_ARGS__)
+
 /**
  * This class is used to log messages with time on a console, in a file 
  * or with a event. At the start of the application, call 
