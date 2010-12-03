@@ -22,20 +22,17 @@
 #ifdef WIN32
 #include "Windows.h"
 #include "Psapi.h"
+#elif __APPLE__
+#include <sys/resource.h>
 #else
 #include <fstream>
 #include <stdlib.h>
 #include "utilite/UStl.h"
 #endif
 
-UProcessInfo::UProcessInfo() {
-	// TODO Auto-generated constructor stub
+UProcessInfo::UProcessInfo() {}
 
-}
-
-UProcessInfo::~UProcessInfo() {
-	// TODO Auto-generated destructor stub
-}
+UProcessInfo::~UProcessInfo() {}
 
 // return in bytes
 long int UProcessInfo::getMemoryUsage()
@@ -49,6 +46,12 @@ long int UProcessInfo::getMemoryUsage()
 		if(okay)
 		{
 			memoryUsage = info.WorkingSetSize;
+		}
+#elif __APPLE__
+		rusage u;
+		if(getrusage(RUSAGE_SELF, &u) == 0)
+		{
+			memoryUsage = u.ru_maxrss;
 		}
 #else
 		std::fstream file("/proc/self/status", std::fstream::in);
