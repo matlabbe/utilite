@@ -13,6 +13,7 @@ Output :
 [ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "11" received!
 }}}
 
+Code :
 {{{
 // Main include of the library
 #include <utilite/UtiLite.h>
@@ -109,7 +110,7 @@ Releasing the semaphore...
 Thread woke up!
 SimpleThread destructor
 }}}
-
+Code :
 {{{
 #include <utilite/UThreadNode.h>
 #include <stdio.h>
@@ -190,6 +191,7 @@ Output :
 [ INFO] (2010-12-21 15:58:26) Consumer received 7
 }}}
 
+Code :
 {{{
 #include <utilite/UThreadNode.h>
 #include <utilite/UEventsHandler.h>
