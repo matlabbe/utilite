@@ -100,7 +100,7 @@ int main(int argc, char * argv[])
 = UThreadNode =
 Output :
 {{{
-Example with the StateThread class
+Example with the UThreadNode class
 
 This is called once before entering the main thread loop.
 This is the loop 1...
