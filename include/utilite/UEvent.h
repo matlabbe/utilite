@@ -48,11 +48,11 @@ public:
     /**
      * This method is used to get the class name 
      * of the event. For example, if the class MouseEvent 
-     * inherites from Event, it must return the 
+     * inherits from Event, it must return the
      * "MouseEvent" string.
      * @return std::string the class name
      */
-    virtual std::string getClassName() const = 0; // TODO : macro?
+    virtual std::string getClassName() const {return "UEvent";} // TODO : macro?
 
     int getCode() const {return code_;}
 

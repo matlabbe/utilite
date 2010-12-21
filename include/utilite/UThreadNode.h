@@ -203,6 +203,15 @@ private:
       const bool          & CancelEnable    = false,   // UNUSED
       const bool          & CancelAsync     = false    // UNUSED
     ) const;
+
+    //Methods from UThread<void> class hided
+    static int Join( Handle H )
+	  { return pthread_join(H,0); }
+	static int Kill( Handle H )
+	  { return pthread_cancel(H); }
+	static int Detach( Handle H )
+	  { return pthread_detach(H); }
+
 private:
 	void operator=(UThreadNode & t) {}
 	UThreadNode( const UThreadNode & t ) {}
