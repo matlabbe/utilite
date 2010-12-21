@@ -29,7 +29,7 @@ public:
    ~SpecialEvent() {}
 
    virtual std::string getClassName() const {
-	   return "SpecialEvent";
+      return "SpecialEvent";
    }
 };
 
@@ -118,47 +118,47 @@ Code :
 class SimpleThread : public UThreadNode
 {
 public:
-	SimpleThread() : loopCount_(0) {}
-	~SimpleThread() {
-		printf("SimpleThread destructor\n");
-		this->kill();
-	}
+   SimpleThread() : loopCount_(0) {}
+   ~SimpleThread() {
+      printf("SimpleThread destructor\n");
+      this->kill();
+   }
 
 protected:
-	virtual void startInit() {
-		printf("This is called once before entering the main thread loop.\n");
-		loopCount_ = 1;
-	}
+   virtual void startInit() {
+      printf("This is called once before entering the main thread loop.\n");
+      loopCount_ = 1;
+   }
 
-	virtual void mainLoop() {
-		if(loopCount_ < 3) {
-			printf("This is the loop %d...\n", loopCount_++);
-			uSleep(10);
-		}
-		else {
-			printf("This thread will now wait on a semaphore...\n");
-			semaphore_.acquire();
-			printf("Thread woke up!\n");
-		}
-	}
+   virtual void mainLoop() {
+      if(loopCount_ < 3) {
+         printf("This is the loop %d...\n", loopCount_++);
+         uSleep(10);
+      }
+      else {
+         printf("This thread will now wait on a semaphore...\n");
+         semaphore_.acquire();
+         printf("Thread woke up!\n");
+      }
+   }
 
-	virtual void killCleanup() {
-		printf("Releasing the semaphore...\n");
-		semaphore_.release();
-	}
+   virtual void killCleanup() {
+      printf("Releasing the semaphore...\n");
+      semaphore_.release();
+   }
 private:
-	int loopCount_;
-	USemaphore semaphore_;
+   int loopCount_;
+   USemaphore semaphore_;
 };
 
 int main(int argc, char * argv[])
 {
-	SimpleThread t;
-	printf("Example with the StateThread class\n\n");
-	t.start();
-	uSleep(100);
-	t.kill();
-	return 0;
+   SimpleThread t;
+   printf("Example with the StateThread class\n\n");
+   t.start();
+   uSleep(100);
+   t.kill();
+   return 0;
 }
 }}}
 
@@ -206,56 +206,56 @@ Code :
 class Producer : public UThreadNode
 {
 public:
-	Producer(const std::string & name, int ms) :
-		name_(name),
-		rate_(ms) ,
-		count_(0) {}
+   Producer(const std::string & name, int ms) :
+      name_(name),
+      rate_(ms) ,
+      count_(0) {}
 
-	~Producer() {
-		this->kill();
-	}
+   ~Producer() {
+      this->kill();
+   }
 
 protected:
-	virtual void mainLoop() {
-		UINFO("%s posting %d", name_.c_str(), count_);
-		UEventsManager::post(new UEvent(count_++));
-		uSleep(rate_);
-	}
+   virtual void mainLoop() {
+      UINFO("%s posting %d", name_.c_str(), count_);
+      UEventsManager::post(new UEvent(count_++));
+      uSleep(rate_);
+   }
 
 private:
-	const std::string name_;
-	int rate_;
-	int count_;
+   const std::string name_;
+   int rate_;
+   int count_;
 };
 
 class Consumer : public UEventsHandler
 {
 public:
-	Consumer() {}
-	~Consumer() {}
+   Consumer() {}
+   ~Consumer() {}
 
 protected:
-	virtual void handleEvent(UEvent * event) {
-		UINFO("Consumer received %d", event->getCode());
-	}
+   virtual void handleEvent(UEvent * event) {
+      UINFO("Consumer received %d", event->getCode());
+   }
 };
 
 int main(int argc, char * argv[])
 {
-	ULogger::setType(ULogger::kTypeConsole);
-	ULogger::setPrintWhere(false);
+   ULogger::setType(ULogger::kTypeConsole);
+   ULogger::setPrintWhere(false);
 
-	Consumer c;
-	UEventsManager::addHandler(&c);
+   Consumer c;
+   UEventsManager::addHandler(&c);
 
-	Producer p500("p500", 500); //post each 500 ms
-	Producer p1000("p1000", 1000); //post each 1000 ms
+   Producer p500("p500", 500); //post each 500 ms
+   Producer p1000("p1000", 1000); //post each 1000 ms
 
-	// Start the producer threads
-	p500.start();
-	p1000.start();
+   // Start the producer threads
+   p500.start();
+   p1000.start();
 
-	uSleep(3500);
-	return 0;
+   uSleep(3500);
+   return 0;
 }
 }}}
