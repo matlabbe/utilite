@@ -203,6 +203,7 @@ Code :
  * Example of the producer-consumer problem.
  */
 
+// The Producer class
 class Producer : public UThreadNode
 {
 public:
@@ -228,6 +229,7 @@ private:
    int count_;
 };
 
+// The Consumer class
 class Consumer : public UEventsHandler
 {
 public:
