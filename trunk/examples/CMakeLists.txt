@@ -27,3 +27,12 @@ PROPERTIES
  DEBUG_POSTFIX d
 )
 
+ADD_EXECUTABLE(producerConsumerExample producerConsumerExample.cpp)
+TARGET_LINK_LIBRARIES(producerConsumerExample utilite)
+
+SET_TARGET_PROPERTIES(
+producerConsumerExample 
+PROPERTIES
+ DEBUG_POSTFIX d
+)
+
