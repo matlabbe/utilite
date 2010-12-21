@@ -1,5 +1,4 @@
 #summary Here is some examples of what can be done by the library.
-
 = Events =
 Note : the communication used between threads is events-based.
 
