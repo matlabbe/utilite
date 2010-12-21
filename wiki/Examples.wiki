@@ -97,7 +97,177 @@ Output :
 }}}
 
 = UThreadNode =
-todo...
+{{{
+#include <utilite/UThreadNode.h>
+#include <stdio.h>
+
+class SimpleThread : public UThreadNode
+{
+public:
+	SimpleThread() : loopCount_(0) {}
+	~SimpleThread()
+	{
+		printf("SimpleThread destructor\n");
+		this->kill();
+	}
+
+protected:
+	virtual void startInit()
+	{
+		printf("This is called once before entering the main thread loop.\n");
+		loopCount_ = 1;
+	}
+
+	virtual void mainLoop()
+	{
+		if(loopCount_ < 3)
+		{
+			printf("This is the loop %d...\n", loopCount_++);
+			uSleep(10);
+		}
+		else
+		{
+			printf("This thread will now wait on a semaphore...\n");
+			semaphore_.acquire();
+			printf("Thread woke up!\n");
+		}
+	}
+
+	virtual void killCleanup()
+	{
+		printf("Releasing the semaphore...\n");
+		semaphore_.release();
+	}
+private:
+	int loopCount_;
+	USemaphore semaphore_;
+};
+
+int main(int argc, char * argv[])
+{
+	SimpleThread t;
+	printf("Example with the StateThread class\n\n");
+	t.start();
+	uSleep(100);
+	t.kill();
+	return 0;
+}
+}}}
+
+Output :
+{{{
+Example with the StateThread class
+
+This is called once before entering the main thread loop.
+This is the loop 1...
+This is the loop 2...
+This thread will now wait on a semaphore...
+Releasing the semaphore...
+Thread woke up!
+SimpleThread destructor
+}}}
+
+= Producer-Consumer problem =
+{{{
+#include <utilite/UThreadNode.h>
+#include <utilite/UEventsHandler.h>
+#include <utilite/ULogger.h>
+#include <utilite/UEvent.h>
+#include <utilite/UEventsManager.h>
+
+/**
+ * Example of the producer-consumer problem.
+ */
+class Producer : public UThreadNode
+{
+public:
+	Producer(const std::string & name, int ms) :
+		name_(name),
+		rate_(ms) ,
+		count_(0)
+	{}
+
+	~Producer()
+	{
+		this->kill();
+	}
+
+protected:
+	virtual void mainLoop()
+	{
+		UINFO("%s posting %d", name_.c_str(), count_);
+		UEventsManager::post(new UEvent(count_++));
+		uSleep(rate_);
+	}
+
+private:
+	const std::string name_;
+	int rate_;
+	int count_;
+};
+
+class Consumer : public UEventsHandler
+{
+public:
+	Consumer() {}
+	~Consumer()
+	{
+	}
+
+protected:
+	virtual void handleEvent(UEvent * event)
+	{
+		UINFO("Consumer received %d", event->getCode());
+	}
+};
+
+int main(int argc, char * argv[])
+{
+	ULogger::setType(ULogger::kTypeConsole);
+	ULogger::setPrintWhere(false);
+
+	Consumer c;
+	UEventsManager::addHandler(&c);
+
+	Producer p500("p500", 500); //post each 500 ms
+	Producer p1000("p1000", 1000); //post each 1000 ms
+
+	// Start the producer threads
+	p500.start();
+	p1000.start();
+
+	uSleep(3500);
+	return 0;
+}
+}}}
+
+Output :
+{{{
+[ INFO] (2010-12-21 15:58:23) p500 posting 0
+[ INFO] (2010-12-21 15:58:23) p1000 posting 0
+[ INFO] (2010-12-21 15:58:23) Consumer received 0
+[ INFO] (2010-12-21 15:58:23) Consumer received 0
+[ INFO] (2010-12-21 15:58:23) p500 posting 1
+[ INFO] (2010-12-21 15:58:23) Consumer received 1
+[ INFO] (2010-12-21 15:58:24) p1000 posting 1
+[ INFO] (2010-12-21 15:58:24) Consumer received 1
+[ INFO] (2010-12-21 15:58:24) p500 posting 2
+[ INFO] (2010-12-21 15:58:24) Consumer received 2
+[ INFO] (2010-12-21 15:58:24) p500 posting 3
+[ INFO] (2010-12-21 15:58:24) Consumer received 3
+[ INFO] (2010-12-21 15:58:25) p1000 posting 2
+[ INFO] (2010-12-21 15:58:25) Consumer received 2
+[ INFO] (2010-12-21 15:58:25) p500 posting 4
+[ INFO] (2010-12-21 15:58:25) Consumer received 4
+[ INFO] (2010-12-21 15:58:25) p500 posting 5
+[ INFO] (2010-12-21 15:58:25) Consumer received 5
+[ INFO] (2010-12-21 15:58:26) p1000 posting 3
+[ INFO] (2010-12-21 15:58:26) Consumer received 3
+[ INFO] (2010-12-21 15:58:26) p500 posting 6
+[ INFO] (2010-12-21 15:58:26) Consumer received 6
+[ INFO] (2010-12-21 15:58:26) p500 posting 7
+[ INFO] (2010-12-21 15:58:26) Consumer received 7
+}}}
 
 = ULogger =
 todo...
