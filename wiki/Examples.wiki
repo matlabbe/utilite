@@ -3,6 +3,16 @@
 = Events =
 Note : the communication used between threads is events-based.
 
+Output :
+{{{
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:53::main() This message is logged.
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "1" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "2" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "5" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "7" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "11" received!
+}}}
+
 {{{
 // Main include of the library
 #include <utilite/UtiLite.h>
@@ -86,17 +96,20 @@ int main(int argc, char * argv[])
 }
 }}}
 
+= UThreadNode =
 Output :
 {{{
-[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:53::main() This message is logged.
-[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "1" received!
-[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "2" received!
-[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "5" received!
-[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "7" received!
-[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "11" received!
+Example with the StateThread class
+
+This is called once before entering the main thread loop.
+This is the loop 1...
+This is the loop 2...
+This thread will now wait on a semaphore...
+Releasing the semaphore...
+Thread woke up!
+SimpleThread destructor
 }}}
 
-= UThreadNode =
 {{{
 #include <utilite/UThreadNode.h>
 #include <stdio.h>
@@ -148,20 +161,35 @@ int main(int argc, char * argv[])
 }
 }}}
 
+= Producer-Consumer problem =
 Output :
 {{{
-Example with the StateThread class
-
-This is called once before entering the main thread loop.
-This is the loop 1...
-This is the loop 2...
-This thread will now wait on a semaphore...
-Releasing the semaphore...
-Thread woke up!
-SimpleThread destructor
+[ INFO] (2010-12-21 15:58:23) p500 posting 0
+[ INFO] (2010-12-21 15:58:23) p1000 posting 0
+[ INFO] (2010-12-21 15:58:23) Consumer received 0
+[ INFO] (2010-12-21 15:58:23) Consumer received 0
+[ INFO] (2010-12-21 15:58:23) p500 posting 1
+[ INFO] (2010-12-21 15:58:23) Consumer received 1
+[ INFO] (2010-12-21 15:58:24) p1000 posting 1
+[ INFO] (2010-12-21 15:58:24) Consumer received 1
+[ INFO] (2010-12-21 15:58:24) p500 posting 2
+[ INFO] (2010-12-21 15:58:24) Consumer received 2
+[ INFO] (2010-12-21 15:58:24) p500 posting 3
+[ INFO] (2010-12-21 15:58:24) Consumer received 3
+[ INFO] (2010-12-21 15:58:25) p1000 posting 2
+[ INFO] (2010-12-21 15:58:25) Consumer received 2
+[ INFO] (2010-12-21 15:58:25) p500 posting 4
+[ INFO] (2010-12-21 15:58:25) Consumer received 4
+[ INFO] (2010-12-21 15:58:25) p500 posting 5
+[ INFO] (2010-12-21 15:58:25) Consumer received 5
+[ INFO] (2010-12-21 15:58:26) p1000 posting 3
+[ INFO] (2010-12-21 15:58:26) Consumer received 3
+[ INFO] (2010-12-21 15:58:26) p500 posting 6
+[ INFO] (2010-12-21 15:58:26) Consumer received 6
+[ INFO] (2010-12-21 15:58:26) p500 posting 7
+[ INFO] (2010-12-21 15:58:26) Consumer received 7
 }}}
 
-= Producer-Consumer problem =
 {{{
 #include <utilite/UThreadNode.h>
 #include <utilite/UEventsHandler.h>
@@ -229,34 +257,5 @@ int main(int argc, char * argv[])
 	return 0;
 }
 }}}
-
-Output :
-{{{
-[ INFO] (2010-12-21 15:58:23) p500 posting 0
-[ INFO] (2010-12-21 15:58:23) p1000 posting 0
-[ INFO] (2010-12-21 15:58:23) Consumer received 0
-[ INFO] (2010-12-21 15:58:23) Consumer received 0
-[ INFO] (2010-12-21 15:58:23) p500 posting 1
-[ INFO] (2010-12-21 15:58:23) Consumer received 1
-[ INFO] (2010-12-21 15:58:24) p1000 posting 1
-[ INFO] (2010-12-21 15:58:24) Consumer received 1
-[ INFO] (2010-12-21 15:58:24) p500 posting 2
-[ INFO] (2010-12-21 15:58:24) Consumer received 2
-[ INFO] (2010-12-21 15:58:24) p500 posting 3
-[ INFO] (2010-12-21 15:58:24) Consumer received 3
-[ INFO] (2010-12-21 15:58:25) p1000 posting 2
-[ INFO] (2010-12-21 15:58:25) Consumer received 2
-[ INFO] (2010-12-21 15:58:25) p500 posting 4
-[ INFO] (2010-12-21 15:58:25) Consumer received 4
-[ INFO] (2010-12-21 15:58:25) p500 posting 5
-[ INFO] (2010-12-21 15:58:25) Consumer received 5
-[ INFO] (2010-12-21 15:58:26) p1000 posting 3
-[ INFO] (2010-12-21 15:58:26) Consumer received 3
-[ INFO] (2010-12-21 15:58:26) p500 posting 6
-[ INFO] (2010-12-21 15:58:26) Consumer received 6
-[ INFO] (2010-12-21 15:58:26) p500 posting 7
-[ INFO] (2010-12-21 15:58:26) Consumer received 7
-}}}
-
 = ULogger =
 todo...
