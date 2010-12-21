@@ -60,7 +60,7 @@ int main(int argc, char * argv[])
                  "severity level of the logger is set to kInfo.");
    ULOGGER_INFO("This message is logged.");
 
-   // Lets create a simple EventsPrinter that will log all
+   // Let's create a simple EventsPrinter that will log all
    // events it will received.
    EventsPrinter p;
 
