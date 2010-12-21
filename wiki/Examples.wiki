@@ -105,36 +105,30 @@ class SimpleThread : public UThreadNode
 {
 public:
 	SimpleThread() : loopCount_(0) {}
-	~SimpleThread()
-	{
+	~SimpleThread() {
 		printf("SimpleThread destructor\n");
 		this->kill();
 	}
 
 protected:
-	virtual void startInit()
-	{
+	virtual void startInit() {
 		printf("This is called once before entering the main thread loop.\n");
 		loopCount_ = 1;
 	}
 
-	virtual void mainLoop()
-	{
-		if(loopCount_ < 3)
-		{
+	virtual void mainLoop() {
+		if(loopCount_ < 3) {
 			printf("This is the loop %d...\n", loopCount_++);
 			uSleep(10);
 		}
-		else
-		{
+		else {
 			printf("This thread will now wait on a semaphore...\n");
 			semaphore_.acquire();
 			printf("Thread woke up!\n");
 		}
 	}
 
-	virtual void killCleanup()
-	{
+	virtual void killCleanup() {
 		printf("Releasing the semaphore...\n");
 		semaphore_.release();
 	}
@@ -178,23 +172,21 @@ SimpleThread destructor
 /**
  * Example of the producer-consumer problem.
  */
+
 class Producer : public UThreadNode
 {
 public:
 	Producer(const std::string & name, int ms) :
 		name_(name),
 		rate_(ms) ,
-		count_(0)
-	{}
+		count_(0) {}
 
-	~Producer()
-	{
+	~Producer() {
 		this->kill();
 	}
 
 protected:
-	virtual void mainLoop()
-	{
+	virtual void mainLoop() {
 		UINFO("%s posting %d", name_.c_str(), count_);
 		UEventsManager::post(new UEvent(count_++));
 		uSleep(rate_);
@@ -210,13 +202,10 @@ class Consumer : public UEventsHandler
 {
 public:
 	Consumer() {}
-	~Consumer()
-	{
-	}
+	~Consumer() {}
 
 protected:
-	virtual void handleEvent(UEvent * event)
-	{
+	virtual void handleEvent(UEvent * event) {
 		UINFO("Consumer received %d", event->getCode());
 	}
 };
