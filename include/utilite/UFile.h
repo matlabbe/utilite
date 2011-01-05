@@ -59,7 +59,7 @@ public:
 						  const std::string &newFilePath);
 
 	/**
-	 * Get the file name from a file path.
+	 * Get the file name from a file path (with extension).
 	 * @param filePath the file path
 	 * @return the file name.
 	 */
