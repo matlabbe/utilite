@@ -12,27 +12,9 @@ INCLUDE_DIRECTORIES(${INCLUDE_DIRS})
 ADD_EXECUTABLE(simpleThreadExample simpleThreadExample.cpp)
 TARGET_LINK_LIBRARIES(simpleThreadExample utilite)
 
-SET_TARGET_PROPERTIES(
-simpleThreadExample 
-PROPERTIES
- DEBUG_POSTFIX d
-)
-
 ADD_EXECUTABLE(eventsExample eventsExample.cpp)
 TARGET_LINK_LIBRARIES(eventsExample utilite)
 
-SET_TARGET_PROPERTIES(
-eventsExample 
-PROPERTIES
- DEBUG_POSTFIX d
-)
-
 ADD_EXECUTABLE(producerConsumerExample producerConsumerExample.cpp)
 TARGET_LINK_LIBRARIES(producerConsumerExample utilite)
-
-SET_TARGET_PROPERTIES(
-producerConsumerExample 
-PROPERTIES
- DEBUG_POSTFIX d
-)
 
