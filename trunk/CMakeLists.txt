@@ -45,6 +45,13 @@ ELSE ()
 ENDIF()
 OPTION( BUILD_SHARED_LIBS "Set to OFF to build static libraries" ON )
 
+IF(MINGW)
+    # Hide the --enable-auto-import warning
+	SET(CMAKE_EXE_LINKER_FLAGS "-enable-auto-import")  
+	SET(CMAKE_MODULE_LINKER_FLAGS "-enable-auto-import") 
+	SET(CMAKE_SHARED_LINKER_FLAGS "-enable-auto-import") 
+ENDIF(MINGW)
+
 # GCC 4 required
 IF(UNIX OR MINGW)
     INCLUDE("${CMAKE_MODULE_PATH}/CompareVersionStrings.cmake")
@@ -138,13 +145,17 @@ SET(CPACK_PACKAGE_VERSION_PATCH "${UTILITE_VERSION_PATCH}")
 #SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 
 IF(WIN32)
-  #include libgcc_s_dw2-1.dll in the package
+  #include mingw dependencies in the package
+  # A cleaner way could be to use BundleUtilities from cmake but 
+  # it requires "dumpbin" application from Visual Studio.
   FIND_LIBRARY(MINGW_GCC_RUNTIME_DLL "libgcc_s_dw2-1.dll")
+  FIND_LIBRARY(MINGW_STDC_RUNTIME_DLL "LIBSTDC++-6.dll")
   IF(MINGW_GCC_RUNTIME_DLL)
-    INSTALL(FILES ${MINGW_GCC_RUNTIME_DLL} DESTINATION bin)
-  ELSE()
-    #MESSAGE(SEND_ERROR "Could not find libgcc_s_dw2-1.dll which is needed for a proper install")
-  ENDIF()
+    INSTALL(FILES ${MINGW_GCC_RUNTIME_DLL} DESTINATION bin COMPONENT Runtime)
+  ENDIF(MINGW_GCC_RUNTIME_DLL)
+  IF(MINGW_STDC_RUNTIME_DLL)
+    INSTALL(FILES ${MINGW_STDC_RUNTIME_DLL} DESTINATION bin COMPONENT Runtime)
+  ENDIF(MINGW_STDC_RUNTIME_DLL)
 
   SET(CPACK_GENERATOR "NSIS;ZIP")
   SET(CPACK_SOURCE_GENERATOR "ZIP")
@@ -161,6 +172,8 @@ IF(WIN32)
   SET(CPACK_NSIS_CONTACT "matlabbe@gmail.com")
   
   SET(CPACK_NSIS_MODIFY_PATH ON)
+  
+  INSTALL(FILES ./cmake_modules/FindUtiLite.cmake DESTINATION bin COMPONENT Devel)
   
 ELSEIF(APPLE)
   SET(CPACK_GENERATOR "PackageMaker;TBZ2")
@@ -183,3 +196,9 @@ ELSE()
 ENDIF()
 
 INCLUDE(CPack)
+
+MESSAGE(STATUS "--------------------------------------------")
+MESSAGE(STATUS "Info :")
+MESSAGE(STATUS "  CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
+MESSAGE(STATUS "  BUILD_SHARED_LIBS = ${BUILD_SHARED_LIBS}")
+MESSAGE(STATUS "--------------------------------------------")

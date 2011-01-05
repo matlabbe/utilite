@@ -206,11 +206,11 @@ private:
 
     //Methods from UThread<void> class hided
     static int Join( Handle H )
-	  { return pthread_join(H,0); }
+	  { return UThread<void>::Join(H); }
 	static int Kill( Handle H )
-	  { return pthread_cancel(H); }
+	  { return UThread<void>::Kill(H); }
 	static int Detach( Handle H )
-	  { return pthread_detach(H); }
+	  { return UThread<void>::Detach(H); }
 
 private:
 	void operator=(UThreadNode & t) {}

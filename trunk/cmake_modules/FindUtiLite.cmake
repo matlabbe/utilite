@@ -9,10 +9,20 @@
 #
 # 
      
-FIND_PATH(UTILITE_INCLUDE_DIR 
-          utilite/UEventsManager.h)
+IF(WIN32)
+	FIND_PATH(UTILITE_INCLUDE_DIR 
+			  utilite/UEventsManager.h
+			  PATH_SUFFIXES "../include")
 
-FIND_LIBRARY(UTILITE_LIBRARY NAMES utilite)
+	FIND_LIBRARY(UTILITE_LIBRARY NAMES utilite
+				PATH_SUFFIXES "../lib")
+
+ELSE()
+	FIND_PATH(UTILITE_INCLUDE_DIR 
+			  utilite/UEventsManager.h)
+
+	FIND_LIBRARY(UTILITE_LIBRARY NAMES utilite)
+ENDIF()
 
 FIND_PROGRAM(URESOURCEGENERATOR_EXEC NAME uresourcegenerator PATHS)  
 
