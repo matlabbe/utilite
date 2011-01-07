@@ -1,15 +1,5 @@
 # Top-Level CmakeLists.txt
 cmake_minimum_required(VERSION 2.6)
-
-# it _must_ go before PROJECT(utilite) in order to work
-#if (NOT CMAKE_INSTALL_PREFIX)
-#    if (WIN32)
-#        set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR} CACHE INTERNAL "" FORCE)
-#    else()
-#        set(CMAKE_INSTALL_PREFIX "/usr" CACHE INTERNAL "" FORCE)
-#    end()
-#endif()
-
 PROJECT( utilite )
 
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules")
@@ -30,8 +20,12 @@ SET(UTILITE_SOVERSION "${UTILITE_VERSION_MAJOR}.${UTILITE_VERSION_MINOR}")
 #######################
 # COMPILATION PARAMS
 #######################
-#Debug, default Release
-OPTION(CMAKE_BUILD_TYPE "Release (default) or Debug" "Release")
+# In case of Makefiles if the user does not setup CMAKE_BUILD_TYPE, assume it's Release:
+IF(${CMAKE_GENERATOR} MATCHES ".*Makefiles")
+    IF("${CMAKE_BUILD_TYPE}" STREQUAL "")
+        set(CMAKE_BUILD_TYPE Release)
+    ENDIF("${CMAKE_BUILD_TYPE}" STREQUAL "")
+ENDIF(${CMAKE_GENERATOR} MATCHES ".*Makefiles")
 
 SET(CMAKE_DEBUG_POSTFIX "d")
 
