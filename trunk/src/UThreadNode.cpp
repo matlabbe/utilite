@@ -101,6 +101,16 @@ void UThreadNode::kill()
     killSafelyMutex_.unlock();
 }
 
+void UThreadNode::join()
+{
+	while(state_ == kSCreating)
+	{
+		uSleep(10);
+	}
+	runningMutex_.lock();
+	runningMutex_.unlock();
+}
+
 void UThreadNode::start()
 {
     ULOGGER_DEBUG("");
@@ -172,6 +182,7 @@ bool UThreadNode::isKilled() const
 
 void UThreadNode::ThreadMain()
 {
+	runningMutex_.lock();
     ULOGGER_DEBUG("");
     startInit();
     ULOGGER_DEBUG("Entering loop...");
@@ -180,4 +191,5 @@ void UThreadNode::ThreadMain()
     {
         mainLoop();
     }
+    runningMutex_.unlock();
 }
