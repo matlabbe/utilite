@@ -12,7 +12,7 @@
 class Tests : public CppUnit::TestFixture  {
 
   CPPUNIT_TEST_SUITE( Tests );
-  CPPUNIT_TEST( testStateThread );
+  CPPUNIT_TEST( testThreadNode );
   CPPUNIT_TEST( testSemaphore );
   CPPUNIT_TEST( testEventsManager );
   //CPPUNIT_TEST( testConsoleLogger );
@@ -51,7 +51,7 @@ public:
 	  //Util::Logger::setLevel(Util::Logger::kDebug);
   }
 
-  void testStateThread();
+  void testThreadNode();
   void testSemaphore();
   void testEventsManager();
   void testConsoleLogger();

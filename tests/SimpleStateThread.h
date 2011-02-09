@@ -18,6 +18,7 @@ private:
     {
     	if(_killItself)
     	{
+    		doSomeWork();
     		kill();
     	}
     	else

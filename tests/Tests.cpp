@@ -52,7 +52,7 @@ void loop()
 
 static SimpleStateThread threadStatic;
 
-void Tests::testStateThread()
+void Tests::testThreadNode()
 {
 	//Logger::setType(Logger::kTypeConsole);
 	//Logger::setLevel(Logger::kDebug);
@@ -77,7 +77,7 @@ void Tests::testStateThread()
 	SimpleStateThread threadAutoKill(true);
 	CPPUNIT_ASSERT( threadAutoKill.isIdle() );
 	threadAutoKill.start();
-	uSleep(10);
+	uSleep(15);
 	CPPUNIT_ASSERT( threadAutoKill.isKilled() );
 	threadAutoKill.kill();
 	CPPUNIT_ASSERT( threadAutoKill.isKilled() );
@@ -90,6 +90,12 @@ void Tests::testStateThread()
 	threadA->kill();
 	CPPUNIT_ASSERT( threadA->isKilled() );
 	delete threadA;
+
+	//Test join
+	SimpleStateThread threadToJoin(true);
+	threadToJoin.start();
+	threadToJoin.join();
+	CPPUNIT_ASSERT( threadToJoin.isKilled() );
 }
 
 void Tests::testSemaphore()

@@ -142,6 +142,12 @@ public:
 	 */
 	void kill();
 
+	/**
+	 * The caller thread will wait until this thread has finished.
+	 * TODO param timeout the maximum time to wait (0 is infinite)
+	 */
+	void join();
+
     /**
      * Set the thread priority.
      * @param priority the priority
@@ -227,6 +233,7 @@ private:
     unsigned long threadId_; /**< The thread id. */
 #endif
     UMutex killSafelyMutex_;	/**< Mutex used to protect the kill() method. */
+    UMutex runningMutex_;	    /**< Mutex used to notify the join method when the thread has finished. */
 };
 
 #endif // UTHREADNODE_H
