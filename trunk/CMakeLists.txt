@@ -7,7 +7,7 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules")
 #######################
 # VERSION
 #######################
-SET(UTILITE_VERSION "0.2.6")
+SET(UTILITE_VERSION "0.2.7")
 
 STRING(REGEX MATCHALL "[0-9]" UTILITE_VERSION_PARTS "${UTILITE_VERSION}")
 
@@ -16,6 +16,8 @@ LIST(GET UTILITE_VERSION_PARTS 1 UTILITE_VERSION_MINOR)
 LIST(GET UTILITE_VERSION_PARTS 2 UTILITE_VERSION_PATCH)
 
 SET(UTILITE_SOVERSION "${UTILITE_VERSION_MAJOR}.${UTILITE_VERSION_MINOR}")
+
+CONFIGURE_FILE(FindUtiLite.cmake.in FindUtiLite.cmake @ONLY)
 
 #######################
 # COMPILATION PARAMS
@@ -46,12 +48,10 @@ ENDIF(MINGW)
 
 # GCC 4 required
 IF(UNIX OR MINGW)
-    INCLUDE("${CMAKE_MODULE_PATH}/CompareVersionStrings.cmake")
     EXEC_PROGRAM( gcc ARGS "-dumpversion" OUTPUT_VARIABLE GCC_VERSION )
-    COMPARE_VERSION_STRINGS("${GCC_VERSION}" "4.0.0" result)
-    IF(result LESS 0)
+    IF(GCC_VERSION VERSION_LESS "4.0.0")
         MESSAGE(FATAL_ERROR "GCC ${GCC_VERSION} found, but version 4.x.x minimum is required")
-    ENDIF(result LESS 0)
+    ENDIF(GCC_VERSION VERSION_LESS "4.0.0")
 ENDIF(UNIX OR MINGW)
 
 #The CDT Error Parser cannot handle error messages that span 
@@ -148,6 +148,9 @@ set(CPACK_SOURCE_IGNORE_FILES
   "\\\\.DS_Store"
 )
 
+# Share files
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/FindUtiLite.cmake DESTINATION share/${PROJECT_NAME} COMPONENT devel)
+
 IF(WIN32)
   #include mingw dependencies in the package
   # A cleaner way could be to use BundleUtilities from cmake but 
@@ -176,8 +179,6 @@ IF(WIN32)
   SET(CPACK_NSIS_CONTACT "matlabbe@gmail.com")
   
   SET(CPACK_NSIS_MODIFY_PATH ON)
-  
-  INSTALL(FILES ./cmake_modules/FindUtiLite.cmake DESTINATION bin COMPONENT devel)
   
 ELSEIF(APPLE)
   SET(CPACK_GENERATOR "PackageMaker;TBZ2")
