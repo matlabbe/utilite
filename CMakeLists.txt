@@ -7,7 +7,7 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules")
 #######################
 # VERSION
 #######################
-SET(UTILITE_VERSION "0.2.7")
+SET(UTILITE_VERSION "0.2.8")
 
 STRING(REGEX MATCHALL "[0-9]" UTILITE_VERSION_PARTS "${UTILITE_VERSION}")
 

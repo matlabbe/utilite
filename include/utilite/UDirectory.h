@@ -77,6 +77,7 @@ public:
 	void update();
 	bool isValid();
 	std::string getNextFileName();
+	const std::list<std::string> & getFileNames() const {return fileNames_;}
 	void rewind();
 
 private:
