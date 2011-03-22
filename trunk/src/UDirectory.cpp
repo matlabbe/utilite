@@ -66,8 +66,8 @@ UDirectory::UDirectory(const std::string & path, const std::string & extensions)
 {
 	extensions_ = uListToVector(uSplit(extensions, ' '));
 	path_ = path;
-	this->update();
 	iFileName_ = fileNames_.begin();
+	this->update();
 }
 
 UDirectory::~UDirectory()
@@ -78,6 +78,19 @@ void UDirectory::update()
 {
 	if(exists(path_))
 	{
+		std::string lastName;
+		bool endOfDir = false;
+		if(iFileName_ != fileNames_.end())
+		{
+			//Record the last file name
+			lastName = *iFileName_;
+		}
+		else if(fileNames_.size())
+		{
+			lastName = *fileNames_.rbegin();
+			endOfDir = true;
+		}
+		fileNames_.clear();
 #ifdef WIN32
 		WIN32_FIND_DATA fileInformation;
 		HANDLE hFile  = ::FindFirstFile((path_+"\\*").c_str(), &fileInformation);
@@ -137,6 +150,27 @@ void UDirectory::update()
 			}
 		}
 		iFileName_ = fileNames_.begin();
+		if(!lastName.empty())
+		{
+			bool found = false;
+			for(std::list<std::string>::iterator iter=fileNames_.begin(); iter!=fileNames_.end(); ++iter)
+			{
+				if(lastName.compare(*iter) == 0)
+				{
+					found = true;
+					iFileName_ = iter;
+					break;
+				}
+			}
+			if(endOfDir && found)
+			{
+				++iFileName_;
+			}
+			else if(endOfDir && fileNames_.size())
+			{
+				iFileName_ = --fileNames_.end();
+			}
+		}
 	}
 }
 

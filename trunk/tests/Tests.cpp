@@ -576,11 +576,14 @@ void Tests::testDirectory()
 	UDirectory dir("./data", "x");
 	std::vector<std::string> fileNames = uListToVector(uSplit("1.x 2.x 10.x 11.x 101.x", ' '));
 	unsigned int i=0;
+	CPPUNIT_ASSERT(dir.getFileNames().size() == 5);
 	for(; i<fileNames.size(); ++i)
 	{
 		std::string next = dir.getNextFileName();
 		CPPUNIT_ASSERT(fileNames[i].compare(next) == 0);
 	}
+	dir.update();
+	CPPUNIT_ASSERT(dir.getNextFileName().compare("") == 0);
 	CPPUNIT_ASSERT(i == 5);
 }
 
