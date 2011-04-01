@@ -304,14 +304,10 @@ inline bool uContains(const std::multimap<K, V> & map, const K & key)
 template<class K, class V>
 inline void uInsert(std::map<K, V> & map, const std::pair<K, V> & pair)
 {
-	typename std::map<K, V>::iterator iter = map.find(pair.first);
-	if(iter != map.end())
+	std::pair<typename std::map<K, V>::iterator, bool> inserted = map.insert(pair);
+	if(inserted.second == false)
 	{
-		iter->second = pair.second;
-	}
-	else
-	{
-		map.insert(pair);
+		inserted.first->second = pair.second;
 	}
 }
 

@@ -194,4 +194,14 @@ unsigned char UTILITE_EXP uHex2ascii(const unsigned char & c, bool rightPart);
  */
 unsigned char UTILITE_EXP uAscii2hex(const unsigned char & c);
 
+/**
+ * Format a string like printf, and return it as a std::string
+ */
+std::string UTILITE_EXP uFormatv (const char *fmt, va_list ap);
+
+/**
+ * Format a string like printf, and return it as a std::string
+ */
+std::string UTILITE_EXP uFormat (const char *fmt, ...);
+
 #endif /* UCONVERSION_H */
