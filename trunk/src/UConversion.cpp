@@ -229,3 +229,54 @@ unsigned char uAscii2hex(const unsigned char & c)
 		return 0x00;
 	}
 }
+
+std::string uFormatv (const char *fmt, va_list args)
+{
+    // Allocate a buffer on the stack that's big enough for us almost
+    // all the time.  Be prepared to allocate dynamically if it doesn't fit.
+    size_t size = 1024;
+    std::vector<char> dynamicbuf(size);
+    char *buf = &dynamicbuf[0];
+
+    va_list argsTmp;
+
+    while (1) {
+    	va_copy(argsTmp, args);
+
+        // Try to vsnprintf into our buffer.
+    	int needed;
+    	if(argsTmp != 0)
+    	{
+        	needed = vsnprintf (buf, size, fmt, argsTmp);
+    	}
+    	else
+    	{
+    		needed = snprintf (buf, size, "%s", fmt);
+    	}
+    	va_end(argsTmp);
+        // NB. C99 (which modern Linux and OS X follow) says vsnprintf
+        // failure returns the length it would have needed.  But older
+        // glibc and current Windows return -1 for failure, i.e., not
+        // telling us how much was needed.
+        if (needed < (int)size-1 && needed >= 0) {
+            // It fit fine so we're done.
+            return std::string (buf, (size_t) needed);
+        }
+
+        // vsnprintf reported that it wanted to write more characters
+        // than we allotted.  So try again using a dynamic buffer.  This
+        // doesn't happen very often if we chose our initial size well.
+        size = needed>=0?needed+2:size*2;
+        dynamicbuf.resize (size);
+        buf = &dynamicbuf[0];
+    }
+}
+
+std::string uFormat (const char *fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	std::string buf = uFormatv(fmt, args);
+	va_end(args);
+    return buf;
+}

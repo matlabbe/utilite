@@ -38,22 +38,23 @@
 #define COLOR_YELLOW "\033[33m"
 #endif
 
-bool ULogger::_append = true;
+bool ULogger::append_ = true;
 bool ULogger::printTime_ = true;
 bool ULogger::printLevel_ = true;
 bool ULogger::printEndline_ = true;
 bool ULogger::printWhere_ = true;
 bool ULogger::printWhereFullPath_ = false;
 bool ULogger::limitWhereLength_ = false;
+bool ULogger::buffered_ = false;
 ULogger::Level ULogger::level_ = kInfo; // By default, we show all info msgs + upper level (Warning, Error)
 const char * ULogger::levelName_[5] = {"DEBUG", " INFO", " WARN", "ERROR", "FATAL"};
 ULogger* ULogger::instance_ = 0;
 UDestroyer<ULogger> ULogger::destroyer_;
 ULogger::Type ULogger::type_ = ULogger::kTypeNoLog; // Default nothing
-UMutex ULogger::writeMutex_;
+UMutex ULogger::loggerMutex_;
 const std::string ULogger::kDefaultLogFileName = "./ULog.txt";
-std::string ULogger::_logFileName;
-UMutex ULogger::instanceMutex_;
+std::string ULogger::logFileName_;
+std::string ULogger::bufferedMsgs_;
 
 
 /**
@@ -168,39 +169,41 @@ private:
 private:
     std::string fileName_; ///< the file name
     FILE* fout_;
+    std::string bufferedMsgs_;
 };
 
 void ULogger::setType(Type type, const std::string &fileName, bool append)
 {
-    instanceMutex_.lock();
+	ULogger::flush();
+    loggerMutex_.lock();
     {
 		// instance not yet created
 		if(!instance_)
 		{
 			type_ = type;
-			_logFileName = fileName;
-			_append = append;
+			logFileName_ = fileName;
+			append_ = append;
 			instance_ = createInstance();
 		}
 		// type changed
-		else if(type_ != type || (type_ == kTypeFile && _logFileName.compare(fileName)!=0))
+		else if(type_ != type || (type_ == kTypeFile && logFileName_.compare(fileName)!=0))
 		{
 			destroyer_.setDoomed(0);
 			delete instance_;
 			instance_ = 0;
 			type_ = type;
-			_logFileName = fileName;
-			_append = append;
+			logFileName_ = fileName;
+			append_ = append;
 			instance_ = createInstance();
 		}
     }
-    instanceMutex_.unlock();
+    loggerMutex_.unlock();
 }
 
 void ULogger::reset()
 {
 	ULogger::setType(ULogger::kTypeNoLog);
-	_append = true;
+	append_ = true;
 	printTime_ = true;
 	printLevel_ = true;
 	printEndline_ = true;
@@ -208,18 +211,41 @@ void ULogger::reset()
 	printWhereFullPath_ = false;
 	limitWhereLength_ = false;
 	level_ = kInfo; // By default, we show all info msgs + upper level (Warning, Error)
-	_logFileName = ULogger::kDefaultLogFileName;
+	logFileName_ = ULogger::kDefaultLogFileName;
+}
+
+void ULogger::setBuffered(bool buffered)
+{
+	if(!buffered)
+	{
+		ULogger::flush();
+	}
+	buffered_ = buffered;
+}
+
+
+void ULogger::flush()
+{
+	loggerMutex_.lock();
+	if(!instance_ || bufferedMsgs_.size()==0)
+	{
+		loggerMutex_.unlock();
+		return;
+	}
+
+	ULogger::getInstance()->_write(bufferedMsgs_.c_str(), 0);
+	bufferedMsgs_.clear();
+	loggerMutex_.unlock();
 }
 
 void ULogger::write(const char* msg, ...)
 {
-	instanceMutex_.lock();
+	loggerMutex_.lock();
 	if(!instance_)
 	{
-		instanceMutex_.unlock();
+		loggerMutex_.unlock();
 		return;
 	}
-	instanceMutex_.unlock();
 
     std::string endline = "";
     if(printEndline_) {
@@ -234,14 +260,41 @@ void ULogger::write(const char* msg, ...)
     }
 
 
-    writeMutex_.lock();
-    if(printTime_) ULogger::getInstance()->_write(time.c_str(), 0);
+    if(printTime_)
+    {
+    	if(buffered_)
+    	{
+    		bufferedMsgs_.append(time.c_str());
+    	}
+    	else
+    	{
+    		ULogger::getInstance()->_write(time.c_str(), 0);
+    	}
+    }
+
     va_list args;
     va_start(args, msg);
-    ULogger::getInstance()->_write(msg, args);
+    if(buffered_)
+    {
+    	bufferedMsgs_.append(uFormatv(msg, args));
+    }
+	else
+	{
+		ULogger::getInstance()->_write(msg, args);
+	}
     va_end(args);
-    if(printEndline_) ULogger::getInstance()->_write(endline.c_str(), 0);
-    writeMutex_.unlock();
+    if(printEndline_)
+    {
+    	if(buffered_)
+    	{
+    		bufferedMsgs_.append(endline.c_str());
+    	}
+    	else
+    	{
+    		ULogger::getInstance()->_write(endline.c_str(), 0);
+    	}
+    }
+    loggerMutex_.unlock();
 
 } 
 
@@ -252,15 +305,14 @@ void ULogger::write(ULogger::Level level,
 		const char* msg,
 		...)
 {
-	instanceMutex_.lock();
+	loggerMutex_.lock();
 	if(!instance_ ||
 	   (strlen(msg) == 0 && !printWhere_))
 	{
-		instanceMutex_.unlock();
+		loggerMutex_.unlock();
 		// No need to show an empty message if we don't print where.
 		return;
 	}
-	instanceMutex_.unlock();
 
     if(level >= level_)
     {
@@ -355,45 +407,88 @@ void ULogger::write(ULogger::Level level,
 			whereStr.append(" ");
 		}
 
-		writeMutex_.lock();
+		va_list args;
+		va_start(args, msg);
+#ifdef WIN32
+		HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
+#endif
+		if(type_ == ULogger::kTypeConsole)
 		{
-			va_list args;
-			va_start(args, msg);
 #ifdef WIN32
-			HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
-#endif
-			if(type_ == ULogger::kTypeConsole)
-			{
-#ifdef WIN32
-				SetConsoleTextAttribute(H,color);
+			SetConsoleTextAttribute(H,color);
 #else
-				ULogger::getInstance()->_write(color, 0);
-#endif
+			if(buffered_)
+			{
+				bufferedMsgs_.append(color);
 			}
+			else
+			{
+				ULogger::getInstance()->_write(color, 0);
+			}
+#endif
+		}
+		if(buffered_)
+		{
+			bufferedMsgs_.append(levelStr.c_str());
+			bufferedMsgs_.append(time.c_str());
+			bufferedMsgs_.append(whereStr.c_str());
+			bufferedMsgs_.append(uFormatv(msg, args));
+		}
+		else
+		{
 			ULogger::getInstance()->_write(levelStr.c_str(), 0);
 			ULogger::getInstance()->_write(time.c_str(), 0);
 			ULogger::getInstance()->_write(whereStr.c_str(), 0);
 			ULogger::getInstance()->_write(msg, args);
-			if(type_ == ULogger::kTypeConsole)
-			{
-#ifdef WIN32
-				SetConsoleTextAttribute(H,COLOR_NORMAL);
-#else
-				ULogger::getInstance()->_write(COLOR_NORMAL, 0);
-#endif
-			}
-			ULogger::getInstance()->_write(endline.c_str(), 0);
-			va_end (args);
 		}
-		writeMutex_.unlock();
+		if(type_ == ULogger::kTypeConsole)
+		{
+#ifdef WIN32
+			SetConsoleTextAttribute(H,COLOR_NORMAL);
+#else
+			if(buffered_)
+			{
+				bufferedMsgs_.append(COLOR_NORMAL);
+			}
+			else
+			{
+				ULogger::getInstance()->_write(COLOR_NORMAL, 0);
+			}
+#endif
+		}
+		if(buffered_)
+		{
+			bufferedMsgs_.append(endline.c_str());
+		}
+		else
+		{
+			ULogger::getInstance()->_write(endline.c_str(), 0);
+		}
+		va_end (args);
+
 
 		if(level == kFatal)
 		{
-			printf("\n*******\nFatal error occured!\n*******\n");
-			printf("  %s%s%s%s\n", levelStr.c_str(), time.c_str(), whereStr.c_str(), msg);
+			printf("\n*******\nFatal error occured!\n");
+			printf("  %s%s%s", levelStr.c_str(), time.c_str(), whereStr.c_str());
+			va_start(args, msg);
+			if(args != 0)
+			{
+				vprintf(msg, args);
+			}
+			else
+			{
+				printf("%s", msg);
+			}
+			va_end(args);
+			printf("\n*******\n");
+			destroyer_.setDoomed(0);
+			delete instance_; // If a FileLogger is used, this will close the file.
+			instance_ = 0;
 			exit(1);
 		}
     }
+    loggerMutex_.unlock();
 }
 
 int ULogger::getTime(std::string &timeStr)
@@ -439,14 +534,10 @@ int ULogger::getTime(std::string &timeStr)
 
 ULogger* ULogger::getInstance()
 {
-    instanceMutex_.lock();
-    {
-        if(!instance_)
-        {
-            instance_ = createInstance();
-        }
-    }
-    instanceMutex_.unlock();
+	if(!instance_)
+	{
+		instance_ = createInstance();
+	}
     return instance_;
 }
 
@@ -459,7 +550,7 @@ ULogger* ULogger::createInstance()
     }
     else if(type_ == ULogger::kTypeFile)
     {
-        instance = new UFileLogger(_logFileName, _append);
+        instance = new UFileLogger(logFileName_, append_);
     }
     destroyer_.setDoomed(instance);
     return instance;
@@ -467,6 +558,7 @@ ULogger* ULogger::createInstance()
 
 ULogger::~ULogger() 
 {
+	this->flush();
     instance_ = 0;
     //printf("Logger is destroyed...\n\r");
 }

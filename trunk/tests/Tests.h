@@ -16,6 +16,7 @@ class Tests : public CppUnit::TestFixture  {
   CPPUNIT_TEST( testSemaphore );
   CPPUNIT_TEST( testEventsManager );
   //CPPUNIT_TEST( testConsoleLogger );
+  CPPUNIT_TEST( testFileLogger );
   CPPUNIT_TEST( testConversion );
   CPPUNIT_TEST( testUtilStl );
   CPPUNIT_TEST( testDirectory );
@@ -29,6 +30,7 @@ private:
 public:
   static const char* TEST_OUTPUT;
   static const char* LOG_FILE_NAME;
+  static const char* FILE_LOGGER_TEST_FILE;
 
   void setUp()
   {
@@ -55,6 +57,7 @@ public:
   void testSemaphore();
   void testEventsManager();
   void testConsoleLogger();
+  void testFileLogger();
   void testConversion();
   void testUtilStl();
   void testDirectory();

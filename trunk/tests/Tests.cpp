@@ -22,6 +22,7 @@
 
 const char* Tests::TEST_OUTPUT = "Program started...ThreadB received a msg : \" Sweet !!! what is wrote on my back ? \"ThreadA received a msg : \" Dude !!! what is wrote on my back ? \"Killing threads...";
 const char* Tests::LOG_FILE_NAME = "./TestUtilitiesLib.txt";
+const char* Tests::FILE_LOGGER_TEST_FILE = "./TestFileLogger.txt";
 
 CPPUNIT_TEST_SUITE_REGISTRATION( Tests );
 
@@ -220,6 +221,22 @@ void Tests::testConsoleLogger()
 	ULogger::write(" << Hello world! >> ");
 	ULogger::write(" << Hello world2! >> ");
 	ULogger::write("%s", " << Hello world3! >> ");
+}
+
+void Tests::testFileLogger()
+{
+	/* Set logger type */
+	ULogger::setBuffered(false);
+	ULogger::setType(ULogger::kTypeFile, FILE_LOGGER_TEST_FILE, false);
+	ULogger::setLevel(ULogger::kInfo);
+	UINFO("start");
+	ULogger::setBuffered(true);
+	std::string longStr(1026, '#'); // size over fixed default size of 1024
+	longStr.append(std::string("%f %d, %s"));
+	UINFO(longStr.c_str(), 0.12345, 42, "test");
+	UINFO("Small string without arguments");
+	ULogger::flush();
+	ULogger::setBuffered(false);
 }
 
 void Tests::testConversion()
@@ -497,6 +514,14 @@ void Tests::testUtilStl()
 	CPPUNIT_ASSERT( uContains(multimap, 1) == false );
 	multimap.insert(std::pair<int,int>(1,10));
 	CPPUNIT_ASSERT( uContains(multimap, 1) == true );
+
+	//void uInsert(std::map<K, V> & map, const std::pair<K, V> & pair)
+	map.clear();
+	map.insert(std::pair<int, int>(1, 2));
+	map.insert(std::pair<int, int>(1, 3));
+	CPPUNIT_ASSERT( map.size() == 1 && uValue(map, 1) == 2 );
+	uInsert(map, std::pair<int, int>(1, 3));
+	CPPUNIT_ASSERT( map.size() == 1 && uValue(map, 1) == 3 );
 
 	//std::vector<V> uListToVector(const std::list<V> & list)
 	list.clear();

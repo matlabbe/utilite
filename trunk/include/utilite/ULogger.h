@@ -99,6 +99,7 @@ public:
     static void setPrintEndline(bool printEndline) {printEndline_ = printEndline;}
     static void setPrintWhere(bool printWhere) {printWhere_ = printWhere;}
     static void setPrintWhereFullPath(bool printWhereFullPath) {printWhereFullPath_ = printWhereFullPath;}
+    static void setBuffered(bool buffered);
 
     /**
      * Set logger level
@@ -111,10 +112,15 @@ public:
     static void reset();
 
     /**
+	 * Flush buffered messages
+	 */
+	static void flush();
+
+    /**
      * Write a message on the output with the format :
-     * "2008-7-13 12:23:44 - A message". It automaticaly 
-     * gets the static instance of the Logger and calls 
-     * his private function _write(). It can be used like 
+     * "2008-7-13 12:23:44 - A message". It automaticaly
+     * gets the static instance of the Logger and calls
+     * his private function _write(). It can be used like
      * a printf.
      * @see _write()
      * @param msg the message to write.
@@ -154,6 +160,7 @@ protected:
      * This method is used to have a reference on the 
      * Logger. When no Logger exists, one is 
      * created. There is only one instance in the application.
+     * Must be protected by loggerMutex_.
      * See the Singleton pattern for further explanation.
      *
      * @return the reference on the Logger
@@ -186,12 +193,12 @@ protected:
     /**
      * The log file name.
      */
-    static std::string _logFileName;
+    static std::string logFileName_;
 
     /**
      * Default true, it doesn't overwrite the file.
      */
-    static bool _append;
+    static bool append_;
     
 private:
     /**
@@ -276,14 +283,17 @@ private:
     static const char * levelName_[5];
 
     /**
-     * Mutex used when writing.
+     * Mutex used when accessing public functions.
      */
-    static UMutex writeMutex_;
+    static UMutex loggerMutex_;
 
     /**
-     * Mutex used when a logger is created.
-     */
-    static UMutex instanceMutex_;
+	 * If the logger prints messages only when ULogger::flush() is called.
+	 * Default is false.
+	 */
+	static bool buffered_;
+
+	static std::string bufferedMsgs_;
 };
 
 #endif // ULOGGER_H
