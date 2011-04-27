@@ -21,6 +21,7 @@
 #include "utilite/UConversion.h"
 #include "utilite/UFile.h"
 #include "utilite/UStl.h"
+#include "utilite/UEventsManager.h"
 #include <fstream>
 #include <string>
 #include <string.h>
@@ -47,6 +48,8 @@ bool ULogger::printWhereFullPath_ = false;
 bool ULogger::limitWhereLength_ = false;
 bool ULogger::buffered_ = false;
 ULogger::Level ULogger::level_ = kInfo; // By default, we show all info msgs + upper level (Warning, Error)
+ULogger::Level ULogger::exitLevel_ = kFatal;
+ULogger::Level ULogger::eventLevel_ = kFatal;
 const char * ULogger::levelName_[5] = {"DEBUG", " INFO", " WARN", "ERROR", "FATAL"};
 ULogger* ULogger::instance_ = 0;
 UDestroyer<ULogger> ULogger::destroyer_;
@@ -56,14 +59,13 @@ const std::string ULogger::kDefaultLogFileName = "./ULog.txt";
 std::string ULogger::logFileName_;
 std::string ULogger::bufferedMsgs_;
 
-
 /**
  * This class is used to write logs in the console.
  */
 class UTILITE_EXP UConsoleLogger : public ULogger
 {
 public :
-    virtual ~UConsoleLogger() {}
+    virtual ~UConsoleLogger() {this->_flush();}
 
 protected:
     /**
@@ -102,6 +104,7 @@ class UTILITE_EXP UFileLogger : public ULogger
 public:
     virtual ~UFileLogger()
     {
+    	this->_flush();
     	if(fout_)
     	{
     		fclose(fout_);
@@ -233,9 +236,14 @@ void ULogger::flush()
 		return;
 	}
 
+	instance_->_flush();
+	loggerMutex_.unlock();
+}
+
+void ULogger::_flush()
+{
 	ULogger::getInstance()->_write(bufferedMsgs_.c_str(), 0);
 	bufferedMsgs_.clear();
-	loggerMutex_.unlock();
 }
 
 void ULogger::write(const char* msg, ...)
@@ -466,10 +474,34 @@ void ULogger::write(ULogger::Level level,
 		}
 		va_end (args);
 
-
-		if(level == kFatal)
+		if(level >= eventLevel_)
 		{
-			printf("\n*******\nFatal error occured!\n");
+			std::string fullMsg = uFormat("%s%s%s", levelStr.c_str(), time.c_str(), whereStr.c_str());
+			va_start(args, msg);
+			if(args != 0)
+			{
+				fullMsg.append(uFormatv(msg, args));
+			}
+			else
+			{
+				fullMsg.append(msg);
+			}
+			va_end(args);
+			if(level >= exitLevel_)
+			{
+				// Send it synchronously, then receivers
+				// can do something before the code (exiting) below is executed.
+				UEventsManager::post(new ULogEvent(fullMsg, kFatal), false);
+			}
+			else
+			{
+				UEventsManager::post(new ULogEvent(fullMsg, level));
+			}
+		}
+
+		if(level >= exitLevel_)
+		{
+			printf("\n*******\n%s message occured!\n", levelName_[level]);
 			printf("  %s%s%s", levelStr.c_str(), time.c_str(), whereStr.c_str());
 			va_start(args, msg);
 			if(args != 0)
@@ -485,7 +517,10 @@ void ULogger::write(ULogger::Level level,
 			destroyer_.setDoomed(0);
 			delete instance_; // If a FileLogger is used, this will close the file.
 			instance_ = 0;
+			//========================================================================
+			//                          EXIT APPLICATION
 			exit(1);
+			//========================================================================
 		}
     }
     loggerMutex_.unlock();
@@ -558,7 +593,6 @@ ULogger* ULogger::createInstance()
 
 ULogger::~ULogger() 
 {
-	this->flush();
     instance_ = 0;
     //printf("Logger is destroyed...\n\r");
 }

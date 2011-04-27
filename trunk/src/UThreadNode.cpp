@@ -41,60 +41,64 @@ void UThreadNode::kill()
     ULOGGER_DEBUG("");
     killSafelyMutex_.lock();
     {
-    	if(state_ == kSCreating)
-		{
-    		ULOGGER_DEBUG("thread is creating...(caller %d is waiting)", UThread<void>::Self());
-			while(state_ == kSCreating)
+    	if(this->isRunning())
+    	{
+    		// Thread is creating
+    		while(state_ == kSCreating || handle_ == 0 || threadId_ == 0)
 			{
-				uSleep(10);
+				uSleep(1);
 			}
-		}
 
-        if(state_ == kSRunning)
-        {
-            state_ = kSKilled;
+			if(state_ == kSRunning)
+			{
+				state_ = kSKilled;
 
-            // Call function to do something before wait
-            killCleanup();
+				// Call function to do something before wait
+				killCleanup();
 
-            // No need to wait if the thread destroys itself
-#if WIN32
-            if(UThread<void>::Self() != threadId_)
-#else
-            if(UThread<void>::Self() != handle_)
-#endif
-            {
-            	if(threadId_ && handle_)
-            	{
-					ULOGGER_DEBUG("Thread %d joins the thread (%d)", UThread<void>::Self(), threadId_);
-					THREAD_HANDLE h = handle_;
-					int id = threadId_;
-					killSafelyMutex_.unlock();
-					if(this->Join(h))
+				// No need to wait if the thread destroys itself
+	#if WIN32
+				if(UThread<void>::Self() != threadId_)
+	#else
+				if(UThread<void>::Self() != handle_)
+	#endif
+				{
+					if(threadId_ && handle_)
 					{
-						ULOGGER_ERROR("Joining thread (%d) by %d failed", id, UThread<void>::Self());
+						ULOGGER_DEBUG("Thread %d joins the thread (%d)", UThread<void>::Self(), threadId_);
+						THREAD_HANDLE h = handle_;
+						int id = threadId_;
+						killSafelyMutex_.unlock();
+						if(this->Join(h))
+						{
+							ULOGGER_ERROR("Joining thread (%d) by %d failed", id, UThread<void>::Self());
+						}
+						killSafelyMutex_.lock();
 					}
-					killSafelyMutex_.lock();
-            	}
-            	else
-            	{
-            		ULOGGER_ERROR("This thread killed by %d is already dead?!?", UThread<void>::Self());
-            	}
-            }
-            else
-            {
+					else
+					{
+						ULOGGER_ERROR("This thread killed by %d is already dead?!? (threadId_=%d, handle_=%d)", UThread<void>::Self(), threadId_, handle_);
+					}
+				}
+				else
+				{
 #if WIN32
-            	ULOGGER_DEBUG("killed itself (%d)", threadId_);
+					ULOGGER_DEBUG("killed itself (%d)", threadId_);
 #else
-            	UThread<void>::Detach(handle_); // free pthread allocation
-            	ULOGGER_DEBUG("killed itself (%d)", handle_);
+					UThread<void>::Detach(handle_); // free pthread allocation
+					ULOGGER_DEBUG("killed itself (%d)", handle_);
 #endif
-            }
-        }
-        else
-        {
-        	ULOGGER_DEBUG("thread (%d) not running...", threadId_);
-        }
+				}
+			}
+			else
+			{
+				UERROR("thread (%d) is supposed to be running...", threadId_);
+			}
+    	}
+    	else
+    	{
+    		UDEBUG("thread (%d) is not running...", threadId_);
+    	}
     }
     handle_ = 0;
     threadId_ = 0;
@@ -105,7 +109,7 @@ void UThreadNode::join()
 {
 	while(state_ == kSCreating)
 	{
-		uSleep(10);
+		uSleep(1);
 	}
 	runningMutex_.lock();
 	runningMutex_.unlock();
