@@ -8,6 +8,16 @@
  * Example of the producer-consumer problem.
  */
 
+// A simple event
+class SimpleEvent : public UEvent
+{
+public:
+	SimpleEvent(int level) :
+		UEvent(level) {}
+	virtual ~SimpleEvent() {}
+	virtual std::string getClassName() const {return "SimpleEvent";}
+};
+
 // The Producer class
 class Producer : public UThreadNode
 {
@@ -23,9 +33,9 @@ public:
 
 protected:
 	virtual void mainLoop() {
-		UINFO("%s posting %d", name_.c_str(), count_);
-		UEventsManager::post(new UEvent(count_++));
 		uSleep(rate_);
+		UINFO("%s posting %d", name_.c_str(), count_);
+		UEventsManager::post(new SimpleEvent(count_++));
 	}
 
 private:
@@ -43,7 +53,10 @@ public:
 
 protected:
 	virtual void handleEvent(UEvent * event) {
-		UINFO("Consumer received %d", event->getCode());
+		if(event->getClassName().compare("SimpleEvent"))
+		{
+			UINFO("Consumer received %d", event->getCode());
+		}
 	}
 };
 

@@ -37,12 +37,6 @@ class UEventsHandler;
  */
 class UTILITE_EXP UEvent{
 public:
-    /**
-     * @param code the event code.
-     * TODO : Remove the code, not required for most of all implemented events
-     */
-    UEvent(int code = 0) : code_(code) {}
-
     virtual ~UEvent() {}
 
     /**
@@ -52,11 +46,16 @@ public:
      * "MouseEvent" string.
      * @return std::string the class name
      */
-    virtual std::string getClassName() const {return "UEvent";} // TODO : macro?
+    virtual std::string getClassName() const = 0; // TODO : macro?
 
     int getCode() const {return code_;}
 
 protected:
+    /**
+	 * @param code the event code.
+	 * TODO : Remove the code, not required for most of all implemented events
+	 */
+	UEvent(int code = 0) : code_(code) {}
 
 private:
     int code_; /**< The event's code. */

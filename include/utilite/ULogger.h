@@ -24,6 +24,7 @@
 
 #include "utilite/UMutex.h"
 #include "utilite/UDestroyer.h"
+#include "utilite/UEvent.h"
 
 #include <stdio.h>
 #include <time.h>
@@ -48,6 +49,23 @@
 #define UWARN(...) 	  ULOGGER_WARN(__VA_ARGS__)
 #define UERROR(...)   ULOGGER_ERROR(__VA_ARGS__)
 #define UFATAL(...)   ULOGGER_FATAL(__VA_ARGS__)
+
+/**
+ * This class is used to send logged messages like events.
+ */
+class UTILITE_EXP ULogEvent : public UEvent
+{
+public:
+	ULogEvent(const std::string & msg, int level) :
+		UEvent(level),
+		msg_(msg)
+	{}
+	virtual ~ULogEvent() {}
+	const std::string & getMsg() const {return msg_;}
+	virtual std::string getClassName() const {return "ULogEvent";}
+private:
+	std::string msg_;
+};
 
 /**
  * This class is used to log messages with time on a console, in a file 
@@ -105,6 +123,20 @@ public:
      * Set logger level
      */
     static void setLevel(ULogger::Level level) {level_ = level;}
+
+    /**
+	 * Make application to exit when a log with level is written (useful for debugging).
+	 * Note : A FATAL level will always exit whatever the level specified here.
+	 */
+	static void setExitLevel(ULogger::Level exitLevel) {exitLevel_ = exitLevel;}
+
+	/**
+	 * An ULogEvent is sent on each message logged at the specified level.
+	 * Note : On message with level >= exitLevel, the event is sent synchronously.
+	 * @see ULogEvent
+	 * @see setExitLevel()
+	 */
+	static void setEventLevel(ULogger::Level eventSentLevel) {eventLevel_ = eventSentLevel;}
 
     /**
      * reset default parameters of the Logger
@@ -180,6 +212,11 @@ protected:
      * @see Destroyer
      */
     virtual ~ULogger();
+
+    /**
+	 * Flush buffered messages
+	 */
+	void _flush();
 
     /**
      * A Destroyer is used to remove a dynamicaly created 
@@ -279,6 +316,17 @@ private:
 	 * The severity of the log.
 	 */
     static Level level_;
+
+    /**
+     * The severity at which the application exits.
+     * Note : A FATAL level will always exit whatever the level specified here.
+     */
+    static Level exitLevel_;
+
+    /**
+	 * The severity at which the message is also sent in a ULogEvent.
+	 */
+	static Level eventLevel_;
 
     static const char * levelName_[5];
 

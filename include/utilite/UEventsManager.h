@@ -85,7 +85,7 @@ public:
 
     /**
      * This method is used to add an events 
-     * handler to the list of handlers. It automaticaly 
+     * handler to the list of handlers. It automatically
      * gets the static instance of the EventsManager and calls 
      * his private function _addHandler().
      *
@@ -96,7 +96,7 @@ public:
 
     /**
      * This method is used to remove an events 
-     * handler from the list of handlers. It automaticaly 
+     * handler from the list of handlers. It automatically
      * gets the static instance of the EventsManager and calls 
      * his private function _removeHandler().
      *
@@ -107,12 +107,18 @@ public:
 
     /**
      * This method is used to post an event to
-     * handlers. It automaticaly gets the static 
+     * handlers. It automatically gets the static
      * instance of the EventsManager and calls 
      * his private function _postEvent().
      *
+     * Event can be posted asynchronously or not. In the first case,
+     * the event is dispatched by the EventsManager's thread. In the
+     * second case, the event is handled immediately by event's
+     * receivers, thus in the sender thread.
+     *
      * @see _postEvent()
      * @param anEvent the event to be posted.
+     * @param async if true, the event is dispatched in another thread
      */
     static void post(UEvent * event, bool async = true);
     
@@ -170,7 +176,7 @@ private:
     virtual void killCleanup();
 
     /**
-     * This method dispatches asynchronised events to all handlers.
+     * This method dispatches asynchronized events to all handlers.
      * FIFO (first in first out) dispatching is used.
      */
     virtual void dispatchEvents();
@@ -200,7 +206,13 @@ private:
      * This method is used to post an event to
      * handlers.
      *
+     * Event can be posted asynchronously or not. In the first case,
+     * the event is dispatched by the EventsManager's thread. In the
+     * second case, the event is handled immediately by event's
+     * receivers, thus in the sender thread.
+     *
      * @param anEvent the event to be posted.
+     * @param async if true, the event is dispatched in another thread
      */
     void _postEvent(UEvent * event, bool async = true);
     
