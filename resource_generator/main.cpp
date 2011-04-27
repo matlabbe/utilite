@@ -32,7 +32,8 @@ void showUsage()
 			"  Warning, it overwrites the target file\n"
 			"  Options:\n"
 			"     -n \"namespace\"      namespace used\n"
-			"     -p \"targetPath\"     target path where the file is created\n");
+			"     -p \"targetPath\"     target path where the file is created\n"
+			"     -v                    version of the UtiLite library\n");
 	exit(1);
 }
 
