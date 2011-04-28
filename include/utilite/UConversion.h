@@ -24,6 +24,7 @@
 
 #include <string>
 #include <vector>
+#include <stdarg.h>
 
 /**
  * Replace old characters in a string to new ones.
