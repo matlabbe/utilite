@@ -22,6 +22,7 @@
 
 #include <string>
 
+// It is the subclass's responsibility to delete the data
 class UVariant
 {
 public:
@@ -30,15 +31,15 @@ public:
 	virtual std::string className() const = 0;
 
 	template<class T>
-	const T data() const {
+	const T * data() const {
 		if(data_)
-			return (T)data_;
-		return (const T)constData_;
+			return (T*)data_;
+		return (const T*)constData_;
 	}
 
 	template<class T>
-	T takeDataOwnership() {
-		T data = (T)data_;
+	T * takeDataOwnership() {
+		T * data = (T*)data_;
 		constData_ = 0;
 		data_=0;
 		return data;
