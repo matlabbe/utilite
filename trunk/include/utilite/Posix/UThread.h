@@ -20,9 +20,10 @@
 inline void uSleep(unsigned int ms)
 {
 	struct timespec req;
-	struct timespec rem ={0};
+	struct timespec rem;
 	req.tv_sec = ms / 1000;
-	req.tv_nsec = (ms - req.tv_sec * 1000) * 1000 * 1000; nanosleep (&req, &rem);
+	req.tv_nsec = (ms - req.tv_sec * 1000) * 1000 * 1000;
+	nanosleep (&req, &rem);
 }
 
 
