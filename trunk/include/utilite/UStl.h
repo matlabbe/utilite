@@ -22,6 +22,7 @@
 
 #include <list>
 #include <map>
+#include <set>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -136,6 +137,24 @@ inline std::list<K> uKeysList(const std::map<K, V> & m)
 		l.push_back(iter->first);
 	}
 	return l;
+}
+
+/**
+ * Get all keys from a std::map.
+ * @param m the map
+ * @return the set of keys
+ */
+template<class K, class V>
+inline std::set<K> uKeysSet(const std::map<K, V> & m)
+{
+	std::set<K> s;
+	int i=0;
+	for(typename std::map<K, V>::const_iterator iter = m.begin(); iter!=m.end(); ++iter)
+	{
+		s.insert(s.end(), iter->first);
+		++i;
+	}
+	return s;
 }
 
 /**
