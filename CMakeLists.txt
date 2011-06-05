@@ -67,6 +67,24 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 # [Eclipse] Automatic Discovery of Include directories (Optional, but handy) 
 #SET(CMAKE_VERBOSE_MAKEFILE ON)
 
+####### SET RPATH #########
+# When RPATH is activated (supported on most UNIX systems), 
+# the user doesn't need to change LD_LIBRARY_PATH
+
+# use, i.e. don't skip the full RPATH for the build tree
+SET(CMAKE_SKIP_BUILD_RPATH  FALSE)
+
+# when building, don't use the install RPATH already
+# (but later on when installing)
+SET(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) 
+
+# the RPATH to be used when installing
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+
+# add the automatically determined parts of the RPATH
+# which point to directories outside the build tree to the install RPATH
+SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 #######################
 # Uninstall target, for "make uninstall"
 #######################
