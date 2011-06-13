@@ -22,7 +22,7 @@
 
 #include "utilite/UtiLiteExp.h" // DLL export/import defines
 
-#include <math.h>
+#include <cmath>
 #include <list>
 #include <vector>
 
@@ -246,6 +246,35 @@ template<class T>
 inline T uStdDev(const std::vector<T> & v, const T & m)
 {
 	return uStdDev(v.data(), v.size(), m);
+}
+
+/**
+ * Get the norm of the vector : return sqrt(x1*x1+ x2*x2 + x3*x3)
+ * @return the norm of the vector
+ */
+inline float uNorm(const std::vector<float> & v)
+{
+	float sum = 0.0f;
+	for(unsigned int i=0; i<v.size(); ++i)
+	{
+		sum += v[i]*v[i];
+	}
+	return std::sqrt(sum);
+}
+
+/**
+ * Normalize the vector : [x1 x2 x3 ...] ./ uNorm([x1 x2 x3 ...])
+ * @return the vector normalized
+ */
+inline std::vector<float> uNormalize(const std::vector<float> & v)
+{
+	float norm = uNorm(v);
+	std::vector<float> r(v.size());
+	for(unsigned int i=0; i<v.size(); ++i)
+	{
+		r[i] = v[i]/norm;
+	}
+	return r;
 }
 
 /**

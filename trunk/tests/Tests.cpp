@@ -718,6 +718,16 @@ void Tests::testMathFunctions()
 	//inline T stdDev(const std::vector<T> & v, const T & m)
 	CPPUNIT_ASSERT(uStdDev(std::vector<float>(), uMean(vF)) == 0);
 	CPPUNIT_ASSERT(int(uStdDev(vF, uMean(vF))*1000) == s);
+
+	vF[0]=3.0f;
+	vF[1]=4.0f;
+	vF[2]=0.0f;
+	vF[3]=0.0f;
+	//inline float uNorm(const std::vector<float> & v)
+	CPPUNIT_ASSERT(uNorm(vF) == 5.0f);
+	//inline std::vector<float> uNormalize(const std::vector<float> & v)
+	vF = uNormalize(vF);
+	CPPUNIT_ASSERT(uNorm(vF) == 1.0f);
 }
 
 void Tests::testTimer()
