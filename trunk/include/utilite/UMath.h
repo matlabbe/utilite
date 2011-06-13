@@ -269,12 +269,19 @@ inline float uNorm(const std::vector<float> & v)
 inline std::vector<float> uNormalize(const std::vector<float> & v)
 {
 	float norm = uNorm(v);
-	std::vector<float> r(v.size());
-	for(unsigned int i=0; i<v.size(); ++i)
+	if(norm == 0)
 	{
-		r[i] = v[i]/norm;
+		return v;
 	}
-	return r;
+	else
+	{
+		std::vector<float> r(v.size());
+		for(unsigned int i=0; i<v.size(); ++i)
+		{
+			r[i] = v[i]/norm;
+		}
+		return r;
+	}
 }
 
 /**
