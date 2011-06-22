@@ -727,7 +727,8 @@ void Tests::testMathFunctions()
 	CPPUNIT_ASSERT(uNorm(vF) == 5.0f);
 	//inline std::vector<float> uNormalize(const std::vector<float> & v)
 	vF = uNormalize(vF);
-	CPPUNIT_ASSERT(uNorm(vF) == 1.0f);
+	float rf = uNorm(vF);
+	CPPUNIT_ASSERT(rf >= 0.99f && rf <= 1.01f);
 }
 
 void Tests::testTimer()
