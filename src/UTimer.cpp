@@ -82,7 +82,7 @@ void UTimer::stop()
 }
 double UTimer::getElapsedTime()
 {
-	return UTimer::now() - double(startTimeRecorded_.tv_sec) + double(startTimeRecorded_.tv_usec) / 1000000.0;
+	return UTimer::now() - (double(startTimeRecorded_.tv_sec) + double(startTimeRecorded_.tv_usec) / 1000000.0);
 
 }
 double UTimer::getInterval()
