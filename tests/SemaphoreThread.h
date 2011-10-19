@@ -14,7 +14,7 @@ class SemaphoreThread : public UThreadNode
 {
 public:
 	SemaphoreThread(USemaphore * sem) : _sem(sem), _count(0) {}
-    virtual ~SemaphoreThread() {this->kill();}
+    virtual ~SemaphoreThread() {join(this);}
     int count() {return _count;}
 protected:
 

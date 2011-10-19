@@ -20,6 +20,50 @@
 #include "utilite/UThreadNode.h"
 #include "utilite/ULogger.h"
 
+#define PRINT_DEBUG 0
+
+void UThreadNode::join(UThreadNode * thread, bool killFirst)
+{
+	if(thread)
+	{
+		//make sure the thread is created
+		while(thread->isCreating())
+		{
+			uSleep(1);
+		}
+
+#if WIN32
+		if(PRINT_DEBUG)
+			UDEBUG("Thread %d joining %d", UThread<void>::Self(), thread->getThreadId());
+		if(UThread<void>::Self() == thread->getThreadId())
+#else
+		if(PRINT_DEBUG)
+			UDEBUG("Thread %d joining %d", UThread<void>::Self(), thread->getThreadHandle());
+		if(UThread<void>::Self() == thread->getThreadHandle())
+#endif
+		{
+			UERROR("Thread cannot join itself");
+			return;
+		}
+
+		if(killFirst)
+		{
+			thread->kill();
+		}
+
+		if(thread->getThreadHandle())
+		{
+			UThreadNode::Join(thread->getThreadHandle());
+		}
+		else if(PRINT_DEBUG)
+		{
+			UDEBUG("null thread");
+		}
+		if(PRINT_DEBUG)
+			UDEBUG("Join ended for %d", UThread<void>::Self());
+	}
+}
+
 ////////////////////////////
 // public:
 ////////////////////////////
@@ -33,12 +77,14 @@ UThreadNode::UThreadNode(Priority priority) :
 
 UThreadNode::~UThreadNode()
 {
-	ULOGGER_DEBUG("");
+	if(PRINT_DEBUG)
+		ULOGGER_DEBUG("");
 }
 
 void UThreadNode::kill()
 {
-    ULOGGER_DEBUG("");
+	if(PRINT_DEBUG)
+		ULOGGER_DEBUG("");
     killSafelyMutex_.lock();
     {
     	if(this->isRunning())
@@ -55,40 +101,6 @@ void UThreadNode::kill()
 
 				// Call function to do something before wait
 				killCleanup();
-
-				// No need to wait if the thread destroys itself
-	#if WIN32
-				if(UThread<void>::Self() != threadId_)
-	#else
-				if(UThread<void>::Self() != handle_)
-	#endif
-				{
-					if(threadId_ && handle_)
-					{
-						ULOGGER_DEBUG("Thread %d joins the thread (%d)", UThread<void>::Self(), threadId_);
-						THREAD_HANDLE h = handle_;
-						int id = threadId_;
-						killSafelyMutex_.unlock();
-						if(this->Join(h))
-						{
-							ULOGGER_ERROR("Joining thread (%d) by %d failed", id, UThread<void>::Self());
-						}
-						killSafelyMutex_.lock();
-					}
-					else
-					{
-						ULOGGER_ERROR("This thread killed by %d is already dead?!? (threadId_=%d, handle_=%d)", UThread<void>::Self(), threadId_, handle_);
-					}
-				}
-				else
-				{
-#if WIN32
-					ULOGGER_DEBUG("killed itself (%d)", threadId_);
-#else
-					UThread<void>::Detach(handle_); // free pthread allocation
-					ULOGGER_DEBUG("killed itself (%d)", handle_);
-#endif
-				}
 			}
 			else
 			{
@@ -97,33 +109,24 @@ void UThreadNode::kill()
     	}
     	else
     	{
-    		UDEBUG("thread (%d) is not running...", threadId_);
+    		if(PRINT_DEBUG)
+    			UDEBUG("thread (%d) is not running...", threadId_);
     	}
     }
-    handle_ = 0;
-    threadId_ = 0;
     killSafelyMutex_.unlock();
-}
-
-void UThreadNode::join()
-{
-	while(state_ == kSCreating)
-	{
-		uSleep(1);
-	}
-	runningMutex_.lock();
-	runningMutex_.unlock();
 }
 
 void UThreadNode::start()
 {
-    ULOGGER_DEBUG("");
+	if(PRINT_DEBUG)
+		ULOGGER_DEBUG("");
 
-    if(state_ == kSIdle || state_ == kSKilled)// || state_ != StateKilled)
+    if(state_ == kSIdle || state_ == kSKilled)
     {
         state_ = kSCreating;
         UThread<void>::Create(threadId_, &handle_);
-        ULOGGER_DEBUG("StateThread::startThread() thread id=%d _handle=%d", threadId_, handle_);
+        if(PRINT_DEBUG)
+        	ULOGGER_DEBUG("StateThread::startThread() thread id=%d _handle=%d", threadId_, handle_);
         setPriority(priority_);
     }
 }
@@ -165,6 +168,11 @@ void UThreadNode::setPriority(Priority priority)
     }
 }
 
+bool UThreadNode::isCreating() const
+{
+    return state_ == kSCreating;
+}
+
 bool UThreadNode::isRunning() const
 {
     return state_ == kSRunning || state_ == kSCreating;
@@ -186,14 +194,16 @@ bool UThreadNode::isKilled() const
 
 void UThreadNode::ThreadMain()
 {
-	runningMutex_.lock();
-    ULOGGER_DEBUG("");
+	if(PRINT_DEBUG)
+		ULOGGER_DEBUG("");
     startInit();
-    ULOGGER_DEBUG("Entering loop...");
+    if(PRINT_DEBUG)
+    	ULOGGER_DEBUG("Entering loop...");
     state_ = kSRunning;
     while(state_ == kSRunning)
     {
         mainLoop();
     }
-    runningMutex_.unlock();
+    handle_ = 0;
+    threadId_ = 0;
 }

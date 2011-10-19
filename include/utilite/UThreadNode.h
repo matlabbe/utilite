@@ -116,6 +116,15 @@ public:
      */
     enum Priority{kPLow, kPBelowNormal, kPNormal, kPAboveNormal, kPRealTime};
 
+    /**
+	 * The caller thread will wait until the thread has finished.
+	 * TODO param timeout the maximum time to wait (0 is infinite)
+	 * Note : blocking call
+	 * @param thread thread to join.
+	 * @param killFirst if you want kill() to be called before joining, otherwise not.
+	 */
+	static void join(UThreadNode * thread, bool killFirst = true);
+
 public:
     /**
      * The constructor.
@@ -139,14 +148,9 @@ public:
 	 * loop so it can unlocks Mutex or Semaphore previously locked to avoid
 	 * deadlocks(when an other thread wait for a ressource locked by this thread).
 	 * This functions does nothing if the thread is not started or is killed.
+	 * Note : not a blocking call
 	 */
 	void kill();
-
-	/**
-	 * The caller thread will wait until this thread has finished.
-	 * TODO param timeout the maximum time to wait (0 is infinite)
-	 */
-	void join();
 
     /**
      * Set the thread priority.
@@ -155,11 +159,18 @@ public:
      */
     void setPriority(Priority priority);
 
+    bool isCreating() const;
     bool isRunning() const;
     bool isIdle() const;
     bool isKilled() const;
 
     Handle getThreadHandle() const {return handle_;}
+#ifdef WIN32
+    int getThreadId() const {return threadId_;}
+#else
+    unsigned long getThreadId() const {return threadId_;}
+#endif
+
 
 protected:
 
@@ -233,7 +244,6 @@ private:
     unsigned long threadId_; /**< The thread id. */
 #endif
     UMutex killSafelyMutex_;	/**< Mutex used to protect the kill() method. */
-    UMutex runningMutex_;	    /**< Mutex used to notify the join method when the thread has finished. */
 };
 
 #endif // UTHREADNODE_H

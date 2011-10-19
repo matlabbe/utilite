@@ -43,7 +43,7 @@ public:
 
 	virtual ~ObjDeletionThread()
 	{
-		this->kill();
+		join(this);
 		if(obj_)
 		{
 			delete obj_;
@@ -53,7 +53,7 @@ public:
 	int id() const {return id_;}
 	void setObj(T * obj)
 	{
-		this->kill();
+		join(this);
 		if(obj_)
 		{
 			delete obj_;

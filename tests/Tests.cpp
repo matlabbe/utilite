@@ -20,7 +20,7 @@
 
 //Headers for the test END
 
-const char* Tests::TEST_OUTPUT = "Program started...ThreadB received a msg : \" Sweet !!! what is wrote on my back ? \"ThreadA received a msg : \" Dude !!! what is wrote on my back ? \"Killing threads...";
+const char* Tests::TEST_OUTPUT = "[ INFO] Program started...[ INFO] ThreadB received a msg : \" Sweet !!! what is wrote on my back ? \"[ INFO] ThreadA received a msg : \" Dude !!! what is wrote on my back ? \"[ INFO] Killing threads...";
 const char* Tests::LOG_FILE_NAME = "./TestUtilitiesLib.txt";
 const char* Tests::FILE_LOGGER_TEST_FILE = "./TestFileLogger.txt";
 
@@ -95,8 +95,17 @@ void Tests::testThreadNode()
 	//Test join
 	SimpleStateThread threadToJoin(true);
 	threadToJoin.start();
-	threadToJoin.join();
+	UThreadNode::join(&threadToJoin);
 	CPPUNIT_ASSERT( threadToJoin.isKilled() );
+
+	//Test killing same thread with two other threads
+	threadA = new ThreadA(1000, "Long working..." );
+	UEventsManager::addHandler(threadA);
+	threadA->start();
+	uSleep(10);
+	UEventsManager::post(new EventB(EventB::TEST, "Kill!")); // when receiving an EventB, thread A kills itself
+	uSleep(1);
+	delete threadA;
 }
 
 void Tests::testSemaphore()
@@ -150,9 +159,9 @@ void Tests::testEventsManager()
     ULogger::setPrintTime(false);
     ULogger::setPrintEndline(false);
     ULogger::setPrintWhere(false);
-    ULogger::setLevel(ULogger::kError); // Disable log info
+    ULogger::setLevel(ULogger::kInfo); // Disable log info
 
-    ULogger::write("Program started...");
+    UINFO("Program started...");
 
     /* Create tasks */
 
@@ -173,7 +182,7 @@ void Tests::testEventsManager()
     UEventsManager::removeHandler(&threadA);
     UEventsManager::removeHandler(&threadB);
 
-    ULogger::write("Killing threads...");
+    UINFO("Killing threads...");
     /* Kill threads      														*/
     /* -I recommend the use of kill(), the thread will finish normally.   */
     /*     All mutex locked by this thread will be unlocked. 					*/

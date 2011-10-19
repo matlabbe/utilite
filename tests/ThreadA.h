@@ -18,7 +18,7 @@ public:
     virtual ~ThreadA()
     {
     	UEventsManager::removeHandler(this);
-    	this->kill();
+    	join(this);
     }
 
     virtual void handleEvent(UEvent* anEvent)
@@ -49,7 +49,7 @@ private:
 
     void doSomethingWithEvent(EventB* anEvent) const
     {
-        ULogger::write("ThreadA received a msg : \" %s \"", anEvent->getMsg().c_str());
+        UINFO("ThreadA received a msg : \" %s \"", anEvent->getMsg().c_str());
     }
 
     int _workTime;
