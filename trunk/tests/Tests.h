@@ -42,7 +42,7 @@ public:
 	  ULogger::reset();
 	  ULogger::setType(ULogger::kTypeConsole);
 	  ULogger::setLevel(ULogger::kError);
-	  //Util::Logger::setLevel(Util::Logger::kDebug);
+	  //ULogger::setLevel(ULogger::kDebug);
   }
 
   void tearDown() 

@@ -59,7 +59,7 @@ UEventsManager::UEventsManager()
 UEventsManager::~UEventsManager()
 {
 	ULOGGER_DEBUG("");
-    this->kill();
+   	join(this);
 
     // Free memory
     for(std::list<UEvent*>::iterator it=events_.begin(); it!=events_.end(); ++it)
