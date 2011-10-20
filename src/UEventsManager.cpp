@@ -58,7 +58,6 @@ UEventsManager::UEventsManager()
 
 UEventsManager::~UEventsManager()
 {
-	ULOGGER_DEBUG("");
    	join(this);
 
     // Free memory
@@ -71,8 +70,6 @@ UEventsManager::~UEventsManager()
     handlers_.clear();
 
     instance_ = 0;
-
-    //printf("EventsManager is destroyed...\n\r");
 }
 
 void UEventsManager::mainLoop()
