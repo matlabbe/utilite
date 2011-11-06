@@ -254,6 +254,24 @@ inline typename std::list<V>::iterator uIteratorAt(std::list<V> & list, const un
 }
 
 /**
+ * Get the iterator at a specified position in a std::list. If the position
+ * is out of range, the result is the end iterator of the list.
+ * @param list the list
+ * @param pos the index position in the list
+ * @return the iterator at the specified index
+ */
+template<class V>
+inline typename std::list<V>::const_iterator uIteratorAt(const std::list<V> & list, const unsigned int & pos)
+{
+	typename std::list<V>::const_iterator iter = list.begin();
+	for(unsigned int i = 0; i<pos && iter != list.end(); ++i )
+	{
+		++iter;
+	}
+	return iter;
+}
+
+/**
  * Get the iterator at a specified position in a std::vector. If the position
  * is out of range, the result is the end iterator of the vector.
  * @param v the vector
@@ -277,6 +295,20 @@ template<class V>
 inline V & uValueAt(std::list<V> & list, const unsigned int & pos)
 {
 	typename std::list<V>::iterator iter = uIteratorAt(list, pos);
+	return *iter;
+}
+
+/**
+ * Get the value at a specified position in a std::list. If the position
+ * is out of range, the result is undefined.
+ * @param list the list
+ * @param pos the index position in the list
+ * @return the value at the specified index
+ */
+template<class V>
+inline const V & uValueAt(const std::list<V> & list, const unsigned int & pos)
+{
+	typename std::list<V>::const_iterator iter = uIteratorAt(list, pos);
 	return *iter;
 }
 

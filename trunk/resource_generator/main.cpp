@@ -26,7 +26,7 @@
 void showUsage()
 {
 	printf("Usage:\n"
-			"resourceTool.exe [option] \"file\" \n"
+			"uresourcegenerator.exe [option] \"file\" \n"
 			"  Create a file named \"file\".h with string\n"
 			"  variable named \"file\" which contains the data of the file.\n"
 			"  Warning, it overwrites the target file\n"
