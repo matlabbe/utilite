@@ -33,7 +33,7 @@
 class UEventDispatcher : public UThreadNode
 {
 public:
-	~UEventDispatcher();
+	virtual ~UEventDispatcher();
 protected:
 	friend class UEventsManager;
 	UEventDispatcher();
