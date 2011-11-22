@@ -119,16 +119,23 @@ void UEventsManager::dispatchEvent(UEvent * event)
 {
 	UEventsHandler * handler;
 	handlersMutex_.lock();
-	for(std::list<UEventsHandler*>::iterator it=handlers_.begin(); it!=handlers_.end(); ++it)
+	std::list<UEventsHandler*> handlers = handlers_;
+	for(std::list<UEventsHandler*>::iterator it=handlers.begin(); it!=handlers.end(); ++it)
 	{
-		handler = *it;
-		handlersMutex_.unlock();
+		// Check if the handler is still in the
+		// handlers_ list (may be changed if addHandler() or
+		// removeHandler() is called in EventsHandler::handleEvent())
+		if(std::find(handlers_.begin(), handlers_.end(), *it) != handlers_.end())
+		{
+			handler = *it;
+			handlersMutex_.unlock();
 
-		// To be able to add/remove an handler in a handleEvent call (without a deadlock)
-		// @see _addHandler(), _removeHandler()
-		handler->handleEvent(event);
+			// To be able to add/remove an handler in a handleEvent call (without a deadlock)
+			// @see _addHandler(), _removeHandler()
+			handler->handleEvent(event);
 
-		handlersMutex_.lock();
+			handlersMutex_.lock();
+		}
 	}
 	handlersMutex_.unlock();
 

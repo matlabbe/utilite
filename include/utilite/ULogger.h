@@ -342,6 +342,14 @@ private:
 	static bool buffered_;
 
 	static std::string bufferedMsgs_;
+
+	/**
+	 * State attribute. This state happens when an exit level
+	 * message is received.
+	 * Messages received during this state are not logged.
+	 * @see exitLevel_
+	 */
+	static bool exitingState_;
 };
 
 #endif // ULOGGER_H

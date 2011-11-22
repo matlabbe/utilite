@@ -47,6 +47,7 @@ bool ULogger::printWhere_ = true;
 bool ULogger::printWhereFullPath_ = false;
 bool ULogger::limitWhereLength_ = false;
 bool ULogger::buffered_ = false;
+bool ULogger::exitReceived_ = false;
 ULogger::Level ULogger::level_ = kInfo; // By default, we show all info msgs + upper level (Warning, Error)
 ULogger::Level ULogger::exitLevel_ = kFatal;
 ULogger::Level ULogger::eventLevel_ = kFatal;
@@ -313,9 +314,14 @@ void ULogger::write(ULogger::Level level,
 		const char* msg,
 		...)
 {
+	if(exitReceived_)
+	{
+		// Ignore messages after a fatal exit...
+		return;
+	}
 	loggerMutex_.lock();
 	if(!instance_ ||
-	   (strlen(msg) == 0 && !printWhere_))
+	   (strlen(msg) == 0 && !printWhere_ && level < exitLevel_))
 	{
 		loggerMutex_.unlock();
 		// No need to show an empty message if we don't print where.
@@ -491,6 +497,7 @@ void ULogger::write(ULogger::Level level,
 			{
 				// Send it synchronously, then receivers
 				// can do something before the code (exiting) below is executed.
+				exitReceived_ = true;
 				UEventsManager::post(new ULogEvent(fullMsg, kFatal), false);
 			}
 			else
