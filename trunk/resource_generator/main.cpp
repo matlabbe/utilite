@@ -119,25 +119,28 @@ int main(int argc, char * argv[])
 
 		outFile << "static const char * " << varName.c_str() << " = ";
 
-		std::string line;
-		std::string startLine = "\n   \"";
-		std::string endLine = "\"";
-		while(std::getline(inFile, line))
+		if(!inFile.good())
 		{
-			if(line.size())
+			outFile << "\"\""; //empty string
+		}
+		else
+		{
+			std::string startLine = "\n   \"";
+			std::string endLine = "\"";
+			std::vector<char> buffer(1024);
+			while(inFile.good())
 			{
-				outFile.write(startLine.c_str(), startLine.size());
-				// ignore the last ('\r')
-				if(line[line.size()-1] == '\r')
+				inFile.read(buffer.data(), 1024);
+				std::streamsize count = inFile.gcount();
+				if(count)
 				{
-					line = std::string(line.c_str(), line.size()-1);
+					outFile.write(startLine.c_str(), startLine.size());
+
+					std::string hex = uBytes2Hex(buffer.data(), count);
+					outFile.write(hex.c_str(), hex.size());
+
+					outFile.write(endLine.c_str(), endLine.size());
 				}
-
-				line+='\n'; // adde endline
-				std::string hex = uBytes2Hex(line.c_str(), line.size());
-
-				outFile.write(hex.c_str(), hex.size());
-				outFile.write(endLine.c_str(), endLine.size());
 			}
 		}
 
