@@ -6,6 +6,7 @@
 #include "utilite/ULogger.h"
 #include "ThreadA.h"
 #include "ThreadB.h"
+#include "WorkerThread.h"
 #include <fstream>
 #include <string.h>
 #include "utilite/UConversion.h"
@@ -106,6 +107,40 @@ void Tests::testThreadNode()
 	UEventsManager::post(new EventB(EventB::TEST, "Kill!")); // when receiving an EventB, thread A kills itself
 	uSleep(1);
 	delete threadA;
+
+	//Test Affinity
+	/*WorkerThread worker1;
+	WorkerThread worker2;
+	WorkerThread worker3;
+	WorkerThread worker4;
+	worker1.setAffinity(1);
+	worker2.setAffinity(1);
+	worker3.setAffinity(1);
+	worker4.setAffinity(1);
+	worker1.start();
+	worker2.start();
+	worker3.start();
+	worker4.start();
+	UERROR("");
+	uSleep(10000);
+	UThreadNode::join(&worker1);
+	UThreadNode::join(&worker2);
+	UThreadNode::join(&worker3);
+	UThreadNode::join(&worker4);
+	worker1.setAffinity(1);
+	worker2.setAffinity(2);
+	worker3.setAffinity(3);
+	worker4.setAffinity(4);
+	worker1.start();
+	worker2.start();
+	worker3.start();
+	worker4.start();
+	UERROR("");
+	uSleep(10000);
+	UThreadNode::join(&worker1);
+	UThreadNode::join(&worker2);
+	UThreadNode::join(&worker3);
+	UThreadNode::join(&worker4);*/
 }
 
 void Tests::testSemaphore()
