@@ -121,7 +121,7 @@ public:
 	 * TODO param timeout the maximum time to wait (0 is infinite)
 	 * Note : blocking call
 	 * @param thread thread to join.
-	 * @param killFirst if you want kill() to be called before joining, otherwise not.
+	 * @param killFirst if you want kill() to be called before joining (default true), otherwise not.
 	 */
 	static void join(UThreadNode * thread, bool killFirst = true);
 
@@ -155,9 +155,15 @@ public:
     /**
      * Set the thread priority.
      * @param priority the priority
-     * @todo : Support pThread
      */
     void setPriority(Priority priority);
+
+    /**
+	 * Set the thread affinity. This is applied during start of the thread.
+	 * MAC OS X : http://developer.apple.com/library/mac/#releasenotes/Performance/RN-AffinityAPI/_index.html.
+	 * @param cpu the cpu id (start at 1), 0 means no affinity (default).
+	 */
+	void setAffinity(int cpu = 0);
 
     bool isCreating() const;
     bool isRunning() const;
@@ -208,6 +214,18 @@ private:
     void ThreadMain();
 
     /**
+	 * Apply thread priority. This is called when starting the thread.
+	 * *@todo : Support pthread
+	 */
+	void applyPriority();
+
+	/**
+	 * Apply cpu affinity. This is called when starting the thread.
+	 * *@todo : Support Windows
+	 */
+	void applyAffinity();
+
+    /**
      * Inherited method Create() from Thread.
      * Here we force this function to be private so the
      * inherited class can't have access to it.
@@ -243,6 +261,7 @@ private:
 #else
     unsigned long threadId_; /**< The thread id. */
 #endif
+    int cpuAffinity_; /**< The cpu affinity. */
     UMutex killSafelyMutex_;	/**< Mutex used to protect the kill() method. */
 };
 

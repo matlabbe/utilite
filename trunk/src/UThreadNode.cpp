@@ -19,6 +19,10 @@
 
 #include "utilite/UThreadNode.h"
 #include "utilite/ULogger.h"
+#ifdef __APPLE__
+#include <mach/thread_policy.h>
+#include <mach/mach.h>
+#endif
 
 #define PRINT_DEBUG 0
 
@@ -60,7 +64,9 @@ void UThreadNode::join(UThreadNode * thread, bool killFirst)
 			UDEBUG("null thread");
 		}
 		if(PRINT_DEBUG)
+		{
 			UDEBUG("Join ended for %d", UThread<void>::Self());
+		}
 	}
 }
 
@@ -72,7 +78,8 @@ UThreadNode::UThreadNode(Priority priority) :
     state_(kSIdle), 
     priority_(priority), 
     handle_(0), 
-    threadId_(0) 
+    threadId_(0),
+    cpuAffinity_(-1)
 {}
 
 UThreadNode::~UThreadNode()
@@ -110,7 +117,9 @@ void UThreadNode::kill()
     	else
     	{
     		if(PRINT_DEBUG)
+    		{
     			UDEBUG("thread (%d) is not running...", threadId_);
+    		}
     	}
     }
     killSafelyMutex_.unlock();
@@ -119,26 +128,35 @@ void UThreadNode::kill()
 void UThreadNode::start()
 {
 	if(PRINT_DEBUG)
+	{
 		ULOGGER_DEBUG("");
+	}
 
     if(state_ == kSIdle || state_ == kSKilled)
     {
         state_ = kSCreating;
         UThread<void>::Create(threadId_, &handle_);
         if(PRINT_DEBUG)
+        {
         	ULOGGER_DEBUG("StateThread::startThread() thread id=%d _handle=%d", threadId_, handle_);
-        setPriority(priority_);
+        }
     }
 }
 
 //TODO : Support pThread
 void UThreadNode::setPriority(Priority priority)
 {
+	priority_ = priority;
+}
+
+//TODO : Support pThread
+void UThreadNode::applyPriority()
+{
     if(handle_)
     {
 #ifdef WIN32
         int p = THREAD_PRIORITY_NORMAL;
-        switch(priority)
+        switch(priority_)
         {
             case kPLow:
                 p = THREAD_PRIORITY_LOWEST;
@@ -168,6 +186,45 @@ void UThreadNode::setPriority(Priority priority)
     }
 }
 
+void UThreadNode::setAffinity(int cpu)
+{
+	cpuAffinity_ = cpu;
+	if(cpuAffinity_<0)
+	{
+		cpuAffinity_ = 0;
+	}
+}
+
+//TODO : Support Windows and linux
+void UThreadNode::applyAffinity()
+{
+#ifdef WIN32
+#elif __APPLE__
+	thread_affinity_policy_data_t affPolicy;
+	affPolicy.affinity_tag = cpuAffinity_;
+	kern_return_t ret = thread_policy_set(
+			pthread_mach_thread_np(handle_),
+			THREAD_AFFINITY_POLICY,
+			(integer_t*) &affPolicy,
+			THREAD_AFFINITY_POLICY_COUNT);
+	if(ret != KERN_SUCCESS)
+	{
+		UERROR("thread_policy_set returned %d", ret);
+	}
+#else
+	/*unsigned long mask = cpuAffinity_;
+
+	if (pthread_setaffinity_np(
+		pthread_self(),
+		sizeof(mask),
+		&mask) <0)
+	{
+		UERROR("pthread_setaffinity_np failed");
+	}
+	}*/
+#endif
+}
+
 bool UThreadNode::isCreating() const
 {
     return state_ == kSCreating;
@@ -194,6 +251,9 @@ bool UThreadNode::isKilled() const
 
 void UThreadNode::ThreadMain()
 {
+	applyPriority();
+	applyAffinity();
+
 	if(PRINT_DEBUG)
 		ULOGGER_DEBUG("");
     startInit();
