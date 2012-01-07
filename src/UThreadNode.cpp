@@ -203,7 +203,7 @@ void UThreadNode::applyAffinity()
 	thread_affinity_policy_data_t affPolicy;
 	affPolicy.affinity_tag = cpuAffinity_;
 	kern_return_t ret = thread_policy_set(
-			pthread_mach_thread_np(handle_),
+			mach_thread_self(),
 			THREAD_AFFINITY_POLICY,
 			(integer_t*) &affPolicy,
 			THREAD_AFFINITY_POLICY_COUNT);
