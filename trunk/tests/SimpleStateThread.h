@@ -9,7 +9,7 @@ class SimpleStateThread : public UThreadNode
 {
 public:
 	SimpleStateThread(bool killItself = false) : _killItself(killItself) {}
-    virtual ~SimpleStateThread() {join(this);}
+    virtual ~SimpleStateThread() {join(true);}
 
 protected:
 

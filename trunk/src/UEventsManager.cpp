@@ -58,7 +58,7 @@ UEventsManager::UEventsManager()
 
 UEventsManager::~UEventsManager()
 {
-   	join(this);
+   	join(true);
 
     // Free memory
     for(std::list<UEvent*>::iterator it=events_.begin(); it!=events_.end(); ++it)

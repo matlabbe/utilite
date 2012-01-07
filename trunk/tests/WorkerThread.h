@@ -9,7 +9,7 @@ public:
 	WorkerThread(){}
     ~WorkerThread()
     {
-    	join(this);
+    	join(true);
     }
     
 protected:
