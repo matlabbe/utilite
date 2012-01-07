@@ -96,7 +96,7 @@ void Tests::testThreadNode()
 	//Test join
 	SimpleStateThread threadToJoin(true);
 	threadToJoin.start();
-	UThreadNode::join(&threadToJoin);
+	threadToJoin.join();
 	CPPUNIT_ASSERT( threadToJoin.isKilled() );
 
 	//Test killing same thread with two other threads
@@ -107,6 +107,7 @@ void Tests::testThreadNode()
 	UEventsManager::post(new EventB(EventB::TEST, "Kill!")); // when receiving an EventB, thread A kills itself
 	uSleep(1);
 	delete threadA;
+
 
 	//Test Affinity
 	/*WorkerThread worker1;

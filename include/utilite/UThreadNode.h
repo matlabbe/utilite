@@ -116,15 +116,6 @@ public:
      */
     enum Priority{kPLow, kPBelowNormal, kPNormal, kPAboveNormal, kPRealTime};
 
-    /**
-	 * The caller thread will wait until the thread has finished.
-	 * TODO param timeout the maximum time to wait (0 is infinite)
-	 * Note : blocking call
-	 * @param thread thread to join.
-	 * @param killFirst if you want kill() to be called before joining (default true), otherwise not.
-	 */
-	static void join(UThreadNode * thread, bool killFirst = true);
-
 public:
     /**
      * The constructor.
@@ -133,6 +124,7 @@ public:
 
     /**
      * The destructor. Inherited classes must call kill() to avoid memory leaks...
+     * Not safe to delete a thread while other threads are joining it.
      */
     virtual ~UThreadNode();
 
@@ -151,6 +143,13 @@ public:
 	 * Note : not a blocking call
 	 */
 	void kill();
+
+	/**
+	 * The caller thread will wait until the thread has finished.
+	 * Note : blocking call
+	 * @param killFirst if you want kill() to be called before joining (default false), otherwise not.
+	 */
+	void join(bool killFirst = false);
 
     /**
      * Set the thread priority.
@@ -171,11 +170,6 @@ public:
     bool isKilled() const;
 
     Handle getThreadHandle() const {return handle_;}
-#ifdef WIN32
-    int getThreadId() const {return threadId_;}
-#else
-    unsigned long getThreadId() const {return threadId_;}
-#endif
 
 
 protected:
@@ -263,6 +257,7 @@ private:
 #endif
     int cpuAffinity_; /**< The cpu affinity. */
     UMutex killSafelyMutex_;	/**< Mutex used to protect the kill() method. */
+    UMutex runningMutex_;	    /**< Mutex used to notify the join method when the thread has finished. */
 };
 
 #endif // UTHREADNODE_H

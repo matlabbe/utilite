@@ -18,7 +18,7 @@ public:
     virtual ~ThreadA()
     {
     	UEventsManager::removeHandler(this);
-    	join(this);
+    	join(true);
     }
 
     virtual void handleEvent(UEvent* anEvent)
@@ -28,7 +28,7 @@ public:
 			if(anEvent->getClassName().compare("EventB") == 0)
 			{
 				doSomethingWithEvent((EventB*)anEvent);
-				this->kill();
+				kill();
 			}
     	}
     }

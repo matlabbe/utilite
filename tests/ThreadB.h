@@ -18,7 +18,7 @@ public:
     ~ThreadB()
     {
     	UEventsManager::removeHandler(this);
-    	join(this);
+    	join(true);
     }
 
     virtual void handleEvent(UEvent* anEvent)
