@@ -65,7 +65,7 @@ long int UProcessInfo::getMemoryUsage()
 					std::list<std::string> strs = uSplit(bytes, ' ');
 					if(strs.size()>1)
 					{
-						memoryUsage = atol(uValueAt(strs,1).c_str()) * 1000;
+						memoryUsage = atol(uValueAt(strs,1).c_str()) * 1024;
 					}
 					break;
 				}
