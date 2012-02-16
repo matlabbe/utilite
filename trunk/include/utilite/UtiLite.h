@@ -23,7 +23,7 @@
 /** \mainpage UtiLite
   *
   * \section intro Introduction
-  * UtiLite is a simple library to create small cross-platform
+  * <a href="http://utilite.googlecode.com">UtiLite</a> is a simple library to create small cross-platform
   * applications using <b>threads</b>, <b>events-based communication</b> and a powerful <b>logger</b>. The first three
   * sections show the core classes of the library, then last sections show some useful functions added through time.
   *
