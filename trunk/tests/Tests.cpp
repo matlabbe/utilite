@@ -320,27 +320,27 @@ void Tests::testConversion()
 	CPPUNIT_ASSERT( uToLowerCase("Hello World!").compare("hello world!") == 0 );
 
 	//std::string number2str(const int & number)
-	string = uNumber2str(0);
+	string = uNumber2Str(0);
 	CPPUNIT_ASSERT( string.compare("0") == 0 );
-	string = uNumber2str(10);
+	string = uNumber2Str(10);
 	CPPUNIT_ASSERT( string.compare("10") == 0 );
 
 	//std::string number2str(const float & number)
-	string = uNumber2str(0.0f);
+	string = uNumber2Str(0.0f);
 	CPPUNIT_ASSERT( string.compare("0") == 0 );
-	string = uNumber2str(10.2030f);
+	string = uNumber2Str(10.2030f);
 	CPPUNIT_ASSERT( string.compare("10.203") == 0 || string.compare("10,203") == 0 );
 
 	//std::string number2str(const double & number)
-	string = uNumber2str(0.0);
+	string = uNumber2Str(0.0);
 	CPPUNIT_ASSERT( string.compare("0") == 0 );
-	string = uNumber2str(10.2030);
+	string = uNumber2Str(10.2030);
 	CPPUNIT_ASSERT( string.compare("10.203") == 0 || string.compare("10,203") == 0 );
 
 	//std::string bool2str(const bool & boolean)
-	string = uBool2str(false);
+	string = uBool2Str(false);
 	CPPUNIT_ASSERT( string.compare("false") == 0 );
-	string = uBool2str(true);
+	string = uBool2Str(true);
 	CPPUNIT_ASSERT( string.compare("true") == 0 );
 
 	//bool str2Bool(const char * str)
@@ -366,7 +366,7 @@ void Tests::testConversion()
 	CPPUNIT_ASSERT_MESSAGE(string, string.compare(hexString) == 0 );
 
 	//std::vector<char> hex2bytes(const std::string & hex)
-	charVector = uHex2bytes(hexString);
+	charVector = uHex2Bytes(hexString);
 	CPPUNIT_ASSERT( charVector.size() == 16*2 );
 	for(unsigned int i=0; i<charVector.size(); ++i)
 	{
@@ -374,9 +374,9 @@ void Tests::testConversion()
 	}
 
 	//std::vector<char> hex2bytes(const char * hex, int hexLen)
-	charVector = uHex2bytes(0, 0);
+	charVector = uHex2Bytes(0, 0);
 	CPPUNIT_ASSERT( charVector.size() == 0 );
-	charVector = uHex2bytes(&hexString[0], hexString.size());
+	charVector = uHex2Bytes(&hexString[0], hexString.size());
 	CPPUNIT_ASSERT( charVector.size() == 16*2 );
 	for(unsigned int i=0; i<charVector.size(); ++i)
 	{
@@ -384,7 +384,7 @@ void Tests::testConversion()
 	}
 
 	//std::string hex2str(const std::string & hex)
-	charVector = uHex2bytes(helloWorldHex.c_str()); // "Hello world!"
+	charVector = uHex2Bytes(helloWorldHex.c_str()); // "Hello world!"
 	CPPUNIT_ASSERT( charVector.size() ==  helloWorld.size());
 	for(unsigned int i=0; i<charVector.size(); ++i)
 	{
@@ -395,27 +395,27 @@ void Tests::testConversion()
 	unsigned char ascii;
 	for(int c=0; c<256; ++c)
 	{
-		ascii = uHex2ascii(static_cast<unsigned char>(c), true);
+		ascii = uHex2Ascii(static_cast<unsigned char>(c), true);
 		CPPUNIT_ASSERT( ascii == HEX2ASCII[c][1] );
-		ascii = uHex2ascii(static_cast<unsigned char>(c), false);
+		ascii = uHex2Ascii(static_cast<unsigned char>(c), false);
 		CPPUNIT_ASSERT( ascii == HEX2ASCII[c][0] );
 	}
 
 	//unsigned char ascii2hex(const unsigned char & c)
 	unsigned char hex;
-	hex = uAscii2hex('0');
+	hex = uAscii2Hex('0');
 	CPPUNIT_ASSERT( hex == 0x00 );
-	hex = uAscii2hex('9');
+	hex = uAscii2Hex('9');
 	CPPUNIT_ASSERT( hex == 0x09 );
-	hex = uAscii2hex('a');
+	hex = uAscii2Hex('a');
 	CPPUNIT_ASSERT( hex == 0x0a );
-	hex = uAscii2hex('f');
+	hex = uAscii2Hex('f');
 	CPPUNIT_ASSERT( hex == 0x0f );
-	hex = uAscii2hex('A');
+	hex = uAscii2Hex('A');
 	CPPUNIT_ASSERT( hex == 0x0a );
-	hex = uAscii2hex('F');
+	hex = uAscii2Hex('F');
 	CPPUNIT_ASSERT( hex == 0x0f );
-	hex = uAscii2hex('Z');
+	hex = uAscii2Hex('Z');
 	CPPUNIT_ASSERT( hex == 0x00 );
 }
 
@@ -810,7 +810,7 @@ void Tests::testTimer()
 
 void Tests::testObjDeletionThread()
 {
-	ObjDeletionThread<int> delThread(new int(1));
+	UObjDeletionThread<int> delThread(new int(1));
 	delThread.startDeletion();
 	delThread.setObj(new int(2));
 }

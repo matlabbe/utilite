@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -27,11 +27,14 @@
 #include <string>
 #include <algorithm>
 
-
 /**
+ * \file UStl.h
+ * \brief Wrappers of STL for convenient functions.
+ *
  * All functions you will find here are here
  * for the use of STL in a more convenient way.
  */
+
 
 /**
  * Get unique keys from a std::multimap.

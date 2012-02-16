@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -28,11 +28,30 @@ class UEventsHandler;
 
 /**
  * This is the base class for all events used 
- * with the EventsManager. Inherited classes 
+ * with the UEventsManager. Inherited classes
  * must redefined the virtual method getClassName() 
  * to return their class name.
  *
- * @see EventsManager
+ * Example:
+ * @code
+ *  class MyEvent : public UEvent
+ *  {
+ *  public:
+ *     MyEvent() {}
+ *     virtual ~MyEvent() {}
+ *     std::string getClassName() const {return "MyEvent";}
+ *  };
+ *
+ *  int main(int argc, char * argv[])
+ *  {
+ *  	...
+ *  	UEventsManager::post(new MyEvent()); // UEventsManager take ownership of the event (deleted by UEventsManager).
+ *  	...
+ *  }
+ * @endcode
+ *
+ * @see UEventsManager
+ * @see UEventsHandler
  * @see getClassName()
  */
 class UTILITE_EXP UEvent{
@@ -41,13 +60,17 @@ public:
 
     /**
      * This method is used to get the class name 
-     * of the event. For example, if the class MouseEvent 
-     * inherits from Event, it must return the
+     * of the event. For example, if a class MouseEvent
+     * inherits from UEvent, it must return the
      * "MouseEvent" string.
-     * @return std::string the class name
+     * @return the class name
      */
     virtual std::string getClassName() const = 0; // TODO : macro?
 
+    /**
+     * Get event's code.
+     * @return the code
+     */
     int getCode() const {return code_;}
 
 protected:

@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -25,6 +25,11 @@
 #include "utilite/UDirectory.h"
 #include <string>
 
+/**
+ * Class UFile.
+ *
+ * This class can be used to modify/erase files on hard drive.
+ */
 class UTILITE_EXP UFile
 {
 public:
@@ -36,9 +41,9 @@ public:
 	static bool exists(const std::string &filePath);
 
 	/**
-	 * Get the file length
+	 * Get the file length.
 	 * @param filePath the file path
-	 * @return long the length of the file. Return -1 if the file doesn't exist.
+	 * @return long the length of the file in bytes. Return -1 if the file doesn't exist.
 	 */
 	static long length(const std::string &filePath);
 
@@ -68,12 +73,35 @@ public:
 	static std::string getExtension(const std::string &filePath);
 
 public:
+	/**
+	 * Create a UFile object with path initialized to an existing file .
+	 * @param path the path to an existing file
+	 */
 	UFile(const std::string & path) : path_(path) {}
 	~UFile() {}
 
+	/**
+	 * Check if the file exists. Same as exists().
+	 * @return true if the path exits
+	 */
 	bool isValid() {return exists(path_);}
+
+	/**
+	 * Check if the file exists.
+	 * @return true if the path exits
+	 */
 	bool exists() {return exists(path_);}
+
+	/**
+	 * Get the length of the file.
+	 * @return long the length of the file in bytes. Return -1 if the file doesn't exist.
+	 */
 	long length() {return length(path_);}
+
+	/**
+	 * Rename the file name. The path stays the same.
+	 * @param the new name
+	 */
 	int rename(const std::string &newName)
 	{
 		std::string ext = this->getExtension();
@@ -89,7 +117,15 @@ public:
 		}
 		return result;
 	}
+	/**
+	 * Get the file name without the path.
+	 * @return the file name
+	 */
 	std::string getName() {return getName(path_);}
+	/**
+	 * Get the file extension.
+	 * @return the file extension
+	 */
 	std::string getExtension() {return getExtension(path_);}
 
 private:

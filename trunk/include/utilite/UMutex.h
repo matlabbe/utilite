@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -23,9 +23,110 @@
 #include <errno.h>
 
 #ifdef WIN32
-  #include "Win32/UMutex.h"
+  #include "utilite/Win32/UWin32.h"
 #else
-  #include "Posix/UMutex.h"
+  #include <pthread.h>
 #endif
+
+
+/**
+ * A mutex class.
+ *
+ * On a lock() call, the calling thread is blocked if the
+ * UMutex was previously locked by another thread. It is unblocked when unlock() is called.
+ *
+ * On Unix (not yet tested on Windows), UMutex is recursive: the same thread can
+ * call multiple times lock() without being blocked.
+ *
+ * Example:
+ * @code
+ * UMutex m; // Mutex shared with another thread(s).
+ * ...
+ * m.lock();
+ * // Data is protected here from the second thread
+ * //(assuming the second one protects also with the same mutex the same data).
+ * m.unlock();
+ *
+ * @endcode
+ *
+ * @see USemaphore
+ */
+class UMutex
+{
+
+public:
+
+	/**
+	 * The constructor.
+	 */
+	UMutex()
+	{
+#ifdef WIN32
+		InitializeCriticalSection(&C);
+#else
+		pthread_mutexattr_t attr;
+		pthread_mutexattr_init(&attr);
+		pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_RECURSIVE);
+		pthread_mutex_init(&M,&attr);
+		pthread_mutexattr_destroy(&attr);
+#endif
+	}
+
+	virtual ~UMutex()
+	{
+#ifdef WIN32
+		DeleteCriticalSection(&C);
+#else
+		pthread_mutex_unlock(&M); pthread_mutex_destroy(&M);
+#endif
+	}
+
+	/**
+	 * Lock the mutex.
+	 */
+	int lock() const
+	{
+#ifdef WIN32
+		EnterCriticalSection(&C); return 0;
+#else
+		return pthread_mutex_lock(&M);
+#endif
+	}
+
+#ifdef WIN32
+	#if(_WIN32_WINNT >= 0x0400)
+	int lockTry() const
+	{
+		return (TryEnterCriticalSection(&C)?0:EBUSY);
+	}
+	#endif
+#else
+	int lockTry() const
+	{
+		return pthread_mutex_trylock(&M);
+	}
+#endif
+
+	/**
+	 * Unlock the mutex.
+	 */
+	int unlock() const
+	{
+#ifdef WIN32
+		LeaveCriticalSection(&C); return 0;
+#else
+		return pthread_mutex_unlock(&M);
+#endif
+	}
+
+	private:
+#ifdef WIN32
+		mutable CRITICAL_SECTION C;
+#else
+		mutable pthread_mutex_t M;
+#endif
+		void operator=(UMutex &M) {}
+		UMutex( const UMutex &M ) {}
+};
 
 #endif // UMUTEX_H

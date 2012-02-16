@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -64,35 +64,35 @@ std::string uToLowerCase(const std::string & str)
 	return result;
 }
 
-std::string uNumber2str(unsigned int number)
+std::string uNumber2Str(unsigned int number)
 {
 	std::stringstream s;
 	s << number;
 	return s.str();
 }
 
-std::string uNumber2str(int number)
+std::string uNumber2Str(int number)
 {
 	std::stringstream s;
 	s << number;
 	return s.str();
 }
 
-std::string uNumber2str(float number)
+std::string uNumber2Str(float number)
 {
 	std::stringstream s;
 	s << number;
 	return s.str();
 }
 
-std::string uNumber2str(double number)
+std::string uNumber2Str(double number)
 {
 	std::stringstream s;
 	s << number;
 	return s.str();
 }
 
-std::string uBool2str(bool boolean)
+std::string uBool2Str(bool boolean)
 {
 	std::string s;
 	if(boolean)
@@ -125,18 +125,18 @@ std::string uBytes2Hex(const char * bytes, unsigned int bytesLen)
 	const unsigned char * pEnd = (bytes_u + bytesLen);
 	for(const unsigned char * pChar = bytes_u; pChar != pEnd; ++pChar, pHex += 2)
 	{
-		pHex[0] = uHex2ascii(*pChar, 0);
-		pHex[1] = uHex2ascii(*pChar, 1);
+		pHex[0] = uHex2Ascii(*pChar, 0);
+		pHex[1] = uHex2Ascii(*pChar, 1);
 	}
 	return hex;
 }
 
-std::vector<char> uHex2bytes(const std::string & hex)
+std::vector<char> uHex2Bytes(const std::string & hex)
 {
-	return uHex2bytes(&hex[0], hex.length());
+	return uHex2Bytes(&hex[0], hex.length());
 }
 
-std::vector<char> uHex2bytes(const char * hex, int hexLen)
+std::vector<char> uHex2Bytes(const char * hex, int hexLen)
 {
 	std::vector<char> bytes;
 	if(!hex || hexLen % 2 || hexLen == 0)
@@ -152,15 +152,15 @@ std::vector<char> uHex2bytes(const char * hex, int hexLen)
 	unsigned char * pEnd = (pBytes + bytesLen);
 	for(unsigned char * pChar = pBytes; pChar != pEnd; pChar++, pHex += 2)
 	{
-		*pChar = (uAscii2hex(pHex[0]) << 4) | uAscii2hex(pHex[1]);
+		*pChar = (uAscii2Hex(pHex[0]) << 4) | uAscii2Hex(pHex[1]);
 	}
 	return bytes;
 }
 
 // The hex str MUST not contains any null values (0x00)
-std::string uHex2str(const std::string & hex)
+std::string uHex2Str(const std::string & hex)
 {
-	std::vector<char> bytes = uHex2bytes(hex);
+	std::vector<char> bytes = uHex2Bytes(hex);
 	return std::string(&bytes[0], bytes.size());
 }
 
@@ -184,7 +184,7 @@ static const char HEX2ASCII[256][2] =
 	{'F','0'},{'F','1'},{'F','2'},{'F','3'},{'F','4'},{'F','5'},{'F','6'},{'F','7'},{'F','8'},{'F','9'},{'F','A'},{'F','B'},{'F','C'},{'F','D'},{'F','E'},{'F','F'}
 };
 
-unsigned char uHex2ascii(const unsigned char & c, bool rightPart)
+unsigned char uHex2Ascii(const unsigned char & c, bool rightPart)
 {
 	if(rightPart)
 	{
@@ -196,7 +196,7 @@ unsigned char uHex2ascii(const unsigned char & c, bool rightPart)
 	}
 }
 
-unsigned char uAscii2hex(const unsigned char & c)
+unsigned char uAscii2Hex(const unsigned char & c)
 {
 	switch(c)
 	{

@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -38,21 +38,9 @@ protected:
 	friend class UEventsManager;
 	UEventDispatcher();
 
-	/**
-	 * Method inherited from
-	 * StateThread.
-	 *
-	 * @see StateThread
-	 */
 	virtual void mainLoop();
 
 private:
-	/**
-	 * Method inherited from
-	 * StateThread.
-	 *
-	 * @see StateThread
-	 */
 	virtual void killCleanup();
 
 private:
@@ -67,14 +55,21 @@ private:
  * like the design pattern Mediator. It is also a Singleton, so 
  * it can be used anywhere in the application. 
  *
- * To send an event, use EventsManager::post(new Event()).
+ * To send an event, use UEventsManager::post().
  * Events are automatically deleted after they are posted.
  *
  * The EventsManager have a list of handlers to which 
  * it sends posted events. To add an handler, use 
- * EventsManager::addHandler(EventsHandler*). To remove, use
- * EventsManager::removeHandler(EventsHandler*).
+ * UEventsManager::addHandler(). To remove, use
+ * UEventsManager::removeHandler().
  *
+ * @code
+ *  // Anywhere in the code:
+ *  UEventsManager::post(new MyEvent()); // where MyEvent is an implemented UEvent
+ * @endcode
+ *
+ * @see UEvent
+ * @see UEventsHandler
  * @see post()
  * @see addHandler()
  * @see removeHandler()
@@ -85,46 +80,37 @@ public:
 
     /**
      * This method is used to add an events 
-     * handler to the list of handlers. It automatically
-     * gets the static instance of the EventsManager and calls 
-     * his private function _addHandler().
+     * handler to the list of handlers.
      *
-     * @see _addHandler()
      * @param handler the handler to be added.
      */
     static void addHandler(UEventsHandler* handler);
 
     /**
      * This method is used to remove an events 
-     * handler from the list of handlers. It automatically
-     * gets the static instance of the EventsManager and calls 
-     * his private function _removeHandler().
+     * handler from the list of handlers.
      *
-     * @see _removeHandler()
      * @param handler the handler to be removed.
      */
     static void removeHandler(UEventsHandler* handler);
 
     /**
      * This method is used to post an event to
-     * handlers. It automatically gets the static
-     * instance of the EventsManager and calls 
-     * his private function _postEvent().
+     * handlers.
      *
      * Event can be posted asynchronously or not. In the first case,
-     * the event is dispatched by the EventsManager's thread. In the
+     * the event is dispatched by the UEventsManager's thread. In the
      * second case, the event is handled immediately by event's
      * receivers, thus in the sender thread.
      *
-     * @see _postEvent()
-     * @param anEvent the event to be posted.
-     * @param async if true, the event is dispatched in another thread
+     * @param event the event to be posted.
+     * @param async if true, the event is dispatched by the UEventsManager thread, otherwise it's in the caller thread (synchronous).
      */
     static void post(UEvent * event, bool async = true);
     
 protected:
 
-    /**
+    /*
      * This method is used to have a reference on the 
      * EventsManager. When no EventsManager exists, one is 
      * created. There is only one instance in the application.
@@ -134,59 +120,50 @@ protected:
      */
     static UEventsManager* getInstance();
 
-    /**
+    /*
      * Called only once in getInstance(). It can't be instantiated
      * by the user.
      *
-     * @see getInstance()
      */
     UEventsManager();
 
-    /**
+    /*
      * Only called by a Destroyer.
-     * @see Destroyer
      */
     virtual ~UEventsManager();
 
-    /**
+    /*
      * A Destroyer is used to remove a dynamically created
      * Singleton. It is friend here to have access to the 
      * destructor.
      *
-     * @see Destroyer
      */
     friend class UDestroyer<UEventsManager>;
 
     /**
-     * Method inherited from 
-     * StateThread.
-     *
-     * @see StateThread
-     */
+	 * The UEventsManager's main loop.
+	 */
     virtual void mainLoop();
 
 private:
 
     /**
-     * Method inherited from 
-     * StateThread.
-     *
-     * @see StateThread
-     */
+	 * Reimplemented to wake up UEventsManager on termination.
+	 */
     virtual void killCleanup();
 
-    /**
+    /*
      * This method dispatches asynchronized events to all handlers.
      * FIFO (first in first out) dispatching is used.
      */
     virtual void dispatchEvents();
 
-    /**
+    /*
 	 * This method dispatches an event to all handlers.
 	 */
     virtual void dispatchEvent(UEvent * event);
 
-    /**
+    /*
      * This method is used to add an events 
      * handler to the list of handlers.
      *
@@ -194,7 +171,7 @@ private:
      */
     void _addHandler(UEventsHandler* handler);
 
-    /**
+    /*
      * This method is used to remove an events 
      * handler from the list of handlers.
      *
@@ -202,29 +179,29 @@ private:
      */
     void _removeHandler(UEventsHandler* handler);
 
-    /**
+    /*
      * This method is used to post an event to
      * handlers.
      *
      * Event can be posted asynchronously or not. In the first case,
-     * the event is dispatched by the EventsManager's thread. In the
+     * the event is dispatched by the UEventsManager's thread. In the
      * second case, the event is handled immediately by event's
      * receivers, thus in the sender thread.
      *
-     * @param anEvent the event to be posted.
-     * @param async if true, the event is dispatched in another thread
+     * @param event the event to be posted.
+     * @param async if true, the event is dispatched by the UEventsManager thread, otherwise it's in the caller thread (synchronous).
      */
     void _postEvent(UEvent * event, bool async = true);
     
 private:
     
-    static UEventsManager* instance_;            /**< The EventsManager instance pointer. */
-    static UDestroyer<UEventsManager> destroyer_; /**< The EventsManager's destroyer. */
-    std::list<UEvent*> events_;                /**< The events list. */
-    std::list<UEventsHandler*> handlers_;      /**< The handlers list. */
-    UMutex eventsMutex_;                         /**< The mutex of the events list, */
-    UMutex handlersMutex_;                       /**< The mutex of the handlers list. */
-    USemaphore postEventSem_;                    /**< Semaphore used to signal when an events is posted. */
+    static UEventsManager* instance_;            /* The EventsManager instance pointer. */
+    static UDestroyer<UEventsManager> destroyer_; /* The EventsManager's destroyer. */
+    std::list<UEvent*> events_;                /* The events list. */
+    std::list<UEventsHandler*> handlers_;      /* The handlers list. */
+    UMutex eventsMutex_;                         /* The mutex of the events list, */
+    UMutex handlersMutex_;                       /* The mutex of the handlers list. */
+    USemaphore postEventSem_;                    /* Semaphore used to signal when an events is posted. */
 };
 
 #endif // UEVENTSMANAGER_H

@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -61,9 +61,12 @@ std::string ULogger::logFileName_;
 std::string ULogger::bufferedMsgs_;
 
 /**
- * This class is used to write logs in the console.
+ * This class is used to write logs in the console. This class cannot
+ * be directly used, use ULogger::setType() to console type to print in
+ * console and use macro UDEBUG(), UINFO()... to print messages.
+ * @see ULogger
  */
-class UTILITE_EXP UConsoleLogger : public ULogger
+class UConsoleLogger : public ULogger
 {
 public :
     virtual ~UConsoleLogger() {this->_flush();}
@@ -78,12 +81,6 @@ protected:
     UConsoleLogger() {}
 
 private:
-    /**
-     * Overrided to print in the console.
-     * @param msg the message to write.
-     * @param arg the variable arguments
-     * @see Logger::_write
-     */
     virtual void _write(const char* msg, va_list arg)
     {
     	if(arg != 0)
@@ -98,9 +95,12 @@ private:
 };
 
 /**
- * This class is used to write logs in a file.
+ * This class is used to write logs in a file. This class cannot
+ * be directly used, use ULogger::setType() to file type to print in
+ * a file and use macro UDEBUG(), UINFO()... to print messages.
+ * @see ULogger
  */
-class UTILITE_EXP UFileLogger : public ULogger
+class UFileLogger : public ULogger
 {
 public:
     virtual ~UFileLogger()
@@ -120,7 +120,7 @@ protected:
     friend class ULogger;
 
     /**
-     *
+     * The UFileLogger constructor.
      * @param fileName the file name
      * @param append if true append logs in the file,
      *        ortherwise it overrides the file.
@@ -149,12 +149,6 @@ protected:
     }
 
 private:
-    /**
-     * Overrided to print in the file.
-     * @param msg the message to write.
-     * @param arg the variable arguments
-     * @see Logger::_write
-     */
     virtual void _write(const char* msg, va_list arg)
     {
     	if(fout_)
@@ -404,7 +398,7 @@ void ULogger::write(ULogger::Level level,
 
 			//Line
 			whereStr.append(":");
-			std::string lineStr = uNumber2str(line);
+			std::string lineStr = uNumber2Str(line);
 			whereStr.append(lineStr);
 
 			//Function
