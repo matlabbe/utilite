@@ -1,8 +1,9 @@
-#summary Here are some examples of what can be done by the library.
+#summary Here are some examples of what can be done by the library. These examples can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples examples].
 <wiki:toc max_depth="1" />
 = Events =
 Note : the communication used between threads is events-based.
 
+This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples/events.cpp events.cpp]
 Output :
 {{{
 [ INFO] (2010-09-25 18:08:20) eventsExample.cpp:53::main() This message is logged.
@@ -48,7 +49,7 @@ public:
 protected:
    virtual void handleEvent(UEvent * e) {
       if(e->getClassName().compare("SpecialEvent") == 0) {
-         ULOGGER_INFO("SpecialEvent \"%d\" received!", e->getCode());
+         UINFO("SpecialEvent \"%d\" received!", e->getCode());
       }
    }
 };
@@ -67,9 +68,9 @@ int main(int argc, char * argv[])
    // Use a predefined Macro to easy logging. It can be
    // called anywhere in the application as the logger is
    // a Singleton.
-   ULOGGER_DEBUG("This message won't be logged because the "
+   UDEBUG("This message won't be logged because the "
                  "severity level of the logger is set to kInfo.");
-   ULOGGER_INFO("This message is logged.");
+   UINFO("This message is logged.");
 
    // Let's create a simple EventsPrinter that will log all
    // events it will received.
@@ -98,6 +99,7 @@ int main(int argc, char * argv[])
 }}}
 
 = UThreadNode =
+This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples/simpleThread.cpp simpleThread.cpp].
 Output :
 {{{
 Example with the UThreadNode class
@@ -121,7 +123,7 @@ public:
    SimpleThread() : loopCount_(0) {}
    ~SimpleThread() {
       printf("SimpleThread destructor\n");
-      this->kill();
+      this->join(true);
    }
 
 protected:
@@ -163,6 +165,8 @@ int main(int argc, char * argv[])
 }}}
 
 = Producer-Consumer problem =
+This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples/producerConsumer.cpp producerConsumer.cpp].
+
 Output :
 {{{
 [ INFO] (2010-12-21 15:58:23) p500 posting 0
@@ -213,7 +217,7 @@ public:
       count_(0) {}
 
    ~Producer() {
-      this->kill();
+      this->join(true);
    }
 
 protected:
