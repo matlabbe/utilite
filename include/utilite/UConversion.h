@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -27,13 +27,22 @@
 #include <stdarg.h>
 
 /**
+ * \file UConversion.h
+ * \brief Some conversion functions
+ *
+ * This contains functions to do some convenient conversion like
+ * uNumber2str(), uBytes2Hex() or uHex2Bytes().
+*/
+
+/**
  * Replace old characters in a string to new ones.
  * Example :
  * @code
- * 		std::string str = "Hello";
- * 		replaceChar(str, 'l', 'p');
+ * std::string str = "Hello";
+ * uReplaceChar(str, 'l', 'p');
+ * // The results is str = "Heppo";
  * @endcode
- * The results is str = "Heppo";
+ *
  * @param str the string
  * @param before the character to be replaced by the new one
  * @param after the new character replacing the old one
@@ -45,8 +54,9 @@ std::string UTILITE_EXP uReplaceChar(const std::string & str, char before, char 
  * Transform characters from a string to upper case.
  * Example :
  * @code
- * 		std::string str = "hello!";
- * 		str = toUpper(str); //str is now equal to "HELLO!"
+ * std::string str = "hello!";
+ * str = uToUpperCase(str);
+ * //str is now equal to "HELLO!"
  * @endcode
  * @param str the string
  * @return the modified string
@@ -57,8 +67,9 @@ std::string UTILITE_EXP uToUpperCase(const std::string & str);
  * Transform characters from a string to lower case.
  * Example :
  * @code
- * 		std::string str = "HELLO!";
- * 		str = toLower(str, false); //str is now equal to "hello!"
+ * std::string str = "HELLO!";
+ * str = uToLowerCase(str, false);
+ * //str is now equal to "hello!"
  * @endcode
  * @param str the string
  * @return the modified string
@@ -70,25 +81,25 @@ std::string UTILITE_EXP uToLowerCase(const std::string & str);
  * @param number the number to convert in a string
  * @return the string
  */
-std::string UTILITE_EXP uNumber2str(unsigned int number);
+std::string UTILITE_EXP uNumber2Str(unsigned int number);
 /**
  * Convert a number (int) to a string.
  * @param number the number to convert in a string
  * @return the string
  */
-std::string UTILITE_EXP uNumber2str(int number);
+std::string UTILITE_EXP uNumber2Str(int number);
 /**
  * Convert a number (float) to a string.
  * @param number the number to convert in a string
  * @return the string
  */
-std::string UTILITE_EXP uNumber2str(float number);
+std::string UTILITE_EXP uNumber2Str(float number);
 /**
  * Convert a number (double) to a string.
  * @param number the number to convert in a string
  * @return the string
  */
-std::string UTILITE_EXP uNumber2str(double number);
+std::string UTILITE_EXP uNumber2Str(double number);
 
 /**
  * Convert a bool to a string.
@@ -96,7 +107,7 @@ std::string UTILITE_EXP uNumber2str(double number);
  * @param boolean the boolean to convert in a string
  * @return the string
  */
-std::string UTILITE_EXP uBool2str(bool boolean);
+std::string UTILITE_EXP uBool2Str(bool boolean);
 /**
  * Convert a string to a boolean.
  * The format used is :
@@ -112,10 +123,11 @@ bool UTILITE_EXP uStr2Bool(const char * str);
  * Characters are in upper case.
  * Example :
  * @code
- * 		char bytes[] = {0x3F};
- * 		std::string hex = Util::bytes2Hex(bytes, 1);
+ * char bytes[] = {0x3F};
+ * std::string hex = uBytes2Hex(bytes, 1);
+ * // The string constains "3F".
  * @endcode
- * The string constains "3F".
+ *
  * @param bytes the bytes array
  * @param bytesLen the length of the bytes array
  * @return the hexadecimal string
@@ -127,28 +139,30 @@ std::string UTILITE_EXP uBytes2Hex(const char * bytes, unsigned int bytesLen);
  * Characters can be in upper or lower case.
  * Example :
  * @code
- * 		std::string hex = "1f3B";
- * 		std::vector<char> bytes = Util::hex2Bytes(hex);
+ * std::string hex = "1f3B";
+ * std::vector<char> bytes = uHex2Bytes(hex);
+ * // The array contains {0x1F, 0x3B}.
  * @endcode
- * The array contains {0x1F, 0x3B}.
+ *
  * @param hex the hexadecimal string
  * @return the bytes array
  */
-std::vector<char> UTILITE_EXP uHex2bytes(const std::string & hex);
+std::vector<char> UTILITE_EXP uHex2Bytes(const std::string & hex);
 /**
  * Convert an hexadecimal string to a bytes array.
  * The string must be pair length. The hexadecimal
  * Characters can be in upper or lower case.
  * Example :
  * @code
- * 		std::vector<char> bytes = Util::hex2Bytes("1f3B", 4);
+ * std::vector<char> bytes = uHex2Bytes("1f3B", 4);
+ * // The array contains {0x1F, 0x3B}.
  * @endcode
- * The array contains {0x1F, 0x3B}.
+ *
  * @param hex the hexadecimal string
  * @param bytesLen the hexadecimal string length
  * @return the bytes array
  */
-std::vector<char> UTILITE_EXP uHex2bytes(const char * hex, int hexLen);
+std::vector<char> UTILITE_EXP uHex2Bytes(const char * hex, int hexLen);
 
 /**
  * Convert an hexadecimal string to an ascii string. A convenient way
@@ -158,42 +172,43 @@ std::vector<char> UTILITE_EXP uHex2bytes(const char * hex, int hexLen);
  * Characters can be in upper or lower case.
  * Example :
  * @code
- * 		std::string str = Util::hex2str("48656C6C4F21");
+ * std::string str = uHex2Str("48656C6C4F21");
+ * // The string contains "Hello!".
  * @endcode
- * The string contains "Hello!".
+ *
  * @see hex2bytes
  * @param hex the hexadecimal string
  * @return the ascii string
  */
-std::string UTILITE_EXP uHex2str(const std::string & hex);
+std::string UTILITE_EXP uHex2Str(const std::string & hex);
 
 /**
  * Convert hexadecimal (left or right part) value to an ascii character.
  * Example :
  * @code
- * 		unsigned char F = hex2ascii(0xFA, false);
- * 		unsigned char A = hex2ascii(0xFA, true);
+ * unsigned char F = uHex2Ascii(0xFA, false);
+ * unsigned char A = uHex2Ascii(0xFA, true);
  * @endcode
  * @see ascii2hex
  * @param c the hexadecimal value
  * @param rightPart If we want the character corresponding to the right of left part (4 bits) of the byte value.
  * @return the ascii character (in upper case)
  */
-unsigned char UTILITE_EXP uHex2ascii(const unsigned char & c, bool rightPart);
+unsigned char UTILITE_EXP uHex2Ascii(const unsigned char & c, bool rightPart);
 
 /**
  * Convert an ascii character to an hexadecimal value (right 4 bits).
  * Characters can be in upper or lower case.
  * Example :
  * @code
- * 		unsigned char hex = ascii2hex('F');
+ * unsigned char hex = uAscii2Hex('F');
+ * // The results is hex = 0x0F;
  * @endcode
- * The results is hex = 0x0F;
  * @see hex2ascii
  * @param c the ascii character
  * @return the hexadecimal value
  */
-unsigned char UTILITE_EXP uAscii2hex(const unsigned char & c);
+unsigned char UTILITE_EXP uAscii2Hex(const unsigned char & c);
 
 /**
  * Format a string like printf, and return it as a std::string

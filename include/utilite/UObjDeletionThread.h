@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -24,24 +24,48 @@
 #include "utilite/UEvent.h"
 #include "utilite/UEventsManager.h"
 
-class ObjDeletedEvent : public UEvent
+/**
+ * Event used by UObjDeletionThread to notify when its object is deleted. It contains
+ * the object id used for deletion (can be retrieved by UEvent::getCode()).
+ */
+class UObjDeletedEvent : public UEvent
 {
 public:
-	ObjDeletedEvent(int objDeletionThreadId) : UEvent(objDeletionThreadId) {}
-	virtual ~ObjDeletedEvent() {}
-	virtual std::string getClassName() const {return std::string("ObjDeletedEvent");}
+	UObjDeletedEvent(int objDeletionThreadId) : UEvent(objDeletionThreadId) {}
+	virtual ~UObjDeletedEvent() {}
+	/**
+	 * @return string "UObjDeletedEvent"
+	 */
+	virtual std::string getClassName() const {return std::string("UObjDeletedEvent");}
 };
 
+/**
+ * This class can be used to delete a dynamically created object in another thread. Give the
+ * dynamic reference to object to it and it will notify with a UObjDeletedEvent when the object is deleted.
+ * The deletion can be delayed on startDeletion(), the thread will wait the time given before deleting the object.
+ */
 template<class T>
-class ObjDeletionThread : public UThreadNode
+class UObjDeletionThread : public UThreadNode
 {
 public:
-	ObjDeletionThread(T * obj, int id=0) :
+	/**
+	 * The constructor.
+	 * @param obj the object to delete
+	 * @param id the custom id which will be sent in a event UObjDeletedEvent after the object is deleted
+	 */
+	UObjDeletionThread(T * obj, int id=0) :
 		obj_(obj),
 		id_(id),
 		waitMs_(0) {}
 
-	virtual ~ObjDeletionThread()
+	/**
+	 * The destructor. If this thread is not started but with an object set, the
+	 * object is deleted. If the thread has not finished to delete the object, the
+	 * calling thread will wait (on a UThreadNode::join()) until the object is deleted.
+	 * @param obj the object to delete
+	 * @param id the custom id which will be sent in a event UObjDeletedEvent after the object is deleted
+	 */
+	virtual ~UObjDeletionThread()
 	{
 		join(true);
 		if(obj_)
@@ -49,8 +73,23 @@ public:
 			delete obj_;
 		}
 	}
+
+	/**
+	 * Start the thread after optional delay.
+	 * @param waitMs the delay before deletion
+	 */
 	void startDeletion(int waitMs = 0) {waitMs_ = waitMs; this->start();}
+
+	/**
+	 * Get id of the deleted object.
+	 * @return the id
+	 */
 	int id() const {return id_;}
+
+	/**
+	 * Set a new object, if one was already set, the old one is deleted.
+	 * @param obj the object to delete
+	 */
 	void setObj(T * obj)
 	{
 		join();
@@ -63,6 +102,9 @@ public:
 	}
 
 private:
+	/**
+	 * Thread main loop...
+	 */
 	virtual void mainLoop()
 	{
 		if(waitMs_)
@@ -75,7 +117,7 @@ private:
 			obj_ = 0;
 		}
 		this->kill();
-		UEventsManager::post(new ObjDeletedEvent(id_), false);
+		UEventsManager::post(new UObjDeletedEvent(id_), false);
 	}
 
 private:

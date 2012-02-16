@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -26,6 +26,11 @@
 #include <vector>
 #include <list>
 
+/**
+ * Class UDirectory.
+ *
+ * This class can be used to get file names in a directory.
+ */
 class UTILITE_EXP UDirectory
 {
 public:
@@ -71,13 +76,42 @@ public:
 	static std::string homeDir();
 
 public:
+	/**
+	 * Create a UDirectory object with path initialized to an existing "path" and with filter "extensions".
+	 * @param path the path to an existing directory
+	 * @param extensions filter to get only file names with the extensions specified, format is a
+	 * list of extensions separated by a space: "jpg bmp" get only file names finishing by jpg or bmp.
+	 */
 	UDirectory(const std::string & path, const std::string & extensions = "");
 	~UDirectory();
 
+	/**
+	 * Update indexed file names (if the directory changed).
+	 */
 	void update();
+
+	/**
+	 * Check is the directory exists.
+	 * @return if directory exists.
+	 */
 	bool isValid();
+
+	/**
+	 * Get the next file name.
+	 * @return the next file name
+	 */
 	std::string getNextFileName();
+
+	/**
+	 * Get all file names.
+	 * @see UDirectory()
+	 * @return all the file names in directory matching the set extensions.
+	 */
 	const std::list<std::string> & getFileNames() const {return fileNames_;}
+
+	/**
+	 * Return the pointer of file names to beginning.
+	 */
 	void rewind();
 
 private:

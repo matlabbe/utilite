@@ -9,12 +9,15 @@ INCLUDE_DIRECTORIES(${INCLUDE_DIRS})
 
 # Add binaries
 # The extension is automatically found.
-ADD_EXECUTABLE(simpleThreadExample simpleThreadExample.cpp)
-TARGET_LINK_LIBRARIES(simpleThreadExample utilite)
+ADD_EXECUTABLE(example-simpleThread simpleThread.cpp)
+TARGET_LINK_LIBRARIES(example-simpleThread utilite)
 
-ADD_EXECUTABLE(eventsExample eventsExample.cpp)
-TARGET_LINK_LIBRARIES(eventsExample utilite)
+ADD_EXECUTABLE(example-events events.cpp)
+TARGET_LINK_LIBRARIES(example-events utilite)
 
-ADD_EXECUTABLE(producerConsumerExample producerConsumerExample.cpp)
-TARGET_LINK_LIBRARIES(producerConsumerExample utilite)
+ADD_EXECUTABLE(example-producerConsumer producerConsumer.cpp)
+TARGET_LINK_LIBRARIES(example-producerConsumer utilite)
+
+ADD_EXECUTABLE(example-counterThread counterThread.cpp)
+TARGET_LINK_LIBRARIES(example-counterThread utilite)
 

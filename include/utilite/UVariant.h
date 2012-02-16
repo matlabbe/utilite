@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -22,7 +22,9 @@
 
 #include <string>
 
-// It is the subclass's responsibility to delete the data
+/**
+ * Experimental class...
+ */
 class UVariant
 {
 public:

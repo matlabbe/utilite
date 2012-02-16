@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -25,86 +25,61 @@
 #include "utilite/UThread.h"
 
 /**
- * This class is a thread with states. There are 3 types of
- * state (IDLE, RUNNING, KILLED). Use the method start() to
- * start the thread (IDLE -> RUNNING). To kill the thread safely,
- * use kill() (RUNNING -> KILLED). The use of kill() is not safe.
- * It is recommended to use kill() to let the thread finishes his
- * loop so it can unlocks Mutex or Semaphore previously locked to avoid
- * deadlocks(when an other thread wait for a resource locked by this thread).
+ * The class UThreadNode is an abstract class for creating thread objects.
+ * A UThreadNode provides methods to create threads as an object-style fashion.
  *
- * For most of inherited classes, only mainLoop() needs to be implemented.
+ * For most of inherited classes, only mainLoop() needs to be implemented, then only start() needs
+ * to be called from the outside.
+ * The main loop is called until the thread itself calls kill() or another thread
+ * calls kill() or join() (with parameter to true) on this thread. Unlike kill(), join() is a blocking call:
+ * the calling thread will wait until this thread has finished, thus join() must not be
+ * called inside the mainLoop().
+ *
+ * If inside the mainLoop(), at some time, the thread needs to wait on a mutex/semaphore
+ * (like for the acquisition of a resource), the function killCleanup() should be
+ * implemented to release the mutex/semaphore when the thread is killed, to avoid a deadlock.
+ * The function killCleanup() is called after the thread's state is set to kSKilled.
+ * After the mutex/semaphore is released in killCleanup(), on wake up, the thread can know if
+ * it needs to stop by calling isKilled().
+ *
+ * To do an initialization process (executed by the worker thread) just one time before
+ * entering the mainLoop(), startInit() can be implemented.
  *
  * Example:
  * @code
- * 		#include "utilite/UThreadNode.h"
- * 		#include <stdio.h>
- * 		class SimpleThread : public UThreadNode
- * 		{
- * 			public:
- * 				SimpleThread() : _loopCount(0) {}
- * 				~SimpleThread()
- * 				{
- * 					printf("SimpleThread destructor\n");
- * 					this->kill();
- * 				}
+ * #include "utilite/UThreadNode.h"
+ * class SimpleThread : public UThreadNode
+ * {
+ * public:
+ * 	SimpleThread() {}
+ * 	virtual ~SimpleThread() {
+ * 		// The calling thread will wait until this thread has finished.
+ * 		this->join(true);
+ *	}
  *
- * 			protected:
- * 				virtual void startInit()
- * 				{
- * 					printf("This is called once before entering the main thread loop.\n");
- * 					_loopCount = 1;
- * 				}
+ * protected:
+ * 	virtual void mainLoop() {
+ * 		// Do some works...
  *
- * 				virtual void mainLoop()
- * 				{
- * 					if(_loopCount < 3)
- * 					{
- * 						printf("This is the loop %d...\n", _loopCount++);
- * 						uSleep(10);
- * 					}
- * 					else
- * 					{
- * 						printf("This thread will now wait on a semaphore...\n");
- * 						_aSemaphore.Wait();
- * 						printf("Thread woke up!\n");
- * 					}
- * 				}
+ * 		// This will stop the thread, otherwise the mainLoop() is recalled.
+ *		this->kill();
+ * 	}
+ * };
  *
- * 				virtual void killCleanup()
- * 				{
- *					printf("Releasing the semaphore...\n");
- * 					_aSemaphore.Post();
- * 				}
- * 			private:
- * 				int _loopCount;
- * 				Util::Semaphore _aSemaphore;
- * 		};
- *
- * 		int main(int argc, char * argv[])
- * 		{
- *			SimpleThread t;
- *			printf("Example with the StateThread class\n");
- *			t.start();
- *			uSleep(100);
- *			t.kill();
- * 			return 0;
- * 		}
- * @endcode
- * The output is :
- * @code
- * 		Example with the StateThread class
- * 		This is called once before entering the main thread loop.
- * 		This is the loop 1...
- * 		This is the loop 2...
- * 		This thread will now wait on a semaphore...
- * 		Releasing the semaphore...
- * 		Thread woke up!
- * 		SimpleThread destructor
+ * int main(int argc, char * argv[])
+ * {
+ *	SimpleThread t;
+ *	t.start();
+ *	t.join(); // Wait until the thread has finished.
+ * 	return 0;
+ * }
  * @endcode
  *
  * @see start()
+ * @see startInit()
  * @see kill()
+ * @see join()
+ * @see killCleanup()
  * @see mainLoop()
  *
  */
@@ -112,19 +87,23 @@ class UTILITE_EXP UThreadNode : public UThread<void>
 {
 public:
     /**
-     * Enum of priorities
+     * Enum of priorities : kPLow, kPBelowNormal, kPNormal, kPAboveNormal, kPRealTime.
      */
     enum Priority{kPLow, kPBelowNormal, kPNormal, kPAboveNormal, kPRealTime};
 
 public:
     /**
      * The constructor.
+     * @see Priority
+     * @param priority the thread priority
      */
     UThreadNode(Priority priority = kPNormal);
 
     /**
-     * The destructor. Inherited classes must call kill() to avoid memory leaks...
-     * Not safe to delete a thread while other threads are joining it.
+     * The destructor. Inherited classes must call join(true) inside their destructor
+     * to avoid memory leaks where the underlying c-thread is still running.
+     *
+     * Note: not safe to delete a thread while other threads are joining it.
      */
     virtual ~UThreadNode();
 
@@ -136,16 +115,16 @@ public:
     void start();
 
     /**
-	 * It kills the thread safely. It lets the thread finishes his
-	 * loop so it can unlocks Mutex or Semaphore previously locked to avoid
-	 * deadlocks(when an other thread wait for a ressource locked by this thread).
+	 * Kill the thread.
 	 * This functions does nothing if the thread is not started or is killed.
+	 *
 	 * Note : not a blocking call
 	 */
 	void kill();
 
 	/**
 	 * The caller thread will wait until the thread has finished.
+	 *
 	 * Note : blocking call
 	 * @param killFirst if you want kill() to be called before joining (default false), otherwise not.
 	 */
@@ -159,14 +138,30 @@ public:
 
     /**
 	 * Set the thread affinity. This is applied during start of the thread.
+	 *
 	 * MAC OS X : http://developer.apple.com/library/mac/#releasenotes/Performance/RN-AffinityAPI/_index.html.
 	 * @param cpu the cpu id (start at 1), 0 means no affinity (default).
 	 */
 	void setAffinity(int cpu = 0);
 
+	/**
+	 * @return if the state of the thread is kSCreating (after start() is called but before entering the mainLoop()).
+	 */
     bool isCreating() const;
+
+    /**
+	 * @return if the state of the thread is kSRunning (it is executing the mainLoop()).
+	 */
     bool isRunning() const;
+
+    /**
+	 * @return if the state of the thread is kSIdle (before start() is called).
+	 */
     bool isIdle() const;
+
+    /**
+	 * @return if the state of the thread is kSKilled (after kill() is called).
+	 */
     bool isKilled() const;
 
     Handle getThreadHandle() const {return handle_;}
@@ -178,48 +173,49 @@ private:
     /**
 	 * Virtual method startInit().
 	 * User can implement this function to add a behavior
-	 * before the main loop when the thread is started. It is
+	 * before the main loop is started. It is
 	 * called once.
 	 */
 	virtual void startInit() {}
 
 	/**
 	 * Pure virtual method mainLoop().
-	 * The inner loop of the thread. This method is called
-	 * in the main loop of the thread while the thread is running.
+	 * The inner loop of the thread. This method is called repetitively
+	 * until the thread is killed.
 	 *
 	 * @see mainLoop()
+	 * @see kill()
 	 */
 	virtual void mainLoop() = 0;
 
 	/**
 	 * Virtual method killCleanup().
 	 * User can implement this function to add a behavior
-	 * before the thread is killed. It will wait for the loop to be finished. When this
-	 * function is called, the state of the thread is KILLED. It is useful to
+	 * before the thread is killed. When this
+	 * function is called, the state of the thread is set to kSKilled. It is useful to
 	 * wake up a sleeping thread to finish his loop and to avoid a deadlock.
 	 */
 	virtual void killCleanup() {}
 
-    /**
+    /*
      * Inherited method ThreadMain() from Thread.
      * @see Thread<void>
      */
     void ThreadMain();
 
-    /**
+    /*
 	 * Apply thread priority. This is called when starting the thread.
 	 * *@todo : Support pthread
 	 */
 	void applyPriority();
 
-	/**
+	/*
 	 * Apply cpu affinity. This is called when starting the thread.
 	 * *@todo : Support Windows
 	 */
 	void applyAffinity();
 
-    /**
+    /*
      * Inherited method Create() from Thread.
      * Here we force this function to be private so the
      * inherited class can't have access to it.
@@ -246,18 +242,18 @@ private:
 	UThreadNode( const UThreadNode & t ) {}
 
 private:
-    enum State{kSIdle, kSCreating, kSRunning, kSKilled}; /**< Enum of states. */
-    State state_; 			/**< The thread state. */
-    Priority priority_; 	/**< The thread priority. */
-    Handle handle_; 	/**< The thread handle. */
+    enum State{kSIdle, kSCreating, kSRunning, kSKilled}; /* Enum of states. */
+    State state_; 			/* The thread state. */
+    Priority priority_; 	/* The thread priority. */
+    Handle handle_; 	/* The thread handle. */
 #ifdef WIN32
-    int threadId_; 			/**< The thread id. */
+    int threadId_; 			/* The thread id. */
 #else
-    unsigned long threadId_; /**< The thread id. */
+    unsigned long threadId_; /* The thread id. */
 #endif
-    int cpuAffinity_; /**< The cpu affinity. */
-    UMutex killSafelyMutex_;	/**< Mutex used to protect the kill() method. */
-    UMutex runningMutex_;	    /**< Mutex used to notify the join method when the thread has finished. */
+    int cpuAffinity_; /* The cpu affinity. */
+    UMutex killSafelyMutex_;	/* Mutex used to protect the kill() method. */
+    UMutex runningMutex_;	    /* Mutex used to notify the join method when the thread has finished. */
 };
 
 #endif // UTHREADNODE_H

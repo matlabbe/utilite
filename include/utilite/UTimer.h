@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -34,7 +34,7 @@
  * On Windows, the performanceCounter is used.
  * Example:
  * @code
- *      Timer aTimer;
+ *      UTimer timer;
  *      timer.start();
  *      ... (do some work)
  *      timer.stop();
@@ -45,14 +45,7 @@
 class UTILITE_EXP UTimer
 {
 public:
-    /** 
-     * The constructor.
-     */
     UTimer();
-
-    /** 
-     * The destructor.
-     */
     ~UTimer();
 
     /** 
@@ -98,13 +91,13 @@ public:
 
 private:
 #ifdef WIN32
-    LARGE_INTEGER startTimeRecorded_; /**< When we start the timer, timeRecorded is copied over lastTimeRecorded.*/
-    LARGE_INTEGER stopTimeRecorded_;  /**< When we stop the timer. */
+    LARGE_INTEGER startTimeRecorded_; /* When we start the timer, timeRecorded is copied over lastTimeRecorded.*/
+    LARGE_INTEGER stopTimeRecorded_;  /* When we stop the timer. */
 
-    LARGE_INTEGER frequency_;          /**< Keep the frequency of the counter */
+    LARGE_INTEGER frequency_;          /* Keep the frequency of the counter */
 #else
-    struct timeval startTimeRecorded_; /**< When we start the timer, timeRecorded is copied over lastTimeRecorded.*/
-    struct timeval stopTimeRecorded_;  /**< When we stop the timer. */
+    struct timeval startTimeRecorded_; /* When we start the timer, timeRecorded is copied over lastTimeRecorded.*/
+    struct timeval stopTimeRecorded_;  /* When we stop the timer. */
 #endif
 };
 

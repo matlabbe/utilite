@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -19,6 +19,10 @@
 
 #ifndef UMATH_H
 #define UMATH_H
+
+/** \file UMath.h
+    \brief Basic mathematic functions
+*/
 
 #include "utilite/UtiLiteExp.h" // DLL export/import defines
 

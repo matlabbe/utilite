@@ -1,4 +1,4 @@
-/**
+/*
 *  utilite is a cross-platform library with
 *  useful utilities for fast and small developing.
 *  Copyright (C) 2010  Mathieu Labbe
@@ -23,16 +23,22 @@
 #include "utilite/UtiLiteExp.h" // DLL export/import defines
 
 /**
- * This class is used to delete a dynamicaly created 
- * Singleton. Created on the stack of a Singleton, when the 
+ * This class is used to delete a dynamically created
+ * objects. It was mainly designed to remove dynamically created Singleton.
+ * Created on the stack of a Singleton, when the
  * application is finished, his destructor make sure that the 
  * Singleton is deleted.
+ *
  */
-template <class DOOMED>
-class UTILITE_EXP UDestroyer 
+template <class T>
+class UDestroyer
 {
 public:
-    UDestroyer(DOOMED* doomed = 0)  : doomed_(doomed) {}
+	/**
+	 * The constructor. Set the doomed object (take ownership of the object). The object is deleted
+	 * when this object is deleted.
+	 */
+    UDestroyer(T* doomed = 0)  : doomed_(doomed) {}
     
     ~UDestroyer()
     {
@@ -43,19 +49,29 @@ public:
         }
     }
 
-    void setDoomed(DOOMED* doomed)
-    {
-        doomed_ = doomed;
-    }
+    /**
+	 * Set the doomed object. If a doomed object is already set, the function returns false.
+	 * @param doomed the doomed object
+	 * @return false if an object is already set and the new object is not null, otherwise true
+	 */
+    bool setDoomed(T* doomed)
+	{
+    	if(doomed_ && doomed)
+    	{
+    		return false;
+    	}
+		doomed_ = doomed;
+		return true;
+	}
 
 private:
     // Prevent users from making copies of a 
     // Destroyer to avoid double deletion:
-    UDestroyer(const UDestroyer<DOOMED>&);
-    void operator=(const UDestroyer<DOOMED>&);
+    UDestroyer(const UDestroyer<T>&);
+    void operator=(const UDestroyer<T>&);
 
 private:
-    DOOMED* doomed_;
+    T* doomed_;
 };
 
 #endif // UDESTROYER_H
