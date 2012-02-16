@@ -1,6 +1,6 @@
 #summary Here are some examples of what can be done by the library.
 <wiki:toc max_depth="1" />
-These examples can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples examples].
+These examples can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples].
 = Events =
 Note : the communication used between threads is events-based. 
 
