@@ -1,7 +1,7 @@
 #summary Here are some examples of what can be done by the library.
 <wiki:toc max_depth="1" />
 These examples can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples]. Please refer to the [http://utilite.googlecode.com/svn/trunk/doc/html/index.html API documentation] for information about these classes.
-= Events =
+= Logger and events=
 Note : the communication used between threads is events-based. 
 
 This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples/events.cpp events.cpp]
