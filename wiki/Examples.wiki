@@ -1,7 +1,8 @@
-#summary Here are some examples of what can be done by the library. These examples can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples examples].
+#summary Here are some examples of what can be done by the library.
 <wiki:toc max_depth="1" />
+These examples can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples examples].
 = Events =
-Note : the communication used between threads is events-based.
+Note : the communication used between threads is events-based. 
 
 This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples/events.cpp events.cpp]
 Output :
