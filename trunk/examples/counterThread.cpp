@@ -5,12 +5,12 @@
 #include "utilite/UEvent.h"
 
 // Implement a simple event
-class ResetEvent : public UEvent
+class ResetEventt : public UEvent
 {
 public:
-	ResetEvent() {}
-	virtual ~ResetEvent() {}
-	virtual std::string getClassName() const {return "ResetEvent";} // Must be implemented
+	ResetEventt() {}
+	virtual ~ResetEventt() {}
+	virtual std::string getClassName() const {return "ResetEventt";} // Must be implemented
 };
 
 // There is the thread counting indefinitely, the count can be reseted by sending a ResetEvent.
@@ -39,7 +39,7 @@ protected:
 		uSleep(100); // wait 100 ms
 	}
 	virtual void handleEvent(UEvent * event) {
-		if(event->getClassName().compare("ResetEvent") == 0) {
+		if(event->getClassName().compare("ResetEventt") == 0) {
 			state_ = 1;
 		}
 	}
@@ -55,7 +55,7 @@ int main(int argc, char * argv[])
 	UEventsManager::addHandler(&counter);
 
 	uSleep(500); // wait 500 ms before sending a reset event
-	UEventsManager::post(new ResetEvent());
+	UEventsManager::post(new ResetEventt());
 	uSleep(500); // wait 500 ms before termination
 
 	UEventsManager::removeHandler(&counter);
