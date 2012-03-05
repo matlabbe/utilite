@@ -175,8 +175,17 @@ private:
 	 * User can implement this function to add a behavior
 	 * before the main loop is started. It is
 	 * called once.
+	 * @deprecated implements mainLoopInit() instead.
 	 */
-	virtual void startInit() {}
+    DEPRECATED(virtual void startInit()) {}
+
+	/**
+	 * Virtual method mainLoopBegin().
+	 * User can implement this function to add a behavior
+	 * before the main loop is started. It is
+	 * called once (before entering mainLoop()).
+	 */
+	virtual void mainLoopBegin() {startInit();}
 
 	/**
 	 * Pure virtual method mainLoop().
@@ -194,8 +203,26 @@ private:
 	 * before the thread is killed. When this
 	 * function is called, the state of the thread is set to kSKilled. It is useful to
 	 * wake up a sleeping thread to finish his loop and to avoid a deadlock.
+	 * @deprecated implements mainLoopKill() instead.
 	 */
-	virtual void killCleanup() {}
+	DEPRECATED(virtual void killCleanup()) {}
+
+	/**
+	 * Virtual method mainLoopKill().
+	 * User can implement this function to add a behavior
+	 * before the thread is killed. When this
+	 * function is called, the state of the thread is set to kSKilled. It is useful to
+	 * wake up a sleeping thread to finish his loop and to avoid a deadlock.
+	 */
+	virtual void mainLoopKill() {killCleanup();}
+
+	/**
+	 * Virtual method mainLoopEnd().
+	 * User can implement this function to add a behavior
+	 * after the thread is killed (after exiting the mainLoop(), work is
+	 * still done in the thread before exiting).
+	 */
+	virtual void mainLoopEnd() {}
 
     /*
      * Inherited method ThreadMain() from Thread.
