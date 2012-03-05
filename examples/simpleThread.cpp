@@ -26,7 +26,7 @@ public:
 	}
 
 protected:
-	virtual void startInit() {
+	virtual void mainLoopBegin() {
 		printf("This is called once before entering the main thread loop.\n");
 		loopCount_ = 1;
 	}
@@ -43,7 +43,7 @@ protected:
 		}
 	}
 
-	virtual void killCleanup() {
+	virtual void mainLoopKill() {
 		printf("Releasing the semaphore...\n");
 		semaphore_.release();
 	}

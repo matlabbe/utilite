@@ -36,14 +36,14 @@
  * called inside the mainLoop().
  *
  * If inside the mainLoop(), at some time, the thread needs to wait on a mutex/semaphore
- * (like for the acquisition of a resource), the function killCleanup() should be
+ * (like for the acquisition of a resource), the function mainLoopKill() should be
  * implemented to release the mutex/semaphore when the thread is killed, to avoid a deadlock.
  * The function killCleanup() is called after the thread's state is set to kSKilled.
  * After the mutex/semaphore is released in killCleanup(), on wake up, the thread can know if
  * it needs to stop by calling isKilled().
  *
  * To do an initialization process (executed by the worker thread) just one time before
- * entering the mainLoop(), startInit() can be implemented.
+ * entering the mainLoop(), mainLoopBegin() can be implemented.
  *
  * Example:
  * @code
@@ -76,10 +76,10 @@
  * @endcode
  *
  * @see start()
- * @see startInit()
  * @see kill()
  * @see join()
- * @see killCleanup()
+ * @see mainLoopBegin()
+ * @see mainLoopKill()
  * @see mainLoop()
  *
  */
