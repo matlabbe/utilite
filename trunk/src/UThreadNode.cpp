@@ -67,7 +67,7 @@ void UThreadNode::kill()
 				state_ = kSKilled;
 
 				// Call function to do something before wait
-				killCleanup();
+				mainLoopKill();
 			}
 			else
 			{
@@ -269,7 +269,8 @@ void UThreadNode::ThreadMain()
 	{
 		ULOGGER_DEBUG("");
 	}
-    startInit();
+
+    mainLoopBegin();
     if(PRINT_DEBUG)
     {
     	ULOGGER_DEBUG("Entering loop...");
@@ -281,5 +282,6 @@ void UThreadNode::ThreadMain()
     }
     handle_ = 0;
     threadId_ = 0;
+    mainLoopEnd();
     runningMutex_.unlock();
 }
