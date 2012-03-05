@@ -150,7 +150,7 @@ public:
     bool isCreating() const;
 
     /**
-	 * @return if the state of the thread is kSRunning (it is executing the mainLoop()).
+	 * @return if the state of the thread is kSRunning (it is executing the mainLoop()) or kSCreating.
 	 */
     bool isRunning() const;
 
