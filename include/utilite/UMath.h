@@ -348,7 +348,6 @@ inline std::vector<T> uXMatch(const T * vA, const T * vB, unsigned int sizeA, un
 	T den = 1;
 	if(method == UXCorrCoeff || method == UXCovCoeff)
 	{
-		den = std::sqrt(uSumSquared(vA, sizeA) * uSumSquared(vB, sizeB));
 		den = std::sqrt(uSumSquared(vA, sizeA, meanA) * uSumSquared(vB, sizeB, meanB));
 	}
 	else if(method == UXCorrBiased || method == UXCovBiased)
