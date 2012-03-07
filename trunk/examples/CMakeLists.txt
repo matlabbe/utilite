@@ -21,3 +21,6 @@ TARGET_LINK_LIBRARIES(example-producerConsumer utilite)
 ADD_EXECUTABLE(example-counterThread counterThread.cpp)
 TARGET_LINK_LIBRARIES(example-counterThread utilite)
 
+ADD_EXECUTABLE(example-math math.cpp)
+TARGET_LINK_LIBRARIES(example-math utilite)
+

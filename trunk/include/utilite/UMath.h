@@ -21,7 +21,7 @@
 #define UMATH_H
 
 /** \file UMath.h
-    \brief Basic mathematic functions
+    \brief Basic mathematics functions
 */
 
 #include "utilite/UtiLiteExp.h" // DLL export/import defines
@@ -54,6 +54,7 @@ inline T uMax(const T * v, unsigned int size, unsigned int & index = 0)
 			index = i;
 		}
 	}
+
 	return max;
 }
 
@@ -108,7 +109,7 @@ inline T uSum(const std::vector<T> & v)
 }
 
 /**
- * Get the sum of all values contained in an array.
+ * Get the sum of all values contained in an array: sum(x).
  * @param v the array
  * @param size the size of the array
  * @return the sum of values of the array
@@ -122,6 +123,27 @@ inline T uSum(const T * v, unsigned int size)
 		for(unsigned int i=0; i<size; ++i)
 		{
 			sum += v[i];
+		}
+	}
+	return sum;
+}
+
+/**
+ * Get the sum of all squared values contained in an array: sum(x.^2).
+ * @param v the array
+ * @param size the size of the array
+ * @param subtract an optional value to remove to v before squaring v: sum((x-sub).^2)
+ * @return the sum of values of the array
+ */
+template<class T>
+inline T uSumSquared(const T * v, unsigned int size, T subtract = T())
+{
+	T sum = 0;
+	if(v && size)
+	{
+		for(unsigned int i=0; i<size; ++i)
+		{
+			sum += (v[i]-subtract)*(v[i]-subtract);
 		}
 	}
 	return sum;
@@ -253,10 +275,11 @@ inline T uStdDev(const std::vector<T> & v, const T & m)
 }
 
 /**
- * Get the norm of the vector : return sqrt(x1*x1+ x2*x2 + x3*x3)
+ * Get the norm of the vector : return sqrt(x1*x1 + x2*x2 + x3*x3 + ...)
  * @return the norm of the vector
  */
-inline float uNorm(const std::vector<float> & v)
+template<class T>
+inline T uNorm(const std::vector<T> & v)
 {
 	float sum = 0.0f;
 	for(unsigned int i=0; i<v.size(); ++i)
@@ -270,7 +293,8 @@ inline float uNorm(const std::vector<float> & v)
  * Normalize the vector : [x1 x2 x3 ...] ./ uNorm([x1 x2 x3 ...])
  * @return the vector normalized
  */
-inline std::vector<float> uNormalize(const std::vector<float> & v)
+template<class T>
+inline std::vector<T> uNormalize(const std::vector<T> & v)
 {
 	float norm = uNorm(v);
 	if(norm == 0)
@@ -279,7 +303,7 @@ inline std::vector<float> uNormalize(const std::vector<float> & v)
 	}
 	else
 	{
-		std::vector<float> r(v.size());
+		std::vector<T> r(v.size());
 		for(unsigned int i=0; i<v.size(); ++i)
 		{
 			r[i] = v[i]/norm;
@@ -289,55 +313,124 @@ inline std::vector<float> uNormalize(const std::vector<float> & v)
 }
 
 /**
- * Do a full cross correlation between 2 arrays.
+ * Enum of cross matching methods (cross-correlation, cross-covariance) :
+ * UXCorrRaw, UXCorrBiased, UXCorrUnbiased, UXCorrCoeff, UXCovRaw, UXCovBiased, UXCovUnbiased, UXCovCoeff.
+ */
+enum UXMatchMethod{UXCorrRaw, UXCorrBiased, UXCorrUnbiased, UXCorrCoeff, UXCovRaw, UXCovBiased, UXCovUnbiased, UXCovCoeff};
+
+/**
+ * Do a full cross-correlation or cross-covariance between 2 arrays.
  * @param vA the first array
  * @param vB the second array
  * @param sizeA the size of the first array
  * @param sizeB the size of the second array
- * @return the resulting correlation vector of size = (sizeA + sizeB)-1
+ * @param method see UXMatchMethod
+ * @return the resulting correlation/covariance vector of size = sizeA + sizeB - 1
  */
-inline std::vector<float> uXCorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB)
+template<class T>
+inline std::vector<T> uXMatch(const T * vA, const T * vB, unsigned int sizeA, unsigned int sizeB, UXMatchMethod method)
 {
 	if(!vA || !vB || sizeA == 0 || sizeB == 0)
 	{
-		return std::vector<float>();
+		return std::vector<T>();
 	}
 
-	std::vector<float> result(sizeA+sizeB-1);
+	std::vector<T> result(sizeA + sizeB - 1);
 
-	float meanA = uMean(vA, sizeA);
-	float meanB = uMean(vB, sizeB);
-
-	float stdDevA = uStdDev(vA, sizeA, meanA);
-	float stdDevB = uStdDev(vB, sizeB, meanB);
-
-	float resultA;
-	float resultB;
-
-	float den = stdDevA * stdDevB * result.size();
-
-	int posA;
-	int posB;
-	unsigned int j;
-	unsigned int endLoop = sizeA;
-	if(sizeB<sizeA)
+	T meanA = 0;
+	T meanB = 0;
+	if(method > UXCorrCoeff)
 	{
-		endLoop = sizeB;
+		meanA = uMean(vA, sizeA);
+		meanB = uMean(vB, sizeB);
 	}
 
-	for(unsigned int i=0; i<endLoop; i++)
+	T den = 1;
+	if(method == UXCorrCoeff)
 	{
-		posA = sizeA - i - 1;
-		posB = sizeB - i - 1;
-		resultA = 0;
-		resultB = 0;
-		for(j=0; (j + posB) < sizeB && (j + posA) < sizeA; ++j)
+		den = std::sqrt(uSumSquared(vA, sizeA) * uSumSquared(vB, sizeB));
+	}
+	else if(method == UXCovCoeff)
+	{
+		den = std::sqrt(uSumSquared(vA, sizeA, meanA) * uSumSquared(vB, sizeB, meanB));
+	}
+	else if(method == UXCorrBiased || method == UXCovBiased)
+	{
+		den = std::max(sizeA, sizeB);
+	}
+
+	if(sizeA == sizeB)
+	{
+		T resultA;
+		T resultB;
+
+		int posA;
+		int posB;
+		unsigned int j;
+
+		// Optimization, filling two results at once
+		for(unsigned int i=0; i<sizeA; ++i)
 		{
-			resultA += (vA[j] - meanA) * (vB[j + posB] - meanB);
-			resultB += (vA[j + posA] - meanA) * (vB[j] - meanB);
+			if(method == UXCorrUnbiased || method == UXCovUnbiased)
+			{
+				den = 0;
+			}
+
+			posA = sizeA - i - 1;
+			posB = sizeB - i - 1;
+			resultA = 0;
+			resultB = 0;
+			for(j=0; (j + posB) < sizeB && (j + posA) < sizeA; ++j)
+			{
+				resultA += (vA[j] - meanA) * (vB[j + posB] - meanB);
+				resultB += (vA[j + posA] - meanA) * (vB[j] - meanB);
+				if(method == UXCorrUnbiased || method == UXCovUnbiased)
+				{
+					++den;
+				}
+			}
+
+			result[i] = resultA / den;
+			result[result.size()-1 -i] = resultB / den;
 		}
-		result[i] = resultA / den;
-		result[result.size()-1 -i] = resultB / den;
+	}
+	else
+	{
+		for(unsigned int i=0; i<result.size(); ++i)
+		{
+			if(method == UXCorrUnbiased || method == UXCovUnbiased)
+			{
+				den = 0;
+			}
+
+			int posB = sizeB - i - 1;
+			T r = 0;
+			if(posB >= 0)
+			{
+				for(unsigned int j=0; (j + posB) < sizeB && j < sizeA; ++j)
+				{
+					r += (vA[j] - meanA) * (vB[j + posB] - meanB);
+					if(method == UXCorrUnbiased || method == UXCovUnbiased)
+					{
+						++den;
+					}
+				}
+			}
+			else
+			{
+				int posA = posB*-1;
+				for(unsigned int i=0; (i+posA) < sizeA && i < sizeB; ++i)
+				{
+					r += (vA[i+posA] - meanA) * (vB[i] - meanB);
+					if(method == UXCorrUnbiased || method == UXCovUnbiased)
+					{
+						++den;
+					}
+				}
+			}
+
+			result[i] = r / den;
+		}
 	}
 
 	return result;
@@ -350,20 +443,44 @@ inline std::vector<float> uXCorr(const float * vA, const float * vB, unsigned in
  * @param sizeA the size of the first array
  * @param sizeB the size of the second array
  * @param index the index to correlate
- * @param meanA the mean of the array A
- * @param meanB the mean of the array B
- * @param stdDevAB the std dev of the 2 arrays: stdDevAB = stdDevA*stdDevB
+ * @param method see UXMatchMethod
  * @return the resulting correlation value
  */
-inline float uXCorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB, unsigned int index, float meanA, float meanB, float stdDevAB)
+template<class T>
+inline T uXMatch(const T * vA, const T * vB, unsigned int sizeA, unsigned int sizeB, unsigned int index, UXMatchMethod method)
 {
-	float result = 0;
+	T result = 0;
 	if(!vA || !vB || sizeA == 0 || sizeB == 0)
 	{
 		return result;
 	}
 
+	T meanA = 0;
+	T meanB = 0;
+	if(method > UXCorrCoeff)
+	{
+		meanA = uMean(vA, sizeA);
+		meanB = uMean(vB, sizeB);
+	}
 	unsigned int size = sizeA + sizeB - 1;
+
+	T den = 1;
+	if(method == UXCorrCoeff)
+	{
+		den = std::sqrt(uSumSquared(vA, sizeA) * uSumSquared(vB, sizeB));
+	}
+	else if(method == UXCovCoeff)
+	{
+		den = std::sqrt(uSumSquared(vA, sizeA, meanA) * uSumSquared(vB, sizeB, meanB));
+	}
+	else if(method == UXCorrBiased || method == UXCovBiased)
+	{
+		den = std::max(sizeA, sizeB);
+	}
+	else if(method == UXCorrUnbiased || method == UXCovUnbiased)
+	{
+		den = 0;
+	}
 
 	if(index < size)
 	{
@@ -374,49 +491,26 @@ inline float uXCorr(const float * vA, const float * vB, unsigned int sizeA, unsi
 			for(i=0; (i + posB) < sizeB && i < sizeA; ++i)
 			{
 				result += (vA[i] - meanA) * (vB[i + posB] - meanB);
+				if(method == UXCorrUnbiased || method == UXCovUnbiased)
+				{
+					++den;
+				}
 			}
 		}
-		if(posB < 0)
+		else
 		{
 			int posA = posB*-1;
 			for(i=0; (i+posA) < sizeA && i < sizeB; ++i)
 			{
 				result += (vA[i+posA] - meanA) * (vB[i] - meanB);
+				if(method == UXCorrUnbiased || method == UXCovUnbiased)
+				{
+					++den;
+				}
 			}
 		}
 	}
-
-	if(sizeA > sizeB)
-	{
-		result /= (stdDevAB * sizeA);
-	}
-	else
-	{
-		result /= (stdDevAB * sizeB);
-	}
-
-	return result;
-}
-
-/**
- * Do a cross correlation between 2 arrays at a specified index.
- * The mean and the std dev are automatically computed for each array.
- * @param vA the first array
- * @param vB the second array
- * @param sizeA the size of the first array
- * @param sizeB the size of the second array
- * @param index the index to correlate
- * @return the resulting correlation value
- */
-inline float uXCorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB, unsigned int index)
-{
-	float meanA = uMean(vA, sizeA);
-	float meanB = uMean(vB, sizeB);
-
-	float stdDevA = uStdDev(vA, sizeA, meanA);
-	float stdDevB = uStdDev(vB, sizeB, meanB);
-
-	return uXCorr(vA, vB, sizeA, sizeB, index, meanA, meanB, stdDevA * stdDevB);
+	return result / den;
 }
 
 #endif // UMATH_H
