@@ -701,15 +701,128 @@ void Tests::testMathFunctions()
 	float max = 7;
 	float maxIndex = 2;
 
-	//std::vector<float> UTIL_EXP xcorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB);
+	//inline std::vector<T> uXMatch(const T * vA, const T * vB, unsigned int sizeA, unsigned int sizeB, UXMatchMethod method)
+	//inline T uXMatch(const T * vA, const T * vB, unsigned int sizeA, unsigned int sizeB, unsigned int index, UXMatchMethod method)
+	float x1[] = {1, 2, 5};
+	float x2[] = {2, 5, 1};
+	std::vector<float> r;
+	r = uXMatch(x1, x2, 3, 3, UXCorrRaw);
+	CPPUNIT_ASSERT(r.size() == 3+3-1);
+	CPPUNIT_ASSERT(r[0] == 1.0f);
+	CPPUNIT_ASSERT(r[1] == 7.0f);
+	CPPUNIT_ASSERT(r[2] == 17.0f);
+	CPPUNIT_ASSERT(r[3] == 29.0f);
+	CPPUNIT_ASSERT(r[4] == 10.0f);
+	r = uXMatch(x1, x2, 3, 3, UXCorrBiased);
+	CPPUNIT_ASSERT(int(r[0]*100) == 33);
+	CPPUNIT_ASSERT(int(r[1]*100) == 233);
+	CPPUNIT_ASSERT(int(r[2]*100) == 566);
+	CPPUNIT_ASSERT(int(r[3]*100) == 966);
+	CPPUNIT_ASSERT(int(r[4]*100) == 333);
+	r = uXMatch(x1, x2, 3, 3, UXCorrUnbiased);
+	CPPUNIT_ASSERT(r[0] == 1.0f);
+	CPPUNIT_ASSERT(r[1] == 3.5f);
+	CPPUNIT_ASSERT(int(r[2]*100) == 566);
+	CPPUNIT_ASSERT(r[3] == 14.5f);
+	CPPUNIT_ASSERT(r[4] == 10.0f);
+	r = uXMatch(x1, x2, 3, 3, UXCorrCoeff);
+	CPPUNIT_ASSERT(int(r[0]*100) == 3);
+	CPPUNIT_ASSERT(int(r[1]*100) == 23);
+	CPPUNIT_ASSERT(int(r[2]*100) == 56);
+	CPPUNIT_ASSERT(int(r[3]*100) == 96);
+	CPPUNIT_ASSERT(int(r[4]*100) == 33);
+	r = uXMatch(x1, x2, 3, 3, UXCovRaw);
+	CPPUNIT_ASSERT(int(r[0]*100) == 277);
+	CPPUNIT_ASSERT(int(r[1]*100) == -277);
+	CPPUNIT_ASSERT(int(r[2]*100) == -433);
+	CPPUNIT_ASSERT(int(r[3]*100) == 588);
+	CPPUNIT_ASSERT(int(r[4]*100) == -155);
+	r = uXMatch(x1, x2, 3, 3, UXCovBiased);
+	CPPUNIT_ASSERT(int(r[0]*100) == 92);
+	CPPUNIT_ASSERT(int(r[1]*100) == -92);
+	CPPUNIT_ASSERT(int(r[2]*100) == -144);
+	CPPUNIT_ASSERT(int(r[3]*100) == 196);
+	CPPUNIT_ASSERT(int(r[4]*100) == -51);
+	r = uXMatch(x1, x2, 3, 3, UXCovUnbiased);
+	CPPUNIT_ASSERT(int(r[0]*100) == 277);
+	CPPUNIT_ASSERT(int(r[1]*100) == -138);
+	CPPUNIT_ASSERT(int(r[2]*100) == -144);
+	CPPUNIT_ASSERT(int(r[3]*100) == 294);
+	CPPUNIT_ASSERT(int(r[4]*100) == -155);
+	r = uXMatch(x1, x2, 3, 3, UXCovCoeff);
+	CPPUNIT_ASSERT(int(r[0]*100) == 32);
+	CPPUNIT_ASSERT(int(r[1]*100) == -32);
+	CPPUNIT_ASSERT(int(r[2]*100) == -49);
+	CPPUNIT_ASSERT(int(r[3]*100) == 67);
+	CPPUNIT_ASSERT(int(r[4]*100) == -17);
+	//
+	float x3[] = {1, 2, 5, 0, 1};
+	float x4[] = {2, 5, 1};
+	float x33[] = {1, 0, 5, 2, 1};
+	float x44[] = {1, 5, 2};
 
-	//float UTIL_EXP xcorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB, unsigned int index);
+	std::vector<float> r1, r2, r3, r4;
+	UXMatchMethod method = UXCovUnbiased;
 
-	//float UTIL_EXP xcorr(const float * vA, const float * vB, unsigned int sizeA, unsigned int sizeB, unsigned int index, float meanA, float meanB, float stdDevAB);
+	r1 = uXMatch(x3, x4, 5, 3, method);
+	CPPUNIT_ASSERT(r1.size() == 5+3-1);
+	r2.resize(r1.size());
+	CPPUNIT_ASSERT((r2[0] = uXMatch(x3, x4, 5, 3, 0, method)) == r1[0]);
+	CPPUNIT_ASSERT((r2[1] = uXMatch(x3, x4, 5, 3, 1, method)) == r1[1]);
+	CPPUNIT_ASSERT((r2[2] = uXMatch(x3, x4, 5, 3, 2, method)) == r1[2]);
+	CPPUNIT_ASSERT((r2[3] = uXMatch(x3, x4, 5, 3, 3, method)) == r1[3]);
+	CPPUNIT_ASSERT((r2[4] = uXMatch(x3, x4, 5, 3, 4, method)) == r1[4]);
+	CPPUNIT_ASSERT((r2[5] = uXMatch(x3, x4, 5, 3, 5, method)) == r1[5]);
+	CPPUNIT_ASSERT((r2[6] = uXMatch(x3, x4, 5, 3, 6, method)) == r1[6]);
 
-	//std::vector<float> UTIL_EXP dftAbs(const std::vector<float> & xn);
+	r3 = uXMatch(x33, x44, 5, 3, method);
+	CPPUNIT_ASSERT(r3.size() == 5+3-1);
+	r4.resize(r3.size());
+	CPPUNIT_ASSERT((r4[0] = uXMatch(x33, x44, 5, 3, 0, method)) == r3[0]);
+	CPPUNIT_ASSERT((r4[1] = uXMatch(x33, x44, 5, 3, 1, method)) == r3[1]);
+	CPPUNIT_ASSERT((r4[2] = uXMatch(x33, x44, 5, 3, 2, method)) == r3[2]);
+	CPPUNIT_ASSERT((r4[3] = uXMatch(x33, x44, 5, 3, 3, method)) == r3[3]);
+	CPPUNIT_ASSERT((r4[4] = uXMatch(x33, x44, 5, 3, 4, method)) == r3[4]);
+	CPPUNIT_ASSERT((r4[5] = uXMatch(x33, x44, 5, 3, 5, method)) == r3[5]);
+	CPPUNIT_ASSERT((r4[6] = uXMatch(x33, x44, 5, 3, 6, method)) == r3[6]);
+	CPPUNIT_ASSERT(r3[0] == r1[6]);
+	CPPUNIT_ASSERT(r3[1] == r1[5]);
+	CPPUNIT_ASSERT(r3[2] == r1[4]);
+	CPPUNIT_ASSERT(r3[3] == r1[3]);
+	CPPUNIT_ASSERT(r3[4] == r1[2]);
+	CPPUNIT_ASSERT(r3[5] == r1[1]);
+	CPPUNIT_ASSERT(r3[6] == r1[0]);
 
-	//Complex32f UTIL_EXP dftExp(float val_xn, int k, int n, int N);
+	r1 = uXMatch(x4, x3, 3, 5, method);
+	CPPUNIT_ASSERT(r1.size() == 5+3-1);
+	r2.resize(r1.size());
+	CPPUNIT_ASSERT((r2[0] = uXMatch(x4, x3, 3, 5, 0, method)) == r1[0]);
+	CPPUNIT_ASSERT((r2[1] = uXMatch(x4, x3, 3, 5, 1, method)) == r1[1]);
+	CPPUNIT_ASSERT((r2[2] = uXMatch(x4, x3, 3, 5, 2, method)) == r1[2]);
+	CPPUNIT_ASSERT((r2[3] = uXMatch(x4, x3, 3, 5, 3, method)) == r1[3]);
+	CPPUNIT_ASSERT((r2[4] = uXMatch(x4, x3, 3, 5, 4, method)) == r1[4]);
+	CPPUNIT_ASSERT((r2[5] = uXMatch(x4, x3, 3, 5, 5, method)) == r1[5]);
+	CPPUNIT_ASSERT((r2[6] = uXMatch(x4, x3, 3, 5, 6, method)) == r1[6]);
+
+	r3 = uXMatch(x44, x33, 3, 5, method);
+	CPPUNIT_ASSERT(r3.size() == 5+3-1);
+	r4.resize(r3.size());
+	CPPUNIT_ASSERT((r4[0] = uXMatch(x44, x33, 3, 5, 0, method)) == r3[0]);
+	CPPUNIT_ASSERT((r4[1] = uXMatch(x44, x33, 3, 5, 1, method)) == r3[1]);
+	CPPUNIT_ASSERT((r4[2] = uXMatch(x44, x33, 3, 5, 2, method)) == r3[2]);
+	CPPUNIT_ASSERT((r4[3] = uXMatch(x44, x33, 3, 5, 3, method)) == r3[3]);
+	CPPUNIT_ASSERT((r4[4] = uXMatch(x44, x33, 3, 5, 4, method)) == r3[4]);
+	CPPUNIT_ASSERT((r4[5] = uXMatch(x44, x33, 3, 5, 5, method)) == r3[5]);
+	CPPUNIT_ASSERT((r4[6] = uXMatch(x44, x33, 3, 5, 6, method)) == r3[6]);
+	CPPUNIT_ASSERT(r3[0] == r1[6]);
+	CPPUNIT_ASSERT(r3[1] == r1[5]);
+	CPPUNIT_ASSERT(r3[2] == r1[4]);
+	CPPUNIT_ASSERT(r3[3] == r1[3]);
+	CPPUNIT_ASSERT(r3[4] == r1[2]);
+	CPPUNIT_ASSERT(r3[5] == r1[1]);
+	CPPUNIT_ASSERT(r3[6] == r1[0]);
+
+	//
 
 	//inline T uMax(const T * v, unsigned int size, unsigned int & index = 0)
 	CPPUNIT_ASSERT( uMax(vF.data(), vF.size(), index) == max );
