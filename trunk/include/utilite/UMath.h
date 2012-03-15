@@ -505,4 +505,21 @@ inline T uXMatch(const T * vA, const T * vB, unsigned int sizeA, unsigned int si
 	return result / den;
 }
 
+/**
+ * Return Hamming window of length L.
+ * @param L the window length
+ * @return the Hamming window (values are between 0 and 1)
+ */
+inline std::vector<float> uHamming(unsigned int L)
+{
+	std::vector<float> w(L);
+	unsigned int N = L-1;
+	float pi = 3.14159265f;
+	for(unsigned int n=0; n<N; ++n)
+	{
+		w[n] = 0.54-0.46*std::cos(2*pi*n/N);
+	}
+	return w;
+}
+
 #endif // UMATH_H
