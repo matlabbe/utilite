@@ -687,19 +687,6 @@ void Tests::testFile()
 void Tests::testMathFunctions()
 {
 	ULogger::setType(ULogger::kTypeFile, "LogTestUtil/testMathFunctions.txt", false);
-	std::vector<float> vF(4);
-	unsigned int index = 0;
-	// {1,2,3,4}
-	vF[0] = -1;
-	vF[1] = -1;
-	vF[2] = 7;
-	vF[3] = 7;
-	std::list<float> lF = uVectorToList(vF);
-	float m = 3;
-	int s = 4618;
-	float theSum = 12;
-	float max = 7;
-	float maxIndex = 2;
 
 	//inline std::vector<T> uXMatch(const T * vA, const T * vB, unsigned int sizeA, unsigned int sizeB, UXMatchMethod method)
 	//inline T uXMatch(const T * vA, const T * vB, unsigned int sizeA, unsigned int sizeB, unsigned int index, UXMatchMethod method)
@@ -824,9 +811,39 @@ void Tests::testMathFunctions()
 
 	//
 
+	std::vector<float> vF(4);
+	unsigned int index = 0;
+	float mi = 0;
+	float ma = 0;
+	unsigned int miIndex = 0;
+	unsigned int maIndex = 0;
+	// {1,2,3,4}
+	vF[0] = -1;
+	vF[1] = -1;
+	vF[2] = 7;
+	vF[3] = 7;
+	std::list<float> lF = uVectorToList(vF);
+	float m = 3;
+	int s = 4618;
+	float theSum = 12;
+	float max = 7;
+	float min = -1;
+	float maxIndex = 2;
+	float minIndex = 0;
+
 	//inline T uMax(const T * v, unsigned int size, unsigned int & index = 0)
+	CPPUNIT_ASSERT( uMax(vF.data(), vF.size()) == max );
 	CPPUNIT_ASSERT( uMax(vF.data(), vF.size(), index) == max );
 	CPPUNIT_ASSERT( index == maxIndex );
+
+	CPPUNIT_ASSERT( uMin(vF.data(), vF.size()) == min );
+	CPPUNIT_ASSERT( uMin(vF.data(), vF.size(), index) == min );
+	CPPUNIT_ASSERT( index == minIndex );
+
+	uMinMax(vF.data(), vF.size(), mi, ma);
+	CPPUNIT_ASSERT( mi == min && ma == max );
+	uMinMax(vF.data(), vF.size(), mi, ma, miIndex, maIndex);
+	CPPUNIT_ASSERT( mi == min && ma == max && miIndex == minIndex && maIndex == maxIndex);
 
 	//inline int uSign(const T & v)
 	CPPUNIT_ASSERT( uSign(-1) == -1 );
