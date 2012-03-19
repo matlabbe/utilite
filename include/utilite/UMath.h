@@ -38,15 +38,16 @@
  * @return the maximum value of the array
  */
 template<class T>
-inline T uMax(const T * v, unsigned int size, unsigned int & index = 0)
+inline T uMax(const T * v, unsigned int size, unsigned int & index)
 {
 	T max = 0;
+	index = 0;
 	if(!v || size == 0)
 	{
 		return max;
 	}
-	index = 0;
-	for(unsigned int i=0; i<size; i++)
+	max = v[0];
+	for(unsigned int i=1; i<size; ++i)
 	{
 		if(max < v[i])
 		{
@@ -56,6 +57,114 @@ inline T uMax(const T * v, unsigned int size, unsigned int & index = 0)
 	}
 
 	return max;
+}
+
+/**
+ * Get the maximum of a vector.
+ * @param v the array
+ * @param size the size of the array
+ * @return the maximum value of the array
+ */
+template<class T>
+inline T uMax(const T * v, unsigned int size)
+{
+	unsigned int index;
+	return uMax(v, size, index);
+}
+
+/**
+ * Get the minimum of a vector.
+ * @param v the array
+ * @param size the size of the array
+ * @param index the index of the minimum value in the vector.
+ * @return the minimum value of the array
+ */
+template<class T>
+inline T uMin(const T * v, unsigned int size, unsigned int & index)
+{
+	T min = 0;
+	index = 0;
+	if(!v || size == 0)
+	{
+		return min;
+	}
+	min = v[0];
+	for(unsigned int i=1; i<size; ++i)
+	{
+		if(min > v[i])
+		{
+			min = v[i];
+			index = i;
+		}
+	}
+
+	return min;
+}
+
+/**
+ * Get the minimum of a vector.
+ * @param v the array
+ * @param size the size of the array
+ * @return the minimum value of the array
+ */
+template<class T>
+inline T uMin(const T * v, unsigned int size)
+{
+	unsigned int index;
+	return uMin(v, size, index);
+}
+
+/**
+ * Get the minimum and maximum of a vector.
+ * @param v the array
+ * @param size the size of the array
+ * @param min reference to output minimum
+ * @param max reference to output maximum
+ * @param min reference to output minimum index
+ * @param max reference to output maximum index
+ */
+template<class T>
+inline void uMinMax(const T * v, unsigned int size, T & min, T & max, unsigned int & indexMin, unsigned int & indexMax)
+{
+	min = 0;
+	max = 0;
+	indexMin = 0;
+	indexMax = 0;
+	if(!v || size == 0)
+	{
+		return;
+	}
+	min = v[0];
+	max = v[0];
+	for(unsigned int i=1; i<size; ++i)
+	{
+		if(min > v[i])
+		{
+			min = v[i];
+			indexMin = i;
+		}
+
+		if(max < v[i])
+		{
+			max = v[i];
+			indexMax = i;
+		}
+	}
+}
+
+/**
+ * Get the minimum and maximum of a vector.
+ * @param v the array
+ * @param size the size of the array
+ * @param min reference to output minimum
+ * @param max reference to output maximum
+ */
+template<class T>
+inline void uMinMax(const T * v, unsigned int size, T & min, T & max)
+{
+	unsigned int indexMin;
+	unsigned int indexMax;
+	uMinMax(v, size, min, max, indexMin, indexMax);
 }
 
 /**
