@@ -93,7 +93,7 @@ class UThread
       pthread_attr_destroy(&attr);
 
       if(H) *H = h;
-      if ( !R ) S_Create().Wait();
+      if ( !R ) S_Create().acquire();
 
       M_Create().unlock();
       return errno;
@@ -126,7 +126,7 @@ class UThread
       pthread_attr_destroy(&attr);
 
       if(H) *H = h;
-      if ( !R ) S_Create().Wait();
+      if ( !R ) S_Create().acquire();
 
       M_Create().unlock();
       return errno;
@@ -144,13 +144,13 @@ class UThread
   private:
 
     static const UMutex &M_Create()      { static UMutex M; return M; }
-    static const USemaphore &S_Create()  { static USemaphore S; return S; }
+    static USemaphore &S_Create()  { static USemaphore S; return S; }
 
     static void *ThreadMainHandler( Instance *Param )
     {
       Instance  I(*Param);
       Thread_T  Data(I.Data);
-      S_Create().Post();
+      S_Create().release();
 
       if ( I.Flags & 1 /*CancelEnable*/ )
       {
