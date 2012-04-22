@@ -185,7 +185,7 @@ private:
 	 * before the main loop is started. It is
 	 * called once (before entering mainLoop()).
 	 */
-	virtual void mainLoopBegin() {startInit();}
+	virtual void mainLoopBegin();
 
 	/**
 	 * Pure virtual method mainLoop().
@@ -214,7 +214,7 @@ private:
 	 * function is called, the state of the thread is set to kSKilled. It is useful to
 	 * wake up a sleeping thread to finish his loop and to avoid a deadlock.
 	 */
-	virtual void mainLoopKill() {killCleanup();}
+	virtual void mainLoopKill();
 
 	/**
 	 * Virtual method mainLoopEnd().
