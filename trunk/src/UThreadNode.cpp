@@ -285,3 +285,7 @@ void UThreadNode::ThreadMain()
     mainLoopEnd();
     runningMutex_.unlock();
 }
+
+// For backward compatibilities...
+void UThreadNode::mainLoopBegin() {startInit();}
+void UThreadNode::mainLoopKill() {killCleanup();}
