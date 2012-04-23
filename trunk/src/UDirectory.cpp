@@ -74,6 +74,15 @@ UDirectory::~UDirectory()
 {
 }
 
+void UDirectory::setPath(const std::string & path, const std::string & extensions)
+{
+	extensions_ = uListToVector(uSplit(extensions, ' '));
+	path_ = path;
+	fileNames_.clear();
+	iFileName_ = fileNames_.begin();
+	this->update();
+}
+
 void UDirectory::update()
 {
 	if(exists(path_))

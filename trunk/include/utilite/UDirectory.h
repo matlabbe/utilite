@@ -82,8 +82,14 @@ public:
 	 * @param extensions filter to get only file names with the extensions specified, format is a
 	 * list of extensions separated by a space: "jpg bmp" get only file names finishing by jpg or bmp.
 	 */
-	UDirectory(const std::string & path, const std::string & extensions = "");
+	UDirectory(const std::string & path = "", const std::string & extensions = "");
 	~UDirectory();
+
+	/**
+	 * Set path of the directory.
+	 * @param path the new directory path.
+	 */
+	void setPath(const std::string & path, const std::string & extensions = "");
 
 	/**
 	 * Update indexed file names (if the directory changed).
