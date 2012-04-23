@@ -175,7 +175,7 @@ private:
 	 * User can implement this function to add a behavior
 	 * before the main loop is started. It is
 	 * called once.
-	 * @deprecated implements mainLoopInit() instead.
+	 * @deprecated implement mainLoopInit() instead.
 	 */
     DEPRECATED(virtual void startInit()) {}
 
@@ -203,7 +203,7 @@ private:
 	 * before the thread is killed. When this
 	 * function is called, the state of the thread is set to kSKilled. It is useful to
 	 * wake up a sleeping thread to finish his loop and to avoid a deadlock.
-	 * @deprecated implements mainLoopKill() instead.
+	 * @deprecated implement mainLoopKill() instead.
 	 */
 	DEPRECATED(virtual void killCleanup()) {}
 
