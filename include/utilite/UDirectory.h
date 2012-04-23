@@ -83,6 +83,8 @@ public:
 	 * list of extensions separated by a space: "jpg bmp" get only file names finishing by jpg or bmp.
 	 */
 	UDirectory(const std::string & path = "", const std::string & extensions = "");
+	UDirectory(const UDirectory & dir);
+	UDirectory & operator=(const UDirectory & dir);
 	~UDirectory();
 
 	/**
