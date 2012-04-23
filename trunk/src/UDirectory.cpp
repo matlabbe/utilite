@@ -70,6 +70,26 @@ UDirectory::UDirectory(const std::string & path, const std::string & extensions)
 	this->update();
 }
 
+UDirectory::UDirectory(const UDirectory & dir)
+{
+	*this = dir;
+}
+
+UDirectory & UDirectory::operator=(const UDirectory & dir)
+{
+	extensions_ = dir.extensions_;
+	path_ = dir.path_;
+	fileNames_ = dir.fileNames_;
+	for(iFileName_=fileNames_.begin(); iFileName_!=fileNames_.end(); ++iFileName_)
+	{
+		if(iFileName_->compare(*dir.iFileName_) == 0)
+		{
+			break;
+		}
+	}
+	return *this;
+}
+
 UDirectory::~UDirectory()
 {
 }
