@@ -26,6 +26,10 @@
 #include <string>
 #include <string.h>
 
+#ifndef WIN32
+#include <sys/time.h>
+#endif
+
 #ifdef WIN32
 #include <Windows.h>
 #define COLOR_NORMAL FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED
@@ -502,7 +506,7 @@ void ULogger::write(ULogger::Level level,
 
 		if(level >= exitLevel_)
 		{
-			printf("\n*******\n%s message occured!\n", levelName_[level]);
+			printf("\n*******\n%s message occurred!\n", levelName_[level]);
 			printf("  %s%s%s", levelStr.c_str(), time.c_str(), whereStr.c_str());
 			va_start(args, msg);
 			if(args != 0)
@@ -532,13 +536,13 @@ int ULogger::getTime(std::string &timeStr)
     if(!printTime_) {
         return 0;
     }
-    time_t rawtime;
     struct tm timeinfo;
     const int bufSize = 30;
     char buf[bufSize] = {0};
 
-    time ( &rawtime );
-#ifdef _MSC_VER
+#if _MSC_VER
+    time_t rawtime;
+    time(&rawTime);
     localtime_s (&timeinfo, &rawtime );
     int result = sprintf_s(buf, bufSize, "%d-%s%d-%s%d %s%d:%s%d:%s%d",
         timeinfo.tm_year+1900,
@@ -547,19 +551,29 @@ int ULogger::getTime(std::string &timeStr)
         (timeinfo.tm_hour) < 10 ? "0":"", timeinfo.tm_hour,
         (timeinfo.tm_min) < 10 ? "0":"", timeinfo.tm_min,
         (timeinfo.tm_sec) < 10 ? "0":"", timeinfo.tm_sec);
-#else
- #if WIN32 // MinGW
-    timeinfo = *localtime (&rawtime );
- #else
-    localtime_r (&rawtime, &timeinfo);
- #endif
-	int result = snprintf(buf, bufSize, "%d-%s%d-%s%d %s%d:%s%d:%s%d",
+#elif WIN32
+    time_t rawtime;
+    time(&rawTime);
+    timeinfo = *localtime (&rawtime);
+    int result = sprintf_s(buf, bufSize, "%d-%s%d-%s%d %s%d:%s%d:%s%d",
 		timeinfo.tm_year+1900,
 		(timeinfo.tm_mon+1) < 10 ? "0":"", timeinfo.tm_mon+1,
 		(timeinfo.tm_mday) < 10 ? "0":"", timeinfo.tm_mday,
 		(timeinfo.tm_hour) < 10 ? "0":"", timeinfo.tm_hour,
 		(timeinfo.tm_min) < 10 ? "0":"", timeinfo.tm_min,
 		(timeinfo.tm_sec) < 10 ? "0":"", timeinfo.tm_sec);
+ #else
+    struct timeval rawtime;
+    gettimeofday(&rawtime, NULL);
+    localtime_r (&rawtime.tv_sec, &timeinfo);
+	int result = snprintf(buf, bufSize, "%d-%s%d-%s%d %s%d:%s%d:%s%d.%s%d",
+		timeinfo.tm_year+1900,
+		(timeinfo.tm_mon+1) < 10 ? "0":"", timeinfo.tm_mon+1,
+		(timeinfo.tm_mday) < 10 ? "0":"", timeinfo.tm_mday,
+		(timeinfo.tm_hour) < 10 ? "0":"", timeinfo.tm_hour,
+		(timeinfo.tm_min) < 10 ? "0":"", timeinfo.tm_min,
+		(timeinfo.tm_sec) < 10 ? "0":"", timeinfo.tm_sec,
+	    (rawtime.tv_usec/1000) < 10 ? "00":(rawtime.tv_usec/1000) < 100?"0":"", rawtime.tv_usec/1000);
 #endif
     if(result)
     {
