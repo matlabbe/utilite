@@ -155,12 +155,12 @@ public:
     bool isRunning() const;
 
     /**
-	 * @return if the state of the thread is kSIdle (before start() is called).
+	 * @return if the state of the thread is kSIdle (before start() is called and after the thread is totally killed (or after join(true))).
 	 */
     bool isIdle() const;
 
     /**
-	 * @return if the state of the thread is kSKilled (after kill() is called).
+	 * @return if the state of the thread is kSKilled (after kill() is called and before the thread is totally killed).
 	 */
     bool isKilled() const;
 

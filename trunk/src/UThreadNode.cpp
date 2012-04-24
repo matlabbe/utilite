@@ -283,6 +283,7 @@ void UThreadNode::ThreadMain()
     handle_ = 0;
     threadId_ = 0;
     mainLoopEnd();
+    state_ = kSIdle;
     runningMutex_.unlock();
 }
 
