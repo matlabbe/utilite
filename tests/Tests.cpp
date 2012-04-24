@@ -80,9 +80,9 @@ void Tests::testThreadNode()
 	CPPUNIT_ASSERT( threadAutoKill.isIdle() );
 	threadAutoKill.start();
 	uSleep(20);
-	CPPUNIT_ASSERT( threadAutoKill.isKilled() );
+	CPPUNIT_ASSERT( threadAutoKill.isIdle() );
 	threadAutoKill.kill();
-	CPPUNIT_ASSERT( threadAutoKill.isKilled() );
+	CPPUNIT_ASSERT( threadAutoKill.isIdle() );
 
 	//ULOGGER_DEBUG("***threadA->start();***");
 	ThreadA  * threadA = new ThreadA(150, "Sweet !!! what is wrote on my back ?" );
@@ -97,7 +97,7 @@ void Tests::testThreadNode()
 	SimpleStateThread threadToJoin(true);
 	threadToJoin.start();
 	threadToJoin.join();
-	CPPUNIT_ASSERT( threadToJoin.isKilled() );
+	CPPUNIT_ASSERT( threadToJoin.isIdle() );
 
 	//Test killing same thread with two other threads
 	threadA = new ThreadA(1000, "Long working..." );
