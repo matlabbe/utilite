@@ -426,12 +426,12 @@ inline int uIndexOf(const std::vector<V> & list, const V & value)
  * Split a string into multiple string around the specified separator.
  * Example:
  * @code
- * 		std::vector<std::string> v = split("Hello the world!", ' ');
+ * 		std::list<std::string> v = split("Hello the world!", ' ');
  * @endcode
- * The vector v will contain {"Hello", "the", "world!"}
+ * The list v will contain {"Hello", "the", "world!"}
  * @param str the string
  * @param separator the separator character
- * @return the index of the value in the list
+ * @return the list of strings
  */
 inline std::list<std::string> uSplit(const std::string & str, char separator = ' ')
 {
@@ -456,13 +456,27 @@ inline std::list<std::string> uSplit(const std::string & str, char separator = '
 	return v;
 }
 
+/**
+ * Check if a character is a digit.
+ * @param c the character
+ * @return if the character is a digit (if c >= '0' && c <= '9')
+ */
 inline bool uIsDigit(const char c)
 {
 	return c >= '0' && c <= '9';
 }
 
-//split number from other characters
-inline std::list<std::string> uSplitNumChar(const std::string & str, bool removeLeadingZeros = false)
+/**
+ * Split a string into number and character strings.
+ * Example:
+ * @code
+ * 		std::list<std::string> v = uSplit("Hello 03 my 65 world!");
+ * @endcode
+ * The list v will contain {"Hello ", "03", " my ", "65", " world!"}
+ * @param str the string
+ * @return the list of strings
+ */
+inline std::list<std::string> uSplitNumChar(const std::string & str)
 {
 	std::list<std::string> list;
 	std::string buf;
@@ -497,6 +511,18 @@ inline std::list<std::string> uSplitNumChar(const std::string & str, bool remove
 	return list;
 }
 
+/**
+ * Compare two alphanumeric strings. Useful to sort filenames (human-like sorting).
+ * Example:
+ * @code
+ * 	std::string a = "Image9.jpg";
+ * 	std::string b = "Image10.jpg";
+ * 	int r = uStrNumCmp(a, b); // r returns -1 (a is smaller than b). In contrast, std::strcmp(a, b) would return 1.
+ * @endcode
+ * @param a the first string
+ * @param b the second string
+ * @return -1 if a<b, 0 if a=b and 1 if a>b
+ */
 inline int uStrNumCmp(const std::string & a, const std::string & b)
 {
 	std::vector<std::string> listA;
