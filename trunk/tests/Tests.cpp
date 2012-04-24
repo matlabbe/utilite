@@ -305,11 +305,7 @@ void Tests::testConversion()
 	string = "abcda";
 	string = uReplaceChar(string, 'a', 'b');
 	CPPUNIT_ASSERT( string.size() == 5 );
-	CPPUNIT_ASSERT( string.at(0) == 'b' );
-	CPPUNIT_ASSERT( string.at(1) == 'b' );
-	CPPUNIT_ASSERT( string.at(2) == 'c' );
-	CPPUNIT_ASSERT( string.at(3) == 'd' );
-	CPPUNIT_ASSERT( string.at(4) == 'b' );
+	CPPUNIT_ASSERT( string.compare("bbcdb") == 0 );
 
 	//std::string toUpperCase(const std::string & str)
 	CPPUNIT_ASSERT( uToUpperCase("").compare("") == 0 );
@@ -613,6 +609,32 @@ void Tests::testUtilStl()
 	CPPUNIT_ASSERT( uValueAt(v,0).compare("Hello") == 0 );
 	CPPUNIT_ASSERT( uValueAt(v,1).compare("the") == 0 );
 	CPPUNIT_ASSERT( uValueAt(v,2).compare("world!") == 0 );
+
+	// bool uIsDigit(const char c)
+	CPPUNIT_ASSERT( uIsDigit('0') );
+	CPPUNIT_ASSERT( uIsDigit('1') );
+	CPPUNIT_ASSERT( uIsDigit('2') );
+	CPPUNIT_ASSERT( uIsDigit('3') );
+	CPPUNIT_ASSERT( uIsDigit('4') );
+	CPPUNIT_ASSERT( uIsDigit('5') );
+	CPPUNIT_ASSERT( uIsDigit('6') );
+	CPPUNIT_ASSERT( uIsDigit('7') );
+	CPPUNIT_ASSERT( uIsDigit('8') );
+	CPPUNIT_ASSERT( uIsDigit('9') );
+	CPPUNIT_ASSERT( !uIsDigit('0'-1) );
+	CPPUNIT_ASSERT( !uIsDigit('9'+1) );
+
+	// std::list<std::string> uSplitNumChar(const std::string & str)
+	v = uSplitNumChar("Hello 03 my 65 world!");
+	CPPUNIT_ASSERT( v.size() == 5 );
+	CPPUNIT_ASSERT( uValueAt(v,0).compare("Hello ") == 0 );
+	CPPUNIT_ASSERT( uValueAt(v,1).compare("03") == 0 );
+	CPPUNIT_ASSERT( uValueAt(v,2).compare(" my ") == 0 );
+	CPPUNIT_ASSERT( uValueAt(v,3).compare("65") == 0 );
+	CPPUNIT_ASSERT( uValueAt(v,4).compare(" world!") == 0 );
+
+	// int uStrNumCmp(const std::string & a, const std::string & b)
+	CPPUNIT_ASSERT(uStrNumCmp("Image9.jpg", "Image10.jpg") == -1);
 }
 
 void Tests::testDirectory()
