@@ -573,7 +573,7 @@ int ULogger::getTime(std::string &timeStr)
 		(timeinfo.tm_hour) < 10 ? "0":"", timeinfo.tm_hour,
 		(timeinfo.tm_min) < 10 ? "0":"", timeinfo.tm_min,
 		(timeinfo.tm_sec) < 10 ? "0":"", timeinfo.tm_sec,
-	    (rawtime.tv_usec/1000) < 10 ? "00":(rawtime.tv_usec/1000) < 100?"0":"", rawtime.tv_usec/1000);
+	    (rawtime.tv_usec/1000) < 10 ? "00":(rawtime.tv_usec/1000) < 100?"0":"", int(rawtime.tv_usec/1000));
 #endif
     if(result)
     {

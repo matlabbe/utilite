@@ -97,13 +97,9 @@ public:
 		pthread_mutex_lock(&_waitMutex);
 		while (n > _available)
 		{
-			int code;
 			while(1)
 			{
-				code = pthread_cond_wait(&_cond, &_waitMutex);
-				//ULOGGER_DEBUG("code = %d", code);
-				//if(code == 0)
-				//  continue;
+				pthread_cond_wait(&_cond, &_waitMutex);
 				break;
 			}
 		}
