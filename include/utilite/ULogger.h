@@ -59,6 +59,8 @@
 #define UERROR(...)   ULOGGER_ERROR(__VA_ARGS__)
 #define UFATAL(...)   ULOGGER_FATAL(__VA_ARGS__)
 
+#define UASSERT(condition) if(!(condition)) ULogger::write(ULogger::kFatal, __FILE__, __LINE__, __FUNCTION__, "Condition (%s) not met!", #condition)
+
 /**
  * \def UDEBUG(...)
  * Print a debug level message in the logger. Format is the same as a printf:
@@ -93,6 +95,14 @@
  * fatal error. Format is the same as a printf:
  * @code
  * UFATAL("This is a fatal error message with the number %d", 42);
+ * @endcode
+ */
+/**
+ * \def UASSERT(condition, ...)
+ * Print a fatal error level message in the logger if condition is not met. The application will exit on
+ * fatal error. Format is the same as a printf:
+ * @code
+ * UASSERT(a!=42, "This is a fatal error message with the number %d", 42);
  * @endcode
  */
 
