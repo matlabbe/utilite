@@ -318,8 +318,12 @@ void ULogger::write(ULogger::Level level,
 		return;
 	}
 	loggerMutex_.lock();
-	if(!instance_ ||
-	   (strlen(msg) == 0 && !printWhere_ && level < exitLevel_))
+	if(type_ == kTypeNoLog && level < kFatal)
+	{
+		loggerMutex_.unlock();
+		return;
+	}
+	if(strlen(msg) == 0 && !printWhere_ && level < exitLevel_)
 	{
 		loggerMutex_.unlock();
 		// No need to show an empty message if we don't print where.
@@ -420,63 +424,68 @@ void ULogger::write(ULogger::Level level,
 		}
 
 		va_list args;
-		va_start(args, msg);
-#ifdef WIN32
-		HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
-#endif
-		if(type_ == ULogger::kTypeConsole)
+
+		if(type_ != kTypeNoLog)
 		{
+			va_start(args, msg);
 #ifdef WIN32
-			SetConsoleTextAttribute(H,color);
+			HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
+#endif
+			if(type_ == ULogger::kTypeConsole)
+			{
+#ifdef WIN32
+				SetConsoleTextAttribute(H,color);
 #else
+				if(buffered_)
+				{
+					bufferedMsgs_.append(color);
+				}
+				else
+				{
+					ULogger::getInstance()->_write(color, 0);
+				}
+#endif
+			}
+
 			if(buffered_)
 			{
-				bufferedMsgs_.append(color);
+				bufferedMsgs_.append(levelStr.c_str());
+				bufferedMsgs_.append(time.c_str());
+				bufferedMsgs_.append(whereStr.c_str());
+				bufferedMsgs_.append(uFormatv(msg, args));
 			}
 			else
 			{
-				ULogger::getInstance()->_write(color, 0);
+				ULogger::getInstance()->_write(levelStr.c_str(), 0);
+				ULogger::getInstance()->_write(time.c_str(), 0);
+				ULogger::getInstance()->_write(whereStr.c_str(), 0);
+				ULogger::getInstance()->_write(msg, args);
 			}
-#endif
-		}
-		if(buffered_)
-		{
-			bufferedMsgs_.append(levelStr.c_str());
-			bufferedMsgs_.append(time.c_str());
-			bufferedMsgs_.append(whereStr.c_str());
-			bufferedMsgs_.append(uFormatv(msg, args));
-		}
-		else
-		{
-			ULogger::getInstance()->_write(levelStr.c_str(), 0);
-			ULogger::getInstance()->_write(time.c_str(), 0);
-			ULogger::getInstance()->_write(whereStr.c_str(), 0);
-			ULogger::getInstance()->_write(msg, args);
-		}
-		if(type_ == ULogger::kTypeConsole)
-		{
+			if(type_ == ULogger::kTypeConsole)
+			{
 #ifdef WIN32
-			SetConsoleTextAttribute(H,COLOR_NORMAL);
+				SetConsoleTextAttribute(H,COLOR_NORMAL);
 #else
+				if(buffered_)
+				{
+					bufferedMsgs_.append(COLOR_NORMAL);
+				}
+				else
+				{
+					ULogger::getInstance()->_write(COLOR_NORMAL, 0);
+				}
+#endif
+			}
 			if(buffered_)
 			{
-				bufferedMsgs_.append(COLOR_NORMAL);
+				bufferedMsgs_.append(endline.c_str());
 			}
 			else
 			{
-				ULogger::getInstance()->_write(COLOR_NORMAL, 0);
+				ULogger::getInstance()->_write(endline.c_str(), 0);
 			}
-#endif
+			va_end (args);
 		}
-		if(buffered_)
-		{
-			bufferedMsgs_.append(endline.c_str());
-		}
-		else
-		{
-			ULogger::getInstance()->_write(endline.c_str(), 0);
-		}
-		va_end (args);
 
 		if(level >= eventLevel_)
 		{
