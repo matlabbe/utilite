@@ -190,7 +190,8 @@ private:
 	/**
 	 * Pure virtual method mainLoop().
 	 * The inner loop of the thread. This method is called repetitively
-	 * until the thread is killed.
+	 * until the thread is killed. Note that if kill() is called in mainLoopBegin(),
+	 * mainLoop() is not called, terminating immediately the thread.
 	 *
 	 * @see mainLoop()
 	 * @see kill()
