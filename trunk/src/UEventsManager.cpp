@@ -18,7 +18,6 @@
 */
 
 #include "utilite/UEventsManager.h"
-#include "utilite/ULogger.h"
 #include "utilite/UEvent.h"
 #include <list>
 #include "utilite/UStl.h"

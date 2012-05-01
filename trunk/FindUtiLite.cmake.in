@@ -56,7 +56,11 @@ IF(URESOURCEGENERATOR_EXEC)
 				utilite/UEventsManager.h
 				PATH_SUFFIXES "../include")
 	
-		FIND_LIBRARY(UtiLite_LIBRARIES NAMES utilite
+		FIND_LIBRARY(UtiLite_LIBRARIES 
+				NAMES utilite
+			 	PATH_SUFFIXES "../lib")
+		FIND_LIBRARY(UtiLite_Qt 
+				NAMES utiliteqt
 			 	PATH_SUFFIXES "../lib")
 	
 	ELSE()
@@ -67,7 +71,13 @@ IF(URESOURCEGENERATOR_EXEC)
 		FIND_LIBRARY(UtiLite_LIBRARIES 
 				NAMES utilite
 				PATHS ${UtiLite_ROOT}/lib)
+		FIND_LIBRARY(UtiLite_Qt 
+				NAMES utiliteqt
+				PATHS ${UtiLite_ROOT}/lib)
 	ENDIF()
+	IF(UtiLite_LIBRARIES AND UtiLite_Qt)
+		SET(UtiLite_LIBRARIES ${UtiLite_LIBRARIES} ${UtiLite_Qt})
+	ENDIF(UtiLite_LIBRARIES AND UtiLite_Qt)
 	
 	IF (UtiLite_INCLUDE_DIRS AND UtiLite_LIBRARIES)
 	   SET(UtiLite_FOUND TRUE)
