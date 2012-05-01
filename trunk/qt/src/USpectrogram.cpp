@@ -173,8 +173,8 @@ void USpectrogram::push(const float frame[], int frameLength)
 {
 	if(!_rgbData.isEmpty() && frameLength != _rgbData.first().size())
 	{
-		UERROR("Frames must all have the same size (%d vs %d)", _rgbData.first().size(), frameLength);
-		return;
+		UWARN("Frames must all have the same size (%d vs %d), the spectrogram is cleared before adding the new frame...", _rgbData.first().size(), frameLength);
+		this->clear();
 	}
 	else if(!frameLength || !frame)
 	{

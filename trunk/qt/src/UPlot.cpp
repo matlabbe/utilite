@@ -243,8 +243,8 @@ UPlotCurve::UPlotCurve(const QString & name, QObject * parent) :
 	QObject(parent),
 	_plot(0),
 	_name(name),
-	_defaultStepX(1),
-	_startX(0),
+	_xIncrement(1),
+	_xStart(0),
 	_visible(true),
 	_valuesShown(false)
 {
@@ -254,8 +254,8 @@ UPlotCurve::UPlotCurve(const QString & name, QVector<UPlotItem *> data, QObject 
 	QObject(parent),
 	_plot(0),
 	_name(name),
-	_defaultStepX(1),
-	_startX(0),
+	_xIncrement(1),
+	_xStart(0),
 	_visible(true),
 	_valuesShown(false)
 {
@@ -266,8 +266,8 @@ UPlotCurve::UPlotCurve(const QString & name, const QVector<float> & x, const QVe
 	QObject(parent),
 	_plot(0),
 	_name(name),
-	_defaultStepX(1),
-	_startX(0),
+	_xIncrement(1),
+	_xStart(0),
 	_visible(true),
 	_valuesShown(false)
 {
@@ -432,11 +432,11 @@ void UPlotCurve::addValue(float y)
 	if(_items.size())
 	{
 		UPlotItem * lastItem = (UPlotItem *)_items.last();
-		x = lastItem->data().x() + _defaultStepX;
+		x = lastItem->data().x() + _xIncrement;
 	}
 	else
 	{
-		x = _startX;
+		x = _xStart;
 	}
 	this->addValue(x,y);
 }
@@ -483,11 +483,11 @@ void UPlotCurve::addValues(const QVector<float> & ys)
 		if(_items.size())
 		{
 			UPlotItem * lastItem = (UPlotItem *)_items.last();
-			x = lastItem->data().x() + _defaultStepX;
+			x = lastItem->data().x() + _xIncrement;
 		}
 		else
 		{
-			x = _startX;
+			x = _xStart;
 		}
 		this->_addValue(new UPlotItem(x,ys.at(i),width));
 	}
@@ -503,11 +503,11 @@ void UPlotCurve::addValues(const QVector<int> & ys)
 		if(_items.size())
 		{
 			UPlotItem * lastItem = (UPlotItem *)_items.last();
-			x = lastItem->data().x() + _defaultStepX;
+			x = lastItem->data().x() + _xIncrement;
 		}
 		else
 		{
-			x = _startX;
+			x = _xStart;
 		}
 		this->_addValue(new UPlotItem(x,ys.at(i),width));
 	}
@@ -523,11 +523,11 @@ void UPlotCurve::addValues(const std::vector<int> & ys)
 		if(_items.size())
 		{
 			UPlotItem * lastItem = (UPlotItem *)_items.last();
-			x = lastItem->data().x() + _defaultStepX;
+			x = lastItem->data().x() + _xIncrement;
 		}
 		else
 		{
-			x = _startX;
+			x = _xStart;
 		}
 		this->_addValue(new UPlotItem(x,ys.at(i),width));
 	}
@@ -543,11 +543,11 @@ void UPlotCurve::addValues(const std::vector<float> & ys)
 		if(_items.size())
 		{
 			UPlotItem * lastItem = (UPlotItem *)_items.last();
-			x = lastItem->data().x() + _defaultStepX;
+			x = lastItem->data().x() + _xIncrement;
 		}
 		else
 		{
-			x = _startX;
+			x = _xStart;
 		}
 		this->_addValue(new UPlotItem(x,ys.at(i),width));
 	}
@@ -793,6 +793,16 @@ void UPlotCurve::setVisible(bool visible)
 	{
 		_items.at(i)->setVisible(visible);
 	}
+}
+
+void UPlotCurve::setXIncrement(float increment)
+{
+	_xIncrement = increment;
+}
+
+void UPlotCurve::setXStart(float val)
+{
+	_xStart = val;
 }
 
 void UPlotCurve::setData(QVector<UPlotItem*> & data)
@@ -1737,7 +1747,7 @@ bool UPlot::addCurve(UPlotCurve * curve)
 		_curves.append(curve);
 		curve->attach(this); // ownership is transferred
 		this->updateAxis(curve);
-		curve->setStartX(_axisMaximums[1]);
+		curve->setXStart(_axisMaximums[1]);
 
 		connect(curve, SIGNAL(dataChanged(const UPlotCurve *)), this, SLOT(updateAxis()));
 

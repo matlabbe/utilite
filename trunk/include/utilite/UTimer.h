@@ -31,14 +31,15 @@
 
 /**
  * This class is used to time some codes (in seconds).
- * On Windows, the performanceCounter is used.
+ * On Unix, the resolution is up to microseconds (see gettimeofday()).
+ * On Windows, the performance counter is used (see QueryPerformanceCounter() and QueryPerformanceFrequency()).
  * Example:
  * @code
  *      UTimer timer;
  *      timer.start();
  *      ... (do some work)
  *      timer.stop();
- *      int seconds = timer.getInterval();
+ *      double seconds = timer.getInterval();
  *      ...
  * @endcode
  */
