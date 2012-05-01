@@ -16,11 +16,6 @@ SET(INCLUDE_DIRS
     ${PTHREADS_INCLUDE_DIR}
 )
 
-IF(WIN32)
-    #CMake a l'air d'ajouter automatiquement -Dutilite_EXPORTS
-	ADD_DEFINITIONS(-DUTILITE_EXPORTS) 
-ENDIF(WIN32)
-
 # Make sure the compiler can find include files from our UtiLite library.
 INCLUDE_DIRECTORIES(${INCLUDE_DIRS})
 

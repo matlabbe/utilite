@@ -40,18 +40,16 @@ UThreadNode::UThreadNode(Priority priority) :
 
 UThreadNode::~UThreadNode()
 {
-	if(PRINT_DEBUG)
-	{
-		ULOGGER_DEBUG("");
-	}
+#if PRINT_DEBUG
+	ULOGGER_DEBUG("");
+#endif
 }
 
 void UThreadNode::kill()
 {
-	if(PRINT_DEBUG)
-	{
-		ULOGGER_DEBUG("");
-	}
+#if PRINT_DEBUG
+	ULOGGER_DEBUG("");
+#endif
     killSafelyMutex_.lock();
     {
     	if(this->isRunning())
@@ -76,10 +74,9 @@ void UThreadNode::kill()
     	}
     	else
     	{
-    		if(PRINT_DEBUG)
-    		{
-    			UDEBUG("thread (%d) is not running...", threadId_);
-    		}
+#if PRINT_DEBUG
+    		UDEBUG("thread (%d) is not running...", threadId_);
+#endif
     	}
     }
     killSafelyMutex_.unlock();
@@ -94,16 +91,14 @@ void UThreadNode::join(bool killFirst)
 	}
 
 #if WIN32
-	if(PRINT_DEBUG)
-	{
-		UDEBUG("Thread %d joining %d", UThread<void>::Self(), threadId_);
-	}
+#if PRINT_DEBUG
+	UDEBUG("Thread %d joining %d", UThread<void>::Self(), threadId_);
+#endif
 	if(UThread<void>::Self() == threadId_)
 #else
-	if(PRINT_DEBUG)
-	{
-		UDEBUG("Thread %d joining %d", UThread<void>::Self(), handle_);
-	}
+#if PRINT_DEBUG
+	UDEBUG("Thread %d joining %d", UThread<void>::Self(), handle_);
+#endif
 	if(UThread<void>::Self() == handle_)
 #endif
 	{
@@ -119,18 +114,16 @@ void UThreadNode::join(bool killFirst)
 	runningMutex_.lock();
 	runningMutex_.unlock();
 
-	if(PRINT_DEBUG)
-	{
-		UDEBUG("Join ended for %d", UThread<void>::Self());
-	}
+#if PRINT_DEBUG
+	UDEBUG("Join ended for %d", UThread<void>::Self());
+#endif
 }
 
 void UThreadNode::start()
 {
-	if(PRINT_DEBUG)
-	{
-		ULOGGER_DEBUG("");
-	}
+#if PRINT_DEBUG
+	ULOGGER_DEBUG("");
+#endif
 
     if(state_ == kSIdle || state_ == kSKilled)
     {
@@ -143,10 +136,9 @@ void UThreadNode::start()
 
         state_ = kSCreating;
         UThread<void>::Create(threadId_, &handle_);
-        if(PRINT_DEBUG)
-        {
-        	ULOGGER_DEBUG("StateThread::startThread() thread id=%d _handle=%d", threadId_, handle_);
-        }
+#if PRINT_DEBUG
+        ULOGGER_DEBUG("StateThread::startThread() thread id=%d _handle=%d", threadId_, handle_);
+#endif
     }
 }
 
@@ -265,28 +257,26 @@ void UThreadNode::ThreadMain()
 	applyPriority();
 	applyAffinity();
 
-	if(PRINT_DEBUG)
-	{
-		ULOGGER_DEBUG("");
-	}
+#if PRINT_DEBUG
+	ULOGGER_DEBUG("");
+#endif
 
 	state_ = kSRunning;
     mainLoopBegin();
 
-	if(PRINT_DEBUG)
-	{
-		ULOGGER_DEBUG("Entering loop...");
-	}
+#if PRINT_DEBUG
+	ULOGGER_DEBUG("Entering loop...");
+#endif
 
 	while(state_ == kSRunning)
 	{
 		mainLoop();
 	}
 
-    if(PRINT_DEBUG)
-	{
-		ULOGGER_DEBUG("");
-	}
+#if PRINT_DEBUG
+	ULOGGER_DEBUG("");
+#endif
+
     handle_ = 0;
     threadId_ = 0;
     mainLoopEnd();
