@@ -87,11 +87,9 @@ public:
 	void setPen(const QPen & pen);
 	void setBrush(const QBrush & brush);
 
-	void setDefaultStepX(float stepX) {_defaultStepX = stepX;}
 	QString name() const {return _name;}
 	int itemsSize() const;
 	QPointF getItemData(int index);
-	void setStartX(float startX) {_startX = startX;}
 	bool isVisible() const {return _visible;}
 	void setData(QVector<UPlotItem*> & data); // take the ownership
 	void setData(const QVector<float> & x, const QVector<float> & y);
@@ -103,6 +101,8 @@ public:
 public slots:
 	virtual void clear();
     void setVisible(bool visible);
+    void setXIncrement(float increment);
+    void setXStart(float val);
 	void addValue(UPlotItem * data); // take the ownership
 	void addValue(float y);
 	void addValue(float x, float y);
@@ -137,8 +137,8 @@ private:
 	QString _name;
 	QPen _pen;
 	QBrush _brush;
-	float _defaultStepX;
-	float _startX;
+	float _xIncrement;
+	float _xStart;
 	bool _visible;
 	bool _valuesShown;
 	QVector<float> _minMax; // minX, maxX, minY, maxY

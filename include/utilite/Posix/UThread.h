@@ -17,12 +17,39 @@
 
 #include <pthread.h>
 
+/**
+ * Calling thread sleeps for some milliseconds.
+ */
 inline void uSleep(unsigned int ms)
 {
 	struct timespec req;
 	struct timespec rem;
 	req.tv_sec = ms / 1000;
 	req.tv_nsec = (ms - req.tv_sec * 1000) * 1000 * 1000;
+	nanosleep (&req, &rem);
+}
+
+/**
+ * Calling thread sleeps for some microseconds.
+ */
+inline void uSleepMicro(unsigned int us)
+{
+	struct timespec req;
+	struct timespec rem;
+	req.tv_sec = us / 1000000;
+	req.tv_nsec = (us - req.tv_sec * 1000000) * 1000;
+	nanosleep (&req, &rem);
+}
+
+/**
+ * Calling thread sleeps for some nanoseconds.
+ */
+inline void uSleepNano(unsigned int ns)
+{
+	struct timespec req;
+	struct timespec rem;
+	req.tv_sec = ns / 1000000000;
+	req.tv_nsec = (ns - req.tv_sec * 1000000000);
 	nanosleep (&req, &rem);
 }
 

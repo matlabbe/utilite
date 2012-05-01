@@ -41,7 +41,6 @@ public:
 	USpectrogram(QWidget * parent = 0);
 	USpectrogram(int fs, QWidget * parent = 0);
 	virtual ~USpectrogram();
-	void setSamplingRate(int fs);
 	void setScaled(bool freqScaled, bool timeScaled);
 	void setZoomed(bool zoomed);
 	void setAxesSwitched(bool axesSwitched);
@@ -61,6 +60,7 @@ public:
 public slots:
 	void push(const std::vector<float> & frame);
 	void push(const QVector<float> & frame);
+	void setSamplingRate(int fs);
 
 protected:
 	virtual void resizeEvent(QResizeEvent * event);
