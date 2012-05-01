@@ -270,19 +270,23 @@ void UThreadNode::ThreadMain()
 		ULOGGER_DEBUG("");
 	}
 
+	state_ = kSRunning;
     mainLoopBegin();
-    if(state_ == kSCreating)
-    {
-		if(PRINT_DEBUG)
-		{
-			ULOGGER_DEBUG("Entering loop...");
-		}
-		state_ = kSRunning;
-		while(state_ == kSRunning)
-		{
-			mainLoop();
-		}
-    }
+
+	if(PRINT_DEBUG)
+	{
+		ULOGGER_DEBUG("Entering loop...");
+	}
+
+	while(state_ == kSRunning)
+	{
+		mainLoop();
+	}
+
+    if(PRINT_DEBUG)
+	{
+		ULOGGER_DEBUG("");
+	}
     handle_ = 0;
     threadId_ = 0;
     mainLoopEnd();
