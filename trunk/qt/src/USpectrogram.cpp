@@ -83,7 +83,6 @@ void USpectrogram::setupUi()
 	_view->scene()->setBackgroundBrush(QBrush(Qt::black));
 	_imageItem = new QGraphicsPixmapItem();
 	_view->scene()->addItem(_imageItem);
-	this->setGeometry(0,0,640,480);
 
 	_axesSwitched = true;
 	if(_fs<=0)
