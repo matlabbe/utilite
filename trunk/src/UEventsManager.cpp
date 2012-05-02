@@ -27,17 +27,41 @@ UDestroyer<UEventsManager> UEventsManager::destroyer_;
 
 void UEventsManager::addHandler(UEventsHandler* handler)
 {
-    UEventsManager::getInstance()->_addHandler(handler);
+	if(!handler)
+	{
+		UERROR("Handler is null!");
+		return;
+	}
+	else
+	{
+		UEventsManager::getInstance()->_addHandler(handler);
+	}
 }
 
 void UEventsManager::removeHandler(UEventsHandler* handler)
 {
-    UEventsManager::getInstance()->_removeHandler(handler);
+	if(!handler)
+	{
+		UERROR("Handler is null!");
+		return;
+	}
+	else
+	{
+		UEventsManager::getInstance()->_removeHandler(handler);
+	}
 }
 
 void UEventsManager::post(UEvent * event, bool async)
 {
-    UEventsManager::getInstance()->_postEvent(event, async);
+	if(!event)
+	{
+		UERROR("Event is null!");
+		return;
+	}
+	else
+	{
+		UEventsManager::getInstance()->_postEvent(event, async);
+	}
 }
 
 UEventsManager* UEventsManager::getInstance()
