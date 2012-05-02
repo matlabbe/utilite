@@ -128,7 +128,8 @@ void USpectrogram::setupUi()
 	_aScaledTime = _menu->addAction("Time scaled");
 	_aScaledFreq->setCheckable(true);
 	_aScaledTime->setCheckable(true);
-	setScaled(false, false);
+	this->setScaled(true, true);
+	this->setOnlyLastFramesDrawn(true);
 
 	_nbSubOctave = 16;
 	_minLogSample = 1;
