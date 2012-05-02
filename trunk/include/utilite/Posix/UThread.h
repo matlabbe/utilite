@@ -127,7 +127,7 @@ class UThread
       int r = errno;
       errno=0;
 	  M_Create().unlock();
-	  return errno;
+	  return r;
     }
 
     int Create(
