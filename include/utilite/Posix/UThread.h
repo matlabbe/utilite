@@ -104,6 +104,7 @@ class UThread
     )
     {
       M_Create().lock();
+      errno=0;
       pthread_attr_t attr;
       pthread_attr_init(&attr);
 
@@ -124,8 +125,9 @@ class UThread
       if ( !R ) S_Create().acquire();
 
       int r = errno;
+      errno=0;
 	  M_Create().unlock();
-	  return r;
+	  return errno;
     }
 
     int Create(
@@ -138,6 +140,7 @@ class UThread
     ) const
     {
       M_Create().lock();
+      errno=0;
       pthread_attr_t attr;
       pthread_attr_init(&attr);
 
@@ -158,6 +161,7 @@ class UThread
       if ( !R ) S_Create().acquire();
 
       int r = errno;
+      errno=0;
 	  M_Create().unlock();
 	  return r;
     }
@@ -257,6 +261,7 @@ class UThread<void>
     )
     {
       M_Create().lock();
+      errno=0;
       pthread_attr_t attr;
       pthread_attr_init(&attr);
 
@@ -277,6 +282,7 @@ class UThread<void>
       if ( !R ) S_Create().acquire();
 
       int r = errno;
+      errno=0;
 	  M_Create().unlock();
 	  return r;
     }
@@ -290,6 +296,7 @@ class UThread<void>
     ) const
     {
       M_Create().lock();
+      errno=0;
       pthread_attr_t attr;
       pthread_attr_init(&attr);
 
@@ -310,6 +317,7 @@ class UThread<void>
       if ( !R ) S_Create().acquire();
 
       int r = errno;
+      errno=0;
 	  M_Create().unlock();
 	  return r;
     }
@@ -324,6 +332,7 @@ class UThread<void>
     ) const
     {
       M_Create().lock();
+      errno=0;
       pthread_attr_t attr;
       pthread_attr_init(&attr);
 
@@ -345,6 +354,7 @@ class UThread<void>
       if ( !R ) S_Create().acquire();
 
       int r = errno;
+      errno=0;
       M_Create().unlock();
       return r;
     }
