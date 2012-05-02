@@ -144,6 +144,41 @@ void Tests::testThreadNode()
 	UThreadNode::join(&worker4);*/
 }
 
+void Tests::testThreadNodeMany()
+{
+	std::vector<ThreadA*> nodes(100);
+	for(unsigned int i=0; i<nodes.size(); ++i)
+	{
+		nodes[i] = new ThreadA(i*10+10, uNumber2Str(i));
+		UEventsManager::addHandler(nodes[i]);
+		nodes[i]->start();
+	}
+
+	ThreadB threadB(2000, "B");
+	threadB.start();
+	for(int i=0; i<100; ++i)
+	{
+		SimpleStateThread t1(true);
+		SimpleStateThread t2(true);
+		SimpleStateThread t3(true);
+		SimpleStateThread t4(true);
+		SimpleStateThread t5(true);
+		t1.start();
+		t2.start();
+		t3.start();
+		t4.start();
+		t5.start();
+		uSleep(21);
+	}
+	threadB.join(true);
+
+	for(unsigned int i=0; i<nodes.size(); ++i)
+	{
+		nodes[i]->join();
+		delete nodes[i];
+	}
+}
+
 void Tests::testSemaphore()
 {
 	//Logger::setType(Logger::kTypeConsole);

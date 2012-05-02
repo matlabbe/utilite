@@ -75,6 +75,7 @@ class UThread
     typedef THREAD_HANDLE Handle;
     typedef void ( *Handler)( Thread_R );
 
+    virtual ~UThread() {}
 
   protected:
     UThread() {}
@@ -122,8 +123,9 @@ class UThread
       if(H) *H = h;
       if ( !R ) S_Create().acquire();
 
-      M_Create().unlock();
-      return errno;
+      int r = errno;
+	  M_Create().unlock();
+	  return r;
     }
 
     int Create(
@@ -155,8 +157,9 @@ class UThread
       if(H) *H = h;
       if ( !R ) S_Create().acquire();
 
-      M_Create().unlock();
-      return errno;
+      int r = errno;
+	  M_Create().unlock();
+	  return r;
     }
 
     static int Join( Handle H )
@@ -273,8 +276,9 @@ class UThread<void>
       if(H) *H = h;
       if ( !R ) S_Create().acquire();
 
-      M_Create().unlock();
-      return errno;
+      int r = errno;
+	  M_Create().unlock();
+	  return r;
     }
 
     int Create(
@@ -305,8 +309,9 @@ class UThread<void>
       if(H) *H = h;
       if ( !R ) S_Create().acquire();
 
-      M_Create().unlock();
-      return errno;
+      int r = errno;
+	  M_Create().unlock();
+	  return r;
     }
 
     int Create(
@@ -339,8 +344,9 @@ class UThread<void>
 
       if ( !R ) S_Create().acquire();
 
+      int r = errno;
       M_Create().unlock();
-      return errno;
+      return r;
     }
 
     static int Join( Handle H )
