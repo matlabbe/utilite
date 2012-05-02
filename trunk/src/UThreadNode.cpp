@@ -135,10 +135,20 @@ void UThreadNode::start()
     	}
 
         state_ = kSCreating;
-        UThread<void>::Create(threadId_, &handle_);
+        int r = UThread<void>::Create(threadId_, &handle_, true); // Create detached
+        if(r)
+        {
+        	UERROR("Failed to create a thread! errno=%d", r);
+        	threadId_=0;
+        	handle_=0;
+        	state_ = kSIdle;
+        }
+        else
+        {
 #if PRINT_DEBUG
         ULOGGER_DEBUG("StateThread::startThread() thread id=%d _handle=%d", threadId_, handle_);
 #endif
+        }
     }
 }
 
@@ -258,14 +268,14 @@ void UThreadNode::ThreadMain()
 	applyAffinity();
 
 #if PRINT_DEBUG
-	ULOGGER_DEBUG("");
+	ULOGGER_DEBUG("before mainLoopBegin()");
 #endif
 
 	state_ = kSRunning;
     mainLoopBegin();
 
 #if PRINT_DEBUG
-	ULOGGER_DEBUG("Entering loop...");
+	ULOGGER_DEBUG("before mainLoop()");
 #endif
 
 	while(state_ == kSRunning)
@@ -274,14 +284,19 @@ void UThreadNode::ThreadMain()
 	}
 
 #if PRINT_DEBUG
-	ULOGGER_DEBUG("");
+	ULOGGER_DEBUG("before mainLoopEnd()");
 #endif
+
+	mainLoopEnd();
 
     handle_ = 0;
     threadId_ = 0;
-    mainLoopEnd();
     state_ = kSIdle;
+
     runningMutex_.unlock();
+#if PRINT_DEBUG
+	ULOGGER_DEBUG("Exiting thread loop");
+#endif
 }
 
 // For backward compatibilities...

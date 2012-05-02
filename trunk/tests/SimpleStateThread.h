@@ -29,7 +29,14 @@ private:
 
     void doSomeWork() const
     {
+    	//play with dynamic memory
+    	float * array = new float[8820];
     	uSleep(10);
+    	for(int i=0; i<8820; ++i)
+    	{
+    		array[i] = 0;
+    	}
+    	delete array;
     }
 
 private:

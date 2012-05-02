@@ -13,6 +13,7 @@ class Tests : public CppUnit::TestFixture  {
 
   CPPUNIT_TEST_SUITE( Tests );
   CPPUNIT_TEST( testThreadNode );
+  CPPUNIT_TEST( testThreadNodeMany );
   CPPUNIT_TEST( testSemaphore );
   CPPUNIT_TEST( testEventsManager );
   //CPPUNIT_TEST( testConsoleLogger );
@@ -54,6 +55,7 @@ public:
   }
 
   void testThreadNode();
+  void testThreadNodeMany();
   void testSemaphore();
   void testEventsManager();
   void testConsoleLogger();
