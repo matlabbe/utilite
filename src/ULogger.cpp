@@ -551,7 +551,7 @@ int ULogger::getTime(std::string &timeStr)
 
 #if _MSC_VER
     time_t rawtime;
-    time(&rawTime);
+    time(&rawtime);
     localtime_s (&timeinfo, &rawtime );
     int result = sprintf_s(buf, bufSize, "%d-%s%d-%s%d %s%d:%s%d:%s%d",
         timeinfo.tm_year+1900,
@@ -562,9 +562,9 @@ int ULogger::getTime(std::string &timeStr)
         (timeinfo.tm_sec) < 10 ? "0":"", timeinfo.tm_sec);
 #elif WIN32
     time_t rawtime;
-    time(&rawTime);
+    time(&rawtime);
     timeinfo = *localtime (&rawtime);
-    int result = sprintf_s(buf, bufSize, "%d-%s%d-%s%d %s%d:%s%d:%s%d",
+    int result = snprintf(buf, bufSize, "%d-%s%d-%s%d %s%d:%s%d:%s%d",
 		timeinfo.tm_year+1900,
 		(timeinfo.tm_mon+1) < 10 ? "0":"", timeinfo.tm_mon+1,
 		(timeinfo.tm_mday) < 10 ? "0":"", timeinfo.tm_mday,
