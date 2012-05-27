@@ -1713,12 +1713,18 @@ void UPlot::createMenus()
 
 }
 
-UPlotCurve * UPlot::addCurve(const QString & curveName)
+UPlotCurve * UPlot::addCurve(const QString & curveName, const QColor & color)
 {
 	// add curve
 	UPlotCurve * curve = new UPlotCurve(curveName, this);
-	//curve->pen() = QPen((Qt::PenStyle)(_penStyleCount++ % 4 + 2));
-	curve->setPen(this->getRandomPenColored());
+	if(color.isValid())
+	{
+		curve->setPen(color);
+	}
+	else
+	{
+		curve->setPen(this->getRandomPenColored());
+	}
 	this->addCurve(curve);
 	return curve;
 }

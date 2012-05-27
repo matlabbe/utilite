@@ -37,7 +37,7 @@ public:
 		curveSin = new UPlotCurve("sin", this);
 		curveSin->setPen(QPen(Qt::red));
 		plot->addCurve(curveSin); // ownership transferred to UPlot
-		curveCos = plot->addCurve("cos"); // second way to add a curve
+		curveCos = plot->addCurve("cos", QColor(Qt::blue)); // second way to add a curve
 		plot->addThreshold("zero", 0.0);
 		connect(this, SIGNAL(valueUpdatedA(float, float)), curveSin, SLOT(addValue(float, float)));
 		connect(this, SIGNAL(valueUpdatedB(float, float)), curveCos, SLOT(addValue(float, float)));
