@@ -186,7 +186,7 @@ void USpectrogram::push(const float frame[], int frameLength)
 	int val; // max 240 // H=blue
 	float max = frameLength*frameLength;
 	float minDb = 80;//fabs(10*std::log10(min/max));
-	float gain = 20;
+	float gain = 30;
 
 	float frameMin = 0.0f;
 	float frameMax = 0.0f;

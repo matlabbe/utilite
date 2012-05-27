@@ -283,7 +283,7 @@ public:
 	UPlot(QWidget * parent = 0);
 	virtual ~UPlot();
 
-	UPlotCurve * addCurve(const QString & curveName);
+	UPlotCurve * addCurve(const QString & curveName, const QColor & color = QColor());
 	bool addCurve(UPlotCurve * curves);
 	QStringList curveNames();
 	bool contains(const QString & curveName);
