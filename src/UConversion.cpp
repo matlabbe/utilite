@@ -270,6 +270,7 @@ std::string uFormatv (const char *fmt, va_list args)
         dynamicbuf.resize (size);
         buf = &dynamicbuf[0];
     }
+    return std::string(); // would not reach this, but for compiler complaints...
 }
 
 std::string uFormat (const char *fmt, ...)
