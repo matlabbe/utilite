@@ -60,7 +60,14 @@ double UTimer::getElapsedTime()
 }
 double UTimer::getInterval()
 {
-    return double(stopTimeRecorded_.QuadPart - startTimeRecorded_.QuadPart) / frequency_.QuadPart;
+	if(stopTimeRecorded_.QuadPart == startTimeRecorded_.QuadPart)
+	{
+		return getElapsedTime();
+	}
+	else
+	{
+		return double(stopTimeRecorded_.QuadPart - startTimeRecorded_.QuadPart) / frequency_.QuadPart;
+	}
 }
 #else
 double UTimer::now()
@@ -87,16 +94,22 @@ double UTimer::getElapsedTime()
 }
 double UTimer::getInterval()
 {
-	double start = double(startTimeRecorded_.tv_sec) + double(startTimeRecorded_.tv_usec) / 1000000.0;
-	double stop = double(stopTimeRecorded_.tv_sec) + double(stopTimeRecorded_.tv_usec) / 1000000.0;
-	return stop - start;
+	if(startTimeRecorded_.tv_sec == stopTimeRecorded_.tv_sec && startTimeRecorded_.tv_usec == stopTimeRecorded_.tv_usec)
+	{
+		return getElapsedTime();
+	}
+	else
+	{
+		double start = double(startTimeRecorded_.tv_sec) + double(startTimeRecorded_.tv_usec) / 1000000.0;
+		double stop = double(stopTimeRecorded_.tv_sec) + double(stopTimeRecorded_.tv_usec) / 1000000.0;
+		return stop - start;
+	}
 }
 #endif
 
 double UTimer::ticks()        // Stop->start and return Interval
 {
-    stop();
-    double inter = getInterval();
+    double inter = elapsed();
     start();
     return inter;
 }
