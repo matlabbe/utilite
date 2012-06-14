@@ -68,27 +68,31 @@ public:
 
     /** 
      * This method is used to get the elapsed time
-     * between now and the start().
+     * between now and the start(). If timer is stopped, the interval time
+	 * between stop() and the start() is returned.
      * @return double the interval in seconds.
      */
     double getElapsedTime();
+    double elapsed() {return getElapsedTime();}
 
     /**
 	 * This method is used to get the interval time
 	 * between stop() and the start().
 	 * @return double the interval in seconds.
+	 * @deprecated use elapsed() instead.
 	 */
-    double getInterval();
+    DEPRECATED(double getInterval());
 
     /** 
      * This method is used to get the interval of 
      * the timer while it is running. It's automatically 
      * stop the timer, get the interval and restart 
      * the timer. It's the same of calling stop(), 
-     * getInterval() and start().
+     * elapsed() and start(). Method restart() does the same thing, for convenience.
      * @return double the interval in seconds.
      */
     double ticks();
+    double restart() {return ticks();}
 
 private:
 #ifdef WIN32

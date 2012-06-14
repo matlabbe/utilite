@@ -258,6 +258,7 @@ public:
      *         in console and file at the same time.
      */
     static void setType(Type type, const std::string &fileName = kDefaultLogFileName, bool append = true);
+    static Type type() {return type_;}
 
     // Setters
     /**
@@ -265,26 +266,36 @@ public:
      * @param printTime true to print time, otherwise set to false.
      */
     static void setPrintTime(bool printTime) {printTime_ = printTime;}
+    static bool isPrintTime() {return printTime_;}
+
     /**
      * Print level: default true.
 	 * @param printLevel true to print level, otherwise set to false.
 	 */
     static void setPrintLevel(bool printLevel) {printLevel_ = printLevel;}
+    static bool isPrintLevel() {return printLevel_;}
+
     /**
      * Print end of line: default true.
 	 * @param printLevel true to print end of line, otherwise set to false.
 	 */
     static void setPrintEndline(bool printEndline) {printEndline_ = printEndline;}
+    static bool isPrintEndLine() {return printEndline_;}
+
     /**
      * Print where is this message in source code: default true.
 	 * @param printWhere true to print where, otherwise set to false.
 	 */
     static void setPrintWhere(bool printWhere) {printWhere_ = printWhere;}
+    static bool isPrintWhere() {return printWhere_;}
+
     /**
      * Print the full path: default true. ULogger::setPrintWhere() must be true to have path printed.
 	 * @param printWhereFullPath true to print the full path, otherwise set to false.
 	 */
     static void setPrintWhereFullPath(bool printWhereFullPath) {printWhereFullPath_ = printWhereFullPath;}
+    static bool isPrintWhereFullPath() {return printWhereFullPath_;}
+
     /**
      * Set is the logger buffers messages, default false. When true, the messages are
      * buffered until the application is closed or ULogger::flush() is called.
@@ -292,6 +303,7 @@ public:
 	 * @param buffered true to buffer messages, otherwise set to false.
 	 */
     static void setBuffered(bool buffered);
+    static bool isBuffered() {return buffered_;}
 
     /**
      * Set logger level: default kInfo. All messages over the severity set
@@ -305,6 +317,7 @@ public:
      * @param level the minimum level of the messages printed.
      */
     static void setLevel(ULogger::Level level) {level_ = level;}
+    static ULogger::Level level() {return level_;}
 
     /**
 	 * Make application to exit when a log with level is written (useful for debugging). The message is printed to
@@ -313,6 +326,7 @@ public:
 	 * Note : A kFatal level will always exit whatever the level specified here.
 	 */
 	static void setExitLevel(ULogger::Level exitLevel) {exitLevel_ = exitLevel;}
+	static ULogger::Level exitLevel() {return exitLevel_;}
 
 	/**
 	 * An ULogEvent is sent on each message logged at the specified level.
@@ -321,6 +335,7 @@ public:
 	 * @see setExitLevel()
 	 */
 	static void setEventLevel(ULogger::Level eventSentLevel) {eventLevel_ = eventSentLevel;}
+	static ULogger::Level eventLevel() {return eventLevel_;}
 
     /**
      * Reset to default parameters.

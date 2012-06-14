@@ -968,7 +968,6 @@ void Tests::testTimer()
 	UTimer timer;
 	double uValue;
 
-	CPPUNIT_ASSERT(timer.getInterval() == 0.0);
 	CPPUNIT_ASSERT(timer.now() > 0.0);
 
 	double timeA = timer.now();
@@ -985,7 +984,7 @@ void Tests::testTimer()
 	timer.start();
 	uSleep(100);
 	timer.stop();
-	uValue = timer.getInterval();
+	uValue = timer.elapsed();
 	CPPUNIT_ASSERT(uValue >= 0.09 && uValue < 0.11);
 
 	//ticks
