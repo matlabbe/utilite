@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.13</span>
+   &#160;<span id="projectnumber">0.2.14</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -80,7 +80,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#friends">Friends</a>  </div>
   <div class="headertitle">
 <div class="title">UEventDispatcher Class Reference</div>  </div>
@@ -94,34 +93,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_event_dispatcher.html#ad1aa4dc2ee29a9bfe5ee0422ad1c97f0">mainLoop</a> ()</td></tr>
-<tr><td colspan="2"><h2><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_event_dispatcher.html#a99bae7789c2a5f0130d8255668bd9a18">killCleanup</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="friends"></a>
 Friends</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a977152b27d4c918d79a2db23ed85bfa6"></a><!-- doxytag: member="UEventDispatcher::UEventsManager" ref="a977152b27d4c918d79a2db23ed85bfa6" args="" -->
 class&#160;</td><td class="memItemRight" valign="bottom"><b>UEventsManager</b></td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a99bae7789c2a5f0130d8255668bd9a18"></a><!-- doxytag: member="UEventDispatcher::killCleanup" ref="a99bae7789c2a5f0130d8255668bd9a18" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void <a class="el" href="class_u_event_dispatcher.html#a99bae7789c2a5f0130d8255668bd9a18">UEventDispatcher::killCleanup</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td><code> [private, virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Virtual method <a class="el" href="class_u_event_dispatcher.html#a99bae7789c2a5f0130d8255668bd9a18">killCleanup()</a>. User can implement this function to add a behavior before the thread is killed. When this function is called, the state of the thread is set to kSKilled. It is useful to wake up a sleeping thread to finish his loop and to avoid a deadlock. </p>
-
-<p>Reimplemented from <a class="el" href="class_u_thread_node.html#a61751c8aa75854f5fd30e92a57b9fe92">UThreadNode</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="ad1aa4dc2ee29a9bfe5ee0422ad1c97f0"></a><!-- doxytag: member="UEventDispatcher::mainLoop" ref="ad1aa4dc2ee29a9bfe5ee0422ad1c97f0" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -135,7 +112,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UEventsManager</b></
       </table>
 </div>
 <div class="memdoc">
-<p>Pure virtual method <a class="el" href="class_u_event_dispatcher.html#ad1aa4dc2ee29a9bfe5ee0422ad1c97f0">mainLoop()</a>. The inner loop of the thread. This method is called repetitively until the thread is killed.</p>
+<p>Pure virtual method <a class="el" href="class_u_event_dispatcher.html#ad1aa4dc2ee29a9bfe5ee0422ad1c97f0">mainLoop()</a>. The inner loop of the thread. This method is called repetitively until the thread is killed. Note that if <a class="el" href="class_u_thread_node.html#a86fed3387bdeedf58184e027cc51fb0d">kill()</a> is called in <a class="el" href="class_u_thread_node.html#ad4f15c17cd466d3e5e5c7a63f61aa6f1">mainLoopBegin()</a>, <a class="el" href="class_u_event_dispatcher.html#ad1aa4dc2ee29a9bfe5ee0422ad1c97f0">mainLoop()</a> is not called, terminating immediately the thread.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_u_event_dispatcher.html#ad1aa4dc2ee29a9bfe5ee0422ad1c97f0">mainLoop()</a> </dd>
 <dd>
 <a class="el" href="class_u_thread_node.html#a86fed3387bdeedf58184e027cc51fb0d">kill()</a> </dd></dl>
@@ -165,7 +142,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UEventsManager</b></
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 16 2012 14:50:10 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

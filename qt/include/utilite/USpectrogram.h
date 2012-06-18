@@ -26,19 +26,59 @@
 
 class QGraphicsView;
 class QGraphicsPixmapItem;
-class UPlotOrientableLabel;
+class UOrientableLabel;
 class QAction;
 class QMenu;
 class QImage;
 class QLabel;
 class QGridLayout;
 
+/**
+ * USpectrogram is a QWidget to show a spectrogram. Add
+ * frames (squared magnitude values) incrementally using Qt signals/slots.
+ * @image html USpectrogram.png "Chirp"
+ *
+ * Example:
+ * @code
+ * #include "utilite/USpectrogram.h"
+ * #include <QApplication>
+ *
+ * int main(int argc, char * argv[])
+ * {
+ *  QApplication app(argc, argv);
+ *	USpectrogram spectrogram;
+ *
+ *	// Get audio frames and compute the FFTs,
+ *	// compute the squared magnitude (im*im + re*re) of the FFTs, then
+ *	// add the frequency frames to the spectrogram.
+ *	std::vector<float> frame1, frame2, frame3, frame4; //...
+ *	spectrogram.push(frame1);
+ *	spectrogram.push(frame2);
+ *	spectrogram.push(frame3);
+ *	spectrogram.push(frame4);
+ *	spectrogram.push(frameXXXX);
+ *	//...
+
+ *	spectrogram.show();
+ *	app.exec();
+ * 	return 0;
+ * }
+ * @endcode
+ *
+ *
+ */
 class UTILITE_EXP USpectrogram : public QWidget
 {
 	Q_OBJECT;
 
 public:
+	/**
+	 * Constructor 1.
+	 */
 	USpectrogram(QWidget * parent = 0);
+	/**
+	 * Constructor 2. Set the sampling frequency of the frames (used to show values in Hz).
+	 */
 	USpectrogram(int fs, QWidget * parent = 0);
 	virtual ~USpectrogram();
 	void setScaled(bool freqScaled, bool timeScaled);
@@ -47,19 +87,38 @@ public:
 	void setOnlyLastFramesDrawn(bool onlyLastFramesDrawn);
 	void setHorizontalScrollBarValue(int value);
 	void setVerticalScrollBarValue(int value);
+	void setDBGain(float value);
+	void setDBMin(float value);
 	int samplingRate() const {return _fs;}
 	bool isScaledTime() const;
 	bool isScaledFreq() const;
 	bool isAxesSwitched() const;
 	bool isZoomed() const;
 	bool isOnlyLastFramesDrawn() const;
+	/**
+	 * Set all frames. If you want to incrementally add frames, use slot push().
+	 */
 	void setData(const QList<QVector<float> > & data);
-	void clear();
 	USpectrogram * clone() const;
 
 public slots:
+	/**
+	 * Clear the spectrogram.
+	 */
+	void clear();
+	/**
+	 * Push a new frame. It must be the same size of the previous
+	 * added frames. If not, a clear() is required.
+	 */
 	void push(const std::vector<float> & frame);
+	/**
+	 * For convenience, push a new frame. It must be the same size of the previous
+	 * added frames. If not, a clear() is required.
+	 */
 	void push(const QVector<float> & frame);
+	/**
+	 * Set sampling rate (to display frequencies in Hz).
+	 */
 	void setSamplingRate(int fs);
 
 protected:
@@ -81,12 +140,14 @@ private:
 	QList<QVector<float> > _dataLog;
 	int _fs;
 	QGraphicsPixmapItem * _imageItem;
-	UPlotOrientableLabel * _xLabel;
-	UPlotOrientableLabel * _yLabel;
+	UOrientableLabel * _xLabel;
+	UOrientableLabel * _yLabel;
 	bool _axesSwitched;
 	QGridLayout * _gridLayout;
 	int _nbSubOctave;
 	int _minLogSample;
+	float _dBGain;
+	float _dBMin;
 
 	QMenu * _menu;
 	QAction * _aClear;
@@ -98,6 +159,8 @@ private:
 	QAction * _aOpenNewWindow;
 	QAction * _aLogFrequency;
 	QAction * _aSaveTo;
+	QAction * _aDBMin;
+	QAction * _aDBGain;
 };
 
 #endif /* AUDIOWIDGET_H_ */

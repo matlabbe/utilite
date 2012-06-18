@@ -72,8 +72,8 @@ public:
 	 * between stop() and the start() is returned.
      * @return double the interval in seconds.
      */
-    double getElapsedTime();
     double elapsed() {return getElapsedTime();}
+    double getElapsedTime();
 
     /**
 	 * This method is used to get the interval time
@@ -91,8 +91,8 @@ public:
      * elapsed() and start(). Method restart() does the same thing, for convenience.
      * @return double the interval in seconds.
      */
-    double ticks();
     double restart() {return ticks();}
+    double ticks();
 
 private:
 #ifdef WIN32

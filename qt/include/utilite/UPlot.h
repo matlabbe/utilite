@@ -38,10 +38,20 @@ class QGraphicsScene;
 class QGraphicsItem;
 class QFormLayout;
 
+/**
+ * UPlotItem is a QGraphicsEllipseItem and can be inherited to do custom behaviors
+ * on an hoverEnterEvent() for example.
+ */
 class UTILITE_EXP UPlotItem : public QGraphicsEllipseItem
 {
 public:
+	/**
+	 * Constructor 1.
+	 */
 	UPlotItem(qreal dataX, qreal dataY, qreal width=2);
+	/**
+	 * Constructor 2.
+	 */
 	UPlotItem(const QPointF & data, qreal width=2);
 	virtual ~UPlotItem();
 
@@ -72,22 +82,53 @@ private:
 
 class UPlot;
 
+/**
+ * UPlotCurve is a curve used to hold data shown in a UPlot.
+ */
 class UTILITE_EXP UPlotCurve : public QObject
 {
 	Q_OBJECT
 
 public:
+	/**
+	 * Constructor 1
+	 */
 	UPlotCurve(const QString & name, QObject * parent = 0);
+	/**
+	 * Constructor 2
+	 */
 	UPlotCurve(const QString & name, const QVector<UPlotItem *> data, QObject * parent = 0);
+	/**
+	 * Constructor 3
+	 */
 	UPlotCurve(const QString & name, const QVector<float> & x, const QVector<float> & y, QObject * parent = 0);
 	virtual ~UPlotCurve();
 
+	/**
+	 * Get pen.
+	 */
 	const QPen & pen() const {return _pen;}
+	/**
+	 * Get brush.
+	 */
 	const QBrush & brush() const {return _brush;}
+
+	/**
+	 * Set pen.
+	 */
 	void setPen(const QPen & pen);
+	/**
+	 * Set brush.
+	 */
 	void setBrush(const QBrush & brush);
 
+	/**
+	 * Get name.
+	 */
 	QString name() const {return _name;}
+	/**
+	 * Get the number of items in the curve (dot + line items).
+	 */
 	int itemsSize() const;
 	QPointF getItemData(int index);
 	bool isVisible() const {return _visible;}
@@ -99,22 +140,80 @@ public:
 	void draw(QPainter * painter);
 
 public slots:
+	/**
+	 *
+	 * Clear curve's values.
+	 */
 	virtual void clear();
+	/**
+	 *
+	 * Show or hide the curve.
+	 */
     void setVisible(bool visible);
+    /**
+     *
+	 * Set increment of the x values (when auto-increment is used).
+	 */
     void setXIncrement(float increment);
+    /**
+     *
+	 * Set starting x value (when auto-increment is used).
+	 */
     void setXStart(float val);
+    /**
+     *
+	 * Add a single value, using a custom UPlotItem.
+	 */
 	void addValue(UPlotItem * data); // take the ownership
+	/**
+	 *
+	 * Add a single value y, x is auto-incremented by the increment set with setXIncrement().
+	 * @see setXStart()
+	 */
 	void addValue(float y);
+	/**
+	 *
+	 * Add a single value y at x.
+	 */
 	void addValue(float x, float y);
+	/**
+	 *
+	 * For convenience...
+	 * Add a single value y, x is auto-incremented by the increment set with setXIncrement().
+	 * @see setXStart()
+	 */
 	void addValue(const QString & y);
+	/**
+	 *
+	 * For convenience...
+	 * Add multiple values, using custom UPlotItem.
+	 */
 	void addValues(QVector<UPlotItem *> & data); // take the ownership
+	/**
+	 *
+	 * Add multiple values y at x. Vectors must have the same size.
+	 */
 	void addValues(const QVector<float> & xs, const QVector<float> & ys);
+	/**
+	 *
+	 * Add multiple values y, x is auto-incremented by the increment set with setXIncrement().
+	 * @see setXStart()
+	 */
 	void addValues(const QVector<float> & ys);
 	void addValues(const QVector<int> & ys); // for convenience
+	/**
+	 *
+	 * Add multiple values y, x is auto-incremented by the increment set with setXIncrement().
+	 * @see setXStart()
+	 */
 	void addValues(const std::vector<float> & ys); // for convenience
 	void addValues(const std::vector<int> & ys); // for convenience
 
 signals:
+	/**
+	 *
+	 *  emitted when data is changed.
+	 */
 	void dataChanged(const UPlotCurve *);
 
 protected:
@@ -145,16 +244,28 @@ private:
 };
 
 
+/**
+ * A special UPlotCurve that shows as a line at the specified value, spanning all the UPlot.
+ */
 class UTILITE_EXP UPlotCurveThreshold : public UPlotCurve
 {
 	Q_OBJECT
 
 public:
+	/**
+	 * Constructor.
+	 */
 	UPlotCurveThreshold(const QString & name, float thesholdValue, Qt::Orientation orientation = Qt::Horizontal, QObject * parent = 0);
 	virtual ~UPlotCurveThreshold();
 
 public slots:
+	/**
+	 * Set threshold value.
+	 */
 	void setThreshold(float threshold);
+	/**
+	 * Set orientation (Qt::Horizontal or Qt::Vertical).
+	 */
 	void setOrientation(Qt::Orientation orientation);
 
 protected:
@@ -166,18 +277,39 @@ private:
 	Qt::Orientation _orientation;
 };
 
-
+/**
+ * The UPlot axis object.
+ */
 class UTILITE_EXP UPlotAxis : public QWidget
 {
 public:
+	/**
+	 * Constructor.
+	 */
 	UPlotAxis(Qt::Orientation orientation = Qt::Horizontal, float min=0, float max=1, QWidget * parent = 0);
 	virtual ~UPlotAxis();
 
 public:
+	/**
+	 * Set axis minimum and maximum values, compute the resulting
+	 * intervals depending on the size of the axis.
+	 */
 	void setAxis(float & min, float & max);
+	/**
+	 * Size of the border between the first line and the beginning of the widget.
+	 */
 	int border() const {return _border;}
+	/**
+	 * Interval step value.
+	 */
 	int step() const {return _step;}
+	/**
+	 * Number of intervals.
+	 */
 	int count() const {return _count;}
+	/**
+	 * Reverse the axis (for vertical :bottom->up, for horizontal :right->left)
+	 */
 	void setReversed(bool reversed); // Vertical :bottom->up, horizontal :right->left
 
 protected:
@@ -195,11 +327,17 @@ private:
 };
 
 
+/**
+ * The UPlot legend item. Used internally by UPlot.
+ */
 class UTILITE_EXP UPlotLegendItem : public QPushButton
 {
 	Q_OBJECT
 
 public:
+	/**
+	 * Constructor.
+	 */
 	UPlotLegendItem(const UPlotCurve * curve, QWidget * parent = 0);
 	virtual ~UPlotLegendItem();
 	const UPlotCurve * curve() const {return _curve;}
@@ -219,12 +357,17 @@ private:
 	QAction * _aCopyToClipboard;
 };
 
-
+/**
+ * The UPlot legend. Used internally by UPlot.
+ */
 class UTILITE_EXP UPlotLegend : public QWidget
 {
 	Q_OBJECT
 
 public:
+	/**
+	 * Constructor.
+	 */
 	UPlotLegend(QWidget * parent = 0);
 	virtual ~UPlotLegend();
 
@@ -254,14 +397,26 @@ private:
 };
 
 
-class UTILITE_EXP UPlotOrientableLabel : public QLabel
+/**
+ * Orientable QLabel. Inherit QLabel and let you to specify the orientation.
+ */
+class UTILITE_EXP UOrientableLabel : public QLabel
 {
 	Q_OBJECT
 
 public:
-	UPlotOrientableLabel(const QString & text, Qt::Orientation orientation = Qt::Horizontal, QWidget * parent = 0);
-	virtual ~UPlotOrientableLabel();
+	/**
+	 * Constructor.
+	 */
+	UOrientableLabel(const QString & text, Qt::Orientation orientation = Qt::Horizontal, QWidget * parent = 0);
+	virtual ~UOrientableLabel();
+	/**
+	 * Get orientation.
+	 */
 	Qt::Orientation orientation() const {return _orientation;}
+	/**
+	 * Set orientation (Qt::Vertical or Qt::Horizontal).
+	 */
 	void setOrientation(Qt::Orientation orientation);
 	QSize sizeHint() const;
 	QSize minimumSizeHint() const;
@@ -271,23 +426,66 @@ private:
     Qt::Orientation _orientation;
 };
 
-/*
- * TODO It could be cool to right-click on a dot in the
- * plot to create a new plot to monitor the dot value changes.
+/**
+ * UPlot is a QWidget to create a plot like MATLAB, and
+ * incrementally add new values like a scope using Qt signals/slots.
+ * Many customizations can be done at runtime with the right-click menu.
+ * @image html UPlot.gif
+ * @image html UPlotMenu.png
+ *
+ * Example:
+ * @code
+ * #include "utilite/UPlot.h"
+ * #include <QApplication>
+ *
+ * int main(int argc, char * argv[])
+ * {
+ *	QApplication app(argc, argv);
+ *	UPlot plot;
+ *	UPlotCurve * curve = plot.addCurve("My curve");
+ *	float y[10] = {0, 1, 2, 3, -3, -2, -1, 0, 1, 2};
+ *	curve->addValues(std::vector<float>(y, y+10));
+ *	plot.showGrid(true);
+ *	plot.setGraphicsView(true);
+ *	plot.show();
+ *	app.exec();
+ * 	return 0;
+ * }
+ * @endcode
+ * @image html SimplePlot.tiff
+ *
+ *
  */
 class UTILITE_EXP UPlot : public QWidget
 {
 	Q_OBJECT
 
 public:
+	/**
+	 * Constructor.
+	 */
 	UPlot(QWidget * parent = 0);
 	virtual ~UPlot();
 
+	/**
+	 * Add a curve. The returned curve doesn't need to be deallocated (UPlot keeps the ownership).
+	 */
 	UPlotCurve * addCurve(const QString & curveName, const QColor & color = QColor());
-	bool addCurve(UPlotCurve * curves);
+	/**
+	 * Add a curve. Ownership is transferred to UPlot.
+ 	 * If you add the curve to more than one UPlot, the ownership is transferred
+ 	 * to the last UPlot.
+	 */
+	bool addCurve(UPlotCurve * curve);
+	/**
+	 * Get all curve names.
+	 */
 	QStringList curveNames();
 	bool contains(const QString & curveName);
 	void removeCurves();
+	/**
+	 * Add a threshold to the plot.
+	 */
 	UPlotCurveThreshold * addThreshold(const QString & name, float value, Qt::Orientation orientation = Qt::Horizontal);
 	QString title() const {return this->objectName();}
 	QPen getRandomPenColored();
@@ -310,9 +508,17 @@ public:
 	QRectF sceneRect() const;
 
 public slots:
+	/**
+	 *
+	 * Remove a curve. If UPlot is the parent of the curve, the curve is deleted.
+	 */
 	void removeCurve(const UPlotCurve * curve);
 	void showCurve(const UPlotCurve * curve, bool shown);
 	void updateAxis(); //reset axis and recompute it with all curves minMax
+	/**
+	 *
+	 * Clear all curves' data.
+	 */
 	void clearData();
 
 private slots:
@@ -354,7 +560,7 @@ private:
 	QList<UPlotCurve*> _curves;
 	QLabel * _title;
 	QLabel * _xLabel;
-	UPlotOrientableLabel * _yLabel;
+	UOrientableLabel * _yLabel;
 	QLabel * _refreshRate;
 	QString _workingDirectory;
 	QTime _refreshIntervalTime;

@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.13</span>
+   &#160;<span id="projectnumber">0.2.14</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -94,7 +94,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent</a> (<a class="el" href="class_u_event.html">UEvent</a> *event)=0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_handler.html#abfe2ba3d1fb92e59aff1978cbc21d134">UEventsHandler</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_handler.html#af9cd058ae9d0166824d248f73402af17">~UEventsHandler</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_handler.html#a15ac2bf243e938c411fac0dff7db2f51">~UEventsHandler</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_handler.html#a4dde67ce9df652523987677151f4727c">post</a> (<a class="el" href="class_u_event.html">UEvent</a> *event, bool async=true)</td></tr>
 <tr><td colspan="2"><h2><a name="friends"></a>
 Friends</h2></td></tr>
@@ -102,7 +102,7 @@ Friends</h2></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>The class <a class="el" href="class_u_events_handler.html">UEventsHandler</a> is an abstract class for handling events.</p>
-<p>Inherited classes must implement <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> function, which is called by the <a class="el" href="class_u_events_manager.html">UEventsManager</a> when an event is dispatched. Once the handler is created, it must be added to events manager with <a class="el" href="class_u_events_manager.html#aa673feac9cf66a3cee01cf58095b4f6c">UEventsManager::addHandler()</a> function. Note that it is not safe to automatically add the handler to <a class="el" href="class_u_events_manager.html">UEventsManager</a> in the handler's constructor.</p>
+<p>Inherited classes must implement <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> function, which is called by the <a class="el" href="class_u_events_manager.html">UEventsManager</a> when an event is dispatched. Once the handler is created, it must be added to events manager with <a class="el" href="class_u_events_manager.html#a3bb033062e4a0eb59efdf5f84d170388">UEventsManager::addHandler()</a> function. Note that it is not safe to automatically add the handler to <a class="el" href="class_u_events_manager.html">UEventsManager</a> in the handler's constructor.</p>
 <p>Note for multi-threading: the <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> method is called inside the <a class="el" href="class_u_events_manager.html">UEventsManager</a> thread. If the inherited class also inherits from <a class="el" href="class_u_thread_node.html">UThreadNode</a>, <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> is done as well outside the thread's main loop, so be careful to protect private data of the thread used in its main loop.</p>
 <p>Example for a useful combination of an <a class="el" href="class_u_events_handler.html">UEventsHandler</a> and a <a class="el" href="class_u_thread_node.html">UThreadNode</a>, with safe data modification while not blocking the <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> call on a mutex: </p>
 <div class="fragment"><pre class="fragment"><span class="preprocessor"> #include &quot;utilite/UThreadNode.h&quot;</span>
@@ -156,13 +156,13 @@ Friends</h2></td></tr>
  {
     CounterThread counter;
     counter.start();
-    <a class="code" href="class_u_events_manager.html#aa673feac9cf66a3cee01cf58095b4f6c">UEventsManager::addHandler</a>(&amp;counter);
+    <a class="code" href="class_u_events_manager.html#a3bb033062e4a0eb59efdf5f84d170388">UEventsManager::addHandler</a>(&amp;counter);
 
     uSleep(500); <span class="comment">// wait 500 ms before sending a reset event</span>
     <a class="code" href="class_u_events_handler.html#a4dde67ce9df652523987677151f4727c">UEventsManager::post</a>(<span class="keyword">new</span> ResetEvent());
     uSleep(500); <span class="comment">// wait 500 ms before termination</span>
 
-    <a class="code" href="class_u_events_manager.html#a12407bbfd21f567a7468c88eb3c7101c">UEventsManager::removeHandler</a>(&amp;counter);
+    <a class="code" href="class_u_events_manager.html#a10d4b359f630aa9387e77f8baefcc07c">UEventsManager::removeHandler</a>(&amp;counter);
     counter.join(<span class="keyword">true</span>); <span class="comment">// Kill and wait to finish</span>
     <span class="keywordflow">return</span> 0;
  }
@@ -202,12 +202,12 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af9cd058ae9d0166824d248f73402af17"></a><!-- doxytag: member="UEventsHandler::~UEventsHandler" ref="af9cd058ae9d0166824d248f73402af17" args="()" -->
+<a class="anchor" id="a15ac2bf243e938c411fac0dff7db2f51"></a><!-- doxytag: member="UEventsHandler::~UEventsHandler" ref="a15ac2bf243e938c411fac0dff7db2f51" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_u_events_handler.html#af9cd058ae9d0166824d248f73402af17">UEventsHandler::~UEventsHandler</a> </td>
+          <td class="memname">virtual <a class="el" href="class_u_events_handler.html#a15ac2bf243e938c411fac0dff7db2f51">UEventsHandler::~UEventsHandler</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [protected, virtual]</code></td>
@@ -263,7 +263,7 @@ Friends</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>For convenience to post an event. This is the same than calling <a class="el" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">UEventsManager::post()</a>. </p>
+<p>For convenience to post an event. This is the same than calling <a class="el" href="class_u_events_manager.html#add791ce7820e4e0c0c13eed97d07ae9e">UEventsManager::post()</a>. </p>
 
 </div>
 </div>
@@ -282,9 +282,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/utilite/<a class="el" href="_u_events_handler_8h_source.html">UEventsHandler.h</a></li>
-<li>src/UEventsHandler.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- window showing the filter options -->
@@ -304,7 +303,7 @@ Friends</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 16 2012 14:50:10 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

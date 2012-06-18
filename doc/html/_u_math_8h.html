@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.13</span>
+   &#160;<span id="projectnumber">0.2.14</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -77,13 +77,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="header">
   <div class="summary">
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">include/utilite/UMath.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Basic mathematic functions.  
+<p>Basic mathematics functions.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;utilite/UtiLiteExp.h&quot;</code><br/>
 <code>#include &lt;cmath&gt;</code><br/>
@@ -92,10 +93,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <p><a href="_u_math_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#ae24d0d5b3a1d44ae8c5e50bb86a15cba">UXMatchMethod</a> </td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a122aacac9ff50a9515c4c627a73d23ae">uMax</a> (const T *v, unsigned int size, unsigned int &amp;index=0)</td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a1362990d0ce7f09ef735292cc480fa23">uMax</a> (const T *v, unsigned int size, unsigned int &amp;index)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a387b43468da220548d025010be075476">uMax</a> (const T *v, unsigned int size)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#aa37a66d04825a8834648dbe931bd57e6">uMin</a> (const T *v, unsigned int size, unsigned int &amp;index)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a68e11ea992520b98d4e688f8853b5dc4">uMin</a> (const T *v, unsigned int size)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#af9bfdafb6da16f9c6f4691a6d951538b">uMinMax</a> (const T *v, unsigned int size, T &amp;min, T &amp;max, unsigned int &amp;indexMin, unsigned int &amp;indexMax)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a9cc051a73d402e69919d8fcea51c3098">uMinMax</a> (const T *v, unsigned int size, T &amp;min, T &amp;max)</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a6e100ed2031a529679a93b9b4bf818af">uSign</a> (const T &amp;v)</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
@@ -104,6 +118,8 @@ Functions</h2></td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#af15f0fa694931f0f99ba640d52539b09">uSum</a> (const std::vector&lt; T &gt; &amp;v)</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a86599e95ecdc91ce2d9497985d5d642b">uSum</a> (const T *v, unsigned int size)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#aeb6a6517666687e509617e6bfaf274d3">uSumSquared</a> (const T *v, unsigned int size, T subtract=T())</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a7376638ab6047306c66a357153a47196">uMean</a> (const T *v, unsigned int size)</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
@@ -118,23 +134,67 @@ Functions</h2></td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a7cf5490c0e59d4de49920b46cf4b65e9">uStdDev</a> (const T *v, unsigned int size)</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a8cf0e1e59be999ff79da8217d1617b5b">uStdDev</a> (const std::vector&lt; T &gt; &amp;v, const T &amp;m)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a777c8c252f85236a10b3d9085904d912">uNorm</a> (const std::vector&lt; float &gt; &amp;v)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a83d41b8c30085981e62660de4c31c629">uNormalize</a> (const std::vector&lt; float &gt; &amp;v)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a603c5a609847a2648477aaec5a94e678">uXCorr</a> (const float *vA, const float *vB, unsigned int sizeA, unsigned int sizeB)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a44ab2924e2a1788ebcc9aed3f6f0aa64">uXCorr</a> (const float *vA, const float *vB, unsigned int sizeA, unsigned int sizeB, unsigned int index, float meanA, float meanB, float stdDevAB)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#acb7b7aee94546c2746ef62f4e8d71b0b">uXCorr</a> (const float *vA, const float *vB, unsigned int sizeA, unsigned int sizeB, unsigned int index)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#ab5e611c29307d8733cfaebc68bed1ac6">uNorm</a> (const std::vector&lt; T &gt; &amp;v)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a6ea84f5e66d07e1742ab12dccc7a9bc1">uNormalize</a> (const std::vector&lt; T &gt; &amp;v)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#add2fd1c790156250fbf962bd4e77ca60">uXMatch</a> (const T *vA, const T *vB, unsigned int sizeA, unsigned int sizeB, <a class="el" href="_u_math_8h.html#ae24d0d5b3a1d44ae8c5e50bb86a15cba">UXMatchMethod</a> method)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#ac616ce0471d2e35fafd59d88021ccab3">uXMatch</a> (const T *vA, const T *vB, unsigned int sizeA, unsigned int sizeB, unsigned int index, <a class="el" href="_u_math_8h.html#ae24d0d5b3a1d44ae8c5e50bb86a15cba">UXMatchMethod</a> method)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_math_8h.html#a88a8b3e07142de28e445e43fd6a77c9b">uHamming</a> (unsigned int L)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>Basic mathematic functions. </p>
-</div><hr/><h2>Function Documentation</h2>
-<a class="anchor" id="a122aacac9ff50a9515c4c627a73d23ae"></a><!-- doxytag: member="UMath.h::uMax" ref="a122aacac9ff50a9515c4c627a73d23ae" args="(const T *v, unsigned int size, unsigned int &amp;index=0)" -->
+<div class="textblock"><p>Basic mathematics functions. </p>
+</div><hr/><h2>Enumeration Type Documentation</h2>
+<a class="anchor" id="ae24d0d5b3a1d44ae8c5e50bb86a15cba"></a><!-- doxytag: member="UMath.h::UXMatchMethod" ref="ae24d0d5b3a1d44ae8c5e50bb86a15cba" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="_u_math_8h.html#ae24d0d5b3a1d44ae8c5e50bb86a15cba">UXMatchMethod</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Enum of cross matching methods (cross-correlation, cross-covariance) : UXCorrRaw, UXCorrBiased, UXCorrUnbiased, UXCorrCoeff, UXCovRaw, UXCovBiased, UXCovUnbiased, UXCovCoeff. </p>
+
+</div>
+</div>
+<hr/><h2>Function Documentation</h2>
+<a class="anchor" id="a88a8b3e07142de28e445e43fd6a77c9b"></a><!-- doxytag: member="UMath.h::uHamming" ref="a88a8b3e07142de28e445e43fd6a77c9b" args="(unsigned int L)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;float&gt; <a class="el" href="_u_math_8h.html#a88a8b3e07142de28e445e43fd6a77c9b">uHamming</a> </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>L</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Return Hamming window of length L. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">L</td><td>the window length </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the Hamming window (values are between 0 and 1) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1362990d0ce7f09ef735292cc480fa23"></a><!-- doxytag: member="UMath.h::uMax" ref="a1362990d0ce7f09ef735292cc480fa23" args="(const T *v, unsigned int size, unsigned int &amp;index)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">T <a class="el" href="_u_math_8h.html#a122aacac9ff50a9515c4c627a73d23ae">uMax</a> </td>
+          <td class="memname">T <a class="el" href="_u_math_8h.html#a387b43468da220548d025010be075476">uMax</a> </td>
           <td>(</td>
           <td class="paramtype">const T *&#160;</td>
           <td class="paramname"><em>v</em>, </td>
@@ -149,7 +209,7 @@ template&lt;class T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">unsigned int &amp;&#160;</td>
-          <td class="paramname"><em>index</em> = <code>0</code>&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -165,6 +225,44 @@ template&lt;class T &gt; </div>
     <tr><td class="paramname">v</td><td>the array </td></tr>
     <tr><td class="paramname">size</td><td>the size of the array </td></tr>
     <tr><td class="paramname">index</td><td>the index of the maximum value in the vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the maximum value of the array </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a387b43468da220548d025010be075476"></a><!-- doxytag: member="UMath.h::uMax" ref="a387b43468da220548d025010be075476" args="(const T *v, unsigned int size)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T <a class="el" href="_u_math_8h.html#a387b43468da220548d025010be075476">uMax</a> </td>
+          <td>(</td>
+          <td class="paramtype">const T *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get the maximum of a vector. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>the array </td></tr>
+    <tr><td class="paramname">size</td><td>the size of the array </td></tr>
   </table>
   </dd>
 </dl>
@@ -264,33 +362,236 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a777c8c252f85236a10b3d9085904d912"></a><!-- doxytag: member="UMath.h::uNorm" ref="a777c8c252f85236a10b3d9085904d912" args="(const std::vector&lt; float &gt; &amp;v)" -->
+<a class="anchor" id="aa37a66d04825a8834648dbe931bd57e6"></a><!-- doxytag: member="UMath.h::uMin" ref="aa37a66d04825a8834648dbe931bd57e6" args="(const T *v, unsigned int size, unsigned int &amp;index)" -->
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float <a class="el" href="_u_math_8h.html#a777c8c252f85236a10b3d9085904d912">uNorm</a> </td>
+          <td class="memname">T <a class="el" href="_u_math_8h.html#a68e11ea992520b98d4e688f8853b5dc4">uMin</a> </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; float &gt; &amp;&#160;</td>
+          <td class="paramtype">const T *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int &amp;&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get the minimum of a vector. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>the array </td></tr>
+    <tr><td class="paramname">size</td><td>the size of the array </td></tr>
+    <tr><td class="paramname">index</td><td>the index of the minimum value in the vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the minimum value of the array </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a68e11ea992520b98d4e688f8853b5dc4"></a><!-- doxytag: member="UMath.h::uMin" ref="a68e11ea992520b98d4e688f8853b5dc4" args="(const T *v, unsigned int size)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T <a class="el" href="_u_math_8h.html#a68e11ea992520b98d4e688f8853b5dc4">uMin</a> </td>
+          <td>(</td>
+          <td class="paramtype">const T *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get the minimum of a vector. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>the array </td></tr>
+    <tr><td class="paramname">size</td><td>the size of the array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the minimum value of the array </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af9bfdafb6da16f9c6f4691a6d951538b"></a><!-- doxytag: member="UMath.h::uMinMax" ref="af9bfdafb6da16f9c6f4691a6d951538b" args="(const T *v, unsigned int size, T &amp;min, T &amp;max, unsigned int &amp;indexMin, unsigned int &amp;indexMax)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="_u_math_8h.html#a9cc051a73d402e69919d8fcea51c3098">uMinMax</a> </td>
+          <td>(</td>
+          <td class="paramtype">const T *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>max</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int &amp;&#160;</td>
+          <td class="paramname"><em>indexMin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int &amp;&#160;</td>
+          <td class="paramname"><em>indexMax</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get the minimum and maximum of a vector. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>the array </td></tr>
+    <tr><td class="paramname">size</td><td>the size of the array </td></tr>
+    <tr><td class="paramname">min</td><td>reference to output minimum </td></tr>
+    <tr><td class="paramname">max</td><td>reference to output maximum </td></tr>
+    <tr><td class="paramname">min</td><td>reference to output minimum index </td></tr>
+    <tr><td class="paramname">max</td><td>reference to output maximum index </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a9cc051a73d402e69919d8fcea51c3098"></a><!-- doxytag: member="UMath.h::uMinMax" ref="a9cc051a73d402e69919d8fcea51c3098" args="(const T *v, unsigned int size, T &amp;min, T &amp;max)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="_u_math_8h.html#a9cc051a73d402e69919d8fcea51c3098">uMinMax</a> </td>
+          <td>(</td>
+          <td class="paramtype">const T *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>max</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get the minimum and maximum of a vector. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>the array </td></tr>
+    <tr><td class="paramname">size</td><td>the size of the array </td></tr>
+    <tr><td class="paramname">min</td><td>reference to output minimum </td></tr>
+    <tr><td class="paramname">max</td><td>reference to output maximum </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ab5e611c29307d8733cfaebc68bed1ac6"></a><!-- doxytag: member="UMath.h::uNorm" ref="ab5e611c29307d8733cfaebc68bed1ac6" args="(const std::vector&lt; T &gt; &amp;v)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T <a class="el" href="_u_math_8h.html#ab5e611c29307d8733cfaebc68bed1ac6">uNorm</a> </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>v</em></td><td>)</td>
           <td><code> [inline]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Get the norm of the vector : return sqrt(x1*x1+ x2*x2 + x3*x3) </p>
+<p>Get the norm of the vector : return sqrt(x1*x1 + x2*x2 + x3*x3 + ...) </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>the norm of the vector </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a83d41b8c30085981e62660de4c31c629"></a><!-- doxytag: member="UMath.h::uNormalize" ref="a83d41b8c30085981e62660de4c31c629" args="(const std::vector&lt; float &gt; &amp;v)" -->
+<a class="anchor" id="a6ea84f5e66d07e1742ab12dccc7a9bc1"></a><!-- doxytag: member="UMath.h::uNormalize" ref="a6ea84f5e66d07e1742ab12dccc7a9bc1" args="(const std::vector&lt; T &gt; &amp;v)" -->
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;float&gt; <a class="el" href="_u_math_8h.html#a83d41b8c30085981e62660de4c31c629">uNormalize</a> </td>
+          <td class="memname">std::vector&lt;T&gt; <a class="el" href="_u_math_8h.html#a6ea84f5e66d07e1742ab12dccc7a9bc1">uNormalize</a> </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; float &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>v</em></td><td>)</td>
           <td><code> [inline]</code></td>
         </tr>
@@ -571,7 +872,7 @@ template&lt;class T &gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<p>Get the sum of all values contained in an array. </p>
+<p>Get the sum of all values contained in an array: sum(x). </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">v</td><td>the array </td></tr>
@@ -583,20 +884,67 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a603c5a609847a2648477aaec5a94e678"></a><!-- doxytag: member="UMath.h::uXCorr" ref="a603c5a609847a2648477aaec5a94e678" args="(const float *vA, const float *vB, unsigned int sizeA, unsigned int sizeB)" -->
+<a class="anchor" id="aeb6a6517666687e509617e6bfaf274d3"></a><!-- doxytag: member="UMath.h::uSumSquared" ref="aeb6a6517666687e509617e6bfaf274d3" args="(const T *v, unsigned int size, T subtract=T())" -->
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;float&gt; <a class="el" href="_u_math_8h.html#acb7b7aee94546c2746ef62f4e8d71b0b">uXCorr</a> </td>
+          <td class="memname">T <a class="el" href="_u_math_8h.html#aeb6a6517666687e509617e6bfaf274d3">uSumSquared</a> </td>
           <td>(</td>
-          <td class="paramtype">const float *&#160;</td>
+          <td class="paramtype">const T *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>subtract</em> = <code>T()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get the sum of all squared values contained in an array: sum(x.^2). </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>the array </td></tr>
+    <tr><td class="paramname">size</td><td>the size of the array </td></tr>
+    <tr><td class="paramname">subtract</td><td>an optional value to remove to v before squaring v: sum((x-sub).^2) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the sum of values of the array </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="add2fd1c790156250fbf962bd4e77ca60"></a><!-- doxytag: member="UMath.h::uXMatch" ref="add2fd1c790156250fbf962bd4e77ca60" args="(const T *vA, const T *vB, unsigned int sizeA, unsigned int sizeB, UXMatchMethod method)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;T&gt; <a class="el" href="_u_math_8h.html#ac616ce0471d2e35fafd59d88021ccab3">uXMatch</a> </td>
+          <td>(</td>
+          <td class="paramtype">const T *&#160;</td>
           <td class="paramname"><em>vA</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const float *&#160;</td>
+          <td class="paramtype">const T *&#160;</td>
           <td class="paramname"><em>vB</em>, </td>
         </tr>
         <tr>
@@ -609,7 +957,13 @@ template&lt;class T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">unsigned int&#160;</td>
-          <td class="paramname"><em>sizeB</em>&#160;</td>
+          <td class="paramname"><em>sizeB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_u_math_8h.html#ae24d0d5b3a1d44ae8c5e50bb86a15cba">UXMatchMethod</a>&#160;</td>
+          <td class="paramname"><em>method</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -619,34 +973,37 @@ template&lt;class T &gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<p>Do a full cross correlation between 2 arrays. </p>
+<p>Do a full cross-correlation or cross-covariance between 2 arrays. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">vA</td><td>the first array </td></tr>
     <tr><td class="paramname">vB</td><td>the second array </td></tr>
     <tr><td class="paramname">sizeA</td><td>the size of the first array </td></tr>
     <tr><td class="paramname">sizeB</td><td>the size of the second array </td></tr>
+    <tr><td class="paramname">method</td><td>see UXMatchMethod </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>the resulting correlation vector of size = (sizeA + sizeB)-1 </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the resulting correlation/covariance vector of size = sizeA + sizeB - 1 </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a44ab2924e2a1788ebcc9aed3f6f0aa64"></a><!-- doxytag: member="UMath.h::uXCorr" ref="a44ab2924e2a1788ebcc9aed3f6f0aa64" args="(const float *vA, const float *vB, unsigned int sizeA, unsigned int sizeB, unsigned int index, float meanA, float meanB, float stdDevAB)" -->
+<a class="anchor" id="ac616ce0471d2e35fafd59d88021ccab3"></a><!-- doxytag: member="UMath.h::uXMatch" ref="ac616ce0471d2e35fafd59d88021ccab3" args="(const T *vA, const T *vB, unsigned int sizeA, unsigned int sizeB, unsigned int index, UXMatchMethod method)" -->
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float <a class="el" href="_u_math_8h.html#acb7b7aee94546c2746ef62f4e8d71b0b">uXCorr</a> </td>
+          <td class="memname">T <a class="el" href="_u_math_8h.html#ac616ce0471d2e35fafd59d88021ccab3">uXMatch</a> </td>
           <td>(</td>
-          <td class="paramtype">const float *&#160;</td>
+          <td class="paramtype">const T *&#160;</td>
           <td class="paramname"><em>vA</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const float *&#160;</td>
+          <td class="paramtype">const T *&#160;</td>
           <td class="paramname"><em>vB</em>, </td>
         </tr>
         <tr>
@@ -670,20 +1027,8 @@ template&lt;class T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>meanA</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>meanB</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>stdDevAB</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="_u_math_8h.html#ae24d0d5b3a1d44ae8c5e50bb86a15cba">UXMatchMethod</a>&#160;</td>
+          <td class="paramname"><em>method</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -701,66 +1046,7 @@ template&lt;class T &gt; </div>
     <tr><td class="paramname">sizeA</td><td>the size of the first array </td></tr>
     <tr><td class="paramname">sizeB</td><td>the size of the second array </td></tr>
     <tr><td class="paramname">index</td><td>the index to correlate </td></tr>
-    <tr><td class="paramname">meanA</td><td>the mean of the array A </td></tr>
-    <tr><td class="paramname">meanB</td><td>the mean of the array B </td></tr>
-    <tr><td class="paramname">stdDevAB</td><td>the std dev of the 2 arrays: stdDevAB = stdDevA*stdDevB </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>the resulting correlation value </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="acb7b7aee94546c2746ef62f4e8d71b0b"></a><!-- doxytag: member="UMath.h::uXCorr" ref="acb7b7aee94546c2746ef62f4e8d71b0b" args="(const float *vA, const float *vB, unsigned int sizeA, unsigned int sizeB, unsigned int index)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">float <a class="el" href="_u_math_8h.html#acb7b7aee94546c2746ef62f4e8d71b0b">uXCorr</a> </td>
-          <td>(</td>
-          <td class="paramtype">const float *&#160;</td>
-          <td class="paramname"><em>vA</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float *&#160;</td>
-          <td class="paramname"><em>vB</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int&#160;</td>
-          <td class="paramname"><em>sizeA</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int&#160;</td>
-          <td class="paramname"><em>sizeB</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int&#160;</td>
-          <td class="paramname"><em>index</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [inline]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Do a cross correlation between 2 arrays at a specified index. The mean and the std dev are automatically computed for each array. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">vA</td><td>the first array </td></tr>
-    <tr><td class="paramname">vB</td><td>the second array </td></tr>
-    <tr><td class="paramname">sizeA</td><td>the size of the first array </td></tr>
-    <tr><td class="paramname">sizeB</td><td>the size of the second array </td></tr>
-    <tr><td class="paramname">index</td><td>the index to correlate </td></tr>
+    <tr><td class="paramname">method</td><td>see UXMatchMethod </td></tr>
   </table>
   </dd>
 </dl>
@@ -786,7 +1072,7 @@ template&lt;class T &gt; </div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 16 2012 14:50:10 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

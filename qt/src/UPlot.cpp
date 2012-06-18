@@ -1459,17 +1459,17 @@ void UPlotLegend::redirectToggled(bool toggled)
 
 
 
-UPlotOrientableLabel::UPlotOrientableLabel(const QString & text, Qt::Orientation orientation, QWidget * parent) :
+UOrientableLabel::UOrientableLabel(const QString & text, Qt::Orientation orientation, QWidget * parent) :
 	QLabel(text, parent),
 	_orientation(orientation)
 {
 }
 
-UPlotOrientableLabel::~UPlotOrientableLabel()
+UOrientableLabel::~UOrientableLabel()
 {
 }
 
-QSize UPlotOrientableLabel::sizeHint() const
+QSize UOrientableLabel::sizeHint() const
 {
 	QSize size = QLabel::sizeHint();
 	if (_orientation == Qt::Vertical)
@@ -1478,7 +1478,7 @@ QSize UPlotOrientableLabel::sizeHint() const
 
 }
 
-QSize UPlotOrientableLabel::minimumSizeHint() const
+QSize UOrientableLabel::minimumSizeHint() const
 {
 	QSize size = QLabel::minimumSizeHint();
 	if (_orientation == Qt::Vertical)
@@ -1486,7 +1486,7 @@ QSize UPlotOrientableLabel::minimumSizeHint() const
 	return size;
 }
 
-void UPlotOrientableLabel::setOrientation(Qt::Orientation orientation)
+void UOrientableLabel::setOrientation(Qt::Orientation orientation)
 {
 	_orientation = orientation;
 	switch(orientation)
@@ -1501,7 +1501,7 @@ void UPlotOrientableLabel::setOrientation(Qt::Orientation orientation)
 	}
 }
 
-void UPlotOrientableLabel::paintEvent(QPaintEvent* event)
+void UOrientableLabel::paintEvent(QPaintEvent* event)
 {
 	QPainter p(this);
 	QRect r = rect();
@@ -1593,7 +1593,7 @@ void UPlot::setupUi()
 	_title = new QLabel("");
 	_xLabel = new QLabel("");
 	_refreshRate = new QLabel("");
-	_yLabel = new UPlotOrientableLabel("");
+	_yLabel = new UOrientableLabel("");
 	_yLabel->setOrientation(Qt::Vertical);
 	_title->setAlignment(Qt::AlignCenter);
 	_xLabel->setAlignment(Qt::AlignCenter);
@@ -1729,9 +1729,6 @@ UPlotCurve * UPlot::addCurve(const QString & curveName, const QColor & color)
 	return curve;
 }
 
-// Ownership is transferred only if true is returned,
-// Returning false if a curve with
-// the same name is already added to the plot.
 bool UPlot::addCurve(UPlotCurve * curve)
 {
 	if(curve)

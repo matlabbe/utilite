@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.13</span>
+   &#160;<span id="projectnumber">0.2.14</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -90,8 +90,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <!-- doxytag: class="ULogger" -->
 <p><code>#include &lt;<a class="el" href="_u_logger_8h_source.html">ULogger.h</a>&gt;</code></p>
 
-<p>Inherited by <a class="el" href="class_u_console_logger.html">UConsoleLogger</a>, and <a class="el" href="class_u_file_logger.html">UFileLogger</a>.</p>
-
 <p><a href="class_u_logger-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-types"></a>
@@ -100,30 +98,30 @@ Public Types</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a4f71cd491aa60029eb6ea4bf79c06218">Level</a> </td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#abc47408ee17e2a172ad3769ad319ef59">setType</a> (<a class="el" href="class_u_logger.html#aab74fc95f6494a3a2137d9094fe100d8">Type</a> type, const std::string &amp;fileName=<a class="el" href="class_u_logger.html#ad18593456dbc3c4157ce986f55de6795">kDefaultLogFileName</a>, bool append=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a0fe73ce7c193ff399bca16b8d4d4cabb">setType</a> (<a class="el" href="class_u_logger.html#aab74fc95f6494a3a2137d9094fe100d8">Type</a> type, const std::string &amp;fileName=<a class="el" href="class_u_logger.html#ad18593456dbc3c4157ce986f55de6795">kDefaultLogFileName</a>, bool append=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a2142b47257ecf1f2561afa8353eae411">setPrintTime</a> (bool printTime)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a4a97457a98a02f60580e6f3c93f83d7a">setPrintLevel</a> (bool printLevel)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#aa7cd59599601cdb214c6cb4df103dca0">setPrintEndline</a> (bool printEndline)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#af5a2e0f11770fcb457c1859c9f8b5ec3">setPrintWhere</a> (bool printWhere)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a2784b7a88339964e2a1c2b3436245bfc">setPrintWhereFullPath</a> (bool printWhereFullPath)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a93c3e5abae98338e03f78cb99b354a74">setBuffered</a> (bool buffered)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#ab981daf077b8afbf49c7bd185aa3b273">setBuffered</a> (bool buffered)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#ad8589bdaabddc1e9a260b890b1cf312e">setLevel</a> (<a class="el" href="class_u_logger.html#a4f71cd491aa60029eb6ea4bf79c06218">ULogger::Level</a> level)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a492bb8230cbbf483be1bad21c051f28a">setExitLevel</a> (<a class="el" href="class_u_logger.html#a4f71cd491aa60029eb6ea4bf79c06218">ULogger::Level</a> exitLevel)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#ac0705dc7bc5da07ce27351eb6519e942">setEventLevel</a> (<a class="el" href="class_u_logger.html#a4f71cd491aa60029eb6ea4bf79c06218">ULogger::Level</a> eventSentLevel)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a9132ffdff95e71e8b2421be97b1aa9ea">reset</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#ad77e6c5e0e1bb4e82f42ca8132ceca0a">flush</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a38ffe903f393e7d8ce4700f309d7c8f3">write</a> (const char *msg,...)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a4e4da60b111baadf9203f25c78543727">getTime</a> (std::string &amp;timeStr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a007b617547d616325e58003eb4352a19">reset</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a701ad6b99c9040cf3b5d47711e9f6d6a">flush</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a2f6d8d21375fc7b7f432b2edefa43c6f">write</a> (const char *msg,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#a17e6d133cea7c2cbe5365e5f5f2216a9">getTime</a> (std::string &amp;timeStr)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#ad18593456dbc3c4157ce986f55de6795">kDefaultLogFileName</a> = &quot;./ULog.txt&quot;</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_logger.html#ad18593456dbc3c4157ce986f55de6795">kDefaultLogFileName</a></td></tr>
 <tr><td colspan="2"><h2><a name="friends"></a>
 Friends</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad29324f53883ee0b796452e6c4e5db34"></a><!-- doxytag: member="ULogger::UDestroyer&lt; ULogger &gt;" ref="ad29324f53883ee0b796452e6c4e5db34" args="" -->
 class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogger &gt;</b></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>This class is used to log messages with time on a console, in a file and/or with an event. At the start of the application, call <a class="el" href="class_u_logger.html#abc47408ee17e2a172ad3769ad319ef59">ULogger::setType()</a> with the type of the logger you want (see <a class="el" href="class_u_logger.html#aab74fc95f6494a3a2137d9094fe100d8">ULogger::Type</a>, the type of the output can be changed at the run-time.). To use it, simply call the convenient macros <a class="el" href="_u_logger_8h.html#a9104cb408bf9019db2a2c4476835db4a">UDEBUG()</a>, <a class="el" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO()</a>, <a class="el" href="_u_logger_8h.html#ab5a739ad9340455e46eaa570f8223d9a">UWARN()</a>, <a class="el" href="_u_logger_8h.html#a1249ddbc4c9cc43be53048c08dda129b">UERROR()</a>, <a class="el" href="_u_logger_8h.html#aabc10368a622911d56a4dd5a4b461385">UFATAL()</a> depending of the severity of the message. You can disable some messages by setting the logger level <a class="el" href="class_u_logger.html#ad8589bdaabddc1e9a260b890b1cf312e">ULogger::setLevel()</a> to severity you want, defined by <a class="el" href="class_u_logger.html#a4f71cd491aa60029eb6ea4bf79c06218">ULogger::Level</a>. A fatal message will make the application to exit, printing the message on console (whatever the logger type) and posting a <a class="el" href="class_u_log_event.html">ULogEvent</a> (synchronously... see <a class="el" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">UEventsManager::post()</a>) before exiting.</p>
+<div class="textblock"><p>This class is used to log messages with time on a console, in a file and/or with an event. At the start of the application, call <a class="el" href="class_u_logger.html#a0fe73ce7c193ff399bca16b8d4d4cabb">ULogger::setType()</a> with the type of the logger you want (see <a class="el" href="class_u_logger.html#aab74fc95f6494a3a2137d9094fe100d8">ULogger::Type</a>, the type of the output can be changed at the run-time.). To use it, simply call the convenient macros <a class="el" href="_u_logger_8h.html#a9104cb408bf9019db2a2c4476835db4a">UDEBUG()</a>, <a class="el" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO()</a>, <a class="el" href="_u_logger_8h.html#ab5a739ad9340455e46eaa570f8223d9a">UWARN()</a>, <a class="el" href="_u_logger_8h.html#a1249ddbc4c9cc43be53048c08dda129b">UERROR()</a>, <a class="el" href="_u_logger_8h.html#aabc10368a622911d56a4dd5a4b461385">UFATAL()</a> depending of the severity of the message. You can disable some messages by setting the logger level <a class="el" href="class_u_logger.html#ad8589bdaabddc1e9a260b890b1cf312e">ULogger::setLevel()</a> to severity you want, defined by <a class="el" href="class_u_logger.html#a4f71cd491aa60029eb6ea4bf79c06218">ULogger::Level</a>. A fatal message will make the application to exit, printing the message on console (whatever the logger type) and posting a <a class="el" href="class_u_log_event.html">ULogEvent</a> (synchronously... see <a class="el" href="class_u_events_manager.html#add791ce7820e4e0c0c13eed97d07ae9e">UEventsManager::post()</a>) before exiting.</p>
 <p>The display of the logged messages can be modified:</p>
 <ul>
 <li>If you don't want the level label, set <a class="el" href="class_u_logger.html#a4a97457a98a02f60580e6f3c93f83d7a">ULogger::setPrintLevel()</a> to false.</li>
@@ -132,7 +130,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
 <li>If you don't the full path of the message, set <a class="el" href="class_u_logger.html#a2784b7a88339964e2a1c2b3436245bfc">ULogger::setPrintWhereFullPath()</a> to false.</li>
 <li>If you don't the path of the message, set <a class="el" href="class_u_logger.html#af5a2e0f11770fcb457c1859c9f8b5ec3">ULogger::setPrintWhere()</a> to false.</li>
 </ul>
-<p>When using a file logger (kTypeLogger), it can be useful in some application to buffer messages before writing them to hard drive (avoiding hard drive latencies). You can set <a class="el" href="class_u_logger.html#a93c3e5abae98338e03f78cb99b354a74">ULogger::setBuffered()</a> to true to do that. When the buffered messages will be written to file on appllciation exit (<a class="el" href="class_u_logger.html">ULogger</a> destructor) or when <a class="el" href="class_u_logger.html#ad77e6c5e0e1bb4e82f42ca8132ceca0a">ULogger::flush()</a> is called.</p>
+<p>When using a file logger (kTypeLogger), it can be useful in some application to buffer messages before writing them to hard drive (avoiding hard drive latencies). You can set <a class="el" href="class_u_logger.html#ab981daf077b8afbf49c7bd185aa3b273">ULogger::setBuffered()</a> to true to do that. When the buffered messages will be written to file on appllciation exit (<a class="el" href="class_u_logger.html">ULogger</a> destructor) or when <a class="el" href="class_u_logger.html#a701ad6b99c9040cf3b5d47711e9f6d6a">ULogger::flush()</a> is called.</p>
 <p>If you want the application to exit on a lower severity level than kFatal, you can set <a class="el" href="class_u_logger.html#a492bb8230cbbf483be1bad21c051f28a">ULogger::setExitLevel()</a> to any <a class="el" href="class_u_logger.html#aab74fc95f6494a3a2137d9094fe100d8">ULogger::Type</a> you want.</p>
 <p>Example: </p>
 <div class="fragment"><pre class="fragment"><span class="preprocessor"> #include &lt;<a class="code" href="_u_logger_8h.html" title="ULogger class and convenient macros.">utilite/ULogger.h</a>&gt;</span>
@@ -140,7 +138,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
  {
     <span class="comment">// Set the logger type. The choices are kTypeConsole,</span>
     <span class="comment">// kTypeFile or kTypeNoLog (nothing is logged).</span>
-    <a class="code" href="class_u_logger.html#abc47408ee17e2a172ad3769ad319ef59">ULogger::setType</a>(ULogger::kTypeConsole);
+    <a class="code" href="class_u_logger.html#a0fe73ce7c193ff399bca16b8d4d4cabb">ULogger::setType</a>(ULogger::kTypeConsole);
 
     <span class="comment">// Set the logger severity level (kDebug, kInfo, kWarning, kError, kFatal).</span>
     <span class="comment">// All log entries under the severity level are not logged. Here,</span>
@@ -171,13 +169,13 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
  ...
  <a class="code" href="class_u_timer.html">UTimer</a> timer; <span class="comment">// automatically starts</span>
  <span class="comment">// do some works for part A</span>
- <a class="code" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO</a>(<span class="stringliteral">&quot;Time for part A = %f s&quot;</span>, timer.<a class="code" href="class_u_timer.html#aed9550d86073c827bb5aa1e843d3d686">ticks</a>());
+ <a class="code" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO</a>(<span class="stringliteral">&quot;Time for part A = %f s&quot;</span>, timer.ticks());
  <span class="comment">// do some works for part B</span>
- <a class="code" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO</a>(<span class="stringliteral">&quot;Time for part B = %f s&quot;</span>, timer.<a class="code" href="class_u_timer.html#aed9550d86073c827bb5aa1e843d3d686">ticks</a>());
+ <a class="code" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO</a>(<span class="stringliteral">&quot;Time for part B = %f s&quot;</span>, timer.ticks());
  <span class="comment">// do some works for part C</span>
- <a class="code" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO</a>(<span class="stringliteral">&quot;Time for part C = %f s&quot;</span>, timer.<a class="code" href="class_u_timer.html#aed9550d86073c827bb5aa1e843d3d686">ticks</a>());
+ <a class="code" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO</a>(<span class="stringliteral">&quot;Time for part C = %f s&quot;</span>, timer.ticks());
  ...
-</pre></div><dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_u_logger.html#abc47408ee17e2a172ad3769ad319ef59">setType()</a> </dd>
+</pre></div><dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_u_logger.html#a0fe73ce7c193ff399bca16b8d4d4cabb">setType()</a> </dd>
 <dd>
 <a class="el" href="class_u_logger.html#ad8589bdaabddc1e9a260b890b1cf312e">setLevel()</a> </dd>
 <dd>
@@ -214,12 +212,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="ad77e6c5e0e1bb4e82f42ca8132ceca0a"></a><!-- doxytag: member="ULogger::flush" ref="ad77e6c5e0e1bb4e82f42ca8132ceca0a" args="()" -->
+<a class="anchor" id="a701ad6b99c9040cf3b5d47711e9f6d6a"></a><!-- doxytag: member="ULogger::flush" ref="a701ad6b99c9040cf3b5d47711e9f6d6a" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_u_logger.html#ad77e6c5e0e1bb4e82f42ca8132ceca0a">ULogger::flush</a> </td>
+          <td class="memname">static void <a class="el" href="class_u_logger.html#a701ad6b99c9040cf3b5d47711e9f6d6a">ULogger::flush</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [static]</code></td>
@@ -228,16 +226,16 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
 </div>
 <div class="memdoc">
 <p>Flush buffered messages. </p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_u_logger.html#a93c3e5abae98338e03f78cb99b354a74">setBuffered()</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_u_logger.html#ab981daf077b8afbf49c7bd185aa3b273">setBuffered()</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a4e4da60b111baadf9203f25c78543727"></a><!-- doxytag: member="ULogger::getTime" ref="a4e4da60b111baadf9203f25c78543727" args="(std::string &amp;timeStr)" -->
+<a class="anchor" id="a17e6d133cea7c2cbe5365e5f5f2216a9"></a><!-- doxytag: member="ULogger::getTime" ref="a17e6d133cea7c2cbe5365e5f5f2216a9" args="(std::string &amp;timeStr)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="class_u_logger.html#a4e4da60b111baadf9203f25c78543727">ULogger::getTime</a> </td>
+          <td class="memname">static int <a class="el" href="class_u_logger.html#a17e6d133cea7c2cbe5365e5f5f2216a9">ULogger::getTime</a> </td>
           <td>(</td>
           <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>timeStr</em></td><td>)</td>
@@ -257,12 +255,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
 
 </div>
 </div>
-<a class="anchor" id="a9132ffdff95e71e8b2421be97b1aa9ea"></a><!-- doxytag: member="ULogger::reset" ref="a9132ffdff95e71e8b2421be97b1aa9ea" args="()" -->
+<a class="anchor" id="a007b617547d616325e58003eb4352a19"></a><!-- doxytag: member="ULogger::reset" ref="a007b617547d616325e58003eb4352a19" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_u_logger.html#a9132ffdff95e71e8b2421be97b1aa9ea">ULogger::reset</a> </td>
+          <td class="memname">static void <a class="el" href="class_u_logger.html#a007b617547d616325e58003eb4352a19">ULogger::reset</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [static]</code></td>
@@ -274,12 +272,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
 
 </div>
 </div>
-<a class="anchor" id="a93c3e5abae98338e03f78cb99b354a74"></a><!-- doxytag: member="ULogger::setBuffered" ref="a93c3e5abae98338e03f78cb99b354a74" args="(bool buffered)" -->
+<a class="anchor" id="ab981daf077b8afbf49c7bd185aa3b273"></a><!-- doxytag: member="ULogger::setBuffered" ref="ab981daf077b8afbf49c7bd185aa3b273" args="(bool buffered)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_u_logger.html#a93c3e5abae98338e03f78cb99b354a74">ULogger::setBuffered</a> </td>
+          <td class="memname">static void <a class="el" href="class_u_logger.html#ab981daf077b8afbf49c7bd185aa3b273">ULogger::setBuffered</a> </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>buffered</em></td><td>)</td>
@@ -288,8 +286,8 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
       </table>
 </div>
 <div class="memdoc">
-<p>Set is the logger buffers messages, default false. When true, the messages are buffered until the application is closed or <a class="el" href="class_u_logger.html#ad77e6c5e0e1bb4e82f42ca8132ceca0a">ULogger::flush()</a> is called. </p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_u_logger.html#ad77e6c5e0e1bb4e82f42ca8132ceca0a">ULogger::flush()</a> </dd></dl>
+<p>Set is the logger buffers messages, default false. When true, the messages are buffered until the application is closed or <a class="el" href="class_u_logger.html#a701ad6b99c9040cf3b5d47711e9f6d6a">ULogger::flush()</a> is called. </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_u_logger.html#a701ad6b99c9040cf3b5d47711e9f6d6a">ULogger::flush()</a> </dd></dl>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">buffered</td><td>true to buffer messages, otherwise set to false. </td></tr>
@@ -313,7 +311,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
       </table>
 </div>
 <div class="memdoc">
-<p>An <a class="el" href="class_u_log_event.html">ULogEvent</a> is sent on each message logged at the specified level. Note : On message with level &gt;= exitLevel, the event is sent synchronously (see <a class="el" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">UEventsManager::post()</a>). </p>
+<p>An <a class="el" href="class_u_log_event.html">ULogEvent</a> is sent on each message logged at the specified level. Note : On message with level &gt;= exitLevel, the event is sent synchronously (see <a class="el" href="class_u_events_manager.html#add791ce7820e4e0c0c13eed97d07ae9e">UEventsManager::post()</a>). </p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_u_log_event.html">ULogEvent</a> </dd>
 <dd>
 <a class="el" href="class_u_logger.html#a492bb8230cbbf483be1bad21c051f28a">setExitLevel()</a> </dd></dl>
@@ -334,7 +332,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
       </table>
 </div>
 <div class="memdoc">
-<p>Make application to exit when a log with level is written (useful for debugging). The message is printed to console (whatever the logger type) and an <a class="el" href="class_u_log_event.html">ULogEvent</a> is sent (synchronously... see <a class="el" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">UEventsManager::post()</a>) before exiting.</p>
+<p>Make application to exit when a log with level is written (useful for debugging). The message is printed to console (whatever the logger type) and an <a class="el" href="class_u_log_event.html">ULogEvent</a> is sent (synchronously... see <a class="el" href="class_u_events_manager.html#add791ce7820e4e0c0c13eed97d07ae9e">UEventsManager::post()</a>) before exiting.</p>
 <p>Note : A kFatal level will always exit whatever the level specified here. </p>
 
 </div>
@@ -490,12 +488,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
 
 </div>
 </div>
-<a class="anchor" id="abc47408ee17e2a172ad3769ad319ef59"></a><!-- doxytag: member="ULogger::setType" ref="abc47408ee17e2a172ad3769ad319ef59" args="(Type type, const std::string &amp;fileName=kDefaultLogFileName, bool append=true)" -->
+<a class="anchor" id="a0fe73ce7c193ff399bca16b8d4d4cabb"></a><!-- doxytag: member="ULogger::setType" ref="a0fe73ce7c193ff399bca16b8d4d4cabb" args="(Type type, const std::string &amp;fileName=kDefaultLogFileName, bool append=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_u_logger.html#abc47408ee17e2a172ad3769ad319ef59">ULogger::setType</a> </td>
+          <td class="memname">static void <a class="el" href="class_u_logger.html#a0fe73ce7c193ff399bca16b8d4d4cabb">ULogger::setType</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_u_logger.html#aab74fc95f6494a3a2137d9094fe100d8">Type</a>&#160;</td>
           <td class="paramname"><em>type</em>, </td>
@@ -533,12 +531,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
 
 </div>
 </div>
-<a class="anchor" id="a38ffe903f393e7d8ce4700f309d7c8f3"></a><!-- doxytag: member="ULogger::write" ref="a38ffe903f393e7d8ce4700f309d7c8f3" args="(const char *msg,...)" -->
+<a class="anchor" id="a2f6d8d21375fc7b7f432b2edefa43c6f"></a><!-- doxytag: member="ULogger::write" ref="a2f6d8d21375fc7b7f432b2edefa43c6f" args="(const char *msg,...)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_u_logger.html#a38ffe903f393e7d8ce4700f309d7c8f3">ULogger::write</a> </td>
+          <td class="memname">static void <a class="el" href="class_u_logger.html#a2f6d8d21375fc7b7f432b2edefa43c6f">ULogger::write</a> </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>msg</em>, </td>
@@ -575,7 +573,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string <a class="el" href="class_u_logger.html#ad18593456dbc3c4157ce986f55de6795">ULogger::kDefaultLogFileName</a> = &quot;./ULog.txt&quot;<code> [static]</code></td>
+          <td class="memname">const std::string <a class="el" href="class_u_logger.html#ad18593456dbc3c4157ce986f55de6795">ULogger::kDefaultLogFileName</a><code> [static]</code></td>
         </tr>
       </table>
 </div>
@@ -584,9 +582,8 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/utilite/<a class="el" href="_u_logger_8h_source.html">ULogger.h</a></li>
-<li>src/ULogger.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- window showing the filter options -->
@@ -606,7 +603,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; ULogg
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 16 2012 14:50:10 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
