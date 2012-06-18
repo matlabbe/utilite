@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.13</span>
+   &#160;<span id="projectnumber">0.2.14</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -109,11 +109,31 @@ Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_logger_8h.html#ab5a739ad9340455e46eaa570f8223d9a">UWARN</a>(...)&#160;&#160;&#160;ULOGGER_WARN(__VA_ARGS__)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_logger_8h.html#a1249ddbc4c9cc43be53048c08dda129b">UERROR</a>(...)&#160;&#160;&#160;ULOGGER_ERROR(__VA_ARGS__)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_logger_8h.html#aabc10368a622911d56a4dd5a4b461385">UFATAL</a>(...)&#160;&#160;&#160;ULOGGER_FATAL(__VA_ARGS__)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_logger_8h.html#ab3436168e27946669bbd4c76e4c4007e">UASSERT</a>(condition)&#160;&#160;&#160;if(!(condition)) <a class="el" href="class_u_logger.html#a2f6d8d21375fc7b7f432b2edefa43c6f">ULogger::write</a>(ULogger::kFatal, __FILE__, __LINE__, __FUNCTION__, &quot;Condition (%s) not met!&quot;, #condition)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_u_logger.html">ULogger</a> class and convenient macros. </p>
 <p>This contains macros useful for logging a message anywhere in the application. Once the <a class="el" href="class_u_logger.html">ULogger</a> is set, use these macros like a printf to print debug messages. </p>
 </div><hr/><h2>Define Documentation</h2>
+<a class="anchor" id="ab3436168e27946669bbd4c76e4c4007e"></a><!-- doxytag: member="ULogger.h::UASSERT" ref="ab3436168e27946669bbd4c76e4c4007e" args="(condition)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define <a class="el" href="_u_logger_8h.html#ab3436168e27946669bbd4c76e4c4007e">UASSERT</a></td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition</td><td>)</td>
+          <td>&#160;&#160;&#160;if(!(condition)) <a class="el" href="class_u_logger.html#a2f6d8d21375fc7b7f432b2edefa43c6f">ULogger::write</a>(ULogger::kFatal, __FILE__, __LINE__, __FUNCTION__, &quot;Condition (%s) not met!&quot;, #condition)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Print a fatal error level message in the logger if condition is not met. The application will exit on fatal error. Format is the same as a printf: </p>
+<div class="fragment"><pre class="fragment"> <a class="code" href="_u_logger_8h.html#ab3436168e27946669bbd4c76e4c4007e">UASSERT</a>(a!=42, <span class="stringliteral">&quot;This is a fatal error message with the number %d&quot;</span>, 42);
+</pre></div> 
+</div>
+</div>
 <a class="anchor" id="a9104cb408bf9019db2a2c4476835db4a"></a><!-- doxytag: member="ULogger.h::UDEBUG" ref="a9104cb408bf9019db2a2c4476835db4a" args="(...)" -->
 <div class="memitem">
 <div class="memproto">
@@ -227,7 +247,7 @@ Defines</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 16 2012 14:50:10 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

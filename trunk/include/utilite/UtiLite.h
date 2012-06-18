@@ -96,8 +96,9 @@
   * \section timer UTimer
   * A useful class to compute processing time:
   *  - UTimer::start(),
-  *  - UTimer::ticks(),
-  *  - UTimer::getInterval(),
+  *  - UTimer::stop(),
+  *  - UTimer::restart(),
+  *  - UTimer::elapsed(),
   *  - UTimer::now().
   *
   * \section filedir UDirectory, UFile
@@ -140,7 +141,7 @@
   *  - uStdDev(),
   *  - uNorm(),
   *  - uNormalize(),
-  *  - uXCorr().
+  *  - uXMatch().
   *
   * \section conversion Conversion
   * A library of convenient functions to convert some data into another like:
@@ -161,6 +162,14 @@
   *
   * \section processinfo UProcessInfo
   * This class can be used to get the process memory usage: UProcessInfo::getMemoryUsage().
+  *
+  * \section qtWidgets Qt Widgets (libutiliteqt.so)
+  * If Qt is found on the system, UtiLite will build the UtiLite Qt library (libutiliteqt.so, libutiliteqt.dll) with
+  * useful widgets. Use class UPlot to create a plot like MATLAB, and incrementally add
+  * new values like a scope. USpectrogram is used to
+  * show audio frequency frames.
+  * @image html UPlot.gif
+  * @image html USpectrogram.png
   */
 
 /*! \page uResourceGeneratorPage uResourceGenerator

@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.13</span>
+   &#160;<span id="projectnumber">0.2.14</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -81,9 +81,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  ...
  std::string hex = DATABASESCHEMA_SQL;
  <span class="comment">// Assuming there are only ASCII characters, we can directly convert to a string:</span>
- std::string schema = uHex2Str(hex);
+ std::string schema = <a class="code" href="_u_conversion_8h.html#a5deb1565659c46df0c8f998e10c54829">uHex2Str</a>(hex);
  <span class="comment">// For binary data:</span>
- std::vector&lt;char&gt; bytes = uHex2Bytes(hex);
+ std::vector&lt;char&gt; bytes = <a class="code" href="_u_conversion_8h.html#a74256c56a584bc23a0e6123e837ffe29">uHex2Bytes</a>(hex);
 </pre></div><p>The generator can be automated in a CMake build like: </p>
 <div class="fragment"><pre class="fragment"> ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/DatabaseSchema_sql.h
@@ -115,7 +115,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 16 2012 14:50:10 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -29,6 +29,7 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QScrollBar>
 #include <QtGui/QApplication>
+#include <QtGui/QInputDialog>
 #include <QtCore/QDir>
 #include <QtCore/QTimer>
 #include <utilite/ULogger.h>
@@ -60,14 +61,18 @@ protected:
 
 USpectrogram::USpectrogram(QWidget * parent) :
 	QWidget(parent),
-	_fs(0)
+	_fs(0),
+	_dBGain(0),
+	_dBMin(-60)
 {
 	this->setupUi();
 }
 
 USpectrogram::USpectrogram(int fs, QWidget * parent) :
 	QWidget(parent),
-	_fs(fs)
+	_fs(fs),
+	_dBGain(0),
+	_dBMin(-60)
 {
 	this->setupUi();
 }
@@ -87,13 +92,13 @@ void USpectrogram::setupUi()
 	_axesSwitched = true;
 	if(_fs<=0)
 	{
-		_xLabel = new UPlotOrientableLabel(XLABEL_DEFAULT, Qt::Vertical, this);
+		_xLabel = new UOrientableLabel(XLABEL_DEFAULT, Qt::Vertical, this);
 	}
 	else
 	{
-		_xLabel = new UPlotOrientableLabel(QString("0 -- Frequency --> %1 Hz").arg(_fs/2), Qt::Vertical, this);
+		_xLabel = new UOrientableLabel(QString("0 -- Frequency --> %1 Hz").arg(_fs/2), Qt::Vertical, this);
 	}
-	_yLabel = new UPlotOrientableLabel(YLABEL_DEFAULT, Qt::Horizontal, this);
+	_yLabel = new UOrientableLabel(YLABEL_DEFAULT, Qt::Horizontal, this);
 	_xLabel->setAlignment(Qt::AlignCenter);
 	_yLabel->setAlignment(Qt::AlignCenter);
 
@@ -124,6 +129,11 @@ void USpectrogram::setupUi()
 
 	_menu->addSeparator();
 
+	_aDBMin = _menu->addAction(tr("Min dB (%1 dB)").arg(_dBMin));
+	_aDBGain = _menu->addAction(tr("Gain dB (%1 dB)").arg(_dBGain));
+
+	_menu->addSeparator();
+
 	_aScaledFreq = _menu->addAction("Frequency scaled");
 	_aScaledTime = _menu->addAction("Time scaled");
 	_aScaledFreq->setCheckable(true);
@@ -132,7 +142,7 @@ void USpectrogram::setupUi()
 	this->setOnlyLastFramesDrawn(true);
 
 	_nbSubOctave = 16;
-	_minLogSample = 1;
+	_minLogSample = 1; // ignore DC
 
 	_menu->addSeparator();
 
@@ -160,6 +170,18 @@ void USpectrogram::setSamplingRate(int fs)
 	}
 }
 
+void USpectrogram::setDBGain(float value)
+{
+	_dBGain = value;
+	_aDBGain->setText(tr("Gain dB (%1 dB)").arg(_dBGain));
+}
+
+void USpectrogram::setDBMin(float value)
+{
+	_dBMin = value;
+	_aDBMin->setText(tr("Min dB (%1 dB)").arg(_dBMin));
+}
+
 void USpectrogram::push(const std::vector<float> & frame)
 {
 	this->push(frame.data(), frame.size());
@@ -185,8 +207,8 @@ void USpectrogram::push(const float frame[], int frameLength)
 
 	int val; // max 240 // H=blue
 	float max = frameLength*frameLength;
-	float minDb = 80;//fabs(10*std::log10(min/max));
-	float gain = 30;
+	float minDb = _dBMin;//fabs(10*std::log10(min/max));
+	float gain = _dBGain;
 
 	float frameMin = 0.0f;
 	float frameMax = 0.0f;
@@ -208,7 +230,7 @@ void USpectrogram::push(const float frame[], int frameLength)
 	UDEBUG("is=%d, js=%d", frameLength, vLog.size());
 #endif
 
-	int octaveStart = _minLogSample; // ignore DC
+	int octaveStart = _minLogSample;
 	int avg = 0;
 	float avgMag = 0;
 	int count = 0;
@@ -220,7 +242,7 @@ void USpectrogram::push(const float frame[], int frameLength)
 		float frameVal = minDb;
 		if(isInDB)
 		{
-			frameVal = fabs(frame[i]);
+			frameVal = frame[i];
 			if(frame[i] == 0)
 			{
 				frameVal = minDb;
@@ -230,14 +252,14 @@ void USpectrogram::push(const float frame[], int frameLength)
 		{
 			if(frame[i]>0)
 			{
-				frameVal = fabs(10*std::log10(frame[i]/max) + gain);
+				frameVal = 10*std::log10(frame[i]/max) + gain;
 			}
-			if(frameVal > minDb)
+			if(frameVal < minDb)
 			{
 				frameVal = minDb;
 			}
 		}
-		val = frameVal*240.0/(minDb);
+		val = (frameVal-gain)*240.0/(minDb-gain);
 		if(val < 0)
 		{
 			val = 0; // red
@@ -323,8 +345,8 @@ void USpectrogram::showEvent(QShowEvent * event)
 void USpectrogram::mouseMoveEvent(QMouseEvent * event)
 {
 	QPoint pos = _view->mapFromGlobal(event->globalPos());
-	pos.setX(pos.x());
-	pos.setY(pos.y());
+	pos.setX(pos.x()-3);
+	pos.setY(pos.y()-3);
 	QPointF posf = _view->mapToScene(pos);
 	pos.setX(posf.x());
 	pos.setY(posf.y());
@@ -346,7 +368,7 @@ void USpectrogram::mouseMoveEvent(QMouseEvent * event)
 		}
 		else if(dB==0)
 		{
-			dB=-80;
+			dB=-999;
 		}
 
 		float posx = pos.x();
@@ -462,6 +484,24 @@ void USpectrogram::contextMenuEvent(QContextMenuEvent * event)
 			_view->scene()->addItem(_imageItem);
 			this->updateView();
 		}
+		else if(a == _aDBGain)
+		{
+			bool ok = false;
+			float val = QInputDialog::getDouble(this, tr("New dB gain"), tr("Value"), _dBGain, 0, 100, 0, &ok);
+			if(ok)
+			{
+				this->setDBGain(val);
+			}
+		}
+		else if(a == _aDBMin)
+		{
+			bool ok = false;
+			float val = QInputDialog::getDouble(this, tr("New dB min"), tr("Value"), _dBMin, -100, 0, 0, &ok);
+			if(ok)
+			{
+				this->setDBMin(val);
+			}
+		}
 	}
 }
 
@@ -508,11 +548,6 @@ void USpectrogram::setZoomed(bool zoomed)
 void USpectrogram::setOnlyLastFramesDrawn(bool onlyLastFramesDrawn)
 {
 	_aOnlyLastFramesDrawn->setChecked(onlyLastFramesDrawn);
-	_view->scene()->removeItem(_imageItem);
-	delete _view->scene();
-	_view->setScene(new QGraphicsScene(this));
-	_view->scene()->setBackgroundBrush(QBrush(Qt::black));
-	_view->scene()->addItem(_imageItem);
 	this->updateView();
 }
 
@@ -591,11 +626,24 @@ void USpectrogram::updateView()
 	{
 		if(_rgbData.size())
 		{
+			_view->scene()->removeItem(_imageItem);
+			delete _view->scene();
+			_view->setScene(new QGraphicsScene(this));
+			_view->scene()->setBackgroundBrush(QBrush(Qt::black));
+
 			QImage img;
 			int lastFramesCount = _view->height();
 			if(_axesSwitched)
 			{
 				lastFramesCount = _view->width();
+				if(_view->verticalScrollBar()->isVisible())
+				{
+					lastFramesCount -= _view->verticalScrollBar()->width();
+				}
+			}
+			else if(_view->horizontalScrollBar()->isVisible())
+			{
+				lastFramesCount -= _view->horizontalScrollBar()->height();
 			}
 			if(_aZoom2x->isChecked() && !_aScaledTime->isChecked())
 			{
@@ -638,6 +686,7 @@ void USpectrogram::updateView()
 				}
 			}
 			_imageItem->setPixmap(QPixmap::fromImage(img));
+			_view->scene()->addItem(_imageItem);
 		}
 
 		_view->resetTransform();

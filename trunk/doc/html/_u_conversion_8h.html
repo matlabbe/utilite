@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.13</span>
+   &#160;<span id="projectnumber">0.2.14</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -131,7 +131,7 @@ Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Convert an ascii character to an hexadecimal value (right 4 bits). Characters can be in upper or lower case. Example : </p>
-<div class="fragment"><pre class="fragment"> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> hex = uAscii2Hex(<span class="charliteral">&#39;F&#39;</span>);
+<div class="fragment"><pre class="fragment"> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> hex = <a class="code" href="_u_conversion_8h.html#a03d5d05c90255b704a1eecbde6c9dc36">uAscii2Hex</a>(<span class="charliteral">&#39;F&#39;</span>);
  <span class="comment">// The results is hex = 0x0F;</span>
 </pre></div> <dl class="see"><dt><b>See also:</b></dt><dd>hex2ascii </dd></dl>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
@@ -195,7 +195,7 @@ Functions</h2></td></tr>
 <div class="memdoc">
 <p>Convert a bytes array to an hexadecimal string. The resulting string is twice the size of the bytes array. The hexadecimal Characters are in upper case. Example : </p>
 <div class="fragment"><pre class="fragment"> <span class="keywordtype">char</span> bytes[] = {0x3F};
- std::string hex = uBytes2Hex(bytes, 1);
+ std::string hex = <a class="code" href="_u_conversion_8h.html#aa20a8b19a85e330f7944781ba9917aa7">uBytes2Hex</a>(bytes, 1);
  <span class="comment">// The string constains &quot;3F&quot;.</span>
 </pre></div><dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -289,8 +289,8 @@ Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Convert hexadecimal (left or right part) value to an ascii character. Example : </p>
-<div class="fragment"><pre class="fragment"> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> F = uHex2Ascii(0xFA, <span class="keyword">false</span>);
- <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> A = uHex2Ascii(0xFA, <span class="keyword">true</span>);
+<div class="fragment"><pre class="fragment"> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> F = <a class="code" href="_u_conversion_8h.html#a354d755c9d33a9c8773bb7281928b465">uHex2Ascii</a>(0xFA, <span class="keyword">false</span>);
+ <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> A = <a class="code" href="_u_conversion_8h.html#a354d755c9d33a9c8773bb7281928b465">uHex2Ascii</a>(0xFA, <span class="keyword">true</span>);
 </pre></div> <dl class="see"><dt><b>See also:</b></dt><dd>ascii2hex </dd></dl>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -319,7 +319,7 @@ Functions</h2></td></tr>
 <div class="memdoc">
 <p>Convert an hexadecimal string to a bytes array. The string must be pair length. The hexadecimal Characters can be in upper or lower case. Example : </p>
 <div class="fragment"><pre class="fragment"> std::string hex = <span class="stringliteral">&quot;1f3B&quot;</span>;
- std::vector&lt;char&gt; bytes = uHex2Bytes(hex);
+ std::vector&lt;char&gt; bytes = <a class="code" href="_u_conversion_8h.html#a74256c56a584bc23a0e6123e837ffe29">uHex2Bytes</a>(hex);
  <span class="comment">// The array contains {0x1F, 0x3B}.</span>
 </pre></div><dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -356,7 +356,7 @@ Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Convert an hexadecimal string to a bytes array. The string must be pair length. The hexadecimal Characters can be in upper or lower case. Example : </p>
-<div class="fragment"><pre class="fragment"> std::vector&lt;char&gt; bytes = uHex2Bytes(<span class="stringliteral">&quot;1f3B&quot;</span>, 4);
+<div class="fragment"><pre class="fragment"> std::vector&lt;char&gt; bytes = <a class="code" href="_u_conversion_8h.html#a74256c56a584bc23a0e6123e837ffe29">uHex2Bytes</a>(<span class="stringliteral">&quot;1f3B&quot;</span>, 4);
  <span class="comment">// The array contains {0x1F, 0x3B}.</span>
 </pre></div><dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -384,7 +384,7 @@ Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Convert an hexadecimal string to an ascii string. A convenient way when using only strings. The hexadecimal str MUST not contains any null values 0x00 ("00"). Think to use of hex2bytes() to handle 0x00 values. Characters can be in upper or lower case. Example : </p>
-<div class="fragment"><pre class="fragment"> std::string str = uHex2Str(<span class="stringliteral">&quot;48656C6C4F21&quot;</span>);
+<div class="fragment"><pre class="fragment"> std::string str = <a class="code" href="_u_conversion_8h.html#a5deb1565659c46df0c8f998e10c54829">uHex2Str</a>(<span class="stringliteral">&quot;48656C6C4F21&quot;</span>);
  <span class="comment">// The string contains &quot;Hello!&quot;.</span>
 </pre></div><dl class="see"><dt><b>See also:</b></dt><dd>hex2bytes </dd></dl>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
@@ -529,7 +529,7 @@ Functions</h2></td></tr>
 <div class="memdoc">
 <p>Replace old characters in a string to new ones. Example : </p>
 <div class="fragment"><pre class="fragment"> std::string str = <span class="stringliteral">&quot;Hello&quot;</span>;
- uReplaceChar(str, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;p&#39;</span>);
+ <a class="code" href="_u_conversion_8h.html#a02be486aaee5b10071b5393bf7ea2d1c">uReplaceChar</a>(str, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;p&#39;</span>);
  <span class="comment">// The results is str = &quot;Heppo&quot;;</span>
 </pre></div><dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -584,7 +584,7 @@ Functions</h2></td></tr>
 <div class="memdoc">
 <p>Transform characters from a string to lower case. Example : </p>
 <div class="fragment"><pre class="fragment"> std::string str = <span class="stringliteral">&quot;HELLO!&quot;</span>;
- str = uToLowerCase(str, <span class="keyword">false</span>);
+ str = <a class="code" href="_u_conversion_8h.html#a145472af945ab538f074b7d1d672061f">uToLowerCase</a>(str, <span class="keyword">false</span>);
  <span class="comment">//str is now equal to &quot;hello!&quot;</span>
 </pre></div> <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -612,7 +612,7 @@ Functions</h2></td></tr>
 <div class="memdoc">
 <p>Transform characters from a string to upper case. Example : </p>
 <div class="fragment"><pre class="fragment"> std::string str = <span class="stringliteral">&quot;hello!&quot;</span>;
- str = uToUpperCase(str);
+ str = <a class="code" href="_u_conversion_8h.html#a09ab88a53877aec136150bfe8ddb48cd">uToUpperCase</a>(str);
  <span class="comment">//str is now equal to &quot;HELLO!&quot;</span>
 </pre></div> <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -642,7 +642,7 @@ Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 16 2012 14:50:10 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

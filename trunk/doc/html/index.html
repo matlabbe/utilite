@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.13</span>
+   &#160;<span id="projectnumber">0.2.14</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -84,13 +84,13 @@ Introduction</h2>
  ...
  std::string hex = DATABASESCHEMA_SQL;
  <span class="comment">// Assuming there are only ASCII characters, we can directly convert to a string:</span>
- std::string schema = uHex2Str(hex);
+ std::string schema = <a class="code" href="_u_conversion_8h.html#a5deb1565659c46df0c8f998e10c54829">uHex2Str</a>(hex);
  <span class="comment">// For binary data:</span>
- std::vector&lt;char&gt; bytes = uHex2Bytes(hex);
+ std::vector&lt;char&gt; bytes = <a class="code" href="_u_conversion_8h.html#a74256c56a584bc23a0e6123e837ffe29">uHex2Bytes</a>(hex);
 </pre></div><p>A generated <a class="el" href="find_utilite_page.html">FindUtiLite.cmake</a> is also provided for easy linking with the library.</p>
 <h2><a class="anchor" id="logger"></a>
 ULogger</h2>
-<p>The <a class="el" href="class_u_logger.html">ULogger</a> can be used anywhere in the application to log messages (formated like a printf). The logger can be set (<a class="el" href="class_u_logger.html#abc47408ee17e2a172ad3769ad319ef59">ULogger::setType()</a>) to print in a file or in the console (with colors depending on the severity). Convenient macros are given, working like a printf(), as <a class="el" href="_u_logger_8h.html#a9104cb408bf9019db2a2c4476835db4a">UDEBUG()</a>, <a class="el" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO()</a>, <a class="el" href="_u_logger_8h.html#ab5a739ad9340455e46eaa570f8223d9a">UWARN()</a>, <a class="el" href="_u_logger_8h.html#a1249ddbc4c9cc43be53048c08dda129b">UERROR()</a>, <a class="el" href="_u_logger_8h.html#aabc10368a622911d56a4dd5a4b461385">UFATAL()</a>. Small example: </p>
+<p>The <a class="el" href="class_u_logger.html">ULogger</a> can be used anywhere in the application to log messages (formated like a printf). The logger can be set (<a class="el" href="class_u_logger.html#a0fe73ce7c193ff399bca16b8d4d4cabb">ULogger::setType()</a>) to print in a file or in the console (with colors depending on the severity). Convenient macros are given, working like a printf(), as <a class="el" href="_u_logger_8h.html#a9104cb408bf9019db2a2c4476835db4a">UDEBUG()</a>, <a class="el" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO()</a>, <a class="el" href="_u_logger_8h.html#ab5a739ad9340455e46eaa570f8223d9a">UWARN()</a>, <a class="el" href="_u_logger_8h.html#a1249ddbc4c9cc43be53048c08dda129b">UERROR()</a>, <a class="el" href="_u_logger_8h.html#aabc10368a622911d56a4dd5a4b461385">UFATAL()</a>. Small example: </p>
 <div class="fragment"><pre class="fragment"> ...
  <a class="code" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO</a>(<span class="stringliteral">&quot;A simple message with number %d&quot;</span>, 42);
  <a class="code" href="_u_logger_8h.html#a9104cb408bf9019db2a2c4476835db4a">UDEBUG</a>(<span class="stringliteral">&quot;A debug message&quot;</span>);
@@ -100,11 +100,11 @@ ULogger</h2>
  [DEBUG] (2010-09-25 18:08:20) main.cpp:18::main() A debug message
 </pre></div><h2><a class="anchor" id="eventsmanager"></a>
 UEventsManager, UEventsHandler, UEvent</h2>
-<p>The events-based communication framework helps to communicate between objects/threads. The <a class="el" href="class_u_events_manager.html">UEventsManager</a> is a singleton with which we can post events anywhere in the application by calling <a class="el" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">UEventsManager::post()</a>. All <a class="el" href="class_u_events_handler.html">UEventsHandler</a> will then receive the event with their protected function <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">UEventsHandler::handleEvent()</a>. Handlers are added to <a class="el" href="class_u_events_manager.html">UEventsManager</a> by calling <a class="el" href="class_u_events_manager.html#aa673feac9cf66a3cee01cf58095b4f6c">UEventsManager::addHandler()</a>. The <a class="el" href="class_u_event.html">UEvent</a> provides an abstract class to implement any event implementations. The only requirement is that the event must implements <a class="el" href="class_u_event.html#a2c7d278240ad4b7d88a2c534cc5f47b4">UEvent::getClassName()</a> to know the event's type. </p>
+<p>The events-based communication framework helps to communicate between objects/threads. The <a class="el" href="class_u_events_manager.html">UEventsManager</a> is a singleton with which we can post events anywhere in the application by calling <a class="el" href="class_u_events_manager.html#add791ce7820e4e0c0c13eed97d07ae9e">UEventsManager::post()</a>. All <a class="el" href="class_u_events_handler.html">UEventsHandler</a> will then receive the event with their protected function <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">UEventsHandler::handleEvent()</a>. Handlers are added to <a class="el" href="class_u_events_manager.html">UEventsManager</a> by calling <a class="el" href="class_u_events_manager.html#a3bb033062e4a0eb59efdf5f84d170388">UEventsManager::addHandler()</a>. The <a class="el" href="class_u_event.html">UEvent</a> provides an abstract class to implement any event implementations. The only requirement is that the event must implements <a class="el" href="class_u_event.html#a2c7d278240ad4b7d88a2c534cc5f47b4">UEvent::getClassName()</a> to know the event's type. </p>
 <div class="fragment"><pre class="fragment"> ...
  MyHandler handler; <span class="comment">// MyHandler is an implementation of UEventsHandler</span>
- <a class="code" href="class_u_events_manager.html#aa673feac9cf66a3cee01cf58095b4f6c">UEventsManager::addHandler</a>(&amp;handler);
- <a class="code" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">UEventsManager::post</a>(<span class="keyword">new</span> MyEvent()); <span class="comment">// MyEvent is an implementation of UEvent</span>
+ <a class="code" href="class_u_events_manager.html#a3bb033062e4a0eb59efdf5f84d170388">UEventsManager::addHandler</a>(&amp;handler);
+ <a class="code" href="class_u_events_manager.html#add791ce7820e4e0c0c13eed97d07ae9e">UEventsManager::post</a>(<span class="keyword">new</span> MyEvent()); <span class="comment">// MyEvent is an implementation of UEvent</span>
  <span class="comment">// The UEventsHandler::handleEvent() of &quot;handler&quot; will then be called by the UEventsManager&#39;s events dispatching thread.</span>
  ...
 </pre></div><p> Look at the <b>full example</b> in page of <a class="el" href="class_u_events_handler.html">UEventsHandler</a> on how communication works with threads (<a class="el" href="class_u_thread_node.html">UThreadNode</a>).</p>
@@ -121,9 +121,10 @@ UTimer</h2>
 <p>A useful class to compute processing time:</p>
 <ul>
 <li><a class="el" href="class_u_timer.html#a10f628d8be04474d13c04b07c0426200">UTimer::start()</a>,</li>
-<li><a class="el" href="class_u_timer.html#aed9550d86073c827bb5aa1e843d3d686">UTimer::ticks()</a>,</li>
-<li><a class="el" href="class_u_timer.html#a09f025c82dda280a22da263b089f022d">UTimer::getInterval()</a>,</li>
-<li><a class="el" href="class_u_timer.html#acf61663213a4ed4e42d2821c171518da">UTimer::now()</a>.</li>
+<li><a class="el" href="class_u_timer.html#a6a517d6f5f6e6c28b9392d04be22a320">UTimer::stop()</a>,</li>
+<li><a class="el" href="class_u_timer.html#aa4db57cf682a403fba8ddf95d268d2a6">UTimer::restart()</a>,</li>
+<li><a class="el" href="class_u_timer.html#a372405f02e1d4e9571a73d80962d6f4c">UTimer::elapsed()</a>,</li>
+<li><a class="el" href="class_u_timer.html#ad10fce2a4901bf5d6a460ca7b158cb3a">UTimer::now()</a>.</li>
 </ul>
 <h2><a class="anchor" id="filedir"></a>
 UDirectory, UFile</h2>
@@ -131,14 +132,14 @@ UDirectory, UFile</h2>
 <ul>
 <li><a class="el" href="class_u_file.html#a4963afa70289718a3bd1ca50b6adb420">UFile::exists()</a>,</li>
 <li><a class="el" href="class_u_file.html#a0c42f32c914b349d13103d0397c1b3c1">UFile::length()</a>,</li>
-<li><a class="el" href="class_u_file.html#a2c7f4498b8c4bd6b9c4691ae6635f4e7">UFile::rename()</a>,</li>
-<li><a class="el" href="class_u_file.html#a3c4b790222e27306bba5502fecbaade9">UFile::erase()</a>,</li>
-<li><a class="el" href="class_u_directory.html#abca8e74f9b392b8e613ceba859264869">UDirectory::exists()</a>,</li>
+<li><a class="el" href="class_u_file.html#a725e2edf4b5f603bfc688e96c76858d4">UFile::rename()</a>,</li>
+<li><a class="el" href="class_u_file.html#a1faba3e78bb915a685d82f0696e1ec02">UFile::erase()</a>,</li>
+<li><a class="el" href="class_u_directory.html#ad82410f2502789f23d30984a5b1d7724">UDirectory::exists()</a>,</li>
 <li><a class="el" href="class_u_directory.html#af841282362f100d634b797924368c08c">UDirectory::getFileNames()</a>,</li>
-<li><a class="el" href="class_u_directory.html#a7737170e471afef848b3e35f5942f1fb">UDirectory::makeDir()</a>,</li>
-<li><a class="el" href="class_u_directory.html#aa3386a52e31d6f6c72615d0103cadc2e">UDirectory::removeDir()</a>,</li>
-<li><a class="el" href="class_u_directory.html#a5cb0e0795ccf163edb4602b4d313e6ea">UDirectory::currentDir()</a>,</li>
-<li><a class="el" href="class_u_directory.html#ac54a03f8903003cf941a3516ff9c8743">UDirectory::homeDir()</a>,</li>
+<li><a class="el" href="class_u_directory.html#a8d84cde6736b614a4396f16113f4d365">UDirectory::makeDir()</a>,</li>
+<li><a class="el" href="class_u_directory.html#a78d8896627c8675a19b0c6fe6d9e274a">UDirectory::removeDir()</a>,</li>
+<li><a class="el" href="class_u_directory.html#a30b3c4e8f81892e5ea04bdab3beba900">UDirectory::currentDir()</a>,</li>
+<li><a class="el" href="class_u_directory.html#a3338b47405f65f25a4256e0ea86bff07">UDirectory::homeDir()</a>,</li>
 </ul>
 <h2><a class="anchor" id="stl"></a>
 Convenient use of STL</h2>
@@ -163,14 +164,14 @@ Convenient use of STL</h2>
 Basic mathematic operations</h2>
 <p>A library of basic array manipulations:</p>
 <ul>
-<li><a class="el" href="_u_math_8h.html#a122aacac9ff50a9515c4c627a73d23ae">uMax()</a>,</li>
+<li><a class="el" href="_u_math_8h.html#a1362990d0ce7f09ef735292cc480fa23">uMax()</a>,</li>
 <li><a class="el" href="_u_math_8h.html#a6e100ed2031a529679a93b9b4bf818af">uSign()</a>,</li>
 <li><a class="el" href="_u_math_8h.html#a81a1c24c0229e6c4dc8d8e09497ad114">uSum()</a>,</li>
 <li><a class="el" href="_u_math_8h.html#a7376638ab6047306c66a357153a47196">uMean()</a>,</li>
 <li><a class="el" href="_u_math_8h.html#a96c8eedf74b3565533407d55ddbc0e09">uStdDev()</a>,</li>
-<li><a class="el" href="_u_math_8h.html#a777c8c252f85236a10b3d9085904d912">uNorm()</a>,</li>
-<li><a class="el" href="_u_math_8h.html#a83d41b8c30085981e62660de4c31c629">uNormalize()</a>,</li>
-<li><a class="el" href="_u_math_8h.html#a603c5a609847a2648477aaec5a94e678">uXCorr()</a>.</li>
+<li><a class="el" href="_u_math_8h.html#ab5e611c29307d8733cfaebc68bed1ac6">uNorm()</a>,</li>
+<li><a class="el" href="_u_math_8h.html#a6ea84f5e66d07e1742ab12dccc7a9bc1">uNormalize()</a>,</li>
+<li><a class="el" href="_u_math_8h.html#add2fd1c790156250fbf962bd4e77ca60">uXMatch()</a>.</li>
 </ul>
 <h2><a class="anchor" id="conversion"></a>
 Conversion</h2>
@@ -193,8 +194,17 @@ Conversion</h2>
 </ul>
 <h2><a class="anchor" id="processinfo"></a>
 UProcessInfo</h2>
-<p>This class can be used to get the process memory usage: <a class="el" href="class_u_process_info.html#af3843a5d724ae8d65157fda1d393c67d">UProcessInfo::getMemoryUsage()</a>. </p>
-</div></div><!-- contents -->
+<p>This class can be used to get the process memory usage: <a class="el" href="class_u_process_info.html#a8a494e68cdea348a4788b8d54fd7de40">UProcessInfo::getMemoryUsage()</a>.</p>
+<h2><a class="anchor" id="qtWidgets"></a>
+Qt Widgets (libutiliteqt.so)</h2>
+<p>If Qt is found on the system, UtiLite will build the UtiLite Qt library (libutiliteqt.so, libutiliteqt.dll) with useful widgets. Use class <a class="el" href="class_u_plot.html">UPlot</a> to create a plot like MATLAB, and incrementally add new values like a scope. <a class="el" href="class_u_spectrogram.html">USpectrogram</a> is used to show audio frequency frames. </p>
+<div class="image">
+<img src="UPlot.gif" alt="UPlot.gif"/>
+</div>
+ <div class="image">
+<img src="USpectrogram.png" alt="USpectrogram.png"/>
+</div>
+ </div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -212,7 +222,7 @@ UProcessInfo</h2>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 16 2012 14:50:10 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.13</span>
+   &#160;<span id="projectnumber">0.2.14</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -145,6 +145,9 @@ Functions</h2></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class V &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#ad3918a32500de71ba8bb7aab99dccf46">uIndexOf</a> (const std::vector&lt; V &gt; &amp;list, const V &amp;value)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#a4bed82c32aebba7041cff3f16a68f40c">uSplit</a> (const std::string &amp;str, char separator= ' ')</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#ad24f845084c84b60614bb789e0d1966a">uIsDigit</a> (const char c)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">std::list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#a65eaf06ae9bc6dbbcf80a69a1227f588">uSplitNumChar</a> (const std::string &amp;str)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#af48fdad882d4429e4044372589503da1">uStrNumCmp</a> (const std::string &amp;a, const std::string &amp;b)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Wrappers of STL for convenient functions. </p>
@@ -366,6 +369,31 @@ template&lt;class K , class V &gt; </div>
 </div>
 <div class="memdoc">
 <p>Insert an item in the map. Contrary to the insert in the STL, if the key already exists, the value will be replaced by the new one. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad24f845084c84b60614bb789e0d1966a"></a><!-- doxytag: member="UStl.h::uIsDigit" ref="ad24f845084c84b60614bb789e0d1966a" args="(const char c)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="_u_stl_8h.html#ad24f845084c84b60614bb789e0d1966a">uIsDigit</a> </td>
+          <td>(</td>
+          <td class="paramtype">const char&#160;</td>
+          <td class="paramname"><em>c</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Check if a character is a digit. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>the character </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>if the character is a digit (if c &gt;= '0' &amp;&amp; c &lt;= '9') </dd></dl>
 
 </div>
 </div>
@@ -643,8 +671,8 @@ template&lt;class V &gt; </div>
 </div>
 <div class="memdoc">
 <p>Split a string into multiple string around the specified separator. Example: </p>
-<div class="fragment"><pre class="fragment">                std::vector&lt;std::string&gt; v = split(<span class="stringliteral">&quot;Hello the world!&quot;</span>, <span class="charliteral">&#39; &#39;</span>);
-</pre></div><p> The vector v will contain {"Hello", "the", "world!"} </p>
+<div class="fragment"><pre class="fragment">                std::list&lt;std::string&gt; v = split(<span class="stringliteral">&quot;Hello the world!&quot;</span>, <span class="charliteral">&#39; &#39;</span>);
+</pre></div><p> The list v will contain {"Hello", "the", "world!"} </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">str</td><td>the string </td></tr>
@@ -652,7 +680,73 @@ template&lt;class V &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>the index of the value in the list </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the list of strings </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a65eaf06ae9bc6dbbcf80a69a1227f588"></a><!-- doxytag: member="UStl.h::uSplitNumChar" ref="a65eaf06ae9bc6dbbcf80a69a1227f588" args="(const std::string &amp;str)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;std::string&gt; <a class="el" href="_u_stl_8h.html#a65eaf06ae9bc6dbbcf80a69a1227f588">uSplitNumChar</a> </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Split a string into number and character strings. Example: </p>
+<div class="fragment"><pre class="fragment">                std::list&lt;std::string&gt; v = <a class="code" href="_u_stl_8h.html#a4bed82c32aebba7041cff3f16a68f40c">uSplit</a>(<span class="stringliteral">&quot;Hello 03 my 65 world!&quot;</span>);
+</pre></div><p> The list v will contain {"Hello ", "03", " my ", "65", " world!"} </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>the string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the list of strings </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af48fdad882d4429e4044372589503da1"></a><!-- doxytag: member="UStl.h::uStrNumCmp" ref="af48fdad882d4429e4044372589503da1" args="(const std::string &amp;a, const std::string &amp;b)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="_u_stl_8h.html#af48fdad882d4429e4044372589503da1">uStrNumCmp</a> </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Compare two alphanumeric strings. Useful to sort filenames (human-like sorting). Example: </p>
+<div class="fragment"><pre class="fragment">        std::string a = <span class="stringliteral">&quot;Image9.jpg&quot;</span>;
+        std::string b = <span class="stringliteral">&quot;Image10.jpg&quot;</span>;
+        <span class="keywordtype">int</span> r = <a class="code" href="_u_stl_8h.html#af48fdad882d4429e4044372589503da1">uStrNumCmp</a>(a, b); <span class="comment">// r returns -1 (a is smaller than b). In contrast, std::strcmp(a, b) would return 1.</span>
+</pre></div> <dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>the first string </td></tr>
+    <tr><td class="paramname">b</td><td>the second string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>-1 if a&lt;b, 0 if a=b and 1 if a&gt;b </dd></dl>
 
 </div>
 </div>
@@ -1013,7 +1107,7 @@ template&lt;class V &gt; </div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 16 2012 14:50:10 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
