@@ -28,7 +28,7 @@ void Tests::setUp()
 {
     //Logger::setType(Logger::TypeFile, "test.txt", false);
 	ULogger::setType(ULogger::kTypeConsole);
-	ULogger::setLevel(ULogger::kDebug);
+	//ULogger::setLevel(ULogger::kDebug);
 }
 
 void Tests::tearDown()
