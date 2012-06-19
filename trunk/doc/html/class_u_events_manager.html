@@ -96,15 +96,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#a3bb033062e4a0eb59efdf5f84d170388">addHandler</a> (<a class="el" href="class_u_events_handler.html">UEventsHandler</a> *handler)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#a10d4b359f630aa9387e77f8baefcc07c">removeHandler</a> (<a class="el" href="class_u_events_handler.html">UEventsHandler</a> *handler)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#add791ce7820e4e0c0c13eed97d07ae9e">post</a> (<a class="el" href="class_u_event.html">UEvent</a> *event, bool async=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#aa673feac9cf66a3cee01cf58095b4f6c">addHandler</a> (<a class="el" href="class_u_events_handler.html">UEventsHandler</a> *handler)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#a12407bbfd21f567a7468c88eb3c7101c">removeHandler</a> (<a class="el" href="class_u_events_handler.html">UEventsHandler</a> *handler)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">post</a> (<a class="el" href="class_u_event.html">UEvent</a> *event, bool async=true)</td></tr>
 <tr><td colspan="2"><h2><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#a7eec8b7a675e7093064f147a9f62bfb9">mainLoop</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#a76cd8389e7885af6f56fa29a604c6e94">mainLoop</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#aa688a51c5ec837881740aa904b7b167f">killCleanup</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#a6a0a5891565fe2c09bd8eacdcacdf002">killCleanup</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="friends"></a>
 Friends</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a084ed7b7f7c593d1df2341c59cfbfaf5"></a><!-- doxytag: member="UEventsManager::UDestroyer&lt; UEventsManager &gt;" ref="a084ed7b7f7c593d1df2341c59cfbfaf5" args="" -->
@@ -112,26 +112,26 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; UEven
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>This class is used to post events between threads in the application. It is Thread-Safe and the events are sent to receivers in the same order they are posted (FIFO). It works like the design pattern Mediator. It is also a Singleton, so it can be used anywhere in the application.</p>
-<p>To send an event, use <a class="el" href="class_u_events_manager.html#add791ce7820e4e0c0c13eed97d07ae9e">UEventsManager::post()</a>. Events are automatically deleted after they are posted.</p>
-<p>The EventsManager have a list of handlers to which it sends posted events. To add an handler, use <a class="el" href="class_u_events_manager.html#a3bb033062e4a0eb59efdf5f84d170388">UEventsManager::addHandler()</a>. To remove, use <a class="el" href="class_u_events_manager.html#a10d4b359f630aa9387e77f8baefcc07c">UEventsManager::removeHandler()</a>.</p>
+<p>To send an event, use <a class="el" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">UEventsManager::post()</a>. Events are automatically deleted after they are posted.</p>
+<p>The EventsManager have a list of handlers to which it sends posted events. To add an handler, use <a class="el" href="class_u_events_manager.html#aa673feac9cf66a3cee01cf58095b4f6c">UEventsManager::addHandler()</a>. To remove, use <a class="el" href="class_u_events_manager.html#a12407bbfd21f567a7468c88eb3c7101c">UEventsManager::removeHandler()</a>.</p>
 <div class="fragment"><pre class="fragment">  <span class="comment">// Anywhere in the code:</span>
-  <a class="code" href="class_u_events_manager.html#add791ce7820e4e0c0c13eed97d07ae9e">UEventsManager::post</a>(<span class="keyword">new</span> MyEvent()); <span class="comment">// where MyEvent is an implemented UEvent</span>
+  <a class="code" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">UEventsManager::post</a>(<span class="keyword">new</span> MyEvent()); <span class="comment">// where MyEvent is an implemented UEvent</span>
 </pre></div><dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_u_event.html">UEvent</a> </dd>
 <dd>
 <a class="el" href="class_u_events_handler.html">UEventsHandler</a> </dd>
 <dd>
-<a class="el" href="class_u_events_manager.html#add791ce7820e4e0c0c13eed97d07ae9e">post()</a> </dd>
+<a class="el" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">post()</a> </dd>
 <dd>
-<a class="el" href="class_u_events_manager.html#a3bb033062e4a0eb59efdf5f84d170388">addHandler()</a> </dd>
+<a class="el" href="class_u_events_manager.html#aa673feac9cf66a3cee01cf58095b4f6c">addHandler()</a> </dd>
 <dd>
-<a class="el" href="class_u_events_manager.html#a10d4b359f630aa9387e77f8baefcc07c">removeHandler()</a> </dd></dl>
+<a class="el" href="class_u_events_manager.html#a12407bbfd21f567a7468c88eb3c7101c">removeHandler()</a> </dd></dl>
 </div><hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a3bb033062e4a0eb59efdf5f84d170388"></a><!-- doxytag: member="UEventsManager::addHandler" ref="a3bb033062e4a0eb59efdf5f84d170388" args="(UEventsHandler *handler)" -->
+<a class="anchor" id="aa673feac9cf66a3cee01cf58095b4f6c"></a><!-- doxytag: member="UEventsManager::addHandler" ref="aa673feac9cf66a3cee01cf58095b4f6c" args="(UEventsHandler *handler)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static void <a class="el" href="class_u_events_manager.html#a3bb033062e4a0eb59efdf5f84d170388">UEventsManager::addHandler</a> </td>
+          <td class="memname">void <a class="el" href="class_u_events_manager.html#aa673feac9cf66a3cee01cf58095b4f6c">UEventsManager::addHandler</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_u_events_handler.html">UEventsHandler</a> *&#160;</td>
           <td class="paramname"><em>handler</em></td><td>)</td>
@@ -150,12 +150,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; UEven
 
 </div>
 </div>
-<a class="anchor" id="aa688a51c5ec837881740aa904b7b167f"></a><!-- doxytag: member="UEventsManager::killCleanup" ref="aa688a51c5ec837881740aa904b7b167f" args="()" -->
+<a class="anchor" id="a6a0a5891565fe2c09bd8eacdcacdf002"></a><!-- doxytag: member="UEventsManager::killCleanup" ref="a6a0a5891565fe2c09bd8eacdcacdf002" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="class_u_events_manager.html#aa688a51c5ec837881740aa904b7b167f">UEventsManager::killCleanup</a> </td>
+          <td class="memname">void <a class="el" href="class_u_events_manager.html#a6a0a5891565fe2c09bd8eacdcacdf002">UEventsManager::killCleanup</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [private, virtual]</code></td>
@@ -167,12 +167,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; UEven
 
 </div>
 </div>
-<a class="anchor" id="a7eec8b7a675e7093064f147a9f62bfb9"></a><!-- doxytag: member="UEventsManager::mainLoop" ref="a7eec8b7a675e7093064f147a9f62bfb9" args="()" -->
+<a class="anchor" id="a76cd8389e7885af6f56fa29a604c6e94"></a><!-- doxytag: member="UEventsManager::mainLoop" ref="a76cd8389e7885af6f56fa29a604c6e94" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="class_u_events_manager.html#a7eec8b7a675e7093064f147a9f62bfb9">UEventsManager::mainLoop</a> </td>
+          <td class="memname">void <a class="el" href="class_u_events_manager.html#a76cd8389e7885af6f56fa29a604c6e94">UEventsManager::mainLoop</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [protected, virtual]</code></td>
@@ -186,12 +186,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; UEven
 
 </div>
 </div>
-<a class="anchor" id="add791ce7820e4e0c0c13eed97d07ae9e"></a><!-- doxytag: member="UEventsManager::post" ref="add791ce7820e4e0c0c13eed97d07ae9e" args="(UEvent *event, bool async=true)" -->
+<a class="anchor" id="a4a8e72f893279b20426fcb23079ad9af"></a><!-- doxytag: member="UEventsManager::post" ref="a4a8e72f893279b20426fcb23079ad9af" args="(UEvent *event, bool async=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static void <a class="el" href="class_u_events_manager.html#add791ce7820e4e0c0c13eed97d07ae9e">UEventsManager::post</a> </td>
+          <td class="memname">void <a class="el" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">UEventsManager::post</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_u_event.html">UEvent</a> *&#160;</td>
           <td class="paramname"><em>event</em>, </td>
@@ -222,12 +222,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; UEven
 
 </div>
 </div>
-<a class="anchor" id="a10d4b359f630aa9387e77f8baefcc07c"></a><!-- doxytag: member="UEventsManager::removeHandler" ref="a10d4b359f630aa9387e77f8baefcc07c" args="(UEventsHandler *handler)" -->
+<a class="anchor" id="a12407bbfd21f567a7468c88eb3c7101c"></a><!-- doxytag: member="UEventsManager::removeHandler" ref="a12407bbfd21f567a7468c88eb3c7101c" args="(UEventsHandler *handler)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static void <a class="el" href="class_u_events_manager.html#a10d4b359f630aa9387e77f8baefcc07c">UEventsManager::removeHandler</a> </td>
+          <td class="memname">void <a class="el" href="class_u_events_manager.html#a12407bbfd21f567a7468c88eb3c7101c">UEventsManager::removeHandler</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_u_events_handler.html">UEventsHandler</a> *&#160;</td>
           <td class="paramname"><em>handler</em></td><td>)</td>
@@ -246,8 +246,9 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; UEven
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/utilite/<a class="el" href="_u_events_manager_8h_source.html">UEventsManager.h</a></li>
+<li>src/UEventsManager.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- window showing the filter options -->
@@ -267,7 +268,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; UEven
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 21:46:48 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

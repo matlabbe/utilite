@@ -108,33 +108,33 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00026"></a>00026 <span class="preprocessor">#include &lt;vector&gt;</span>
 <a name="l00027"></a>00027 <span class="preprocessor">#include &lt;stdarg.h&gt;</span>
 <a name="l00028"></a>00028 
-<a name="l00051"></a>00051 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#a02be486aaee5b10071b5393bf7ea2d1c">uReplaceChar</a>(<span class="keyword">const</span> std::string &amp; str, <span class="keywordtype">char</span> before, <span class="keywordtype">char</span> after);
+<a name="l00051"></a>00051 std::string UTILITE_EXP uReplaceChar(<span class="keyword">const</span> std::string &amp; str, <span class="keywordtype">char</span> before, <span class="keywordtype">char</span> after);
 <a name="l00052"></a>00052 
-<a name="l00064"></a>00064 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#a09ab88a53877aec136150bfe8ddb48cd">uToUpperCase</a>(<span class="keyword">const</span> std::string &amp; str);
+<a name="l00064"></a>00064 std::string UTILITE_EXP uToUpperCase(<span class="keyword">const</span> std::string &amp; str);
 <a name="l00065"></a>00065 
-<a name="l00077"></a>00077 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#a145472af945ab538f074b7d1d672061f">uToLowerCase</a>(<span class="keyword">const</span> std::string &amp; str);
+<a name="l00077"></a>00077 std::string UTILITE_EXP uToLowerCase(<span class="keyword">const</span> std::string &amp; str);
 <a name="l00078"></a>00078 
-<a name="l00084"></a>00084 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#ae49c4dfb0edc535a642b3b30dc5b8d9e">uNumber2Str</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> number);
-<a name="l00090"></a>00090 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#ae49c4dfb0edc535a642b3b30dc5b8d9e">uNumber2Str</a>(<span class="keywordtype">int</span> number);
-<a name="l00096"></a>00096 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#ae49c4dfb0edc535a642b3b30dc5b8d9e">uNumber2Str</a>(<span class="keywordtype">float</span> number);
-<a name="l00102"></a>00102 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#ae49c4dfb0edc535a642b3b30dc5b8d9e">uNumber2Str</a>(<span class="keywordtype">double</span> number);
+<a name="l00084"></a>00084 std::string UTILITE_EXP uNumber2Str(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> number);
+<a name="l00090"></a>00090 std::string UTILITE_EXP uNumber2Str(<span class="keywordtype">int</span> number);
+<a name="l00096"></a>00096 std::string UTILITE_EXP uNumber2Str(<span class="keywordtype">float</span> number);
+<a name="l00102"></a>00102 std::string UTILITE_EXP uNumber2Str(<span class="keywordtype">double</span> number);
 <a name="l00103"></a>00103 
-<a name="l00110"></a>00110 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#ad2422ce7924968bb08f55c63a682b815">uBool2Str</a>(<span class="keywordtype">bool</span> <span class="keywordtype">boolean</span>);
-<a name="l00118"></a>00118 <span class="keywordtype">bool</span> UTILITE_EXP <a class="code" href="_u_conversion_8h.html#aee0e5bf1cf03c344967fa7ee34ca65a1">uStr2Bool</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * str);
+<a name="l00110"></a>00110 std::string UTILITE_EXP uBool2Str(<span class="keywordtype">bool</span> <span class="keywordtype">boolean</span>);
+<a name="l00118"></a>00118 <span class="keywordtype">bool</span> UTILITE_EXP uStr2Bool(<span class="keyword">const</span> <span class="keywordtype">char</span> * str);
 <a name="l00119"></a>00119 
-<a name="l00135"></a>00135 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#aa20a8b19a85e330f7944781ba9917aa7">uBytes2Hex</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * bytes, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> bytesLen);
-<a name="l00150"></a>00150 std::vector&lt;char&gt; UTILITE_EXP <a class="code" href="_u_conversion_8h.html#a74256c56a584bc23a0e6123e837ffe29">uHex2Bytes</a>(<span class="keyword">const</span> std::string &amp; hex);
-<a name="l00165"></a>00165 std::vector&lt;char&gt; UTILITE_EXP <a class="code" href="_u_conversion_8h.html#a74256c56a584bc23a0e6123e837ffe29">uHex2Bytes</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * hex, <span class="keywordtype">int</span> hexLen);
+<a name="l00135"></a>00135 std::string UTILITE_EXP uBytes2Hex(<span class="keyword">const</span> <span class="keywordtype">char</span> * bytes, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> bytesLen);
+<a name="l00150"></a>00150 std::vector&lt;char&gt; UTILITE_EXP uHex2Bytes(<span class="keyword">const</span> std::string &amp; hex);
+<a name="l00165"></a>00165 std::vector&lt;char&gt; UTILITE_EXP uHex2Bytes(<span class="keyword">const</span> <span class="keywordtype">char</span> * hex, <span class="keywordtype">int</span> hexLen);
 <a name="l00166"></a>00166 
-<a name="l00183"></a>00183 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#a5deb1565659c46df0c8f998e10c54829">uHex2Str</a>(<span class="keyword">const</span> std::string &amp; hex);
+<a name="l00183"></a>00183 std::string UTILITE_EXP uHex2Str(<span class="keyword">const</span> std::string &amp; hex);
 <a name="l00184"></a>00184 
-<a name="l00197"></a>00197 <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> UTILITE_EXP <a class="code" href="_u_conversion_8h.html#a354d755c9d33a9c8773bb7281928b465">uHex2Ascii</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> &amp; c, <span class="keywordtype">bool</span> rightPart);
+<a name="l00197"></a>00197 <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> UTILITE_EXP uHex2Ascii(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> &amp; c, <span class="keywordtype">bool</span> rightPart);
 <a name="l00198"></a>00198 
-<a name="l00211"></a>00211 <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> UTILITE_EXP <a class="code" href="_u_conversion_8h.html#a03d5d05c90255b704a1eecbde6c9dc36">uAscii2Hex</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> &amp; c);
+<a name="l00211"></a>00211 <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> UTILITE_EXP uAscii2Hex(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> &amp; c);
 <a name="l00212"></a>00212 
-<a name="l00216"></a>00216 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#a929ace80e08da046e3af9ace2d8384ab">uFormatv</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, va_list ap);
+<a name="l00216"></a>00216 std::string UTILITE_EXP uFormatv (<span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, va_list ap);
 <a name="l00217"></a>00217 
-<a name="l00221"></a>00221 std::string UTILITE_EXP <a class="code" href="_u_conversion_8h.html#a497077f8e850b91797c155f6185b7d4c">uFormat</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, ...);
+<a name="l00221"></a>00221 std::string UTILITE_EXP uFormat (<span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, ...);
 <a name="l00222"></a>00222 
 <a name="l00223"></a>00223 <span class="preprocessor">#endif </span><span class="comment">/* UCONVERSION_H */</span>
 </pre></div></div><!-- contents -->
@@ -155,7 +155,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 21:46:48 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

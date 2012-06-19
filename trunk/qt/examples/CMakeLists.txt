@@ -31,4 +31,4 @@ INCLUDE_DIRECTORIES(${INCLUDE_DIRS})
 # create an executable file named "example-plot" from the source files
 ADD_EXECUTABLE(example-plot ${SRC_FILES})
 # Linking with Qt libraries
-TARGET_LINK_LIBRARIES(example-plot utilite utiliteqt ${LIBRARIES})
+TARGET_LINK_LIBRARIES(example-plot utilite utilite_qt ${LIBRARIES})
