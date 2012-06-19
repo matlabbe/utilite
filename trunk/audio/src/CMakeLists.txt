@@ -4,7 +4,7 @@ SET(SRC_FILES
     UAudioRecorderMic.cpp
     UAudioPlayer.cpp
     UAudioRecorder.cpp
-    System.cpp
+    UAudioSystem.cpp
     UAudioPlayerTone.cpp
     UWav.cpp
 )
@@ -23,6 +23,7 @@ IF(Lame_FOUND)
 	SET(SRC_FILES ${SRC_FILES} UMp3Encoder.cpp)
 	SET(INCLUDE_DIRS ${INCLUDE_DIRS} ${Lame_INCLUDE_DIRS})
     SET(LIBRARIES ${LIBRARIES} ${Lame_LIBRARIES})
+    ADD_DEFINITIONS(-DBUILT_WITH_LAME)
 ENDIF(Lame_FOUND)
 
 ####################################

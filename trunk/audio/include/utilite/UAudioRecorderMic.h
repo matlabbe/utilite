@@ -13,10 +13,7 @@
 #include <string>
 #include <vector>
 
-namespace FMOD
-{
-class Sound;
-}
+class FMOD_SOUND;
 
 /**
  * This recorder gets frames from the microphone. It is 
@@ -93,7 +90,7 @@ private:
 	bool _encodeToMp3;
 	FILE *_fp;
 
-	FMOD::Sound * _sound;
+	FMOD_SOUND * _sound;
 
 	unsigned int _dataLength;
 	unsigned int _soundLength;

@@ -21,6 +21,7 @@
 #include <utilite/UTimer.h>
 #include <utilite/UFile.h>
 #include <utilite/UMath.h>
+#include <utilite/UStl.h>
 #include <utilite/USpectrogram.h>
 #include "utilite/UAudioRecorderFile.h"
 #include "utilite/UAudioRecorderMic.h"
@@ -34,12 +35,13 @@
 void showUsage()
 {
 	printf("Usage:\n"
-			"uspectrogram.exe [options] \"sound.wav\"\n"
-			"  sound path :      Path of the WAV or MP3 file (set to \"mic\" to use microphone).\n"
+			"uspectrogram.exe [options] \"sound path\" or \"mic number\"\n"
+			"  sound path :      Path of the WAV or MP3 file.\n"
+			"  mic number :      Device id of the microphone (default: 0)\n."
 			" Options:\n"
 			"  -n # :             Window/frame length (default 1024, must be a multiple of 2).\n"
 			"  -fs # :            Sampling frequency in Hz (default: 44100 Hz).\n"
-			"  -online :          Process while playing the audio file.\n"
+			"  -offline :         Process entire file without playing it.\n"
 			"  -no_win :          Don't use a window (default Hamming window of size \"n\").\n"
 			"  -overlap :         Overlap frames by 50%%.\n"
 			"  -debug :           Show debug traces.\n");
@@ -188,9 +190,9 @@ int main(int argc, char * argv[])
 	std::string path;
 	int frameLength = 1024;
 	int fs = 44100;
-	bool online = false;
+	bool offline = false;
 	bool hamming = true;
-	bool useMic = false;
+	int micDevice = -1;
 	bool overlap = false;
 
 	for(int i=1; i<argc; ++i)
@@ -199,15 +201,15 @@ int main(int argc, char * argv[])
 		{
 			// The last must be the path
 			path = argv[i];
-			if(path.compare("mic") != 0 && !UFile::exists(path.c_str()))
+			if(!(path.size() == 1 && uIsDigit(path.at(0))) != 0 && !UFile::exists(path.c_str()))
 			{
 				printf("Path not valid : %s\n", path.c_str());
 				showUsage();
 				exit(1);
 			}
-			else if(path.compare("mic") == 0)
+			else if(path.size() == 1 && uIsDigit(path.at(0)))
 			{
-				useMic = true;
+				micDevice = std::atoi(path.c_str());
 			}
 			break;
 		}
@@ -247,9 +249,9 @@ int main(int argc, char * argv[])
 			}
 			continue;
 		}
-		if(strcmp(argv[i], "-online") == 0)
+		if(strcmp(argv[i], "-offline") == 0)
 		{
-			online = true;
+			offline = true;
 			continue;
 		}
 		if(strcmp(argv[i], "-debug") == 0)
@@ -276,22 +278,22 @@ int main(int argc, char * argv[])
 	ULogger::setType(ULogger::kTypeConsole);
 
 	UAudioRecorder * recorder;
-	if(useMic)
+	if(micDevice >= 0 )
 	{
-		recorder = new UAudioRecorderMic("mic.wav", 100, 0, fs, overlap?frameLength/2:frameLength, 2, 1);
+		recorder = new UAudioRecorderMic("mic.wav", 100, micDevice, fs, overlap?frameLength/2:frameLength, 2, 1);
 	}
 	else
 	{
-		recorder = new UAudioRecorderFile(path, online, overlap?frameLength/2:frameLength);
+		recorder = new UAudioRecorderFile(path, !offline, overlap?frameLength/2:frameLength);
 	}
 	recorder->init();
 	recorder->start();
 
 	fs = recorder->fs();
 
-	if(useMic)
+	if(micDevice>=0)
 	{
-		printf(" Using microphone\n");
+		printf(" Using microphone %d\n", micDevice);
 	}
 	else
 	{
@@ -299,7 +301,7 @@ int main(int argc, char * argv[])
 	}
 	printf(" Frame length = %d\n", frameLength);
 	printf(" Sampling frequency = %d\n", fs);
-	printf(" Online = %s\n", online?"true":"false");
+	printf(" Offline = %s\n", offline?"true":"false");
 	printf(" Channels = %d\n", recorder->channels());
 	printf(" BytesPerSample = %d\n", recorder->bytesPerSample());
 	printf(" Overlap = %s\n", overlap?"true":"false");
@@ -315,13 +317,13 @@ int main(int argc, char * argv[])
 	WorkerThread thread(recorder, spectrograms, hamming, overlap);
 	thread.start();
 
-	if(!useMic && !online)
+	if(micDevice<0 && offline)
 	{
 		thread.join();
 	}
 	for(unsigned int i=0; i<spectrograms.size(); ++i)
 	{
-		if(!online)
+		if(offline)
 		{
 			spectrograms[i]->setScaled(true, true);
 			spectrograms[i]->setOnlyLastFramesDrawn(false);

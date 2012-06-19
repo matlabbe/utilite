@@ -13,12 +13,14 @@ class Tests : public CppUnit::TestFixture  {
   //CPPUNIT_TEST( testFileRecorderStereo );
   //CPPUNIT_TEST( testPlayRecorderStereo );
   CPPUNIT_TEST( testWav );
+#ifdef BUILT_WITH_LAME
   CPPUNIT_TEST( testMp3Encoder );
+  CPPUNIT_TEST( testFilePlayerMp3 );
+#endif
   CPPUNIT_TEST( testTonePlayer );
   //CPPUNIT_TEST( testTonePlayerWav );
   CPPUNIT_TEST( testFilePlayerWav );
   //CPPUNIT_TEST( testFilePlayerMid );
-  CPPUNIT_TEST( testFilePlayerMp3 );
   CPPUNIT_TEST_SUITE_END();
 
 private:

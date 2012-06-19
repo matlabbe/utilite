@@ -28,7 +28,7 @@ IF (FFTW3F_FOUND)
 ELSE (FFTW3F_FOUND)
    # fatal error if FFTW3F is required but not found
    IF (FFTW3F_FIND_REQUIRED)
-      MESSAGE(FATAL_ERROR "Could not find FFTW3F")
+      MESSAGE(FATAL_ERROR "Could not find FFTW3F (aka libfftw3)")
    ENDIF (FFTW3F_FIND_REQUIRED)
 ENDIF (FFTW3F_FOUND)
 

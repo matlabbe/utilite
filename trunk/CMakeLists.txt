@@ -50,9 +50,9 @@ ENDIF(WIN32)
 
 IF(MINGW)
     # Hide the --enable-auto-import warning
-	SET(CMAKE_EXE_LINKER_FLAGS "-enable-auto-import")  
-	SET(CMAKE_MODULE_LINKER_FLAGS "-enable-auto-import") 
-	SET(CMAKE_SHARED_LINKER_FLAGS "-enable-auto-import") 
+	SET(CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import")  
+	SET(CMAKE_MODULE_LINKER_FLAGS "-Wl,--enable-auto-import") 
+	SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--enable-auto-import") 
 ENDIF(MINGW)
 
 # GCC 4 required

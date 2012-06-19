@@ -1,6 +1,6 @@
 
 #include "utilite/UAudioRecorderFile.h"
-#include "System.h"
+#include "UAudioSystem.h"
 #include <utilite/UFile.h>
 #include <utilite/ULogger.h>
 
@@ -30,17 +30,17 @@ void UAudioRecorderFile::close()
 	FMOD_RESULT result;
 	if(_channel)
 	{
-		result = _channel->stop();
+		result = FMOD_Channel_Stop(_channel);
 		if ((result != FMOD_OK) && (result != FMOD_ERR_INVALID_HANDLE) && (result != FMOD_ERR_CHANNEL_STOLEN))
 		{
-			System::ERRCHECK(result);
+			UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 		}
 		_channel = 0;
 	}
 
 	if(_sound)
 	{
-		result = _sound->release();        System::ERRCHECK(result);
+		result = FMOD_Sound_Release(_sound);        UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 		_sound = 0;
 	}
 }
@@ -64,15 +64,15 @@ bool UAudioRecorderFile::init()
 		{
 			if(_playSoundWhileRecording)
 			{
-				result = System::createStream(_fileName.c_str(), FMOD_SOFTWARE, 0, &_sound);     System::ERRCHECK(result);
+				result = UAudioSystem::createStream(_fileName.c_str(), FMOD_SOFTWARE, 0, &_sound);     UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 			}
 			else
 			{
-				result = System::createStream(_fileName.c_str(), FMOD_OPENONLY | FMOD_CREATESAMPLE | FMOD_ACCURATETIME, 0, &_sound);    System::ERRCHECK(result);
-				_sound->getLength(&_soundLength, FMOD_TIMEUNIT_PCM); // in bytes
+				result = UAudioSystem::createStream(_fileName.c_str(), FMOD_OPENONLY | FMOD_CREATESAMPLE | FMOD_ACCURATETIME, 0, &_sound);    UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+				FMOD_Sound_GetLength(_sound, &_soundLength, FMOD_TIMEUNIT_PCM); // in bytes
 			}
-			_sound->getFormat(0, 0, &channels, &bitsPerSample);
-			_sound->getDefaults(&fs, 0, 0, 0);
+			FMOD_Sound_GetFormat(_sound, 0, 0, &channels, &bitsPerSample);
+			FMOD_Sound_GetDefaults(_sound, &fs, 0, 0, 0);
 			UDEBUG("Using %d bits per sample, %d channels and %f sampling frequency", bitsPerSample, channels, fs);
 			this->setBytesPerSample(bitsPerSample/8);
 			this->setChannels(channels);
@@ -80,9 +80,9 @@ bool UAudioRecorderFile::init()
 
 			if(_playSoundWhileRecording)
 			{
-				result = System::playSound(FMOD_CHANNEL_FREE, _sound, true, &_channel);   System::ERRCHECK(result);
-				System::update();
-				_sound->getLength(&_soundLength, FMOD_TIMEUNIT_PCM); // in bytes
+				result = UAudioSystem::playSound(FMOD_CHANNEL_FREE, _sound, true, &_channel);   UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+				UAudioSystem::update();
+				FMOD_Sound_GetLength(_sound, &_soundLength, FMOD_TIMEUNIT_PCM); // in bytes
 			}
 		}
 		else
@@ -98,8 +98,8 @@ bool UAudioRecorderFile::init()
 
 			buffer = new char[_soundLength*bytesPerSample()*channels];
 
-			result = _sound->seekData(0);        System::ERRCHECK(result);
-			result = _sound->readData(buffer, _soundLength * bytesPerSample() * channels, &read);  System::ERRCHECK(result);
+			result = FMOD_Sound_SeekData(_sound, 0);        UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+			result = FMOD_Sound_ReadData(_sound, buffer, _soundLength * bytesPerSample() * channels, &read);  UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 
 			UDEBUG("_soundLength * bytesPerSample() * channels=%d", _soundLength * bytesPerSample() * channels);
 			if(read)
@@ -121,11 +121,11 @@ void UAudioRecorderFile::mainLoopBegin()
 	if(_channel)
 	{
 		FMOD_RESULT result;
-		result = System::update();         System::ERRCHECK(result);
-		result = _channel->setPaused(false);
+		result = UAudioSystem::update();         UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+		result = FMOD_Channel_SetPaused(_channel, false);
 		if ((result != FMOD_OK) && (result != FMOD_ERR_INVALID_HANDLE) && (result != FMOD_ERR_CHANNEL_STOLEN))
 		{
-			System::ERRCHECK(result);
+			UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 		}
 	}
 
@@ -152,7 +152,7 @@ void UAudioRecorderFile::mainLoop()
 	unsigned int len1, len2;
 	unsigned int recordPos = 0;
 
-	result = _channel->getPosition(&recordPos, FMOD_TIMEUNIT_PCM);
+	result = FMOD_Channel_GetPosition(_channel, &recordPos, FMOD_TIMEUNIT_PCM);
 	if(result != FMOD_OK)
 	{
 		// invalid handle means the channel is stopped
@@ -167,7 +167,7 @@ void UAudioRecorderFile::mainLoop()
 
 		// * exinfo.numchannels * 2 = stereo 16bit.  1 sample = 4 bytes.
 		// Lock the sound to get access to the raw data.
-		_sound->lock(_lastRecordPos * channels() * bytesPerSample(), blockLength * channels() * bytesPerSample(), &ptr1, &ptr2, &len1, &len2);
+		FMOD_Sound_Lock(_sound, _lastRecordPos * channels() * bytesPerSample(), blockLength * channels() * bytesPerSample(), &ptr1, &ptr2, &len1, &len2);
 		{
 			if (ptr1 && len1)
 			{
@@ -182,12 +182,12 @@ void UAudioRecorderFile::mainLoop()
 			}
 		}
 		//Unlock the sound to allow FMOD to use it again.
-		_sound->unlock(ptr1, ptr2, len1, len2);
+		FMOD_Sound_Unlock(_sound, ptr1, ptr2, len1, len2);
 
 		_lastRecordPos = recordPos;
 	}
 
-	System::update();
+	UAudioSystem::update();
 
 	uSleep(10);
 }
@@ -198,11 +198,11 @@ void UAudioRecorderFile::mainLoopEnd()
 	if(_channel)
 	{
 		FMOD_RESULT result;
-		result = System::update();         System::ERRCHECK(result);
-		result = _channel->setPaused(true);
+		result = UAudioSystem::update();         UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+		result = FMOD_Channel_SetPaused(_channel, true);
 		if ((result != FMOD_OK) && (result != FMOD_ERR_INVALID_HANDLE) && (result != FMOD_ERR_CHANNEL_STOLEN))
 		{
-			System::ERRCHECK(result);
+			UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 		}
 	}
 	UAudioRecorder::mainLoopEnd();

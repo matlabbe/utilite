@@ -12,11 +12,8 @@
 #include "utilite/UAudioRecorder.h"
 #include <string>
 
-namespace FMOD
-{
-class Sound;
-class Channel;
-}
+class FMOD_SOUND;
+class FMOD_CHANNEL;
 
 /**
  * This recorder loads frames from an audio file in 
@@ -62,13 +59,13 @@ protected:
 
 private:
     std::string _fileName;
-    FMOD::Sound * _sound;
+    FMOD_SOUND * _sound;
     unsigned int _soundLength;
 
     bool _playSoundWhileRecording;
     unsigned int _dataLength;
 	unsigned int _lastRecordPos;
-	FMOD::Channel * _channel;
+	FMOD_CHANNEL * _channel;
 };
 
 #endif

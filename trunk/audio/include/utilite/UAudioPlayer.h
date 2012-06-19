@@ -11,11 +11,9 @@
 
 #include <string>
 
-namespace FMOD
-{
-class Sound;
-class Channel;
-}
+class FMOD_SOUND;
+class FMOD_CHANNEL;
+
 
 /**
  * A player is used to play a sound. It works 
@@ -49,8 +47,8 @@ public:
 protected:
 
 protected:
-    FMOD::Sound * _sound;
-    FMOD::Channel * _channel;
+    FMOD_SOUND * _sound;
+    FMOD_CHANNEL * _channel;;
     std::string _fileName;
 };
 

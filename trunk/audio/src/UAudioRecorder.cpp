@@ -2,6 +2,7 @@
 Fonction de la classe UAudioRecorder
 *********************************/
 #include "utilite/UAudioRecorder.h"
+#include "UAudioSystem.h"
 #include <utilite/ULogger.h>
 #include <string.h>
 
@@ -18,6 +19,7 @@ UAudioRecorder::UAudioRecorder(int fs,
     _channels(channels),
     _nextFrameToGet(0)
 {
+	UAudioSystem::acquire();
     UDEBUG("");
 }
 
@@ -29,6 +31,7 @@ UAudioRecorder::~UAudioRecorder()
     UDEBUG("");
     this->join(true);
     _getTrameSemaphore.release();
+    UAudioSystem::release();
 }
 
 bool UAudioRecorder::getNextFrame(std::vector<char> & frame, int &frameId)

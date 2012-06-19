@@ -1,6 +1,8 @@
 #include "utilite/UAudioRecorderMic.h"
+#ifdef BUILT_WITH_LAME
 #include "utilite/UMp3Encoder.h"
-#include "System.h"
+#endif
+#include "UAudioSystem.h"
 #include "utilite/UWav.h"
 #include <utilite/UFile.h>
 #include <utilite/ULogger.h>
@@ -62,14 +64,15 @@ void UAudioRecorderMic::close()
 			// Write back the wav header now that we know its length.
 			int channels, bits;
 			float rate;
-			_sound->getFormat(0, 0, &channels, &bits);
-			_sound->getDefaults(&rate, 0, 0, 0);
+			FMOD_Sound_GetFormat(_sound, 0, 0, &channels, &bits);
+			FMOD_Sound_GetDefaults(_sound, &rate, 0, 0, 0);
 			UWav::writeWavHeader(_fp, _dataLength, rate, channels, bits);
 			fclose(_fp);
 			_fp = 0;
 
 			if(_encodeToMp3)
 			{
+#ifdef BUILT_WITH_LAME
 				// Encode to mp3
 				UMp3Encoder mp3Encoder;
 
@@ -83,10 +86,11 @@ void UAudioRecorderMic::close()
 					//Erase the wav file
 					UFile::erase(tempFileName);
 				}
+#endif
 			}
 		}
 		FMOD_RESULT result;
-		result = _sound->release(); System::ERRCHECK(result);
+		result = FMOD_Sound_Release(_sound); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 		_sound = 0;
 	}
 	if(_fp)
@@ -109,17 +113,22 @@ bool UAudioRecorderMic::init()
 			loc = _fileName.find( ".mp3", 0 );
 			if( loc != std::string::npos )
 			{
+#ifdef BUILT_WITH_LAME
 				_encodeToMp3 = true;
+#else
+				_fileName.append(".wav");
+				UERROR("Cannot write to a mp3, saving to a wav instead (%s)", _fileName.c_str());
+#endif
 			}
 			_fp = fopen(_fileName.c_str(), "wb");
 		}
 
 		FMOD_RESULT result;
-		bool isRecording = false;
-		result = System::isRecording(_driver, &isRecording); System::ERRCHECK(result);
+		FMOD_BOOL isRecording = false;
+		result = UAudioSystem::isRecording(_driver, &isRecording); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 		if(isRecording)
 		{
-			result = System::recordStop(_driver); System::ERRCHECK(result);
+			result = UAudioSystem::recordStop(_driver); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 		}
 
 		_dataLength = 0;
@@ -148,17 +157,17 @@ bool UAudioRecorderMic::init()
 		exinfo.defaultfrequency = (int)fs();
 		exinfo.length           = exinfo.defaultfrequency * bytesPerSample() * exinfo.numchannels * 2; // 2 -> pour deux secondes
 
-		result = System::createSound(0, FMOD_2D | FMOD_SOFTWARE | FMOD_OPENUSER, &exinfo, &_sound); System::ERRCHECK(result);
+		result = UAudioSystem::createSound(0, FMOD_2D | FMOD_SOFTWARE | FMOD_OPENUSER, &exinfo, &_sound); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 		if(_fp)
 		{
 			int channels, bits;
 			float rate;
-			_sound->getFormat(0, 0, &channels, &bits);
-			_sound->getDefaults(&rate, 0, 0, 0);
+			FMOD_Sound_GetFormat(_sound, 0, 0, &channels, &bits);
+			FMOD_Sound_GetDefaults(_sound, &rate, 0, 0, 0);
 			UWav::writeWavHeader(_fp, _dataLength, rate, channels, bits);        //    Write out the wav header.  La longueur sera de 0 puisqu'elle est incunnue pour l'instant.
 		}
 
-		result = _sound->getLength(&_soundLength, FMOD_TIMEUNIT_PCM); System::ERRCHECK(result);
+		result = FMOD_Sound_GetLength(_sound, &_soundLength, FMOD_TIMEUNIT_PCM); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 	}
 	return ok;
 }
@@ -172,13 +181,13 @@ std::vector<std::string> UAudioRecorderMic::getRecordDrivers()
     int numdrivers = 0;
     std::vector<std::string> listDrivers;
 
-    result = System::getRecordNumDrivers(&numdrivers); System::ERRCHECK(result);
- 
+    result = UAudioSystem::getRecordNumDrivers(&numdrivers); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+
     for (int count=0; count < numdrivers; count++)
     {
         char name[256] = {0};
 
-        result = System::getRecordDriverInfo(count, name, 256, 0); System::ERRCHECK(result);
+        result = UAudioSystem::getRecordDriverInfo(count, name, 256, 0); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 
         listDrivers.push_back(name);
     }
@@ -191,7 +200,7 @@ void UAudioRecorderMic::mainLoopBegin()
 	if(_sound)
 	{
 		FMOD_RESULT result;
-		result = System::recordStart(_driver, _sound, true); System::ERRCHECK(result);
+		result = UAudioSystem::recordStart(_driver, _sound, true); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 	}
 }
 
@@ -213,8 +222,8 @@ void UAudioRecorderMic::mainLoop()
     unsigned int len1 = 0, len2 = 0;
 
     unsigned int recordPos = 0;
-    
-	result = System::getRecordPosition(_driver, &recordPos); System::ERRCHECK(result);
+
+	result = UAudioSystem::getRecordPosition(_driver, &recordPos); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 	if (recordPos != _lastRecordPos)
 	{
 		blockLength = (int)recordPos - (int)_lastRecordPos;
@@ -225,7 +234,7 @@ void UAudioRecorderMic::mainLoop()
 
 		// * exinfo.numchannels * 2 = stereo 16bit.  1 sample = 4 bytes.
 		// Lock the sound to get access to the raw data.
-		_sound->lock(_lastRecordPos * channels() * bytesPerSample(), blockLength * channels() * bytesPerSample(), &ptr1, &ptr2, &len1, &len2);
+		FMOD_Sound_Lock(_sound, _lastRecordPos * channels() * bytesPerSample(), blockLength * channels() * bytesPerSample(), &ptr1, &ptr2, &len1, &len2);
 		{
 			if (ptr1 && len1)    //    Write it to disk.
 			{
@@ -252,12 +261,12 @@ void UAudioRecorderMic::mainLoop()
 			}
 		}
 		//Unlock the sound to allow FMOD to use it again.
-		_sound->unlock(ptr1, ptr2, len1, len2);
+		FMOD_Sound_Unlock(_sound, ptr1, ptr2, len1, len2);
 
 		_lastRecordPos = recordPos;
 	}
 
-    System::update();
+    UAudioSystem::update();
 
     uSleep(10);
 
@@ -274,12 +283,12 @@ void UAudioRecorderMic::mainLoopEnd()
 {
     UDEBUG("");
     FMOD_RESULT result;
-    bool isRecording;
-    result = System::isRecording(_driver, &isRecording); System::ERRCHECK(result);
+    FMOD_BOOL isRecording;
+    result = UAudioSystem::isRecording(_driver, &isRecording); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 
     if(isRecording)
     {
-        result = System::recordStop(_driver); System::ERRCHECK(result);
+        result = UAudioSystem::recordStop(_driver); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
     }
     UAudioRecorder::mainLoopEnd();
 }
