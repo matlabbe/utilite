@@ -65,7 +65,7 @@ void Tests::testMicRecorder()
     recorder->start();
     std::vector<char> frame;
     int frameId = 0;
-    unsigned int maxFrame = (44100*TEST_LENGTH_SEC)/1024;
+    int maxFrame = (44100*TEST_LENGTH_SEC)/1024;
     while(recorder->getNextFrame(frame, frameId) && frameId < maxFrame)
     { 
     }
