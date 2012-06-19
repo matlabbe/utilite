@@ -117,7 +117,6 @@ SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 #######################
 OPTION(BUILD_QT "Set to ON to build Qt module" OFF)
 OPTION(BUILD_AUDIO "Set to ON to build audio module" OFF)
-OPTION(INSTALL_FMODEX "Set to ON to install fmodex with audio module" OFF)
 OPTION(BUILD_TESTS "Set to ON to build tests" OFF)
 
 #######################
@@ -147,7 +146,7 @@ IF(BUILD_AUDIO)
     FIND_PACKAGE(Lame)
 	IF(NOT Lame_FOUND)
 		MESSAGE(STATUS "Lame is not found, mp3 encoder support for audio lib won't be compiled...")
-	ENDIF(Lame_FOUND)
+	ENDIF(NOT Lame_FOUND)
 	ADD_SUBDIRECTORY( audio )
 ENDIF()
 
