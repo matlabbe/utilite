@@ -163,13 +163,25 @@
   * \section processinfo UProcessInfo
   * This class can be used to get the process memory usage: UProcessInfo::getMemoryUsage().
   *
-  * \section qtWidgets Qt Widgets (libutiliteqt.so)
-  * If Qt is found on the system, UtiLite will build the UtiLite Qt library (libutiliteqt.so, libutiliteqt.dll) with
-  * useful widgets. Use class UPlot to create a plot like MATLAB, and incrementally add
+  * \section qtLib Qt Widgets (libutilite_qt.so : OPTIONAL)
+  * If Qt is found on the system, the UtiLite Qt library (libutilite_qt.so, libutilite_qt.dll) with
+  * useful widgets is built. Use class UPlot to create a plot like MATLAB, and incrementally add
   * new values like a scope. USpectrogram is used to
   * show audio frequency frames.
   * @image html UPlot.gif
   * @image html USpectrogram.png
+  *
+  * \section audioLib Audio stuff (libutilite_audio.so : OPTIONAL)
+  * If FMOD is found on the system, the UtiLite audio
+  * library is built (libutilite_audio.so, libutilite_audio.dll). It is a wrapper
+  * of FMOD methods with a convenient interface to extract audio frames.
+  * - UAudioRecorder,
+  * - UAudioRecorderFile,
+  * - UAudioRecorderMic
+  * - UAudioPlayer,
+  * - UAudioPlayerTone,
+  * - UWav,
+  * - UMp3Encoder (only if Lame is also found on the system).
   */
 
 /*! \page uResourceGeneratorPage uResourceGenerator

@@ -89,7 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <!-- doxytag: class="UThreadNode" -->
 <p><code>#include &lt;<a class="el" href="_u_thread_node_8h_source.html">UThreadNode.h</a>&gt;</code></p>
 
-<p>Inherited by <a class="el" href="class_u_event_dispatcher.html">UEventDispatcher</a>, <a class="el" href="class_u_events_manager.html">UEventsManager</a>, and <a class="el" href="class_u_obj_deletion_thread.html">UObjDeletionThread&lt; T &gt;</a>.</p>
+<p>Inherited by <a class="el" href="class_u_audio_player_tone.html">UAudioPlayerTone</a>, <a class="el" href="class_u_audio_recorder.html">UAudioRecorder</a>, <a class="el" href="class_u_event_dispatcher.html">UEventDispatcher</a>, <a class="el" href="class_u_events_manager.html">UEventsManager</a>, and <a class="el" href="class_u_obj_deletion_thread.html">UObjDeletionThread&lt; T &gt;</a>.</p>
 
 <p><a href="class_u_thread_node-members.html">List of all members.</a></p>
 <table class="memberdecls">
@@ -99,7 +99,7 @@ Public Types</h2></td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#a829bdbf00ee72920c16f3259a4ced47f">UThreadNode</a> (<a class="el" href="class_u_thread_node.html#a2d9385fc6162d6832304c7eb8c8da0c5">Priority</a> priority=kPNormal)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#a628563afed8f9e1b0c346c2baf12f616">~UThreadNode</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#af529f1c40701450d72752341c18e734f">~UThreadNode</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#a6f40dedbbe32ee422e136cbdd207de0b">start</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#a86fed3387bdeedf58184e027cc51fb0d">kill</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#ae32494e0bfbf99d1e5d575123f259fcd">join</a> (bool killFirst=false)</td></tr>
@@ -112,17 +112,17 @@ Public Member Functions</h2></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#acb2a698668412b0fc8e12690de35a576">DEPRECATED</a> (virtual void startInit())</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#ad4f15c17cd466d3e5e5c7a63f61aa6f1">mainLoopBegin</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#a5236528e0d29f7946eccaffeaee86b4c">mainLoopBegin</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop</a> ()=0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#af8cf3b219620c12ce330ba5ddb974e29">DEPRECATED</a> (virtual void killCleanup())</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#afce9c007830fa538e9feeb038964fcc0">mainLoopKill</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#a53f7ddba7a710f1236ef486ad40b3e8e">mainLoopKill</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_thread_node.html#a1664dfca409de05db1ef3327a1cc0871">mainLoopEnd</a> ()</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>The class <a class="el" href="class_u_thread_node.html">UThreadNode</a> is an abstract class for creating thread objects. A <a class="el" href="class_u_thread_node.html">UThreadNode</a> provides methods to create threads as an object-style fashion.</p>
 <p>For most of inherited classes, only <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a> needs to be implemented, then only <a class="el" href="class_u_thread_node.html#a6f40dedbbe32ee422e136cbdd207de0b">start()</a> needs to be called from the outside. The main loop is called until the thread itself calls <a class="el" href="class_u_thread_node.html#a86fed3387bdeedf58184e027cc51fb0d">kill()</a> or another thread calls <a class="el" href="class_u_thread_node.html#a86fed3387bdeedf58184e027cc51fb0d">kill()</a> or <a class="el" href="class_u_thread_node.html#ae32494e0bfbf99d1e5d575123f259fcd">join()</a> (with parameter to true) on this thread. Unlike <a class="el" href="class_u_thread_node.html#a86fed3387bdeedf58184e027cc51fb0d">kill()</a>, <a class="el" href="class_u_thread_node.html#ae32494e0bfbf99d1e5d575123f259fcd">join()</a> is a blocking call: the calling thread will wait until this thread has finished, thus <a class="el" href="class_u_thread_node.html#ae32494e0bfbf99d1e5d575123f259fcd">join()</a> must not be called inside the <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a>.</p>
-<p>If inside the <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a>, at some time, the thread needs to wait on a mutex/semaphore (like for the acquisition of a resource), the function <a class="el" href="class_u_thread_node.html#afce9c007830fa538e9feeb038964fcc0">mainLoopKill()</a> should be implemented to release the mutex/semaphore when the thread is killed, to avoid a deadlock. The function killCleanup() is called after the thread's state is set to kSKilled. After the mutex/semaphore is released in killCleanup(), on wake up, the thread can know if it needs to stop by calling <a class="el" href="class_u_thread_node.html#ad7e86d8de4b266a87871350934e8c0d6">isKilled()</a>.</p>
-<p>To do an initialization process (executed by the worker thread) just one time before entering the <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a>, <a class="el" href="class_u_thread_node.html#ad4f15c17cd466d3e5e5c7a63f61aa6f1">mainLoopBegin()</a> can be implemented.</p>
+<p>If inside the <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a>, at some time, the thread needs to wait on a mutex/semaphore (like for the acquisition of a resource), the function <a class="el" href="class_u_thread_node.html#a53f7ddba7a710f1236ef486ad40b3e8e">mainLoopKill()</a> should be implemented to release the mutex/semaphore when the thread is killed, to avoid a deadlock. The function killCleanup() is called after the thread's state is set to kSKilled. After the mutex/semaphore is released in killCleanup(), on wake up, the thread can know if it needs to stop by calling <a class="el" href="class_u_thread_node.html#ad7e86d8de4b266a87871350934e8c0d6">isKilled()</a>.</p>
+<p>To do an initialization process (executed by the worker thread) just one time before entering the <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a>, <a class="el" href="class_u_thread_node.html#a5236528e0d29f7946eccaffeaee86b4c">mainLoopBegin()</a> can be implemented.</p>
 <p>Example: </p>
 <div class="fragment"><pre class="fragment"><span class="preprocessor"> #include &quot;utilite/UThreadNode.h&quot;</span>
  <span class="keyword">class </span>SimpleThread : <span class="keyword">public</span> <a class="code" href="class_u_thread_node.html">UThreadNode</a>
@@ -156,9 +156,9 @@ Private Member Functions</h2></td></tr>
 <dd>
 <a class="el" href="class_u_thread_node.html#ae32494e0bfbf99d1e5d575123f259fcd">join()</a> </dd>
 <dd>
-<a class="el" href="class_u_thread_node.html#ad4f15c17cd466d3e5e5c7a63f61aa6f1">mainLoopBegin()</a> </dd>
+<a class="el" href="class_u_thread_node.html#a5236528e0d29f7946eccaffeaee86b4c">mainLoopBegin()</a> </dd>
 <dd>
-<a class="el" href="class_u_thread_node.html#afce9c007830fa538e9feeb038964fcc0">mainLoopKill()</a> </dd>
+<a class="el" href="class_u_thread_node.html#a53f7ddba7a710f1236ef486ad40b3e8e">mainLoopKill()</a> </dd>
 <dd>
 <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a> </dd></dl>
 </div><hr/><h2>Member Enumeration Documentation</h2>
@@ -202,12 +202,12 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a628563afed8f9e1b0c346c2baf12f616"></a><!-- doxytag: member="UThreadNode::~UThreadNode" ref="a628563afed8f9e1b0c346c2baf12f616" args="()" -->
+<a class="anchor" id="af529f1c40701450d72752341c18e734f"></a><!-- doxytag: member="UThreadNode::~UThreadNode" ref="af529f1c40701450d72752341c18e734f" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="class_u_thread_node.html#a628563afed8f9e1b0c346c2baf12f616">UThreadNode::~UThreadNode</a> </td>
+          <td class="memname"><a class="el" href="class_u_thread_node.html#af529f1c40701450d72752341c18e734f">UThreadNode::~UThreadNode</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [virtual]</code></td>
@@ -255,7 +255,7 @@ Private Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Virtual method killCleanup(). User can implement this function to add a behavior before the thread is killed. When this function is called, the state of the thread is set to kSKilled. It is useful to wake up a sleeping thread to finish his loop and to avoid a deadlock. </p>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000003">Deprecated:</a></b></dt><dd>implement <a class="el" href="class_u_thread_node.html#afce9c007830fa538e9feeb038964fcc0">mainLoopKill()</a> instead. </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000003">Deprecated:</a></b></dt><dd>implement <a class="el" href="class_u_thread_node.html#a53f7ddba7a710f1236ef486ad40b3e8e">mainLoopKill()</a> instead. </dd></dl>
 
 </div>
 </div>
@@ -383,21 +383,21 @@ Private Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Pure virtual method <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a>. The inner loop of the thread. This method is called repetitively until the thread is killed. Note that if <a class="el" href="class_u_thread_node.html#a86fed3387bdeedf58184e027cc51fb0d">kill()</a> is called in <a class="el" href="class_u_thread_node.html#ad4f15c17cd466d3e5e5c7a63f61aa6f1">mainLoopBegin()</a>, <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a> is not called, terminating immediately the thread.</p>
+<p>Pure virtual method <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a>. The inner loop of the thread. This method is called repetitively until the thread is killed. Note that if <a class="el" href="class_u_thread_node.html#a86fed3387bdeedf58184e027cc51fb0d">kill()</a> is called in <a class="el" href="class_u_thread_node.html#a5236528e0d29f7946eccaffeaee86b4c">mainLoopBegin()</a>, <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a> is not called, terminating immediately the thread.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a> </dd>
 <dd>
 <a class="el" href="class_u_thread_node.html#a86fed3387bdeedf58184e027cc51fb0d">kill()</a> </dd></dl>
 
-<p>Implemented in <a class="el" href="class_u_events_manager.html#a7eec8b7a675e7093064f147a9f62bfb9">UEventsManager</a>, <a class="el" href="class_u_obj_deletion_thread.html#a3ac51af9705971ca8ef68a2662718d5b">UObjDeletionThread&lt; T &gt;</a>, and <a class="el" href="class_u_event_dispatcher.html#ad1aa4dc2ee29a9bfe5ee0422ad1c97f0">UEventDispatcher</a>.</p>
+<p>Implemented in <a class="el" href="class_u_events_manager.html#a76cd8389e7885af6f56fa29a604c6e94">UEventsManager</a>, <a class="el" href="class_u_obj_deletion_thread.html#a3ac51af9705971ca8ef68a2662718d5b">UObjDeletionThread&lt; T &gt;</a>, <a class="el" href="class_u_audio_recorder_mic.html#ac4f58fe3a9ad64a5a17fc2bfa0e87ef6">UAudioRecorderMic</a>, <a class="el" href="class_u_audio_player_tone.html#a96da4675839a43f0facb5cff6ab9f035">UAudioPlayerTone</a>, <a class="el" href="class_u_audio_recorder_file.html#a8b079cccd464a2b2cf8ac136e2e9e6db">UAudioRecorderFile</a>, and <a class="el" href="class_u_event_dispatcher.html#ad1aa4dc2ee29a9bfe5ee0422ad1c97f0">UEventDispatcher</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad4f15c17cd466d3e5e5c7a63f61aa6f1"></a><!-- doxytag: member="UThreadNode::mainLoopBegin" ref="ad4f15c17cd466d3e5e5c7a63f61aa6f1" args="()" -->
+<a class="anchor" id="a5236528e0d29f7946eccaffeaee86b4c"></a><!-- doxytag: member="UThreadNode::mainLoopBegin" ref="a5236528e0d29f7946eccaffeaee86b4c" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="class_u_thread_node.html#ad4f15c17cd466d3e5e5c7a63f61aa6f1">UThreadNode::mainLoopBegin</a> </td>
+          <td class="memname">void <a class="el" href="class_u_thread_node.html#a5236528e0d29f7946eccaffeaee86b4c">UThreadNode::mainLoopBegin</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [private, virtual]</code></td>
@@ -405,7 +405,9 @@ Private Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Virtual method <a class="el" href="class_u_thread_node.html#ad4f15c17cd466d3e5e5c7a63f61aa6f1">mainLoopBegin()</a>. User can implement this function to add a behavior before the main loop is started. It is called once (before entering <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a>). </p>
+<p>Virtual method <a class="el" href="class_u_thread_node.html#a5236528e0d29f7946eccaffeaee86b4c">mainLoopBegin()</a>. User can implement this function to add a behavior before the main loop is started. It is called once (before entering <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a>). </p>
+
+<p>Reimplemented in <a class="el" href="class_u_audio_recorder_mic.html#a6575236842e725106b4d3b229db47ef3">UAudioRecorderMic</a>, <a class="el" href="class_u_audio_player_tone.html#a57f0793d93a092611e0a162f91d1c961">UAudioPlayerTone</a>, and <a class="el" href="class_u_audio_recorder_file.html#ad5bc325cbad0a386eec58648d23872dc">UAudioRecorderFile</a>.</p>
 
 </div>
 </div>
@@ -424,14 +426,16 @@ Private Member Functions</h2></td></tr>
 <div class="memdoc">
 <p>Virtual method <a class="el" href="class_u_thread_node.html#a1664dfca409de05db1ef3327a1cc0871">mainLoopEnd()</a>. User can implement this function to add a behavior after the thread is killed (after exiting the <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop()</a>, work is still done in the thread before exiting). </p>
 
+<p>Reimplemented in <a class="el" href="class_u_audio_recorder.html#a3fcbbd11332d12c69111890591266186">UAudioRecorder</a>, <a class="el" href="class_u_audio_recorder_mic.html#a57fb83a2ccbad06a5fbf78c4b6b3518e">UAudioRecorderMic</a>, and <a class="el" href="class_u_audio_recorder_file.html#a25fea39249b102a9c7a6161439a3c1d6">UAudioRecorderFile</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="afce9c007830fa538e9feeb038964fcc0"></a><!-- doxytag: member="UThreadNode::mainLoopKill" ref="afce9c007830fa538e9feeb038964fcc0" args="()" -->
+<a class="anchor" id="a53f7ddba7a710f1236ef486ad40b3e8e"></a><!-- doxytag: member="UThreadNode::mainLoopKill" ref="a53f7ddba7a710f1236ef486ad40b3e8e" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="class_u_thread_node.html#afce9c007830fa538e9feeb038964fcc0">UThreadNode::mainLoopKill</a> </td>
+          <td class="memname">void <a class="el" href="class_u_thread_node.html#a53f7ddba7a710f1236ef486ad40b3e8e">UThreadNode::mainLoopKill</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [private, virtual]</code></td>
@@ -439,7 +443,9 @@ Private Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Virtual method <a class="el" href="class_u_thread_node.html#afce9c007830fa538e9feeb038964fcc0">mainLoopKill()</a>. User can implement this function to add a behavior before the thread is killed. When this function is called, the state of the thread is set to kSKilled. It is useful to wake up a sleeping thread to finish his loop and to avoid a deadlock. </p>
+<p>Virtual method <a class="el" href="class_u_thread_node.html#a53f7ddba7a710f1236ef486ad40b3e8e">mainLoopKill()</a>. User can implement this function to add a behavior before the thread is killed. When this function is called, the state of the thread is set to kSKilled. It is useful to wake up a sleeping thread to finish his loop and to avoid a deadlock. </p>
+
+<p>Reimplemented in <a class="el" href="class_u_audio_player_tone.html#aef7bfd52c5b19ea4d8be412cb7376b36">UAudioPlayerTone</a>.</p>
 
 </div>
 </div>
@@ -510,8 +516,9 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/utilite/<a class="el" href="_u_thread_node_8h_source.html">UThreadNode.h</a></li>
+<li>src/UThreadNode.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- window showing the filter options -->
@@ -531,7 +538,7 @@ Private Member Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 17:29:26 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 18 2012 21:46:49 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
