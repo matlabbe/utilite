@@ -28,6 +28,6 @@ IF (Fmodex_FOUND)
 ELSE (Fmodex_FOUND)
    # fatal error if Fmod is required but not found
    IF (Fmodex_FIND_REQUIRED)
-      MESSAGE(FATAL_ERROR "Could not find Fmod...")
+      MESSAGE(FATAL_ERROR "Could not find Fmodex... (aka libfmodex)")
    ENDIF (Fmodex_FIND_REQUIRED)
 ENDIF (Fmodex_FOUND)
