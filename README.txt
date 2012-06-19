@@ -1,5 +1,5 @@
 ****************************
-INSTALL
+INSTALL (minimal)
 ****************************
 [Unix]
  > cd build
@@ -14,6 +14,25 @@ INSTALL
  > mingw32-make install
  
 Note : If you do not want to install and just copying the output library, the output destination is in build/bin and build/lib of this project.
+
+****************************
+INSTALL (full, optional libraries)
+****************************
+Requirements:
+- With BUILD_QT=ON, Qt4 must be installed. 
+- With BUILD_AUDIO=ON, FMOD and Lame must be installed. 
+
+[Unix]
+ > cd build
+ > cmake -DBUILD_QT=ON -DBUILD_AUDIO=ON ..
+ > make
+ > sudo make install
+
+[Win32]
+ > cd build
+ > cmake -G "MinGW Makefiles" -DBUILD_QT=ON -DBUILD_AUDIO=ON ..
+ > mingw32-make
+ > mingw32-make install
 
 ****************************
 Developer (Using Eclipse)
