@@ -19,7 +19,7 @@ SET(LIBRARIES
 
 INCLUDE_DIRECTORIES(${INCLUDE_DIRS})
 
-ADD_EXECUTABLE(uspectrogram WIN32 ${SRC_FILES})
+ADD_EXECUTABLE(uspectrogram ${SRC_FILES})
 TARGET_LINK_LIBRARIES(uspectrogram utilite utilite_audio utilite_qt ${LIBRARIES})
 
 INSTALL(TARGETS uspectrogram

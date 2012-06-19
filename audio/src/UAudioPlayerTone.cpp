@@ -45,36 +45,36 @@ int UAudioPlayerTone::init()
     }
 
     FMOD_RESULT result;
-    result = System::update();         System::ERRCHECK(result);
+    result = UAudioSystem::update();         UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 
     if(_channel)
     {
-        result = _channel->stop();
+        result = FMOD_Channel_Stop(_channel);
         if ((result != FMOD_OK) && (result != FMOD_ERR_INVALID_HANDLE) && (result != FMOD_ERR_CHANNEL_STOLEN))
         {
-            System::ERRCHECK(result);
+            UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
         }
     }
 
     if(_dsp)
     {
-        result = _dsp->release();   System::ERRCHECK(result);
+        result = FMOD_DSP_Release(_dsp);   UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
     }
 
     //Create an oscillator DSP units for the tone.
-    result = System::createDSPByType(FMOD_DSP_TYPE_OSCILLATOR, &_dsp);     System::ERRCHECK(result);
+    result = UAudioSystem::createDSPByType(FMOD_DSP_TYPE_OSCILLATOR, &_dsp);     UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 
     // 440.0f = musical note 'A'
-    result = _dsp->setParameter(FMOD_DSP_OSCILLATOR_RATE, _freq);       System::ERRCHECK(result);
+    result = FMOD_DSP_SetParameter(_dsp, FMOD_DSP_OSCILLATOR_RATE, _freq);       UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
     
     // Set paused
-    result = System::playDSP(FMOD_CHANNEL_FREE, _dsp, true, &_channel);   System::ERRCHECK(result);
-    result = _channel->setVolume(_vol);                                 System::ERRCHECK(result);
+    result = UAudioSystem::playDSP(FMOD_CHANNEL_FREE, _dsp, true, &_channel);   UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+    result = FMOD_Channel_SetVolume(_channel, _vol);                                 UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
     // 0 = sinus
-    result = _dsp->setParameter(FMOD_DSP_OSCILLATOR_TYPE, 0);   System::ERRCHECK(result);
+    result = FMOD_DSP_SetParameter(_dsp, FMOD_DSP_OSCILLATOR_TYPE, 0);   UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 
-    _channel->setMute(true);
-    _channel->setPaused(false);
+    FMOD_Channel_SetMute(_channel, true);
+    FMOD_Channel_SetPaused(_channel, false);
 
     return 0;
 }
@@ -114,27 +114,31 @@ void UAudioPlayerTone::mainLoop()
 
     if(_dsp)
     {
-        result = _channel->setMute(false);       System::ERRCHECK(result);
+        result = FMOD_Channel_SetMute(_channel, false);       UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
         uSleep(_toneMs);
-        result = _channel->setMute(true);       System::ERRCHECK(result);
-        uSleep(_tickMs);
+        if(!this->isKilled())
+        {
+			result = FMOD_Channel_SetMute(_channel, true);       UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+			uSleep(_tickMs);
+        }
     }
     else
     {
-        result = System::playSound(FMOD_CHANNEL_REUSE, _sound, false, &_channel);   System::ERRCHECK(result);
+        result = UAudioSystem::playSound(FMOD_CHANNEL_REUSE, _sound, false, &_channel);   UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
         uSleep(_tickMs);
     }
+    UAudioSystem::update();
 }
 
-void UAudioPlayerTone::mainLoopKill()
+void UAudioPlayerTone::mainLoopEnd()
 {
-    // This will stop the channel and the sound
-    UAudioPlayer::stop();
+	// This will stop the channel and the sound
+	UAudioPlayer::stop();
 
-    FMOD_RESULT result;
-    if(_dsp)
-    {
-        result = _dsp->release();        System::ERRCHECK(result);
-        _dsp = 0;
-    }
+	FMOD_RESULT result;
+	if(_dsp)
+	{
+		result = FMOD_DSP_Release(_dsp);        UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+		_dsp = 0;
+	}
 }

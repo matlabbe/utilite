@@ -60,6 +60,7 @@
 #define UFATAL(...)   ULOGGER_FATAL(__VA_ARGS__)
 
 #define UASSERT(condition) if(!(condition)) ULogger::write(ULogger::kFatal, __FILE__, __LINE__, __FUNCTION__, "Condition (%s) not met!", #condition)
+#define UASSERT_MSG(condition, msg_str) if(!(condition)) ULogger::write(ULogger::kFatal, __FILE__, __LINE__, __FUNCTION__, "Condition (%s) not met! [%s]", #condition, msg_str)
 
 /**
  * \def UDEBUG(...)

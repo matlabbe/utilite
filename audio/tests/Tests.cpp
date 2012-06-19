@@ -28,7 +28,7 @@ void Tests::setUp()
 {
     //Logger::setType(Logger::TypeFile, "test.txt", false);
 	ULogger::setType(ULogger::kTypeConsole);
-	ULogger::setLevel(ULogger::kInfo);
+	ULogger::setLevel(ULogger::kDebug);
 }
 
 void Tests::tearDown()
@@ -263,7 +263,7 @@ void Tests::testFilePlayerWav()
     unsigned int soundLength = player->getSoundLengthMs();
     char buf[30] = {0};
     sprintf(buf, "soundLength = %d", soundLength);
-    CPPUNIT_ASSERT_MESSAGE(buf, soundLength == 2020);
+    CPPUNIT_ASSERT_MESSAGE(buf, soundLength >= 2020 && soundLength <= 2040);
 
     player->play();
     /*uSleep(500);

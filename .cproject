@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 4.0.0?>
-
-<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="cdt.managedbuild.config.gnu.macosx.exe.debug.1537207553">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.macosx.exe.debug.1537207553" moduleId="org.eclipse.cdt.core.settings" name="Unix">
@@ -44,58 +42,12 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<folderInfo id="cdt.managedbuild.config.gnu.macosx.exe.debug.1537207553.434677655" name="/" resourcePath="build">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.macosx.exe.debug.1285015389" name="MacOSX GCC" superClass="cdt.managedbuild.toolchain.gnu.macosx.exe.debug" unusedChildren="">
-							<tool id="cdt.managedbuild.tool.macosx.c.linker.macosx.exe.debug.2034446014" name="MacOS X C Linker" superClass="cdt.managedbuild.tool.macosx.c.linker.macosx.exe.debug.425859309"/>
-							<tool id="cdt.managedbuild.tool.macosx.cpp.linker.macosx.exe.debug.1788053958" name="MacOS X C++ Linker" superClass="cdt.managedbuild.tool.macosx.cpp.linker.macosx.exe.debug.87920385"/>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.macosx.exe.debug.218091920" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.macosx.exe.debug.1405058484"/>
-							<tool id="cdt.managedbuild.tool.gnu.archiver.macosx.base.652456381" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.macosx.base.1698524233"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.macosx.exe.debug.1247511339" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.macosx.exe.debug.1566351950"/>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.macosx.exe.debug.319693473" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.macosx.exe.debug.1577879794"/>
-						</toolChain>
-					</folderInfo>
 					<sourceEntries>
 						<entry excluding="build" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
-			<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
-				<buildTargets>
-					<target name="CMake-MinGW-Debug" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-						<buildCommand>cmake</buildCommand>
-						<buildArguments>-E chdir build/ cmake -G "MinGW Makefiles" -D CMAKE_BUILD_TYPE=Debug ../</buildArguments>
-						<buildTarget/>
-						<stopOnError>true</stopOnError>
-						<useDefaultCommand>false</useDefaultCommand>
-						<runAllBuilders>true</runAllBuilders>
-					</target>
-					<target name="CMake-MinGW-Release" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-						<buildCommand>cmake</buildCommand>
-						<buildArguments>-E chdir build/ cmake -G "MinGW Makefiles" -D CMAKE_BUILD_TYPE=Release ../</buildArguments>
-						<buildTarget/>
-						<stopOnError>true</stopOnError>
-						<useDefaultCommand>false</useDefaultCommand>
-						<runAllBuilders>true</runAllBuilders>
-					</target>
-					<target name="CMake-Unix-Debug" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-						<buildCommand>cmake</buildCommand>
-						<buildArguments>-E chdir build/ cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug ../</buildArguments>
-						<buildTarget/>
-						<stopOnError>true</stopOnError>
-						<useDefaultCommand>false</useDefaultCommand>
-						<runAllBuilders>true</runAllBuilders>
-					</target>
-					<target name="CMake-Unix-Release" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-						<buildCommand>cmake</buildCommand>
-						<buildArguments>-E chdir build/ cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release ../</buildArguments>
-						<buildTarget/>
-						<stopOnError>true</stopOnError>
-						<useDefaultCommand>false</useDefaultCommand>
-						<runAllBuilders>true</runAllBuilders>
-					</target>
-				</buildTargets>
-			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 		</cconfiguration>
@@ -143,42 +95,6 @@
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
-			<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
-				<buildTargets>
-					<target name="CMake-MinGW-Debug" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-						<buildCommand>cmake</buildCommand>
-						<buildArguments>-E chdir build/ cmake -G "MinGW Makefiles" -D CMAKE_BUILD_TYPE=Debug ../</buildArguments>
-						<buildTarget/>
-						<stopOnError>true</stopOnError>
-						<useDefaultCommand>false</useDefaultCommand>
-						<runAllBuilders>true</runAllBuilders>
-					</target>
-					<target name="CMake-MinGW-Release" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-						<buildCommand>cmake</buildCommand>
-						<buildArguments>-E chdir build/ cmake -G "MinGW Makefiles" -D CMAKE_BUILD_TYPE=Release ../</buildArguments>
-						<buildTarget/>
-						<stopOnError>true</stopOnError>
-						<useDefaultCommand>false</useDefaultCommand>
-						<runAllBuilders>true</runAllBuilders>
-					</target>
-					<target name="CMake-Unix-Debug" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-						<buildCommand>cmake</buildCommand>
-						<buildArguments>-E chdir build/ cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug ../</buildArguments>
-						<buildTarget/>
-						<stopOnError>true</stopOnError>
-						<useDefaultCommand>false</useDefaultCommand>
-						<runAllBuilders>true</runAllBuilders>
-					</target>
-					<target name="CMake-Unix-Release" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-						<buildCommand>cmake</buildCommand>
-						<buildArguments>-E chdir build/ cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release ../</buildArguments>
-						<buildTarget/>
-						<stopOnError>true</stopOnError>
-						<useDefaultCommand>false</useDefaultCommand>
-						<runAllBuilders>true</runAllBuilders>
-					</target>
-				</buildTargets>
-			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 		</cconfiguration>
@@ -603,5 +519,41 @@
 				</scannerInfoProvider>
 			</profile>
 		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
+		<buildTargets>
+			<target name="CMake-MinGW-Debug" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>cmake</buildCommand>
+				<buildArguments>-E chdir build/ cmake -G "MinGW Makefiles" -D CMAKE_BUILD_TYPE=Debug ../</buildArguments>
+				<buildTarget/>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>false</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+			<target name="CMake-MinGW-Release" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>cmake</buildCommand>
+				<buildArguments>-E chdir build/ cmake -G "MinGW Makefiles" -D CMAKE_BUILD_TYPE=Release ../</buildArguments>
+				<buildTarget/>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>false</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+			<target name="CMake-Unix-Debug" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>cmake</buildCommand>
+				<buildArguments>-E chdir build/ cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug ../</buildArguments>
+				<buildTarget/>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>false</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+			<target name="CMake-Unix-Release" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>cmake</buildCommand>
+				<buildArguments>-E chdir build/ cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release ../</buildArguments>
+				<buildTarget/>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>false</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+		</buildTargets>
 	</storageModule>
 </cproject>

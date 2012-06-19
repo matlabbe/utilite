@@ -13,10 +13,7 @@
 #include <utilite/UThreadNode.h>
 #include <string>
 
-namespace FMOD
-{
-class DSP;
-}
+class FMOD_DSP;
 
 /**
  * This player is used to generate a 
@@ -58,11 +55,11 @@ private:
 
     virtual void mainLoopBegin();
     virtual void mainLoop();
-    virtual void mainLoopKill();
+    virtual void mainLoopEnd();
 
 private:
     float _freq;
-    FMOD::DSP * _dsp;
+    FMOD_DSP * _dsp;
 
     unsigned int _toneMs;
     unsigned int _tickMs;
