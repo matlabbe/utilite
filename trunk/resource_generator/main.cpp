@@ -105,13 +105,12 @@ int main(int argc, char * argv[])
 		}
 	}
 
-	printf("*Output file : %s\n", ((targetDir + "/") + targetFileName).c_str());
-
 	std::fstream outFile;
 	std::fstream inFile;
 	outFile.open(((targetDir + "/") + targetFileName).c_str(), std::fstream::out);
-	inFile.open(filePath.c_str(), std::fstream::in);
+	inFile.open(filePath.c_str(), std::fstream::in | std::fstream::binary);
 
+	printf("Input file \"%s\" size = %ld bytes\n", filePath.c_str(), UFile::length(filePath));
 	if(outFile.is_open() && inFile.is_open())
 	{
 		outFile << "/*This is a generated file...*/\n\n";
@@ -163,4 +162,6 @@ int main(int argc, char * argv[])
 
 	outFile.close();
 	inFile.close();
+
+	printf("Output file \"%s\" size = %ld bytes\n", ((targetDir + "/") + targetFileName).c_str(), UFile::length(((targetDir + "/") + targetFileName).c_str()));
 }
