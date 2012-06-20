@@ -61,15 +61,20 @@ UAudioSystem::~UAudioSystem()
     UDEBUG("");
     // Probleme ici lorsque l'application termine, _fmodSystem->close() plante...
     // Appeler à la place System::release() dans le main
-    FMOD_RESULT result;
     if(_fmodSystem)
     {
-    	UERROR("The audio system should already be released here (using UAudioSystem::release())... may freeze on exit!");
+    	UERROR("The audio system should already be released here (using UAudioSystem::release())...");
+#ifndef WIN32
+    	// Don't even think about closing the system on Windows... always freeze !
+    	// Anyway if AudioSytem is deleted, this means the application has just exited.
+    	// Verify if on UNIX, there is a problem on exit without releasing system before app exit.
+    	FMOD_RESULT result;
     	_fmodSystemMutex.lock();
     	result = FMOD_System_Close(_fmodSystem);        UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
     	result = FMOD_System_Release(_fmodSystem);        UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
         _fmodSystem = 0;
         _fmodSystemMutex.unlock();
+#endif
     }
 }
 

@@ -180,10 +180,6 @@ private:
 
 int main(int argc, char * argv[])
 {
-	if(argc < 2)
-	{
-		showUsage();
-	}
 	ULogger::setType(ULogger::kTypeConsole);
 	//ULogger::setLevel(ULogger::kDebug);
 
@@ -195,83 +191,90 @@ int main(int argc, char * argv[])
 	int micDevice = -1;
 	bool overlap = false;
 
-	for(int i=1; i<argc; ++i)
+	if(argc < 2)
 	{
-		if(i == argc-1)
+		micDevice = 0;
+	}
+	else
+	{
+		for(int i=1; i<argc; ++i)
 		{
-			// The last must be the path
-			path = argv[i];
-			if(!(path.size() == 1 && uIsDigit(path.at(0))) != 0 && !UFile::exists(path.c_str()))
+			if(i == argc-1)
 			{
-				printf("Path not valid : %s\n", path.c_str());
-				showUsage();
-				exit(1);
-			}
-			else if(path.size() == 1 && uIsDigit(path.at(0)))
-			{
-				micDevice = std::atoi(path.c_str());
-			}
-			break;
-		}
-		if(strcmp(argv[i], "-n") == 0)
-		{
-			++i;
-			if(i < argc)
-			{
-				frameLength = atoi(argv[i]);
-				if(frameLength < 0)
+				// The last must be the path
+				path = argv[i];
+				if(!(path.size() == 1 && uIsDigit(path.at(0))) != 0 && !UFile::exists(path.c_str()))
 				{
-					printf("Frame length must be even and positive (%d)\n", frameLength);
+					printf("Path not valid : %s\n", path.c_str());
+					showUsage();
+					exit(1);
+				}
+				else if(path.size() == 1 && uIsDigit(path.at(0)))
+				{
+					micDevice = std::atoi(path.c_str());
+				}
+				break;
+			}
+			if(strcmp(argv[i], "-n") == 0)
+			{
+				++i;
+				if(i < argc)
+				{
+					frameLength = atoi(argv[i]);
+					if(frameLength < 0)
+					{
+						printf("Frame length must be even and positive (%d)\n", frameLength);
+						showUsage();
+					}
+				}
+				else
+				{
 					showUsage();
 				}
+				continue;
 			}
-			else
+			if(strcmp(argv[i], "-fs") == 0)
 			{
-				showUsage();
-			}
-			continue;
-		}
-		if(strcmp(argv[i], "-fs") == 0)
-		{
-			++i;
-			if(i < argc)
-			{
-				fs = atoi(argv[i]);
-				if(fs < 0)
+				++i;
+				if(i < argc)
 				{
-					printf("Sampling frequency must be positive (%d)\n", fs);
+					fs = atoi(argv[i]);
+					if(fs < 0)
+					{
+						printf("Sampling frequency must be positive (%d)\n", fs);
+						showUsage();
+					}
+				}
+				else
+				{
 					showUsage();
 				}
+				continue;
 			}
-			else
+			if(strcmp(argv[i], "-offline") == 0)
 			{
-				showUsage();
+				offline = true;
+				continue;
 			}
-			continue;
-		}
-		if(strcmp(argv[i], "-offline") == 0)
-		{
-			offline = true;
-			continue;
-		}
-		if(strcmp(argv[i], "-debug") == 0)
-		{
-			ULogger::setLevel(ULogger::kDebug);
-			continue;
-		}
-		if(strcmp(argv[i], "-no_win") == 0)
-		{
-			hamming = false;
-			continue;
-		}
-		if(strcmp(argv[i], "-overlap") == 0)
-		{
-			overlap = true;
-			continue;
-		}
+			if(strcmp(argv[i], "-debug") == 0)
+			{
+				ULogger::setLevel(ULogger::kDebug);
+				continue;
+			}
+			if(strcmp(argv[i], "-no_win") == 0)
+			{
+				hamming = false;
+				continue;
+			}
+			if(strcmp(argv[i], "-overlap") == 0)
+			{
+				overlap = true;
+				continue;
+			}
 
-		printf("Unrecognized option : %s\n", argv[i]);
-		showUsage();
+			printf("Unrecognized option : %s\n", argv[i]);
+			showUsage();
+		}
 	}
 
 	QApplication app(argc, argv);

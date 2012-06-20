@@ -133,8 +133,6 @@ ENDIF(UNIX)
 # SOURCES
 #######################
 ADD_SUBDIRECTORY( src )
-ADD_SUBDIRECTORY( resource_generator )
-ADD_SUBDIRECTORY( examples )
 
 IF(BUILD_QT)
     FIND_PACKAGE(Qt4 COMPONENTS QtCore QtGui REQUIRED)
@@ -150,15 +148,6 @@ IF(BUILD_AUDIO)
 	ADD_SUBDIRECTORY( audio )
 ENDIF()
 
-IF(BUILD_AUDIO AND BUILD_QT)
-    FIND_PACKAGE(FFTW3F)
-    IF(FFTW3F_FOUND)
-        ADD_SUBDIRECTORY( spectrogram )
-    ELSE(FFTW3F_FOUND)
-		MESSAGE(STATUS "FFTW3F is not found, uspectrogram app won't be compiled...")
-	ENDIF(FFTW3F_FOUND)
-ENDIF(BUILD_AUDIO AND BUILD_QT)
-
 IF(BUILD_TESTS)
 	FIND_PACKAGE(CppUnit REQUIRED)
 	ADD_SUBDIRECTORY( tests )
@@ -166,6 +155,9 @@ IF(BUILD_TESTS)
 		ADD_SUBDIRECTORY( audio/tests )
 	ENDIF(BUILD_AUDIO)
 ENDIF(BUILD_TESTS)
+
+ADD_SUBDIRECTORY( resource_generator )
+ADD_SUBDIRECTORY( examples )
 
 #######################
 # CPACK (Packaging)
@@ -207,18 +199,7 @@ set(CPACK_SOURCE_IGNORE_FILES
 INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/FindUtiLite.cmake DESTINATION share/${PROJECT_NAME} COMPONENT devel)
 
 IF(WIN32)
-  #include mingw dependencies in the package
-  # A cleaner way could be to use BundleUtilities from cmake but 
-  # it requires "dumpbin" application from Visual Studio.
-  FIND_LIBRARY(MINGW_GCC_RUNTIME_DLL "libgcc_s_dw2-1.dll")
-  FIND_LIBRARY(MINGW_STDC_RUNTIME_DLL "LIBSTDC++-6.dll")
-  IF(MINGW_GCC_RUNTIME_DLL)
-    INSTALL(FILES ${MINGW_GCC_RUNTIME_DLL} DESTINATION bin COMPONENT runtime)
-  ENDIF(MINGW_GCC_RUNTIME_DLL)
-  IF(MINGW_STDC_RUNTIME_DLL)
-    INSTALL(FILES ${MINGW_STDC_RUNTIME_DLL} DESTINATION bin COMPONENT runtime)
-  ENDIF(MINGW_STDC_RUNTIME_DLL)
-
+  # NOTE : Dependencies are installed in ressource-generator directory
   SET(CPACK_GENERATOR "NSIS;ZIP")
   SET(CPACK_SOURCE_GENERATOR "ZIP")
   SET(CPACK_NSIS_PACKAGE_NAME "UtiLite ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
