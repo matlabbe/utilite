@@ -296,7 +296,7 @@ std::string UDirectory::currentDir(bool trailingSeparator)
 		free(buffer);
 		if(trailingSeparator)
 		{
-			dir += "/";
+			dir += separator();
 		}
 	}
 
@@ -336,4 +336,13 @@ std::string UDirectory::homeDir()
 	path = getenv("HOME");
 #endif
 	return path;
+}
+
+std::string UDirectory::separator()
+{
+#ifdef WIN32
+	return "\\";
+#else
+	return "/";
+#endif
 }

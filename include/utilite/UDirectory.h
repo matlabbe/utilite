@@ -75,6 +75,11 @@ public:
 	 */
 	static std::string homeDir();
 
+	/**
+	 * Return \ (Win32) or / (Unix) depending of the platform.
+	 */
+	static std::string separator();
+
 public:
 	/**
 	 * Create a UDirectory object with path initialized to an existing "path" and with filter "extensions".
