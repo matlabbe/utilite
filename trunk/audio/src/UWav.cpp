@@ -81,7 +81,8 @@ UWav::~UWav()
 {
     UDEBUG("");
     // terminate reading the file
-    fclose (_pFile);
+    if(_pFile)
+    	fclose (_pFile);
 }
 
 int UWav::init(const char* fileName)

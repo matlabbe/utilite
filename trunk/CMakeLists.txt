@@ -118,6 +118,7 @@ SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 OPTION(BUILD_QT "Set to ON to build Qt module" OFF)
 OPTION(BUILD_AUDIO "Set to ON to build audio module" OFF)
 OPTION(BUILD_TESTS "Set to ON to build tests" OFF)
+OPTION(BUILD_EXAMPLES "Set to ON to build examples" ON)
 
 #######################
 # DEPENDENCIES
@@ -157,7 +158,10 @@ IF(BUILD_TESTS)
 ENDIF(BUILD_TESTS)
 
 ADD_SUBDIRECTORY( resource_generator )
-ADD_SUBDIRECTORY( examples )
+
+IF(BUILD_EXAMPLES)
+	ADD_SUBDIRECTORY( examples )
+ENDIF(BUILD_EXAMPLES)
 
 #######################
 # CPACK (Packaging)
@@ -246,4 +250,5 @@ MESSAGE(STATUS "  BUILD_SHARED_LIBS = ${BUILD_SHARED_LIBS}")
 MESSAGE(STATUS "  BUILD_QT = ${BUILD_QT}")
 MESSAGE(STATUS "  BUILD_AUDIO = ${BUILD_AUDIO}")
 MESSAGE(STATUS "  BUILD_TESTS = ${BUILD_TESTS}")
+MESSAGE(STATUS "  BUILD_EXAMPLES = ${BUILD_EXAMPLES}")
 MESSAGE(STATUS "--------------------------------------------")
