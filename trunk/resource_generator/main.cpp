@@ -19,6 +19,12 @@
 
 #include "utilite/UtiLite.h"
 
+//HACK for dependencies, see CMakeLists.txt
+#ifdef BUILD_AUDIO
+#include "utilite/UWav.h"
+UWav wav;
+#endif
+
 #include <fstream>
 #include <iostream>
 #include <string.h>

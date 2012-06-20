@@ -50,3 +50,4 @@ INSTALL(DIRECTORY ../include/${PROJECT_NAME}
 		COMPONENT devel
         FILES_MATCHING PATTERN "*.h" PATTERN ".svn" EXCLUDE)
         
+		
