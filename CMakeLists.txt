@@ -38,15 +38,10 @@ ELSE ()
 	ADD_DEFINITIONS("-Wno-unknown-pragmas" -DUTILITE_VERSION="${UTILITE_VERSION}")
 ENDIF()
 
+# It is a bit messed up on Windows between STATIC and SHARED, if we don't want
+# to add UtiLite_DEFINITIONS in FindUtiLite.cmake... to know from 3rd party application if it needs to
+# link dynamically [UTILITE_EXP __declspec( dllimport )] or statically (UTILITE_EXP "nothing").
 OPTION( BUILD_SHARED_LIBS "Set to OFF to build static libraries" ON )
-
-IF(WIN32)
-    IF(BUILD_SHARED_LIBS)   
-	   ADD_DEFINITIONS(-DUTILITE_EXPORTS) 
-	ELSE()
-	   ADD_DEFINITIONS(-DUTILITE_EXPORTS_STATIC)
-	ENDIF()
-ENDIF(WIN32)
 
 IF(MINGW)
     # Hide the --enable-auto-import warning
@@ -246,7 +241,10 @@ MESSAGE(STATUS "--------------------------------------------")
 MESSAGE(STATUS "Info :")
 MESSAGE(STATUS "  CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
 MESSAGE(STATUS "  CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}")
-MESSAGE(STATUS "  BUILD_SHARED_LIBS = ${BUILD_SHARED_LIBS}")
+IF(NOT WIN32)
+	# see comment above for the BUILD_SHARED_LIBS option on Windows
+	MESSAGE(STATUS "  BUILD_SHARED_LIBS = ${BUILD_SHARED_LIBS}")
+ENDIF(NOT WIN32)
 MESSAGE(STATUS "  BUILD_QT = ${BUILD_QT}")
 MESSAGE(STATUS "  BUILD_AUDIO = ${BUILD_AUDIO}")
 MESSAGE(STATUS "  BUILD_TESTS = ${BUILD_TESTS}")
