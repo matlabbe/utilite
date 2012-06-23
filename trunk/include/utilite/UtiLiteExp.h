@@ -23,15 +23,11 @@
 /**
  * Used mainly on Windows for dynamic linked libraries (dll).
  */
-#ifdef WIN32
-  #ifdef UTILITE_EXPORTS
+#if defined(_WIN32)
+  #if defined(utilite_EXPORTS) || defined(utilite_qt_EXPORTS) || defined(utilite_audio_EXPORTS)
     #define UTILITE_EXP   __declspec( dllexport )
   #else
-    #ifdef UTILITE_EXPORTS_STATIC
-    #define UTILITE_EXP
-    #else
-      #define UTILITE_EXP   __declspec( dllimport )
-    #endif
+    #define UTILITE_EXP   __declspec( dllimport )
   #endif
 #else
   #define UTILITE_EXP
