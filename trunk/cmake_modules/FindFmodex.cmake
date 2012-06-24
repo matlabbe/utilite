@@ -7,33 +7,14 @@
 #  Fmodex_LIBRARIES    - The Fmod library to link against.
 #
 # 
-
-SET(Fmodex_ROOT)
-
-# Add ROS Fmodex directory if ROS is installed
-FIND_PROGRAM(ROSPACK_EXEC NAME rospack PATHS)  
-IF(ROSPACK_EXEC)  
-	EXECUTE_PROCESS(COMMAND ${ROSPACK_EXEC} find fmodex 
-			   	    OUTPUT_VARIABLE Fmodex_ROS_PATH
-					OUTPUT_STRIP_TRAILING_WHITESPACE
-					WORKING_DIRECTORY "./"
-	)
-	IF(Fmodex_ROS_PATH)
-	    MESSAGE(STATUS "Found Fmodex ROS pkg : ${Fmodex_ROS_PATH}")
-	    SET(Fmodex_ROOT
-	        ${Fmodex_ROS_PATH}/fmodex
-	        ${Fmodex_ROOT}
-	    )
-	ENDIF(Fmodex_ROS_PATH)
-ENDIF(ROSPACK_EXEC)
-     
-FIND_PATH(Fmodex_INCLUDE_DIRS fmod.h PATHS ${Fmodex_ROOT}/include)
+    
+FIND_PATH(Fmodex_INCLUDE_DIRS fmod.h)
 
 IF(CMAKE_SIZEOF_VOID_P EQUAL 8)
-   FIND_LIBRARY(Fmodex_LIBRARIES NAMES fmodex64 PATHS ${Fmodex_ROOT}/lib)
+   FIND_LIBRARY(Fmodex_LIBRARIES NAMES fmodex64)
 ENDIF(CMAKE_SIZEOF_VOID_P EQUAL 8)
 IF(NOT Fmodex_LIBRARIES)
-   FIND_LIBRARY(Fmodex_LIBRARIES NAMES fmodex PATHS ${Fmodex_ROOT}/lib)
+   FIND_LIBRARY(Fmodex_LIBRARIES NAMES fmodex)
 ENDIF(NOT Fmodex_LIBRARIES)
 
 IF (Fmodex_INCLUDE_DIRS AND Fmodex_LIBRARIES)
