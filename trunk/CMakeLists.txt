@@ -186,7 +186,7 @@ set(CPACK_SOURCE_IGNORE_FILES
   "\\\\.svn/" 
   "${PROJECT_SOURCE_DIR}/build/[a-zA-Z0-9_]+" 
   "~$" 
-  "${PROJECT_SOURCE_DIR}/bin/.*Example"
+  "${PROJECT_SOURCE_DIR}/bin/.*example"
   "${PROJECT_SOURCE_DIR}/bin/.*uresourcegenerator"
   "${PROJECT_SOURCE_DIR}/bin/.*lib${PROJECT_NAME}"
   "${PROJECT_SOURCE_DIR}/bin/.*[tT]est"
