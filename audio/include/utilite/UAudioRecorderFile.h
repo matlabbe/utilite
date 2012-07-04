@@ -48,6 +48,7 @@ public:
     virtual ~UAudioRecorderFile();
 
     const std::string &getFileName() const {return _fileName;}
+    void setPositionMs(unsigned int pos);
 
     virtual bool init();
     virtual void close();
