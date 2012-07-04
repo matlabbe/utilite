@@ -159,6 +159,7 @@ private:
 	QAction * _aOpenNewWindow;
 	QAction * _aLogFrequency;
 	QAction * _aSaveTo;
+	QAction * _aCopyFrame;
 	QAction * _aDBMin;
 	QAction * _aDBGain;
 };

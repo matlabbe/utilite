@@ -30,6 +30,7 @@
 #include <QtGui/QScrollBar>
 #include <QtGui/QApplication>
 #include <QtGui/QInputDialog>
+#include <QtGui/QClipboard>
 #include <QtCore/QDir>
 #include <QtCore/QTimer>
 #include <utilite/ULogger.h>
@@ -126,6 +127,7 @@ void USpectrogram::setupUi()
 	_aLogFrequency->setCheckable(true);
 	_aLogFrequency->setChecked(false);
 	_aSaveTo = _menu->addAction("Save to...");
+	_aCopyFrame = _menu->addAction("Copy frame to clipboard");
 
 	_menu->addSeparator();
 
@@ -461,6 +463,36 @@ void USpectrogram::contextMenuEvent(QContextMenuEvent * event)
 				QPainter painter(&image);
 				_view->scene()->render(&painter);
 				image.save(text);
+			}
+		}
+		else if(a == _aCopyFrame)
+		{
+			QPoint pos = _view->mapFromGlobal(event->globalPos());
+			pos.setX(pos.x()-3);
+			pos.setY(pos.y()-3);
+			QPointF posf = _view->mapToScene(pos);
+			pos.setX(posf.x());
+			pos.setY(posf.y());
+			QList<QVector<float> > * data = &_data;
+			if(_aLogFrequency->isChecked())
+			{
+				data = &_dataLog;
+			}
+			if(data->size() &&
+					pos.x()>=0 && pos.x()<data->front().size() &&
+					pos.y()>=0 && pos.y()<data->size())
+			{
+				QString text;
+				for(int i=0; i<data->at(pos.y()).size(); ++i)
+				{
+					text.append(QString::number(data->at(pos.y()).at(i)));
+					if(i+1<data->at(pos.y()).size())
+					{
+						text.append(' ');
+					}
+				}
+				QClipboard * clipboard = QApplication::clipboard();
+				clipboard->setText(text);
 			}
 		}
 		else if(a == _aSwitchAxes)
