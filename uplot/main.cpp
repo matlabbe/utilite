@@ -21,6 +21,7 @@
 
 #include <QApplication>
 #include <QString>
+#include <QFile>
 
 #include <fstream>
 #include <iostream>
@@ -30,6 +31,7 @@ void showUsage()
 {
 	printf("Usage:\n"
 			"uplot.exe value1 value2 value3... \n"
+			"uplot.exe data.txt \n"
 			"  Example: uplot 1.0 2.4 6.8\n");
 	exit(1);
 }
@@ -41,26 +43,68 @@ int main(int argc, char * argv[])
 		showUsage();
 	}
 
-	std::vector<float> data;
-
-	for(int i=1; i<argc ;++i)
-	{
-		bool ok = false;
-		float value = QString(argv[i]).toFloat(&ok);
-		if(!ok)
-		{
-			printf("\nError parsing value %s to float", argv[i]);
-			return -1;
-		}
-		data.push_back(value);
-	}
-
 	QApplication app(argc, argv);
 	UPlot plot;
-	plot.setGraphicsView(true);
-	plot.showGrid(true);
-	UPlotCurve * curve = plot.addCurve("Data");
-	curve->setData(data);
+
+	bool number = false;
+	QString(argv[1]).toFloat(&number);
+	if(number)
+	{
+		plot.showGrid(true);
+		plot.setGraphicsView(true);
+		std::vector<float> data;
+		for(int i=1; i<argc ;++i)
+		{
+			bool ok = false;
+			float value = QString(argv[i]).toFloat(&ok);
+			if(!ok)
+			{
+				printf("\nError parsing value %s to float", argv[i]);
+				return -1;
+			}
+			data.push_back(value);
+		}
+		UPlotCurve * curve = plot.addCurve("Data");
+		curve->setData(data);
+	}
+	else
+	{
+		///file...
+		QFile file(argv[1]);
+		if(file.open(QIODevice::ReadOnly))
+		{
+			//parse the file
+			QString str(file.readAll());
+			QStringList curves = str.split('\n');
+			for(int j=0; j<curves.size(); ++j)
+			{
+				QStringList values = curves[j].simplified().split(' ');
+				if(values.size() && values[0].trimmed().size())
+				{
+					printf("values=%d\n", values.size());
+					std::vector<float> data;
+					for(int i=0; i<values.size() ;++i)
+					{
+						bool ok = false;
+						float value = values[i].toFloat(&ok);
+						if(!ok)
+						{
+							printf("\nError parsing value \"%s\" to float", argv[i]);
+							return -1;
+						}
+						data.push_back(value);
+					}
+					UPlotCurve * curve = plot.addCurve(QString("Data%1").arg(j));
+					curve->setData(data);
+				}
+			}
+		}
+		else
+		{
+			printf("\n Cannot open file %s", argv[1]);
+		}
+	}
+
 	plot.show();
 	app.exec();
 
