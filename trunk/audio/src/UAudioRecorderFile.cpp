@@ -207,3 +207,42 @@ void UAudioRecorderFile::mainLoopEnd()
 	}
 	UAudioRecorder::mainLoopEnd();
 }
+
+void UAudioRecorderFile::setPositionMs(unsigned int pos)
+{
+    UDEBUG("(%d)", pos);
+    FMOD_RESULT result;
+    result = UAudioSystem::update();         UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+
+    //Pour modifier la position
+    if(_channel)
+    {
+        // Get paused flag
+    	FMOD_BOOL paused;
+        result = FMOD_Channel_GetPaused(_channel, &paused);                    UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+        if(paused)
+        {
+            result = FMOD_Channel_SetPosition(_channel, pos, FMOD_TIMEUNIT_MS);    UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+            result = FMOD_Channel_GetPosition(_channel, &_lastRecordPos, FMOD_TIMEUNIT_PCM); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+        }
+        else
+        {
+            result = FMOD_Channel_SetPaused(_channel, true);                        UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+            result = FMOD_Channel_SetPosition(_channel, pos, FMOD_TIMEUNIT_MS);    UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+            result = FMOD_Channel_GetPosition(_channel, &_lastRecordPos, FMOD_TIMEUNIT_PCM); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+            result = FMOD_Channel_SetPaused(_channel, false);                    UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
+        }
+    }
+    else
+    {
+    	if(this->samples() > this->fs() * int(pos/1000))
+    	{
+			int frameIdEnd = (this->fs() * (pos/1000)) / (this->frameLength()*this->channels());
+			this->removeFrames(0, frameIdEnd);
+    	}
+    	else
+    	{
+    		UWARN("Not enough samples (%d) to set position to %d ms (%d samples)", this->samples(), pos, this->fs() * (pos/1000));
+    	}
+    }
+}
