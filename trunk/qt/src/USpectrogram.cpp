@@ -128,6 +128,7 @@ void USpectrogram::setupUi()
 	_aLogFrequency->setChecked(false);
 	_aSaveTo = _menu->addAction("Save to...");
 	_aCopyFrame = _menu->addAction("Copy frame to clipboard");
+	_aPlotFrame = _menu->addAction("Plot spectrum");
 
 	_menu->addSeparator();
 
@@ -465,7 +466,7 @@ void USpectrogram::contextMenuEvent(QContextMenuEvent * event)
 				image.save(text);
 			}
 		}
-		else if(a == _aCopyFrame)
+		else if(a == _aCopyFrame || a == _aPlotFrame)
 		{
 			QPoint pos = _view->mapFromGlobal(event->globalPos());
 			pos.setX(pos.x()-3);
@@ -482,17 +483,39 @@ void USpectrogram::contextMenuEvent(QContextMenuEvent * event)
 					pos.x()>=0 && pos.x()<data->front().size() &&
 					pos.y()>=0 && pos.y()<data->size())
 			{
-				QString text;
-				for(int i=0; i<data->at(pos.y()).size(); ++i)
+				if(_aPlotFrame)
 				{
-					text.append(QString::number(data->at(pos.y()).at(i)));
-					if(i+1<data->at(pos.y()).size())
+					UPlot * plot = new UPlot();
+					plot->setAttribute(Qt::WA_DeleteOnClose, true);
+					plot->setGraphicsView(true);
+					if(_fs)
 					{
-						text.append(' ');
+						plot->setWindowTitle(QString("Frame %1 (%2 s)")
+									.arg(data->size()-pos.y())
+									.arg(float(data->size()-pos.y()) * float(_data.first().size()) / float(_fs/2), 0 ,'f', 3));
 					}
+					else
+					{
+						plot->setWindowTitle(QString("Frame %1").arg(data->size()-pos.y()));
+					}
+					UPlotCurve * curve = plot->addCurve(QString("%1Spectrum").arg(_aLogFrequency->isChecked()?"Log ":""));
+					curve->setData(data->at(pos.y()));
+					plot->show();
 				}
-				QClipboard * clipboard = QApplication::clipboard();
-				clipboard->setText(text);
+				else // _aCopyFrame
+				{
+					QString text;
+					for(int i=0; i<data->at(pos.y()).size(); ++i)
+					{
+						text.append(QString::number(data->at(pos.y()).at(i)));
+						if(i+1<data->at(pos.y()).size())
+						{
+							text.append(' ');
+						}
+					}
+					QClipboard * clipboard = QApplication::clipboard();
+					clipboard->setText(text);
+				}
 			}
 		}
 		else if(a == _aSwitchAxes)

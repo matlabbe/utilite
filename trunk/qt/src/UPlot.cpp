@@ -888,6 +888,11 @@ void UPlotCurve::setData(const std::vector<float> & x, const std::vector<float> 
 	}
 }
 
+void UPlotCurve::setData(const QVector<float> & y)
+{
+	this->setData(y.toStdVector());
+}
+
 void UPlotCurve::setData(const std::vector<float> & y)
 {
 	//match the size of the current data
