@@ -19,9 +19,9 @@
 
 #include "utilite/UPlot.h"
 
-#include <QApplication>
-#include <QString>
-#include <QFile>
+#include <QtGui/QApplication>
+#include <QtCore/QString>
+#include <QtCore/QFile>
 
 #include <fstream>
 #include <iostream>
