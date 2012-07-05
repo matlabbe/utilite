@@ -160,6 +160,7 @@ private:
 	QAction * _aLogFrequency;
 	QAction * _aSaveTo;
 	QAction * _aCopyFrame;
+	QAction * _aPlotFrame;
 	QAction * _aDBMin;
 	QAction * _aDBGain;
 };

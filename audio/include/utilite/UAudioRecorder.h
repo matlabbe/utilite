@@ -133,6 +133,8 @@ public:
     int bytesPerSample() const {return _bytesPerSample;}
     int channels() const {return _channels;}
 
+    void setFrameLength(int frameLength) {_frameLength = frameLength;}
+
 protected:
     UAudioRecorder(int fs = 44100,
     		 int frameLength = 1024,
@@ -143,7 +145,6 @@ protected:
     void pushBackSamples(void * data, int dataLengthInBytes);
 
     void setFs(int fs) {_fs = fs;}
-    void setFrameLength(int frameLength) {_frameLength = frameLength;}
 	void setBytesPerSample(int bytesPerSample) {_bytesPerSample = bytesPerSample;}
 	void setChannels(int channels) {_channels = channels;}
 
