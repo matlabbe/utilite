@@ -485,7 +485,8 @@ void USpectrogram::contextMenuEvent(QContextMenuEvent * event)
 			{
 				if(_aPlotFrame)
 				{
-					UPlot * plot = new UPlot();
+					UPlot * plot = new UPlot(this);
+					plot->setWindowFlags(Qt::Window);
 					plot->setAttribute(Qt::WA_DeleteOnClose, true);
 					plot->setGraphicsView(true);
 					if(_fs)
