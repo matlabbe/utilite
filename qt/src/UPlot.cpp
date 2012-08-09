@@ -95,7 +95,6 @@ UPlotItem::~UPlotItem()
 void UPlotItem::setData(const QPointF & data)
 {
 	_data = data;
-	_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
 }
 
 void UPlotItem::setNextItem(UPlotItem * nextItem)
@@ -124,6 +123,7 @@ void UPlotItem::setPreviousItem(UPlotItem * previousItem)
 
 void UPlotItem::showDescription(bool shown)
 {
+	_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
 	if(shown)
 	{
 		this->setPen(QPen(Qt::black, 2));
