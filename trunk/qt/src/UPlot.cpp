@@ -341,7 +341,7 @@ void UPlotCurve::updateMinMax()
 		{
 			x = item->data().x();
 			y = item->data().y();
-			if(i==1)
+			if(i==0)
 			{
 				_minMax[0] = x;
 				_minMax[1] = x;
