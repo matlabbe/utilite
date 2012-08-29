@@ -473,11 +473,9 @@ public:
 	 */
 	UPlotCurve * addCurve(const QString & curveName, const QColor & color = QColor());
 	/**
-	 * Add a curve. Ownership is transferred to UPlot.
- 	 * If you add the curve to more than one UPlot, the ownership is transferred
- 	 * to the last UPlot.
+	 * Add a curve. Ownership is transferred to UPlot if ownershipTransferred=true.
 	 */
-	bool addCurve(UPlotCurve * curve);
+	bool addCurve(UPlotCurve * curve, bool ownershipTransferred = true);
 	/**
 	 * Get all curve names.
 	 */
