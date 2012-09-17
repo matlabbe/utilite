@@ -933,6 +933,10 @@ void Tests::testMathFunctions()
 	CPPUNIT_ASSERT(uMean(std::vector<float>()) == 0);
 	CPPUNIT_ASSERT(uMean(vF) == m);
 
+	//inline T uMeanSquaredError(const T * x, unsigned int sizeX, const T * y, unsigned int sizeY)
+	CPPUNIT_ASSERT(uMeanSquaredError(x1, 3, x2, 3) == 26.0f/3.0f);
+	CPPUNIT_ASSERT(uMeanSquaredError(x1, 3, x2, 2) == -1.0f);
+
 	//inline T stdDev(const T * v, unsigned int size)
 	CPPUNIT_ASSERT(uStdDev((float *)0, 0) == 0);
 	CPPUNIT_ASSERT(uStdDev(vF.data(), 0) == 0);
