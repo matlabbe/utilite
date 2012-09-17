@@ -311,6 +311,30 @@ inline T uMean(const std::vector<T> & v)
 }
 
 /**
+ * Compute mean squared error between two arrays: mean((x-y).^2).
+ * @param x the first array
+ * @param sizeX the size of the array x
+ * @param y the second array
+ * @param sizeY the size of the array y (must be same size as x)
+ * @return the mean squared error (return -1 if error cannot be computed)
+ */
+template<class T>
+inline T uMeanSquaredError(const T * x, unsigned int sizeX, const T * y, unsigned int sizeY)
+{
+	T sum = 0;
+	if(x && y && sizeX == sizeY)
+	{
+		for(unsigned int i=0; i<sizeX; ++i)
+		{
+			T diff = x[i]-y[i];
+			sum += diff*diff;
+		}
+		return sum/(T)sizeX;
+	}
+	return (T)-1;
+}
+
+/**
  * Compute the standard deviation of an array.
  * @param v the array
  * @param size the size of the array
