@@ -934,7 +934,7 @@ void Tests::testMathFunctions()
 	CPPUNIT_ASSERT(uMean(vF) == m);
 
 	//inline T uMeanSquaredError(const T * x, unsigned int sizeX, const T * y, unsigned int sizeY)
-	CPPUNIT_ASSERT(uMeanSquaredError(x1, 3, x2, 3) == 26.0f/3.0f);
+	CPPUNIT_ASSERT(uMeanSquaredError(x1, 3, x2, 3) >= 26.0f/3.0f-0.001f && uMeanSquaredError(x1, 3, x2, 3) <= 26.0f/3.0f+0.001f);
 	CPPUNIT_ASSERT(uMeanSquaredError(x1, 3, x2, 2) == -1.0f);
 
 	//inline T stdDev(const T * v, unsigned int size)

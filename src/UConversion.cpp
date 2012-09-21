@@ -281,3 +281,23 @@ std::string uFormat (const char *fmt, ...)
 	va_end(args);
     return buf;
 }
+
+#ifdef WIN32
+// returned whar_t * must be deleted : delete [] wText;
+wchar_t * createWCharFromChar(const char * text)
+{
+	DWORD length = MultiByteToWideChar (CP_ACP, 0, text, -1, NULL, 0);
+	wchar_t * wText = new wchar_t[length];
+	MultiByteToWideChar (CP_ACP, 0, text, -1, wText, length );
+	return wText;
+}
+
+// returned char * must be deleted : delete [] text;
+char * createCharFromWChar(const wchar_t * wText)
+{
+	DWORD length = WideCharToMultiByte (CP_ACP, 0, wText, -1, NULL, 0, NULL, NULL);
+	char * text = new char[length];
+	WideCharToMultiByte (CP_ACP, 0, wText, -1, text, length, NULL, NULL);
+	return text;
+}
+#endif
