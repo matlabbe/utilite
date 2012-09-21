@@ -220,4 +220,18 @@ std::string UTILITE_EXP uFormatv (const char *fmt, va_list ap);
  */
 std::string UTILITE_EXP uFormat (const char *fmt, ...);
 
+#ifdef WIN32
+/**
+ * Convert multi-byte string to unicode (wide-char) string.
+ * Note that returned whar_t * must be deleted : delete [] wText;
+ */
+wchar_t * UTILITE_EXP createWCharFromChar(const char * text);
+
+/**
+ * Convert unicode (wide-char) string to multi-byte string.
+ * Note that returned char * must be deleted : delete [] text;
+ */
+char * UTILITE_EXP createCharFromWChar(const wchar_t * wText);
+#endif
+
 #endif /* UCONVERSION_H */

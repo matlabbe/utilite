@@ -37,6 +37,7 @@ IF(WIN32 AND NOT MINGW)
 ELSE ()
 	ADD_DEFINITIONS("-Wno-unknown-pragmas" -DUTILITE_VERSION="${UTILITE_VERSION}")
 ENDIF()
+#ADD_DEFINITIONS("-DUNICODE") # to test with UNICODE projects
 
 # It is a bit messed up on Windows between STATIC and SHARED, if we don't want
 # to add UtiLite_DEFINITIONS in FindUtiLite.cmake... to know from 3rd party application if it needs to
