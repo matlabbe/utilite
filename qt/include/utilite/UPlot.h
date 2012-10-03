@@ -339,9 +339,10 @@ public:
 	/**
 	 * Constructor.
 	 */
-	UPlotLegendItem(const UPlotCurve * curve, QWidget * parent = 0);
+	UPlotLegendItem(UPlotCurve * curve, QWidget * parent = 0);
 	virtual ~UPlotLegendItem();
 	const UPlotCurve * curve() const {return _curve;}
+	QPixmap createSymbol(const QPen & pen, const QBrush & brush);
 
 signals:
 	void legendItemRemoved(const UPlotCurve *);
@@ -350,12 +351,13 @@ protected:
 	virtual void contextMenuEvent(QContextMenuEvent * event);
 
 private:
-	const UPlotCurve * _curve;
+	UPlotCurve * _curve;
 	QMenu * _menu;
 	QAction * _aChangeText;
 	QAction * _aResetText;
-	QAction * _aRemoveCurve;
+	QAction * _aChangeColor;
 	QAction * _aCopyToClipboard;
+	QAction * _aRemoveCurve;
 };
 
 /**
@@ -374,8 +376,7 @@ public:
 
 	void setFlat(bool on);
 	bool isFlat() const {return _flat;}
-	void addItem(const UPlotCurve * curve);
-	QPixmap createSymbol(const QPen & pen, const QBrush & brush);
+	void addItem(UPlotCurve * curve);
 	bool remove(const UPlotCurve * curve);
 
 public slots:

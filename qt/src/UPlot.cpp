@@ -39,6 +39,7 @@
 #include <QtGui/QClipboard>
 #include <QtGui/QApplication>
 #include <QtGui/QPrinter>
+#include <QtGui/QColorDialog>
 #ifdef QT_SVG_LIB
 #include <QtSvg/QSvgGenerator>
 #endif
@@ -1261,7 +1262,7 @@ void UPlotAxis::paintEvent(QPaintEvent * event)
 
 
 
-UPlotLegendItem::UPlotLegendItem(const UPlotCurve * curve, QWidget * parent) :
+UPlotLegendItem::UPlotLegendItem(UPlotCurve * curve, QWidget * parent) :
 		QPushButton(parent),
 		_curve(curve)
 {
@@ -1269,15 +1270,21 @@ UPlotLegendItem::UPlotLegendItem(const UPlotCurve * curve, QWidget * parent) :
 	nameSpaced.replace('_', ' ');
 	this->setText(nameSpaced);
 
+	this->setIcon(QIcon(this->createSymbol(curve->pen(), curve->brush())));
+	this->setIconSize(QSize(25,20));
+
 	_aChangeText = new QAction(tr("Change text..."), this);
 	_aResetText = new QAction(tr("Reset text..."), this);
-	_aRemoveCurve = new QAction(tr("Remove this curve"), this);
+	_aChangeColor = new QAction(tr("Change color..."), this);
 	_aCopyToClipboard = new QAction(tr("Copy curve data to the clipboard"), this);
+	_aRemoveCurve = new QAction(tr("Remove this curve"), this);
 	_menu = new QMenu(tr("Curve"), this);
 	_menu->addAction(_aChangeText);
 	_menu->addAction(_aResetText);
-	_menu->addAction(_aRemoveCurve);
+	_menu->addAction(_aChangeColor);
 	_menu->addAction(_aCopyToClipboard);
+	_menu->addSeparator();
+	_menu->addAction(_aRemoveCurve);
 }
 
 UPlotLegendItem::~UPlotLegendItem()
@@ -1303,9 +1310,19 @@ void UPlotLegendItem::contextMenuEvent(QContextMenuEvent * event)
 			this->setText(_curve->name());
 		}
 	}
-	else if(action == _aRemoveCurve)
+	else if(action == _aChangeColor)
 	{
-		emit legendItemRemoved(_curve);
+		if(_curve)
+		{
+			QPen pen = _curve->pen();
+			QColor color = QColorDialog::getColor(pen.color(), this);
+			if(color.isValid())
+			{
+				pen.setColor(color);
+				_curve->setPen(pen);
+				this->setIcon(QIcon(this->createSymbol(_curve->pen(), _curve->brush())));
+			}
+		}
 	}
 	else if (action == _aCopyToClipboard)
 	{
@@ -1330,6 +1347,22 @@ void UPlotLegendItem::contextMenuEvent(QContextMenuEvent * event)
 			clipboard->setText((textX+"\n")+textY);
 		}
 	}
+	else if(action == _aRemoveCurve)
+	{
+		emit legendItemRemoved(_curve);
+	}
+}
+
+QPixmap UPlotLegendItem::createSymbol(const QPen & pen, const QBrush & brush)
+{
+	QPixmap pixmap(50, 50);
+	pixmap.fill(Qt::transparent);
+	QPainter painter(&pixmap);
+	QPen p = pen;
+	p.setWidthF(4.0);
+	painter.setPen(p);
+	painter.drawLine(0.0, 25.0, 50.0, 25.0);
+	return pixmap;
 }
 
 
@@ -1377,7 +1410,7 @@ void UPlotLegend::setFlat(bool on)
 	}
 }
 
-void UPlotLegend::addItem(const UPlotCurve * curve)
+void UPlotLegend::addItem(UPlotCurve * curve)
 {
 	if(curve)
 	{
@@ -1386,8 +1419,6 @@ void UPlotLegend::addItem(const UPlotCurve * curve)
 		legendItem->setFlat(_flat);
 		legendItem->setCheckable(true);
 		legendItem->setChecked(false);
-		legendItem->setIcon(QIcon(this->createSymbol(curve->pen(), curve->brush())));
-		legendItem->setIconSize(QSize(25,20));
 		connect(legendItem, SIGNAL(toggled(bool)), this, SLOT(redirectToggled(bool)));
 		connect(legendItem, SIGNAL(legendItemRemoved(const UPlotCurve *)), this, SLOT(removeLegendItem(const UPlotCurve *)));
 
@@ -1400,18 +1431,6 @@ void UPlotLegend::addItem(const UPlotCurve * curve)
 		// add to the legend
 		((QVBoxLayout*)this->layout())->insertLayout(this->layout()->count()-1, hLayout);
 	}
-}
-
-QPixmap UPlotLegend::createSymbol(const QPen & pen, const QBrush & brush)
-{
-	QPixmap pixmap(50, 50);
-	pixmap.fill(Qt::transparent);
-	QPainter painter(&pixmap);
-	QPen p = pen;
-	p.setWidthF(4.0);
-	painter.setPen(p);
-	painter.drawLine(0.0, 25.0, 50.0, 25.0);
-	return pixmap;
 }
 
 bool UPlotLegend::remove(const UPlotCurve * curve)
