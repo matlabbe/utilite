@@ -284,6 +284,14 @@ public:
     static bool isPrintEndLine() {return printEndline_;}
 
     /**
+	 * Print text with color: default true.
+	 * Dark green for Debug, white for Info, yellow for Warning, red for Error and Fatal.
+	 * @param printColored true to print text with color, otherwise set to false.
+	 */
+	static void setPrintColored(bool printColored) {printColored_ = printColored;}
+	static bool isPrintColored() {return printColored_;}
+
+    /**
      * Print where is this message in source code: default true.
 	 * @param printWhere true to print where, otherwise set to false.
 	 */
@@ -477,6 +485,12 @@ private:
      * Default is true.
      */
     static bool printEndline_;
+
+    /*
+	 * If the logger prints text with color.
+	 * Default is true.
+	 */
+    static bool printColored_;
 
     /*
 	 * If the logger prints where the message is logged (fileName::function():line).
