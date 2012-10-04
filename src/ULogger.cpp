@@ -47,6 +47,7 @@ bool ULogger::append_ = true;
 bool ULogger::printTime_ = true;
 bool ULogger::printLevel_ = true;
 bool ULogger::printEndline_ = true;
+bool ULogger::printColored_ = true;
 bool ULogger::printWhere_ = true;
 bool ULogger::printWhereFullPath_ = false;
 bool ULogger::limitWhereLength_ = false;
@@ -209,6 +210,7 @@ void ULogger::reset()
 	printTime_ = true;
 	printLevel_ = true;
 	printEndline_ = true;
+	printColored_ = true;
 	printWhere_ = true;
 	printWhereFullPath_ = false;
 	limitWhereLength_ = false;
@@ -431,7 +433,7 @@ void ULogger::write(ULogger::Level level,
 #ifdef WIN32
 			HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
-			if(type_ == ULogger::kTypeConsole)
+			if(type_ == ULogger::kTypeConsole && printColored_)
 			{
 #ifdef WIN32
 				SetConsoleTextAttribute(H,color);
@@ -461,7 +463,7 @@ void ULogger::write(ULogger::Level level,
 				ULogger::getInstance()->_write(whereStr.c_str(), 0);
 				ULogger::getInstance()->_write(msg, args);
 			}
-			if(type_ == ULogger::kTypeConsole)
+			if(type_ == ULogger::kTypeConsole && printColored_)
 			{
 #ifdef WIN32
 				SetConsoleTextAttribute(H,COLOR_NORMAL);
