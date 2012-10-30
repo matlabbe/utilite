@@ -446,6 +446,48 @@ inline std::vector<T> uNormalize(const std::vector<T> & v)
 }
 
 /**
+ * Find all local maxima.
+ */
+template<class T>
+inline std::list<unsigned int> uLocalMaxima(const T * v, unsigned int size)
+{
+	std::list<unsigned int> maxima;
+	if(size)
+	{
+		for(unsigned int i=0; i<size; ++i)
+		{
+			if(i == 0)
+			{
+				// first item
+				if((i+1 < size && v[i] > v[i+1]) ||
+					i+1 >= size)
+				{
+					maxima.push_back(i);
+				}
+			}
+			else if(i == size - 1)
+			{
+				//last item
+				if((i >= 1 && v[i] > v[i-1]) ||
+					i == 0)
+				{
+					maxima.push_back(i);
+				}
+			}
+			else
+			{
+				//all others, check previous and next
+				if(v[i] > v[i-1] && v[i] > v[i+1])
+				{
+					maxima.push_back(i);
+				}
+			}
+		}
+	}
+	return maxima;
+}
+
+/**
  * Enum of cross matching methods (cross-correlation, cross-covariance) :
  * UXCorrRaw, UXCorrBiased, UXCorrUnbiased, UXCorrCoeff, UXCovRaw, UXCovBiased, UXCovUnbiased, UXCovCoeff.
  */
