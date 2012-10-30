@@ -965,6 +965,20 @@ void Tests::testMathFunctions()
 	vF = uNormalize(vF);
 	float rf = uNorm(vF);
 	CPPUNIT_ASSERT(rf >= 0.99f && rf <= 1.01f);
+
+	//inline std::list<unsigned int> uLocalMaxima(const T * v, unsigned int size)
+	int maximaV1[] = {1, 0, 0, 0, 2, 3, 4, 3, 4, 5, 0, 1};
+	int maximaV2[] = {0, 1, 0, 0, 0, 1, 0};
+	int maximaV3[] = {1, 1, 1};
+	int maximaV4[] = {0, 1};
+	int maximaV5[] = {1};
+	int maximaV6[] = {};
+	CPPUNIT_ASSERT(uLocalMaxima(maximaV1, 12).size() == 4);
+	CPPUNIT_ASSERT(uLocalMaxima(maximaV2, 7).size() == 2);
+	CPPUNIT_ASSERT(uLocalMaxima(maximaV3, 3).size() == 0);
+	CPPUNIT_ASSERT(uLocalMaxima(maximaV4, 2).size() == 1);
+	CPPUNIT_ASSERT(uLocalMaxima(maximaV5, 1).size() == 1);
+	CPPUNIT_ASSERT(uLocalMaxima(maximaV6, 0).size() == 0);
 }
 
 void Tests::testTimer()

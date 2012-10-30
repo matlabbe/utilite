@@ -127,7 +127,7 @@ void USpectrogram::setupUi()
 	_aLogFrequency->setCheckable(true);
 	_aLogFrequency->setChecked(false);
 	_aSaveTo = _menu->addAction("Save to...");
-	_aCopyFrame = _menu->addAction("Copy frame to clipboard");
+	_aCopyFrame = _menu->addAction("Copy spectrum to clipboard");
 	_aPlotFrame = _menu->addAction("Plot spectrum");
 
 	_menu->addSeparator();
@@ -141,7 +141,7 @@ void USpectrogram::setupUi()
 	_aScaledTime = _menu->addAction("Time scaled");
 	_aScaledFreq->setCheckable(true);
 	_aScaledTime->setCheckable(true);
-	this->setScaled(true, true);
+	this->setScaled(true, false);
 	this->setOnlyLastFramesDrawn(true);
 
 	_nbSubOctave = 16;
@@ -483,7 +483,7 @@ void USpectrogram::contextMenuEvent(QContextMenuEvent * event)
 					pos.x()>=0 && pos.x()<data->front().size() &&
 					pos.y()>=0 && pos.y()<data->size())
 			{
-				if(_aPlotFrame)
+				if(a == _aPlotFrame)
 				{
 					UPlot * plot = new UPlot(this);
 					plot->setWindowFlags(Qt::Window);
@@ -500,7 +500,37 @@ void USpectrogram::contextMenuEvent(QContextMenuEvent * event)
 						plot->setWindowTitle(QString("Frame %1").arg(data->size()-pos.y()));
 					}
 					UPlotCurve * curve = plot->addCurve(QString("%1Spectrum").arg(_aLogFrequency->isChecked()?"Log ":""));
+					UPlotCurve * curveDB = plot->addCurve(QString("%1Spectrum (dB)").arg(_aLogFrequency->isChecked()?"Log ":""));
+
 					curve->setData(data->at(pos.y()));
+
+					// transform to dB
+					const QVector<float> & raw = data->at(pos.y());
+					float max = uMax(raw.data(), raw.size());
+					for(int i=0; i<raw.size(); ++i)
+					{
+						float val = 0.0f;
+						if(max)
+						{
+							if(raw[i])
+							{
+								val = 10*std::log(raw[i]/max);// transform to dB
+							}
+							else
+							{
+								val = _dBMin;
+							}
+							if(val < _dBMin)
+							{
+								val = _dBMin;
+							}
+						}
+						else
+						{
+							val = 0.0f;
+						}
+						curveDB->addValue(val);
+					}
 					plot->show();
 				}
 				else // _aCopyFrame
