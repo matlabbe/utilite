@@ -72,12 +72,15 @@ protected:
 	virtual void keyReleaseEvent(QKeyEvent * keyEvent);
 
 	virtual void showDescription(bool shown);
+private:
+	void init(qreal dataX, qreal dataY);
 
 private:
 	QPointF _data;
-	QGraphicsTextItem * _text;
 	UPlotItem * _previousItem;
 	UPlotItem * _nextItem;
+	QGraphicsTextItem * _text;
+	QGraphicsRectItem * _textBackground;
 };
 
 class UPlot;
@@ -242,6 +245,7 @@ private:
 	bool _visible;
 	bool _valuesShown;
 	QVector<float> _minMax; // minX, maxX, minY, maxY
+	QGraphicsRectItem * _rootItem;
 };
 
 

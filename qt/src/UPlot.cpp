@@ -23,6 +23,7 @@
 #include <QtGui/QGraphicsScene>
 #include <QtGui/QGraphicsView>
 #include <QtGui/QGraphicsItem>
+#include <QtGui/QGraphicsRectItem>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QFormLayout>
 #include <QtGui/QResizeEvent>
@@ -50,29 +51,29 @@
 UPlotItem::UPlotItem(qreal dataX, qreal dataY, qreal width) :
 	QGraphicsEllipseItem(0, 0, width, width, 0),
 	_previousItem(0),
-	_nextItem(0)
+	_nextItem(0),
+	_text(0),
+	_textBackground(0)
+{
+	this->init(dataX, dataY);
+}
+
+UPlotItem::UPlotItem(const QPointF & data, qreal width) :
+	QGraphicsEllipseItem(0, 0, width, width, 0),
+	_previousItem(0),
+	_nextItem(0),
+	_text(0),
+	_textBackground(0)
+{
+	this->init(data.x(), data.y());
+}
+
+void UPlotItem::init(qreal dataX, qreal dataY)
 {
 	_data.setX(dataX);
 	_data.setY(dataY);
 	this->setZValue(1);
 	this->setAcceptsHoverEvents(true);
-	_text = new QGraphicsTextItem(this);
-	_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
-	_text->setVisible(false);
-	this->setFlag(QGraphicsItem::ItemIsFocusable, true);
-}
-
-UPlotItem::UPlotItem(const QPointF & data, qreal width) :
-	QGraphicsEllipseItem(0, 0, width, width, 0),
-	_data(data),
-	_previousItem(0),
-	_nextItem(0)
-{
-	this->setZValue(1);
-	this->setAcceptsHoverEvents(true);
-	_text = new QGraphicsTextItem(this);
-	_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
-	_text->setVisible(false);
 	this->setFlag(QGraphicsItem::ItemIsFocusable, true);
 }
 
@@ -90,6 +91,14 @@ UPlotItem::~UPlotItem()
 	else if(_nextItem)
 	{
 		_nextItem->setPreviousItem(0);
+	}
+	if(_textBackground)
+	{
+		delete _textBackground;
+	}
+	if(_text)
+	{
+		delete _text;
 	}
 }
 
@@ -124,15 +133,42 @@ void UPlotItem::setPreviousItem(UPlotItem * previousItem)
 
 void UPlotItem::showDescription(bool shown)
 {
-	_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
-	if(shown)
+	if(this->scene())
 	{
-		this->setPen(QPen(Qt::black, 2));
-		if(this->scene())
+		if(!_textBackground)
 		{
+			_textBackground = new QGraphicsRectItem(0,this->scene());
+			_textBackground->setBrush(QBrush(QColor(255, 255, 255, 200)));
+			_textBackground->setPen(Qt::NoPen);
+			_textBackground->setVisible(false);
+			_textBackground->setZValue(this->zValue()+1);
+		}
+		else if(_textBackground->scene() != this->scene())
+		{
+			this->scene()->addItem(_textBackground);
+		}
+		if(!_text)
+		{
+			_text = new QGraphicsTextItem(0, this->scene());
+			_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
+			_text->setVisible(false);
+			_text->setZValue(_textBackground->zValue()+1);
+		}
+		else if(_text->scene() != this->scene())
+		{
+			this->scene()->addItem(_text);
+		}
+
+		_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
+
+		if(shown)
+		{
+			this->setPen(QPen(Qt::black, 2));
+
 			QRectF rect = this->scene()->sceneRect();
 			QPointF p = this->pos();
 			QRectF br = _text->boundingRect();
+			_textBackground->setRect(QRectF(0,0,br.width(), br.height()));
 
 			// Make sure the text is always in the scene
 			if(p.x() - br.width() < 0)
@@ -157,15 +193,19 @@ void UPlotItem::showDescription(bool shown)
 				p.setY(p.y() - br.height());
 			}
 
-			_text->setPos(this->mapFromScene(p));
-		}
+			_text->setPos(p);
+			_textBackground->setPos(_text->pos());
 
-		_text->setVisible(true);
-	}
-	else
-	{
-		this->setPen(QPen(Qt::black, 1));
-		_text->setVisible(false);
+			_text->setVisible(true);
+			_textBackground->setVisible(true);
+
+		}
+		else
+		{
+			this->setPen(QPen(Qt::black, 1));
+			_text->setVisible(false);
+			_textBackground->setVisible(false);
+		}
 	}
 }
 
