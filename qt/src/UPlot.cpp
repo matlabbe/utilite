@@ -92,14 +92,6 @@ UPlotItem::~UPlotItem()
 	{
 		_nextItem->setPreviousItem(0);
 	}
-	if(_textBackground)
-	{
-		delete _textBackground;
-	}
-	if(_text)
-	{
-		delete _text;
-	}
 }
 
 void UPlotItem::setData(const QPointF & data)
@@ -133,31 +125,29 @@ void UPlotItem::setPreviousItem(UPlotItem * previousItem)
 
 void UPlotItem::showDescription(bool shown)
 {
+	if(_text)
+	{
+		delete _text;
+		_text = 0;
+	}
+	if(_textBackground)
+	{
+		delete _textBackground;
+		_textBackground = 0;
+	}
+
 	if(this->scene())
 	{
-		if(!_textBackground)
-		{
-			_textBackground = new QGraphicsRectItem(0,this->scene());
-			_textBackground->setBrush(QBrush(QColor(255, 255, 255, 200)));
-			_textBackground->setPen(Qt::NoPen);
-			_textBackground->setVisible(false);
-			_textBackground->setZValue(this->zValue()+1);
-		}
-		else if(_textBackground->scene() != this->scene())
-		{
-			this->scene()->addItem(_textBackground);
-		}
-		if(!_text)
-		{
-			_text = new QGraphicsTextItem(0, this->scene());
-			_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
-			_text->setVisible(false);
-			_text->setZValue(_textBackground->zValue()+1);
-		}
-		else if(_text->scene() != this->scene())
-		{
-			this->scene()->addItem(_text);
-		}
+		_textBackground = new QGraphicsRectItem(0,this->scene());
+		_textBackground->setBrush(QBrush(QColor(255, 255, 255, 200)));
+		_textBackground->setPen(Qt::NoPen);
+		_textBackground->setVisible(false);
+		_textBackground->setZValue(this->zValue()+1);
+
+		_text = new QGraphicsTextItem(0, this->scene());
+		_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
+		_text->setVisible(false);
+		_text->setZValue(_textBackground->zValue()+1);
 
 		_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
 
@@ -196,15 +186,10 @@ void UPlotItem::showDescription(bool shown)
 			_text->setPos(p);
 			_textBackground->setPos(_text->pos());
 
-			_text->setVisible(true);
-			_textBackground->setVisible(true);
-
 		}
 		else
 		{
 			this->setPen(QPen(Qt::black, 1));
-			_text->setVisible(false);
-			_textBackground->setVisible(false);
 		}
 	}
 }
