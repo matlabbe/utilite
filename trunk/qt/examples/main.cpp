@@ -1,9 +1,13 @@
 
 #include <QtGui/QApplication>
 #include "MainWindow.h"
+#include <utilite/ULogger.h>
 
 int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
+
+	ULogger::setType(ULogger::kTypeConsole);
+	ULogger::setLevel(ULogger::kDebug);
 
 	//Example 1
 	UPlot plot;

@@ -72,7 +72,6 @@ void UPlotItem::init(qreal dataX, qreal dataY)
 {
 	_data.setX(dataX);
 	_data.setY(dataY);
-	this->setZValue(1);
 	this->setAcceptsHoverEvents(true);
 	this->setFlag(QGraphicsItem::ItemIsFocusable, true);
 }
@@ -125,86 +124,70 @@ void UPlotItem::setPreviousItem(UPlotItem * previousItem)
 
 void UPlotItem::showDescription(bool shown)
 {
-	if(_text)
+	if(!_textBackground)
 	{
-		delete _text;
-		_text = 0;
-	}
-	if(_textBackground)
-	{
-		delete _textBackground;
-		_textBackground = 0;
-	}
-
-	if(this->scene())
-	{
-		_textBackground = new QGraphicsRectItem(0,this->scene());
+		_textBackground = new QGraphicsRectItem(this);
 		_textBackground->setBrush(QBrush(QColor(255, 255, 255, 200)));
 		_textBackground->setPen(Qt::NoPen);
-		_textBackground->setVisible(false);
 		_textBackground->setZValue(this->zValue()+1);
+		_textBackground->setVisible(false);
 
-		_text = new QGraphicsTextItem(0, this->scene());
+		_text = new QGraphicsTextItem(_textBackground);
+	}
+
+	if(this->parentItem() && this->parentItem() != _textBackground->parentItem())
+	{
+		_textBackground->setParentItem(this->parentItem());
+		_textBackground->setZValue(this->zValue()+1);
+	}
+
+	if(this->scene() && shown)
+	{
+		_textBackground->setVisible(true);
 		_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
-		_text->setVisible(false);
-		_text->setZValue(_textBackground->zValue()+1);
 
-		_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
+		this->setPen(QPen(Qt::black, 2));
 
-		if(shown)
+		QRectF rect = this->scene()->sceneRect();
+		QPointF p = this->pos();
+		QRectF br = _text->boundingRect();
+		_textBackground->setRect(QRectF(0,0,br.width(), br.height()));
+
+		// Make sure the text is always in the scene
+		if(p.x() - br.width() < 0)
 		{
-			this->setPen(QPen(Qt::black, 2));
-
-			QRectF rect = this->scene()->sceneRect();
-			QPointF p = this->pos();
-			QRectF br = _text->boundingRect();
-			_textBackground->setRect(QRectF(0,0,br.width(), br.height()));
-
-			// Make sure the text is always in the scene
-			if(p.x() - br.width() < 0)
-			{
-				p.setX(0);
-			}
-			else if(p.x() + br.width() > rect.width())
-			{
-				p.setX(rect.width() - br.width());
-			}
-			else
-			{
-				p.setX(p.x() - br.width());
-			}
-
-			if(p.y() - br.height() < 0)
-			{
-				p.setY(0);
-			}
-			else
-			{
-				p.setY(p.y() - br.height());
-			}
-
-			_text->setPos(p);
-			_textBackground->setPos(_text->pos());
-
+			p.setX(0);
+		}
+		else if(p.x() > rect.width())
+		{
+			p.setX(rect.width() - br.width());
 		}
 		else
 		{
-			this->setPen(QPen(Qt::black, 1));
+			p.setX(p.x() - br.width());
 		}
+
+		if(p.y() - br.height() < 0)
+		{
+			p.setY(0);
+		}
+		else
+		{
+			p.setY(p.y() - br.height());
+		}
+
+		_textBackground->setPos(p);
+	}
+	else
+	{
+		this->setPen(QPen(Qt::black, 1));
+		_textBackground->setVisible(false);
 	}
 }
 
 void UPlotItem::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
 {
-	QGraphicsScene * scene = this->scene();
-	if(scene && scene->focusItem() == 0)
-	{
-		this->showDescription(true);
-	}
-	else
-	{
-		this->setPen(QPen(Qt::black, 2));
-	}
+	this->showDescription(true);
 	QGraphicsEllipseItem::hoverEnterEvent(event);
 }
 
@@ -214,7 +197,7 @@ void UPlotItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
 	{
 		this->showDescription(false);
 	}
-	QGraphicsEllipseItem::hoverEnterEvent(event);
+	QGraphicsEllipseItem::hoverLeaveEvent(event);
 }
 
 void UPlotItem::focusInEvent(QFocusEvent * event)
@@ -274,6 +257,7 @@ UPlotCurve::UPlotCurve(const QString & name, QObject * parent) :
 	_visible(true),
 	_valuesShown(false)
 {
+	_rootItem = new QGraphicsRectItem();
 }
 
 UPlotCurve::UPlotCurve(const QString & name, QVector<UPlotItem *> data, QObject * parent) :
@@ -285,6 +269,7 @@ UPlotCurve::UPlotCurve(const QString & name, QVector<UPlotItem *> data, QObject 
 	_visible(true),
 	_valuesShown(false)
 {
+	_rootItem = new QGraphicsRectItem();
 	this->setData(data);
 }
 
@@ -297,6 +282,7 @@ UPlotCurve::UPlotCurve(const QString & name, const QVector<float> & x, const QVe
 	_visible(true),
 	_valuesShown(false)
 {
+	_rootItem = new QGraphicsRectItem();
 	this->setData(x, y);
 }
 
@@ -310,6 +296,7 @@ UPlotCurve::~UPlotCurve()
 	ULOGGER_DEBUG("%s", this->name().toStdString().c_str());
 #endif
 	this->clear();
+	delete _rootItem;
 }
 
 void UPlotCurve::attach(UPlot * plot)
@@ -323,10 +310,7 @@ void UPlotCurve::attach(UPlot * plot)
 		_plot->removeCurve(this);
 	}
 	_plot = plot;
-	for(int i=0; i<_items.size(); ++i)
-	{
-		_plot->addItem(_items.at(i));
-	}
+	_plot->addItem(_rootItem);
 }
 
 void UPlotCurve::detach(UPlot * plot)
@@ -337,12 +321,9 @@ void UPlotCurve::detach(UPlot * plot)
 	if(plot && _plot == plot)
 	{
 		_plot = 0;
-		for(int i=0; i<_items.size(); ++i)
+		if(_rootItem->scene())
 		{
-			if(_items.at(i)->scene())
-			{
-				_items.at(i)->scene()->removeItem(_items.at(i));
-			}
+			_rootItem->scene()->removeItem(_rootItem);
 		}
 	}
 }
@@ -398,16 +379,10 @@ void UPlotCurve::_addValue(UPlotItem * data)
 		if(_items.size())
 		{
 			data->setPreviousItem((UPlotItem *)_items.last());
-
-			QGraphicsLineItem * line = new QGraphicsLineItem();
+			QGraphicsLineItem * line = new QGraphicsLineItem(_rootItem);
 			line->setPen(_pen);
 			line->setVisible(false);
 			_items.append(line);
-			if(_plot)
-			{
-				_plot->addItem(line);
-			}
-
 			//Update min/max
 			if(x<_minMax[0]) _minMax[0] = x;
 			if(x>_minMax[1]) _minMax[1] = x;
@@ -421,13 +396,10 @@ void UPlotCurve::_addValue(UPlotItem * data)
 			_minMax[2] = y;
 			_minMax[3] = y;
 		}
+		data->setParentItem(_rootItem);
+		data->setZValue(1);
 		_items.append(data);
 		data->setVisible(false);
-		//data->showDescription(_valuesShown);
-		if(_plot)
-		{
-			_plot->addItem(_items.last());
-		}
 	}
 	else
 	{
@@ -660,7 +632,7 @@ void UPlotCurve::clear()
 #if PRINT_DEBUG
 	ULOGGER_DEBUG("%s", this->name().toStdString().c_str());
 #endif
-	qDeleteAll(_items);
+	qDeleteAll(_rootItem->childItems());
 	_items.clear();
 }
 
@@ -1781,6 +1753,9 @@ bool UPlot::addCurve(UPlotCurve * curve, bool ownershipTransferred)
 {
 	if(curve)
 	{
+#if PRINT_DEBUG
+		ULOGGER_DEBUG("Adding curve \"%s\" to plot \"%s\"...", curve->name().toStdString().c_str(), this->title().toStdString().c_str());
+#endif
 		// only last curve can trigger an update, so disable previous connections
 		if(!qobject_cast<UPlotCurveThreshold*>(curve))
 		{
