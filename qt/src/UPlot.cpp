@@ -27,6 +27,7 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QFormLayout>
 #include <QtGui/QResizeEvent>
+#include <QtGui/QMouseEvent>
 #include <QtCore/QTime>
 #include <QtCore/QTimer>
 #include <QtCore/QFileInfo>
@@ -651,7 +652,7 @@ void UPlotCurve::setBrush(const QBrush & brush)
 	ULOGGER_WARN("Not used...");
 }
 
-void UPlotCurve::update(float scaleX, float scaleY, float offsetX, float offsetY, float xDir, float yDir, bool allDataKept)
+void UPlotCurve::update(float scaleX, float scaleY, float offsetX, float offsetY, float xDir, float yDir, int maxItemsKept)
 {
 	//ULOGGER_DEBUG("scaleX=%f, scaleY=%f, offsetX=%f, offsetY=%f, xDir=%d, yDir=%d, _plot->scene()->width()=%f, _plot->scene()->height=%f", scaleX, scaleY, offsetX, offsetY, xDir, yDir,_plot->scene()->width(),_plot->scene()->height());
 	//make sure direction values are 1 or -1
@@ -659,6 +660,7 @@ void UPlotCurve::update(float scaleX, float scaleY, float offsetX, float offsetY
 	yDir<0?yDir=-1:yDir=1;
 
 	bool hide = false;
+	int j=0;
 	for(int i=_items.size()-1; i>=0; --i)
 	{
 		if(i%2 == 0)
@@ -666,9 +668,9 @@ void UPlotCurve::update(float scaleX, float scaleY, float offsetX, float offsetY
 			UPlotItem * item = (UPlotItem *)_items.at(i);
 			if(hide)
 			{
-				if(allDataKept)
+				if(maxItemsKept == 0 || j <= maxItemsKept)
 				{
-					// if not visible, stop looping... all other items are normally already hided
+					// if not visible, stop looping... all other items are normally already hidden
 					if(!item->isVisible())
 					{
 						break;
@@ -691,6 +693,7 @@ void UPlotCurve::update(float scaleX, float scaleY, float offsetX, float offsetY
 				}
 				item->setPos(newPos);
 			}
+			++j;
 		}
 		else
 		{
@@ -726,7 +729,7 @@ void UPlotCurve::update(float scaleX, float scaleY, float offsetX, float offsetY
 
 }
 
-void UPlotCurve::draw(QPainter * painter)
+void UPlotCurve::draw(QPainter * painter, const QRect & limits)
 {
 	if(painter)
 	{
@@ -743,22 +746,54 @@ void UPlotCurve::draw(QPainter * painter)
 			// draw line in first
 			if(i-1>=0)
 			{
-				painter->save();
-				painter->setPen(this->pen());
-				painter->setBrush(this->brush());
 				//lineItem
-				const QGraphicsLineItem * item = (const QGraphicsLineItem *)_items.at(i-1);
-				QLineF line = item->line();
-				int x = (int)line.p1().x();
-				if(x<0)
+				const QGraphicsLineItem * lineItem = (const QGraphicsLineItem *)_items.at(i-1);
+				QLine line = lineItem->line().toLine();
+				if(limits.contains(line.p1()) || limits.contains(line.p2()))
 				{
-					line.setP1(QPoint(0, line.p1().y()));
+					QPointF intersection;
+					QLineF::IntersectType type;
+					type = lineItem->line().intersect(QLineF(limits.topLeft(), limits.bottomLeft()), &intersection);
+					if(type == QLineF::BoundedIntersection)
+					{
+						!limits.contains(line.p1())?line.setP1(intersection.toPoint()):line.setP2(intersection.toPoint());
+					}
+					else
+					{
+						type = lineItem->line().intersect(QLineF(limits.topLeft(), limits.topRight()), &intersection);
+						if(type == QLineF::BoundedIntersection)
+						{
+							!limits.contains(line.p1())?line.setP1(intersection.toPoint()):line.setP2(intersection.toPoint());
+						}
+						else
+						{
+							type = lineItem->line().intersect(QLineF(limits.bottomLeft(), limits.bottomRight()), &intersection);
+							if(type == QLineF::BoundedIntersection)
+							{
+								!limits.contains(line.p1())?line.setP1(intersection.toPoint()):line.setP2(intersection.toPoint());
+							}
+							else
+							{
+								type = lineItem->line().intersect(QLineF(limits.topRight(), limits.bottomRight()), &intersection);
+								if(type == QLineF::BoundedIntersection)
+								{
+									!limits.contains(line.p1())?line.setP1(intersection.toPoint()):line.setP2(intersection.toPoint());
+								}
+							}
+						}
+					}
+					painter->save();
+					painter->setPen(this->pen());
+					painter->setBrush(this->brush());
+					painter->drawLine(line);
+					painter->restore();
 				}
-				painter->drawLine(line);
-				painter->restore();
 			}
 
-			painter->drawEllipse(item->pos()+QPointF(item->rect().width()/2, item->rect().height()/2), (int)item->rect().width()/2, (int)item->rect().height()/2);
+			if(limits.contains(item->pos().toPoint()) && limits.contains((item->pos() + QPointF(item->rect().width(), item->rect().height())).toPoint()))
+			{
+				painter->drawEllipse(item->pos()+QPointF(item->rect().width()/2, item->rect().height()/2), (int)item->rect().width()/2, (int)item->rect().height()/2);
+			}
 		}
 	}
 }
@@ -1011,7 +1046,7 @@ void UPlotCurveThreshold::setOrientation(Qt::Orientation orientation)
 	}
 }
 
-void UPlotCurveThreshold::update(float scaleX, float scaleY, float offsetX, float offsetY, float xDir, float yDir, bool allDataKept)
+void UPlotCurveThreshold::update(float scaleX, float scaleY, float offsetX, float offsetY, float xDir, float yDir, int maxItemsKept)
 {
 	if(_items.size() == 3)
 	{
@@ -1040,7 +1075,7 @@ void UPlotCurveThreshold::update(float scaleX, float scaleY, float offsetX, floa
 	{
 		ULOGGER_ERROR("A threshold must has only 3 items (1 PlotItem + 1 QGraphicsLineItem + 1 PlotItem)");
 	}
-	UPlotCurve::update(scaleX, scaleY, offsetX, offsetY, xDir, yDir, allDataKept);
+	UPlotCurve::update(scaleX, scaleY, offsetX, offsetY, xDir, yDir, maxItemsKept);
 }
 
 
@@ -1579,6 +1614,8 @@ UPlot::UPlot(QWidget *parent) :
 		}
 	}
 
+	_mouseCurrentPos = _mousePressedPos; // for zooming
+
 	_refreshIntervalTime.start();
 	_lowestRefreshRate = 99;
 	_refreshStartTime.start();
@@ -1841,7 +1878,7 @@ void UPlot::replot(QPainter * painter)
 				maxItem = c->itemsSize();
 			}
 		}
-		if(c && (maxItem-1)/2+1 > _maxVisibleItems)
+		if(c && (maxItem-1)/2+1 > _maxVisibleItems && _axisMaximums[0] < c->getItemData((c->itemsSize()-1) -_maxVisibleItems*2).x())
 		{
 			_axisMaximums[0] = c->getItemData((c->itemsSize()-1) -_maxVisibleItems*2).x();
 		}
@@ -1955,10 +1992,10 @@ void UPlot::replot(QPainter * painter)
 						yDir<0?axis[3]+borderVer/scaleY:-(axis[2]-borderVer/scaleY),
 						xDir,
 						yDir,
-						_aKeepAllData->isChecked());
+						_aKeepAllData->isChecked()?0:_maxVisibleItems);
 			if(painter)
 			{
-				(*i)->draw(painter);
+				(*i)->draw(painter, QRect(0,0,_graphicsViewHolder->rect().width(), _graphicsViewHolder->rect().height()));
 			}
 		}
 	}
@@ -2103,6 +2140,39 @@ void UPlot::paintEvent(QPaintEvent * event)
 		painter.restore();
 
 		this->replot(&painter);
+
+		if(_mouseCurrentPos != _mousePressedPos)
+		{
+			painter.save();
+			int left, top, right, bottom;
+			left = _mousePressedPos.x() < _mouseCurrentPos.x() ? _mousePressedPos.x()-_graphicsViewHolder->x():_mouseCurrentPos.x()-_graphicsViewHolder->x();
+			top = _mousePressedPos.y() < _mouseCurrentPos.y() ? _mousePressedPos.y()-1:_mouseCurrentPos.y()-1;
+			right = _mousePressedPos.x() > _mouseCurrentPos.x() ? _mousePressedPos.x()-_graphicsViewHolder->x():_mouseCurrentPos.x()-_graphicsViewHolder->x();
+			bottom = _mousePressedPos.y() > _mouseCurrentPos.y() ? _mousePressedPos.y():_mouseCurrentPos.y();
+			if(left <= 0)
+			{
+				left = 1;
+			}
+			if(right >= _graphicsViewHolder->width())
+			{
+				right = _graphicsViewHolder->width()-1;
+			}
+			if(top <= 0)
+			{
+				top = 1;
+			}
+			if(bottom >= _graphicsViewHolder->height())
+			{
+				bottom = _graphicsViewHolder->height()-1;
+			}
+			painter.setPen(Qt::NoPen);
+			painter.setBrush(QBrush(QColor(0,0,0,100)));
+			painter.drawRect(0, 0, _graphicsViewHolder->width(), top);
+			painter.drawRect(0, top, left, bottom-top);
+			painter.drawRect(right, top, _graphicsViewHolder->width()-right, bottom-top);
+			painter.drawRect(0, bottom, _graphicsViewHolder->width(), _graphicsViewHolder->height()-bottom);
+			painter.restore();
+		}
 	}
 	else
 	{
@@ -2117,6 +2187,108 @@ void UPlot::resizeEvent(QResizeEvent * event)
 		this->replot(0);
 	}
 	QWidget::resizeEvent(event);
+}
+
+void UPlot::mousePressEvent(QMouseEvent * event)
+{
+	_mousePressedPos = event->pos();
+	_mouseCurrentPos = _mousePressedPos;
+	QWidget::mousePressEvent(event);
+}
+
+void UPlot::mouseMoveEvent(QMouseEvent * event)
+{
+	float x,y;
+	if(mousePosToValue(event->pos(), x ,y))
+	{
+		_mouseCurrentPos = event->pos();
+		this->update();
+	}
+	QWidget::mouseMoveEvent(event);
+}
+
+void UPlot::mouseReleaseEvent(QMouseEvent * event)
+{
+	if(_mousePressedPos != _mouseCurrentPos)
+	{
+		int left,top,bottom,right;
+
+		left = _mousePressedPos.x() < _mouseCurrentPos.x() ? _mousePressedPos.x():_mouseCurrentPos.x();
+		top = _mousePressedPos.y() < _mouseCurrentPos.y() ? _mousePressedPos.y():_mouseCurrentPos.y();
+		right = _mousePressedPos.x() > _mouseCurrentPos.x() ? _mousePressedPos.x():_mouseCurrentPos.x();
+		bottom = _mousePressedPos.y() > _mouseCurrentPos.y() ? _mousePressedPos.y():_mouseCurrentPos.y();
+
+		if(right - left > 5 || bottom - top > 5)
+		{
+			float axis[4];
+			if(mousePosToValue(QPoint(left, top), axis[0], axis[3]) && mousePosToValue(QPoint(right, bottom), axis[1], axis[2]))
+			{
+#if PRINT_DEBUG
+				UDEBUG("resize! new axis = [%f, %f, %f, %f]", axis[0], axis[1], axis[2], axis[3]);
+#endif
+				//update axis (only if not fixed)
+				for(int i=0; i<4; ++i)
+				{
+					if((!_fixedAxis[0] && i<2) || (!_fixedAxis[1] && i>=2))
+					{
+						_axisMaximums[i] = axis[i];
+					}
+				}
+				_aGraphicsView->isChecked()?this->replot(0):this->update();
+			}
+		}
+		_mousePressedPos = _mouseCurrentPos;
+	}
+	QWidget::mouseReleaseEvent(event);
+}
+
+void UPlot::mouseDoubleClickEvent(QMouseEvent * event)
+{
+	this->updateAxis();
+	QWidget::mouseDoubleClickEvent(event);
+}
+
+bool UPlot::mousePosToValue(const QPoint & pos, float & x, float & y)
+{
+	int xPos = pos.x() - _graphicsViewHolder->pos().x() - _horizontalAxis->border();
+	int yPos = pos.y() - _graphicsViewHolder->pos().y() - _verticalAxis->border();
+	int maxX = _graphicsViewHolder->width() - _horizontalAxis->border()*2;
+	int maxY = _graphicsViewHolder->height() - _verticalAxis->border()*2;
+	if(maxX == 0 || maxY == 0)
+	{
+		return false;
+	}
+
+	if(xPos < 0)
+	{
+		xPos = 0;
+	}
+	else if(xPos > maxX)
+	{
+		xPos = maxX;
+	}
+
+	if(yPos < 0)
+	{
+		yPos = 0;
+	}
+	else if(yPos > maxY)
+	{
+		yPos = maxY;
+	}
+
+	//UDEBUG("IN");
+	//UDEBUG("x1=%f, x2=%f, y1=%f, y2=%f", _axisMaximums[0], _axisMaximums[1], _axisMaximums[2], _axisMaximums[3]);
+	//UDEBUG("border hor=%f ver=%f", (float)_horizontalAxis->border(), (float)_verticalAxis->border());
+	//UDEBUG("rect = %d,%d %d,%d", _graphicsViewHolder->pos().x(), _graphicsViewHolder->pos().y(), _graphicsViewHolder->width(), _graphicsViewHolder->height());
+	//UDEBUG("%d,%d", event->pos().x(), event->pos().y());
+	//UDEBUG("x/y %d,%d", x, y);
+	//UDEBUG("max %d,%d", maxX, maxY);
+
+	//UDEBUG("map %f,%f", x, y);
+	x = _axisMaximums[0] + float(xPos)*(_axisMaximums[1] - _axisMaximums[0]) / float(maxX);
+	y = _axisMaximums[2] + float(maxY - yPos)*(_axisMaximums[3] - _axisMaximums[2]) / float(maxY);
+	return true;
 }
 
 void UPlot::contextMenuEvent(QContextMenuEvent * event)
@@ -2435,6 +2607,7 @@ void UPlot::setYLabel(const QString & text, Qt::Orientation orientation)
 void UPlot::addItem(QGraphicsItem * item)
 {
 	item->setParentItem(_sceneRoot);
+	item->setZValue(1.0f);
 }
 
 void UPlot::showLegend(bool shown)

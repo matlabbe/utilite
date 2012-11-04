@@ -141,7 +141,7 @@ public:
 	void setData(const QVector<float> & y);
 	void setData(const std::vector<float> & y);
 	void getData(QVector<float> & x, QVector<float> & y) const; // only call in Qt MainThread
-	void draw(QPainter * painter);
+	void draw(QPainter * painter, const QRect & limits);
 
 public slots:
 	/**
@@ -229,7 +229,7 @@ protected:
 	int removeItem(int index);
 	void _addValue(UPlotItem * data);;
 	virtual bool isMinMaxValid() const {return _minMax.size();}
-	virtual void update(float scaleX, float scaleY, float offsetX, float offsetY, float xDir, float yDir, bool allDataKept);
+	virtual void update(float scaleX, float scaleY, float offsetX, float offsetY, float xDir, float yDir, int maxItemsKept);
 	QList<QGraphicsItem *> _items;
 	UPlot * _plot;
 
@@ -275,7 +275,7 @@ public slots:
 
 protected:
 	friend class UPlot;
-	virtual void update(float scaleX, float scaleY, float offsetX, float offsetY, float xDir, float yDir, bool allDataKept);
+	virtual void update(float scaleX, float scaleY, float offsetX, float offsetY, float xDir, float yDir, int maxItemsKept);
 	virtual bool isMinMaxValid() const {return false;}
 
 private:
@@ -533,6 +533,10 @@ protected:
 	virtual void contextMenuEvent(QContextMenuEvent * event);
 	virtual void paintEvent(QPaintEvent * event);
 	virtual void resizeEvent(QResizeEvent * event);
+	virtual void mousePressEvent(QMouseEvent * event);
+	virtual void mouseMoveEvent(QMouseEvent * event);
+	virtual void mouseReleaseEvent(QMouseEvent * event);
+	virtual void mouseDoubleClickEvent(QMouseEvent * event);
 
 private:
 	friend class UPlotCurve;
@@ -546,6 +550,7 @@ private:
 	void createActions();
 	void createMenus();
 	void selectScreenCaptureFormat();
+	bool mousePosToValue(const QPoint & pos, float & x, float & y);
 
 private:
 	UPlotLegend * _legend;
@@ -571,6 +576,8 @@ private:
 	int _lowestRefreshRate;
 	QTime _refreshStartTime;
 	QString _autoScreenCaptureFormat;
+	QPoint _mousePressedPos;
+	QPoint _mouseCurrentPos;
 
 	QMenu * _menu;
 	QAction * _aShowLegend;
