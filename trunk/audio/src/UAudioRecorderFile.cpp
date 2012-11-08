@@ -107,6 +107,11 @@ bool UAudioRecorderFile::init()
 				UDEBUG("read=%d", read);
 				// push back in the frames buffer
 				pushBackSamples(buffer, read);
+				int soundLengthMs = (this->samples())/(this->channels()*this->bytesPerSample()*(this->fs()/1000));
+				int min = (soundLengthMs/1000)/60;
+				int sec = (soundLengthMs/1000) - min*60;
+				int ms = soundLengthMs - sec*1000 - min*60*1000;
+				UDEBUG("sound length = %d bytes / %d:%d.%d", this->samples(), min, sec, ms);
 			}
 
 			delete[] buffer;
@@ -235,14 +240,15 @@ void UAudioRecorderFile::setPositionMs(unsigned int pos)
     }
     else
     {
-    	if(this->samples() > this->fs() * int(pos/1000))
+    	int posInSamples = (this->fs() * int(pos) * this->channels()*this->bytesPerSample()) / 1000;
+    	UDEBUG("posMs=%d posInSamples=%d", pos, posInSamples);
+    	if(this->samples() > posInSamples)
     	{
-			int frameIdEnd = (this->fs() * (pos/1000)) / (this->frameLength()*this->channels());
-			this->removeFrames(0, frameIdEnd);
+			this->removeSamples(0, posInSamples);
     	}
     	else
     	{
-    		UWARN("Not enough samples (%d) to set position to %d ms (%d samples)", this->samples(), pos, this->fs() * (pos/1000));
+    		UWARN("Not enough samples (%d) to set position to %d ms (%d samples)", this->samples(), pos, posInSamples);
     	}
     }
 }

@@ -136,10 +136,6 @@ public:
 	QPointF getItemData(int index);
 	bool isVisible() const {return _visible;}
 	void setData(QVector<UPlotItem*> & data); // take the ownership
-	void setData(const QVector<float> & x, const QVector<float> & y);
-	void setData(const std::vector<float> & x, const std::vector<float> & y);
-	void setData(const QVector<float> & y);
-	void setData(const std::vector<float> & y);
 	void getData(QVector<float> & x, QVector<float> & y) const; // only call in Qt MainThread
 	void draw(QPainter * painter, const QRect & limits);
 
@@ -212,6 +208,11 @@ public slots:
 	 */
 	void addValues(const std::vector<float> & ys); // for convenience
 	void addValues(const std::vector<int> & ys); // for convenience
+
+	void setData(const QVector<float> & x, const QVector<float> & y);
+	void setData(const std::vector<float> & x, const std::vector<float> & y);
+	void setData(const QVector<float> & y);
+	void setData(const std::vector<float> & y);
 
 signals:
 	/**

@@ -514,7 +514,7 @@ void USpectrogram::contextMenuEvent(QContextMenuEvent * event)
 						{
 							if(raw[i])
 							{
-								val = 10*std::log(raw[i]/max);// transform to dB
+								val = 10*std::log10(raw[i]/max);// transform to dB
 							}
 							else
 							{

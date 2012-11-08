@@ -166,6 +166,21 @@ void UAudioRecorder::removeFrames(int frameIdBeg, int frameIdEnd)
     _samplesMutex.unlock();
 }
 
+void UAudioRecorder::removeSamples(int sampleByteBeg, int sampleByteEnd)
+{
+    _samplesMutex.lock();
+    {
+        int posBeg = sampleByteBeg;
+        int posEnd = sampleByteEnd;
+        if(posBeg <= posEnd && posEnd <= (int)_samples.size())
+        {
+            // erase the elements:
+             _samples.erase (_samples.begin() + posBeg, _samples.begin() + posEnd);
+        }
+    }
+    _samplesMutex.unlock();
+}
+
 void UAudioRecorder::mainLoopEnd()
 {
 	_getTrameSemaphore.release();
