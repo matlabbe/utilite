@@ -123,6 +123,14 @@ public:
     void removeFrames(int frameIdBeg,
                       int frameIdEnd);
 
+    /**
+	 * Used to clean the memory.
+	 * @param sampleByteBeg sample byte begin
+	 * @param sampleByteEnd sample byte end
+	 */
+	void removeSamples(int sampleByteBeg,
+					   int sampleByteEnd);
+
     int getNumFrames();
     int getNextFrameToGet();
 

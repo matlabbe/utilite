@@ -877,6 +877,10 @@ void UPlotCurve::setData(const QVector<float> & x, const QVector<float> & y)
 		this->updateMinMax();
 		emit dataChanged(this);
 	}
+	else if(y.size()>0 && x.size()==0)
+	{
+		this->setData(y);
+	}
 	else
 	{
 		ULOGGER_ERROR("Data vectors have not the same size.");
@@ -913,6 +917,10 @@ void UPlotCurve::setData(const std::vector<float> & x, const std::vector<float> 
 		//reset minMax, this will force the plot to update the axes
 		this->updateMinMax();
 		emit dataChanged(this);
+	}
+	else if(y.size()>0 && x.size()==0)
+	{
+		this->setData(y);
 	}
 	else
 	{
