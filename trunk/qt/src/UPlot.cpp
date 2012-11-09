@@ -42,6 +42,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QPrinter>
 #include <QtGui/QColorDialog>
+#include <QtGui/QToolTip>
 #ifdef QT_SVG_LIB
 #include <QtSvg/QSvgGenerator>
 #endif
@@ -1653,6 +1654,7 @@ void UPlot::setupUi()
 	_sceneRoot->translate(0,0);
 	_graphicsViewHolder = new QWidget(this);
 	_graphicsViewHolder->setMinimumSize(100,100);
+	_graphicsViewHolder->setMouseTracking(true);
 	_verticalAxis = new UPlotAxis(Qt::Vertical, 0, 1, this);
 	_horizontalAxis = new UPlotAxis(Qt::Horizontal, 0, 1, this);
 	_title = new QLabel("");
@@ -1702,6 +1704,8 @@ void UPlot::createActions()
 	_aShowGrid->setCheckable(true);
 	_aShowRefreshRate = new QAction(tr("Show refresh rate"), this);
 	_aShowRefreshRate->setCheckable(true);
+	_aMouseTracking = new QAction(tr("Mouse tracking"), this);
+	_aMouseTracking->setCheckable(true);
 	_aGraphicsView = new QAction(tr("Graphics view"), this);
 	_aGraphicsView->setCheckable(true);
 	_aKeepAllData = new QAction(tr("Keep all data"), this);
@@ -1751,6 +1755,7 @@ void UPlot::createMenus()
 	_menu->addAction(_aShowLegend);
 	_menu->addAction(_aShowGrid);
 	_menu->addAction(_aShowRefreshRate);
+	_menu->addAction(_aMouseTracking);
 	_menu->addAction(_aGraphicsView);
 	_menu->addAction(_aKeepAllData);
 	_menu->addSeparator()->setStatusTip(tr("Maximum items shown"));
@@ -2206,11 +2211,37 @@ void UPlot::mousePressEvent(QMouseEvent * event)
 
 void UPlot::mouseMoveEvent(QMouseEvent * event)
 {
-	float x,y;
-	if(mousePosToValue(event->pos(), x ,y))
+	if(!_aGraphicsView->isChecked())
 	{
-		_mouseCurrentPos = event->pos();
-		this->update();
+		if(!(QApplication::mouseButtons() & Qt::LeftButton))
+		{
+			_mousePressedPos = _mouseCurrentPos;
+		}
+		int xPos = event->pos().x() - _graphicsViewHolder->pos().x();
+		int yPos = event->pos().y() - _graphicsViewHolder->pos().y();
+		float x,y;
+		if(mousePosToValue(event->pos(), x ,y))
+		{
+			if(QApplication::mouseButtons() & Qt::LeftButton)
+			{
+				_mouseCurrentPos = event->pos();
+				this->update();
+			}
+
+			if((QApplication::mouseButtons() & Qt::LeftButton) ||
+			   (_aMouseTracking->isChecked() && xPos>=0 && yPos>=0 && xPos<_graphicsViewHolder->width() && yPos<_graphicsViewHolder->height()))
+			{
+				QToolTip::showText(event->globalPos(), QString("%1,%2").arg(x).arg(y));
+			}
+			else
+			{
+				QToolTip::hideText();
+			}
+		}
+		else
+		{
+			QToolTip::hideText();
+		}
 	}
 	QWidget::mouseMoveEvent(event);
 }
@@ -2318,6 +2349,10 @@ void UPlot::contextMenuEvent(QContextMenuEvent * event)
 	else if(action == _aShowRefreshRate)
 	{
 		this->showRefreshRate(_aShowRefreshRate->isChecked());
+	}
+	else if(action == _aMouseTracking)
+	{
+		this->trackMouse(_aMouseTracking->isChecked());
 	}
 	else if(action == _aGraphicsView)
 	{
@@ -2646,11 +2681,18 @@ void UPlot::showRefreshRate(bool shown)
 	}
 }
 
+void UPlot::trackMouse(bool tracking)
+{
+	_aMouseTracking->setChecked(tracking);
+	this->setMouseTracking(tracking);
+}
+
 void UPlot::setGraphicsView(bool on)
 {
 	_aGraphicsView->setChecked(on);
 	_view->setVisible(on);
 	_aGraphicsView->isChecked()?this->replot(0):this->update();
+	_aMouseTracking->setEnabled(!on);
 }
 
 void UPlot::keepAllData(bool kept)
