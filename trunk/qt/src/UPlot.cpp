@@ -1065,16 +1065,16 @@ void UPlotCurveThreshold::update(float scaleX, float scaleY, float offsetX, floa
 			{
 				//(xDir*item->data().x()+offsetX)*scaleX
 				item = (UPlotItem*)_items.at(0);
-				item->setData(QPointF(-offsetX/xDir, item->data().y()));
+				item->setData(QPointF(-(offsetX-item->rect().width()/scaleX)/xDir, item->data().y()));
 				item = (UPlotItem*)_items.at(2);
-				item->setData(QPointF( (_plot->sceneRect().width()/scaleX-offsetX)/xDir, item->data().y()));
+				item->setData(QPointF( (_plot->sceneRect().width()/scaleX-(offsetX+item->rect().width()/scaleX))/xDir, item->data().y()));
 			}
 			else
 			{
 				item = (UPlotItem*)_items.at(0);
-				item->setData(QPointF(item->data().x(), -offsetY/yDir));
+				item->setData(QPointF(item->data().x(), -(offsetY-item->rect().height()/scaleY)/yDir));
 				item = (UPlotItem*)_items.at(2);
-				item->setData(QPointF(item->data().x(), (_plot->sceneRect().height()/scaleY-offsetY)/yDir));
+				item->setData(QPointF(item->data().x(), (_plot->sceneRect().height()/scaleY-(offsetY+item->rect().height()/scaleY))/yDir));
 			}
 			this->updateMinMax();
 		}
