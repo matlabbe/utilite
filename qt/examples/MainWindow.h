@@ -32,6 +32,7 @@ public:
 		plot->setMaxVisibleItems(200);
 		plot->showRefreshRate(true);
 		plot->setXLabel("time (s)");
+		plot->trackMouse(true);
 
 		// Add curves
 		curveSin = new UPlotCurve("sin", this);

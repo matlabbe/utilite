@@ -497,6 +497,7 @@ public:
 	void showLegend(bool shown);
 	void showGrid(bool shown);
 	void showRefreshRate(bool shown);
+	void trackMouse(bool tracking);
 	void keepAllData(bool kept);
 	void showXAxis(bool shown) {_horizontalAxis->setVisible(shown);}
 	void showYAxis(bool shown) {_verticalAxis->setVisible(shown);}
@@ -598,6 +599,7 @@ private:
 	QAction * _aChangeYLabel;
 	QAction * _aYLabelVertical;
 	QAction * _aShowRefreshRate;
+	QAction * _aMouseTracking;
 	QAction * _aSaveFigure;
 	QAction * _aAutoScreenCapture;
 	QAction * _aClearData;
