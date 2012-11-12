@@ -2159,9 +2159,9 @@ void UPlot::paintEvent(QPaintEvent * event)
 			painter.save();
 			int left, top, right, bottom;
 			left = _mousePressedPos.x() < _mouseCurrentPos.x() ? _mousePressedPos.x()-_graphicsViewHolder->x():_mouseCurrentPos.x()-_graphicsViewHolder->x();
-			top = _mousePressedPos.y() < _mouseCurrentPos.y() ? _mousePressedPos.y()-1:_mouseCurrentPos.y()-1;
+			top = _mousePressedPos.y() < _mouseCurrentPos.y() ? _mousePressedPos.y()-1-_graphicsViewHolder->y():_mouseCurrentPos.y()-1-_graphicsViewHolder->y();
 			right = _mousePressedPos.x() > _mouseCurrentPos.x() ? _mousePressedPos.x()-_graphicsViewHolder->x():_mouseCurrentPos.x()-_graphicsViewHolder->x();
-			bottom = _mousePressedPos.y() > _mouseCurrentPos.y() ? _mousePressedPos.y():_mouseCurrentPos.y();
+			bottom = _mousePressedPos.y() > _mouseCurrentPos.y() ? _mousePressedPos.y()-_graphicsViewHolder->y():_mouseCurrentPos.y()-_graphicsViewHolder->y();
 			if(left <= 0)
 			{
 				left = 1;
@@ -2217,8 +2217,7 @@ void UPlot::mouseMoveEvent(QMouseEvent * event)
 		{
 			_mousePressedPos = _mouseCurrentPos;
 		}
-		int xPos = event->pos().x() - _graphicsViewHolder->pos().x();
-		int yPos = event->pos().y() - _graphicsViewHolder->pos().y();
+
 		float x,y;
 		if(mousePosToValue(event->pos(), x ,y))
 		{
@@ -2228,6 +2227,8 @@ void UPlot::mouseMoveEvent(QMouseEvent * event)
 				this->update();
 			}
 
+			int xPos = event->pos().x() - _graphicsViewHolder->pos().x();
+			int yPos = event->pos().y() - _graphicsViewHolder->pos().y();
 			if((QApplication::mouseButtons() & Qt::LeftButton) ||
 			   (_aMouseTracking->isChecked() && xPos>=0 && yPos>=0 && xPos<_graphicsViewHolder->width() && yPos<_graphicsViewHolder->height()))
 			{
