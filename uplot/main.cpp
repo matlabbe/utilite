@@ -58,6 +58,7 @@ int main(int argc, char * argv[])
 
 	QApplication app(argc, argv);
 	UPlot plot;
+	plot.setWindowIcon(QIcon(":Plot48.png"));
 
 	//parse options
 	QString title;

@@ -1,12 +1,19 @@
 
+SET(qrc 
+    ./uplot.qrc
+)
+QT4_ADD_RESOURCES(srcs_qrc ${qrc})
+
 SET(SRC_FILES
     main.cpp
+    ${srcs_qrc}
 )
 
 SET(INCLUDE_DIRS
     ../include
     ../qt/include
 )
+
 
 SET(LIBRARIES utilite utilite_qt ${QT_LIBRARIES})
 
