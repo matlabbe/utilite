@@ -22,6 +22,7 @@
 #include <QtGui/QApplication>
 #include <QtCore/QString>
 #include <QtCore/QFile>
+#include <QtCore/QTimer>
 
 #include <fstream>
 #include <iostream>
@@ -30,9 +31,21 @@
 void showUsage()
 {
 	printf("Usage:\n"
-			"uplot.exe value1 value2 value3... \n"
+			"uplot.exe [options] value1 value2 value3... \n"
 			"uplot.exe data.txt \n"
-			"  Example: uplot 1.0 2.4 6.8\n");
+			"  Example: uplot 1.0 2.4 6.8\n"
+			"Options:\n"
+			"  -t \"My title\"        Plot title\n"
+			"  -x \"My axis name\"    X axis label (overwritten if set in file)\n"
+			"  -y \"My axis name\"    Y axis label\n"
+			"  -w #                   Window width\n"
+			"  -h #                   Window height\n"
+			"File format example (for multiple curves on the same plot):\n"
+			"   -time 1 2 3 4         The \"-\" means x axis, and \"time\" is\n"
+			"                         the axis name\n"
+			"   curve_1 5 23 12 12    Curve with name \"curve 1\" (the underscores\n"
+			"                         are replaced by spaces)\n"
+			"   curve_2 2 8 12 56    Another curve with name \"curve 2\"\n");
 	exit(1);
 }
 
@@ -46,14 +59,114 @@ int main(int argc, char * argv[])
 	QApplication app(argc, argv);
 	UPlot plot;
 
+	//parse options
+	QString title;
+	QString xLabel;
+	QString yLabel;
+	int width=0;
+	int height=0;
+	int currentArg = 1;
+	for(; currentArg<argc; ++currentArg)
+	{
+		if(strcmp(argv[currentArg], "-t") == 0)
+		{
+			++currentArg;
+			if(currentArg < argc)
+			{
+				title = argv[currentArg];
+			}
+			else
+			{
+				showUsage();
+			}
+			continue;
+		}
+		else if(strcmp(argv[currentArg], "-w") == 0)
+		{
+			++currentArg;
+			if(currentArg < argc)
+			{
+				width = std::atof(argv[currentArg]);
+				if(width < 0)
+				{
+					showUsage();
+				}
+			}
+			else
+			{
+				showUsage();
+			}
+			continue;
+		}
+		else if(strcmp(argv[currentArg], "-h") == 0)
+		{
+			++currentArg;
+			if(currentArg < argc)
+			{
+				height = std::atof(argv[currentArg]);
+				if(height < 0)
+				{
+					showUsage();
+				}
+			}
+			else
+			{
+				showUsage();
+			}
+			continue;
+		}
+		if(strcmp(argv[currentArg], "-x") == 0)
+		{
+			++currentArg;
+			if(currentArg < argc)
+			{
+				xLabel = argv[currentArg];
+			}
+			else
+			{
+				showUsage();
+			}
+			continue;
+		}
+		if(strcmp(argv[currentArg], "-y") == 0)
+		{
+			++currentArg;
+			if(currentArg < argc)
+			{
+				yLabel = argv[currentArg];
+			}
+			else
+			{
+				showUsage();
+			}
+			continue;
+		}
+		else
+		{
+			break;
+		}
+	}
+	//parse options end
+	plot.setTitle(title);
+	plot.setXLabel(xLabel);
+	plot.setYLabel(yLabel);
+	if(width)
+	{
+		plot.setGeometry(plot.geometry().x(), plot.geometry().y(), width, plot.geometry().height());
+	}
+	if(height)
+	{
+		plot.setGeometry(plot.geometry().x(), plot.geometry().y(), plot.geometry().width(), height);
+	}
+
 	bool number = false;
-	QString(argv[1]).toFloat(&number);
+	QString(argv[currentArg]).toFloat(&number);
 	if(number)
 	{
 		plot.showGrid(true);
 		plot.setGraphicsView(true);
 		std::vector<float> data;
-		for(int i=1; i<argc ;++i)
+		for(int i=currentArg; i<argc ;++i)
 		{
 			bool ok = false;
 			float value = QString(argv[i]).toFloat(&ok);
@@ -70,34 +183,95 @@ int main(int argc, char * argv[])
 	else
 	{
 		///file...
-		QFile file(argv[1]);
+		QFile file(argv[currentArg]);
 		if(file.open(QIODevice::ReadOnly))
 		{
 			//parse the file
 			QString str(file.readAll());
 			QStringList curves = str.split('\n');
+			std::vector<float> xAxis;
+			QString xAxisName;
+			int curveId = 0;
 			for(int j=0; j<curves.size(); ++j)
 			{
 				QStringList values = curves[j].simplified().split(' ');
 				if(values.size() && values[0].trimmed().size())
 				{
-					printf("values=%d\n", values.size());
 					std::vector<float> data;
+					QString dataName;
+					bool isXAxis = false;
 					for(int i=0; i<values.size() ;++i)
 					{
 						bool ok = false;
 						float value = values[i].toFloat(&ok);
-						if(!ok)
+						if(ok)
 						{
-							printf("\nError parsing value \"%s\" to float", argv[i]);
+							if(!isXAxis)
+							{
+								if(i==0)
+								{
+									++curveId;
+								}
+								data.push_back(value);
+							}
+							else
+							{
+								xAxis.push_back(value);
+							}
+						}
+						else if(i==0)
+						{
+							if(values[i].size() && values[i].at(0) == '-')
+							{
+								isXAxis = true;
+								xAxis.clear();
+								xAxisName.clear();
+								if(values[i].size() > 1)
+								{
+									values[i].remove(0,1);
+									values[i].replace('_', ' ');
+									xAxisName = values[i];
+								}
+							}
+							else if(values[i].size())
+							{
+								++curveId;
+								values[i].replace('_', ' ');
+								dataName = values[i];
+							}
+						}
+						else
+						{
+							printf("Error parsing value %s\n", values[i].toStdString().c_str());
 							return -1;
 						}
-						data.push_back(value);
+
 					}
-					UPlotCurve * curve = plot.addCurve(QString("Data%1").arg(j));
-					curve->setData(data);
+					if(!isXAxis)
+					{
+						UPlotCurve * curve = plot.addCurve(QString("%1").arg(dataName.size()?dataName:QString("Data%1").arg(curveId)));
+						printf("Adding curve \"%s\"\n", plot.curveNames().last().toStdString().c_str());
+						if(xAxis.size() && xAxis.size() == data.size())
+						{
+							curve->setData(xAxis, data);
+						}
+						else if(xAxis.size() == 0)
+						{
+							curve->setData(data);
+						}
+						else
+						{
+							printf("Error: x axis and curve (%d) length is not the same!\n", j);
+							return -1;
+						}
+					}
+					else
+					{
+						printf("X axis set: \"%s\"\n", xAxisName.toStdString().c_str());
+					}
 				}
 			}
+			plot.setXLabel(xAxisName);
 		}
 		else
 		{
@@ -106,6 +280,8 @@ int main(int argc, char * argv[])
 	}
 
 	plot.show();
+	QTimer::singleShot(10, &plot, SLOT(updateAxis()));
+
 	app.exec();
 
 	return 0;
