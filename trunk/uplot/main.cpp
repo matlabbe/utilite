@@ -36,7 +36,7 @@ void showUsage()
 			"  Example: uplot 1.0 2.4 6.8\n"
 			"Options:\n"
 			"  -t \"My title\"        Plot title\n"
-			"  -x \"My axis name\"    X axis label (overwritten if set in file)\n"
+			"  -x \"My axis name\"    X axis label\n"
 			"  -y \"My axis name\"    Y axis label\n"
 			"  -w #                   Window width\n"
 			"  -h #                   Window height\n"
@@ -271,7 +271,14 @@ int main(int argc, char * argv[])
 					}
 				}
 			}
-			plot.setXLabel(xAxisName);
+			if(xLabel.isEmpty())
+			{
+				plot.setXLabel(xAxisName);
+			}
+			if(title.isEmpty())
+			{
+				plot.setTitle(file.fileName());
+			}
 		}
 		else
 		{
