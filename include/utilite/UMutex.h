@@ -129,4 +129,51 @@ public:
 		UMutex( const UMutex &M ) {}
 };
 
+/**
+ * Automatically lock the referenced mutex on constructor and unlock mutex on destructor.
+ *
+ * Example:
+ * @code
+ * UMutex m; // Mutex shared with another thread(s).
+ * ...
+ * int myMethod()
+ * {
+ *    UScopeMutex sm(m); // automatically lock the mutex m
+ *    if(cond1)
+ *    {
+ *       return 1; // automatically unlock the mutex m
+ *    }
+ *    else if(cond2)
+ *    {
+ *       return 2; // automatically unlock the mutex m
+ *    }
+ *    return 0; // automatically unlock the mutex m
+ * }
+ *
+ * @endcode
+ *
+ * @see UMutex
+ */
+class UScopeMutex
+{
+public:
+	UScopeMutex(UMutex * mutex) :
+		mutex_(mutex)
+	{
+		if(mutex_)
+		{
+			mutex_->lock();
+		}
+	}
+	~UScopeMutex()
+	{
+		if(mutex_)
+		{
+			mutex_->unlock();
+		}
+	}
+private:
+	UMutex * mutex_;
+};
+
 #endif // UMUTEX_H

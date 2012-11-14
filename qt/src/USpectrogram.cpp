@@ -117,6 +117,10 @@ void USpectrogram::setupUi()
 	_aOnlyLastFramesDrawn = _menu->addAction("Only last frames drawn");
 	_aOnlyLastFramesDrawn->setCheckable(true);
 	_aOnlyLastFramesDrawn->setChecked(false);
+	_aOnlyLastFramesDrawn->setEnabled(false);
+	_aAllDataKept = _menu->addAction("All data kept");
+	_aAllDataKept->setCheckable(true);
+	_aAllDataKept->setChecked(false);
 	QMenu * zoomMenu = _menu->addMenu("Zoom");
 	_aZoom2x = zoomMenu->addAction("2x");
 	_aZoom2x->setCheckable(true);
@@ -132,6 +136,9 @@ void USpectrogram::setupUi()
 
 	_menu->addSeparator();
 
+	_aDBRelative = _menu->addAction(tr("Show dB relative to current max"));
+	_aDBRelative->setCheckable(true);
+	_aDBRelative->setChecked(true);
 	_aDBMin = _menu->addAction(tr("Min dB (%1 dB)").arg(_dBMin));
 	_aDBGain = _menu->addAction(tr("Gain dB (%1 dB)").arg(_dBGain));
 
@@ -210,6 +217,10 @@ void USpectrogram::push(const float frame[], int frameLength)
 
 	int val; // max 240 // H=blue
 	float max = frameLength*frameLength;
+	if(_aDBRelative->isChecked())
+	{
+		max = uMax(frame, frameLength);
+	}
 	float minDb = _dBMin;//fabs(10*std::log10(min/max));
 	float gain = _dBGain;
 
@@ -364,6 +375,10 @@ void USpectrogram::mouseMoveEvent(QMouseEvent * event)
 	{
 		//Compute dB
 		float max = _data.at(pos.y()).size() * _data.at(pos.y()).size();
+		if(_aDBRelative->isChecked())
+		{
+			max = uMax(_data.at(pos.y()).data(), _data.at(pos.y()).size());
+		}
 		float dB = data->at(pos.y()).at(pos.x());
 		if(dB > 0)
 		{
@@ -446,6 +461,10 @@ void USpectrogram::contextMenuEvent(QContextMenuEvent * event)
 		else if(a == _aOnlyLastFramesDrawn)
 		{
 			this->setOnlyLastFramesDrawn(_aOnlyLastFramesDrawn->isChecked());
+		}
+		else if(a == _aAllDataKept)
+		{
+			this->setAllDataKept(_aAllDataKept->isChecked());
 		}
 		else if(a == _aZoom2x)
 		{
@@ -570,6 +589,10 @@ void USpectrogram::contextMenuEvent(QContextMenuEvent * event)
 			_view->scene()->addItem(_imageItem);
 			this->updateView();
 		}
+		else if(a == _aDBRelative)
+		{
+			this->setDBRelative(_aDBRelative->isChecked());
+		}
 		else if(a == _aDBGain)
 		{
 			bool ok = false;
@@ -637,6 +660,13 @@ void USpectrogram::setOnlyLastFramesDrawn(bool onlyLastFramesDrawn)
 	this->updateView();
 }
 
+void USpectrogram::setAllDataKept(bool allDataKept)
+{
+	_aOnlyLastFramesDrawn->setEnabled(allDataKept);
+	_aAllDataKept->setChecked(allDataKept);
+	this->updateView();
+}
+
 void USpectrogram::setHorizontalScrollBarValue(int value)
 {
 	_view->horizontalScrollBar()->setValue(value);
@@ -645,6 +675,11 @@ void USpectrogram::setHorizontalScrollBarValue(int value)
 void USpectrogram::setVerticalScrollBarValue(int value)
 {
 	_view->verticalScrollBar()->setValue(value);
+}
+
+void USpectrogram::setDBRelative(bool dBRelative)
+{
+	_aDBRelative->setChecked(dBRelative);
 }
 
 bool USpectrogram::isScaledFreq() const
@@ -670,6 +705,16 @@ bool USpectrogram::isZoomed() const
 bool USpectrogram::isOnlyLastFramesDrawn() const
 {
 	return _aOnlyLastFramesDrawn->isChecked();
+}
+
+bool USpectrogram::isAllDataKept() const
+{
+	return _aAllDataKept->isChecked();
+}
+
+bool USpectrogram::isDBRelative() const
+{
+	return _aDBRelative->isChecked();
 }
 
 USpectrogram * USpectrogram::clone() const
@@ -712,11 +757,6 @@ void USpectrogram::updateView()
 	{
 		if(_rgbData.size())
 		{
-			_view->scene()->removeItem(_imageItem);
-			delete _view->scene();
-			_view->setScene(new QGraphicsScene(this));
-			_view->scene()->setBackgroundBrush(QBrush(Qt::black));
-
 			QImage img;
 			int lastFramesCount = _view->height();
 			if(_axesSwitched)
@@ -724,12 +764,12 @@ void USpectrogram::updateView()
 				lastFramesCount = _view->width();
 				if(_view->verticalScrollBar()->isVisible())
 				{
-					lastFramesCount -= _view->verticalScrollBar()->width();
+					lastFramesCount -= _view->verticalScrollBar()->width()+2;
 				}
 			}
 			else if(_view->horizontalScrollBar()->isVisible())
 			{
-				lastFramesCount -= _view->horizontalScrollBar()->height();
+				lastFramesCount -= _view->horizontalScrollBar()->height()+2;
 			}
 			if(_aZoom2x->isChecked() && !_aScaledTime->isChecked())
 			{
@@ -740,6 +780,15 @@ void USpectrogram::updateView()
 			if(_aLogFrequency->isChecked())
 			{
 				freqCount = _rgbLogData.front().size();
+			}
+
+			if(!_aAllDataKept->isChecked() &&
+				_rgbData.size() >= lastFramesCount-2)
+			{
+				_rgbData.erase(_rgbData.begin() + lastFramesCount-2, _rgbData.end());
+				_rgbLogData.erase(_rgbLogData.begin() + lastFramesCount-2, _rgbLogData.end());
+				_data.erase(_data.begin() + lastFramesCount-2, _data.end());
+				_dataLog.erase(_dataLog.begin() + lastFramesCount-2, _dataLog.end());
 			}
 
 			if(_aOnlyLastFramesDrawn->isChecked() &&
@@ -772,7 +821,16 @@ void USpectrogram::updateView()
 				}
 			}
 			_imageItem->setPixmap(QPixmap::fromImage(img));
-			_view->scene()->addItem(_imageItem);
+
+			// if scene rect has to be changed
+			if(_view->sceneRect().width() > freqCount || _view->sceneRect().height() > lastFramesCount-2)
+			{
+				_view->scene()->removeItem(_imageItem);
+				delete _view->scene();
+				_view->setScene(new QGraphicsScene(this));
+				_view->scene()->setBackgroundBrush(QBrush(Qt::black));
+				_view->scene()->addItem(_imageItem);
+			}
 		}
 
 		_view->resetTransform();
