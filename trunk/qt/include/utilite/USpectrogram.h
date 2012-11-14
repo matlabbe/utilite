@@ -85,8 +85,10 @@ public:
 	void setZoomed(bool zoomed);
 	void setAxesSwitched(bool axesSwitched);
 	void setOnlyLastFramesDrawn(bool onlyLastFramesDrawn);
+	void setAllDataKept(bool allDataKept);
 	void setHorizontalScrollBarValue(int value);
 	void setVerticalScrollBarValue(int value);
+	void setDBRelative(bool dBRelative);
 	void setDBGain(float value);
 	void setDBMin(float value);
 	int samplingRate() const {return _fs;}
@@ -95,6 +97,8 @@ public:
 	bool isAxesSwitched() const;
 	bool isZoomed() const;
 	bool isOnlyLastFramesDrawn() const;
+	bool isAllDataKept() const;
+	bool isDBRelative() const;
 	/**
 	 * Set all frames. If you want to incrementally add frames, use slot push().
 	 */
@@ -152,6 +156,7 @@ private:
 	QMenu * _menu;
 	QAction * _aClear;
 	QAction * _aOnlyLastFramesDrawn;
+	QAction * _aAllDataKept;
 	QAction * _aScaledFreq;
 	QAction * _aScaledTime;
 	QAction * _aZoom2x;
@@ -161,6 +166,7 @@ private:
 	QAction * _aSaveTo;
 	QAction * _aCopyFrame;
 	QAction * _aPlotFrame;
+	QAction * _aDBRelative;
 	QAction * _aDBMin;
 	QAction * _aDBGain;
 };
