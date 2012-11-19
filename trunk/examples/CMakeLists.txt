@@ -1,6 +1,7 @@
 
 SET(INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${PROJECT_SOURCE_DIR}/include
 )
 
@@ -24,6 +25,25 @@ TARGET_LINK_LIBRARIES(example-counterThread utilite)
 ADD_EXECUTABLE(example-math math.cpp)
 TARGET_LINK_LIBRARIES(example-math utilite)
 
+####################################
+# Resources example
+# Note that external projects using FindUtiLite.cmake 
+# would use ${URESOURCEGENERATOR_EXEC} variable to get 
+# the COMMAND path. DEPENDS on uresourcegenerator 
+# should not be required.
+####################################
+ADD_CUSTOM_COMMAND(
+   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/data_txt.h 
+   COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/uresourcegenerator -n my_namespace -p ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/data.txt
+   COMMENT "[Creating resources]"
+   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/data.txt uresourcegenerator
+)
+ADD_EXECUTABLE(example-resources resources.cpp ${CMAKE_CURRENT_BINARY_DIR}/data_txt.h)
+TARGET_LINK_LIBRARIES(example-resources utilite)
+
+####################################
+# Audio example
+####################################
 IF(BUILD_QT AND BUILD_AUDIO)
     FIND_PACKAGE(FFTW3F)
 	IF(FFTW3F_FOUND)
