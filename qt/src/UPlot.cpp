@@ -148,7 +148,7 @@ void UPlotItem::showDescription(bool shown)
 		_textBackground->setVisible(true);
 		_text->setPlainText(QString("(%1,%2)").arg(_data.x()).arg(_data.y()));
 
-		this->setPen(QPen(Qt::black, 2));
+		this->setPen(QPen(this->pen().color(), 2));
 
 		QRectF rect = this->scene()->sceneRect();
 		QPointF p = this->pos();
@@ -182,7 +182,7 @@ void UPlotItem::showDescription(bool shown)
 	}
 	else
 	{
-		this->setPen(QPen(Qt::black, 1));
+		this->setPen(QPen(this->pen().color(), 1));
 		_textBackground->setVisible(false);
 	}
 }
