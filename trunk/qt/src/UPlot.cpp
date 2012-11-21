@@ -258,7 +258,7 @@ UPlotCurve::UPlotCurve(const QString & name, QObject * parent) :
 	_xStart(0),
 	_visible(true),
 	_valuesShown(false),
-	_itemsColor(Qt::black)
+	_itemsColor(0,0,0,150)
 {
 	_rootItem = new QGraphicsRectItem();
 }
@@ -271,7 +271,7 @@ UPlotCurve::UPlotCurve(const QString & name, QVector<UPlotItem *> data, QObject 
 	_xStart(0),
 	_visible(true),
 	_valuesShown(false),
-	_itemsColor(Qt::black)
+	_itemsColor(0,0,0,150)
 {
 	_rootItem = new QGraphicsRectItem();
 	this->setData(data);
@@ -285,7 +285,7 @@ UPlotCurve::UPlotCurve(const QString & name, const QVector<float> & x, const QVe
 	_xStart(0),
 	_visible(true),
 	_valuesShown(false),
-	_itemsColor(Qt::black)
+	_itemsColor(0,0,0,150)
 {
 	_rootItem = new QGraphicsRectItem();
 	this->setData(x, y);
@@ -663,7 +663,7 @@ void UPlotCurve::setItemsColor(const QColor & color)
 {
 	if(color.isValid())
 	{
-		_itemsColor = color;
+		_itemsColor.setRgb(color.red(), color.green(), color.blue(), _itemsColor.alpha());
 		for(int i=0; i<_items.size(); i+=2)
 		{
 			QPen pen = ((UPlotItem*) _items.at(i))->pen();
