@@ -355,6 +355,8 @@ public:
 
 signals:
 	void legendItemRemoved(const UPlotCurve *);
+	void moveUpRequest(UPlotLegendItem *);
+	void moveDownRequest(UPlotLegendItem *);
 
 protected:
 	virtual void contextMenuEvent(QContextMenuEvent * event);
@@ -367,6 +369,8 @@ private:
 	QAction * _aChangeColor;
 	QAction * _aCopyToClipboard;
 	QAction * _aRemoveCurve;
+	QAction * _aMoveUp;
+	QAction * _aMoveDown;
 };
 
 /**
@@ -388,12 +392,15 @@ public:
 	void addItem(UPlotCurve * curve);
 	bool remove(const UPlotCurve * curve);
 
-public slots:
+private slots:
 	void removeLegendItem(const UPlotCurve * curve);
+	void moveUp(UPlotLegendItem * item);
+	void moveDown(UPlotLegendItem * item);
 
 signals:
 	void legendItemRemoved(const UPlotCurve * curve);
 	void legendItemToggled(const UPlotCurve * curve, bool toggled);
+	void legendItemMoved(const UPlotCurve * curve, int);
 
 protected:
 	virtual void contextMenuEvent(QContextMenuEvent * event);
@@ -535,6 +542,7 @@ public slots:
 private slots:
 	void captureScreen();
 	void updateAxis(const UPlotCurve * curve);
+	void moveCurve(const UPlotCurve *, int index);
 
 protected:
 	virtual void contextMenuEvent(QContextMenuEvent * event);
