@@ -257,7 +257,8 @@ UPlotCurve::UPlotCurve(const QString & name, QObject * parent) :
 	_xIncrement(1),
 	_xStart(0),
 	_visible(true),
-	_valuesShown(false)
+	_valuesShown(false),
+	_itemsColor(Qt::black)
 {
 	_rootItem = new QGraphicsRectItem();
 }
@@ -269,7 +270,8 @@ UPlotCurve::UPlotCurve(const QString & name, QVector<UPlotItem *> data, QObject 
 	_xIncrement(1),
 	_xStart(0),
 	_visible(true),
-	_valuesShown(false)
+	_valuesShown(false),
+	_itemsColor(Qt::black)
 {
 	_rootItem = new QGraphicsRectItem();
 	this->setData(data);
@@ -282,7 +284,8 @@ UPlotCurve::UPlotCurve(const QString & name, const QVector<float> & x, const QVe
 	_xIncrement(1),
 	_xStart(0),
 	_visible(true),
-	_valuesShown(false)
+	_valuesShown(false),
+	_itemsColor(Qt::black)
 {
 	_rootItem = new QGraphicsRectItem();
 	this->setData(x, y);
@@ -402,6 +405,9 @@ void UPlotCurve::_addValue(UPlotItem * data)
 		data->setZValue(1);
 		_items.append(data);
 		data->setVisible(false);
+		QPen pen = data->pen();
+		pen.setColor(_itemsColor);
+		data->setPen(pen);
 	}
 	else
 	{
@@ -653,6 +659,20 @@ void UPlotCurve::setBrush(const QBrush & brush)
 	ULOGGER_WARN("Not used...");
 }
 
+void UPlotCurve::setItemsColor(const QColor & color)
+{
+	if(color.isValid())
+	{
+		_itemsColor = color;
+		for(int i=0; i<_items.size(); i+=2)
+		{
+			QPen pen = ((UPlotItem*) _items.at(i))->pen();
+			pen.setColor(_itemsColor);
+			((UPlotItem*) _items.at(i))->setPen(pen);
+		}
+	}
+}
+
 void UPlotCurve::update(float scaleX, float scaleY, float offsetX, float offsetY, float xDir, float yDir, int maxItemsKept)
 {
 	//ULOGGER_DEBUG("scaleX=%f, scaleY=%f, offsetX=%f, offsetY=%f, xDir=%d, yDir=%d, _plot->scene()->width()=%f, _plot->scene()->height=%f", scaleX, scaleY, offsetX, offsetY, xDir, yDir,_plot->scene()->width(),_plot->scene()->height());
@@ -793,7 +813,10 @@ void UPlotCurve::draw(QPainter * painter, const QRect & limits)
 
 			if(limits.contains(item->pos().toPoint()) && limits.contains((item->pos() + QPointF(item->rect().width(), item->rect().height())).toPoint()))
 			{
+				painter->save();
+				painter->setPen(QPen(_itemsColor));
 				painter->drawEllipse(item->pos()+QPointF(item->rect().width()/2, item->rect().height()/2), (int)item->rect().width()/2, (int)item->rect().height()/2);
+				painter->restore();
 			}
 		}
 	}
@@ -1599,7 +1622,8 @@ void UOrientableLabel::paintEvent(QPaintEvent* event)
 UPlot::UPlot(QWidget *parent) :
 	QWidget(parent),
 	_maxVisibleItems(-1),
-	_autoScreenCaptureFormat("png")
+	_autoScreenCaptureFormat("png"),
+	_bgColor(Qt::white)
 {
 	this->setupUi();
 	this->createActions();
@@ -1730,6 +1754,7 @@ void UPlot::createActions()
 	_aChangeTitle = new QAction(tr("Change title"), this);
 	_aChangeXLabel = new QAction(tr("Change X label..."), this);
 	_aChangeYLabel = new QAction(tr("Change Y label..."), this);
+	_aChangeBackgroundColor = new QAction(tr("Change bg color..."), this);
 	_aYLabelVertical = new QAction(tr("Vertical orientation"), this);
 	_aYLabelVertical->setCheckable(true);
 	_aYLabelVertical->setChecked(true);
@@ -1776,6 +1801,7 @@ void UPlot::createMenus()
 	QMenu * yLabelMenu = _menu->addMenu(tr("Y label"));
 	yLabelMenu->addAction(_aChangeYLabel);
 	yLabelMenu->addAction(_aYLabelVertical);
+	_menu->addAction(_aChangeBackgroundColor);
 	_menu->addAction(_aSaveFigure);
 	_menu->addAction(_aAutoScreenCapture);
 	_menu->addSeparator();
@@ -1822,6 +1848,7 @@ bool UPlot::addCurve(UPlotCurve * curve, bool ownershipTransferred)
 		// add curve
 		_curves.append(curve);
 		curve->attach(this);
+		curve->setItemsColor(QColor(255-_bgColor.red(), 255-_bgColor.green(), 255-_bgColor.red(), _bgColor.alpha()));
 		if(ownershipTransferred)
 		{
 			curve->setParent(this);
@@ -1930,7 +1957,9 @@ void UPlot::replot(QPainter * painter)
 		float h = newRect.height()-(borderVer*2);
 		float stepH = w / float(_horizontalAxis->count());
 		float stepV = h / float(_verticalAxis->count());
-		QPen pen(Qt::DashLine);
+		QPen dashPen(Qt::DashLine);
+		dashPen.setColor(QColor(255-_bgColor.red(), 255-_bgColor.green(), 255-_bgColor.blue(), 100));
+		QPen pen(dashPen.color());
 		for(float i=0.0f; i*stepV <= h+stepV; i+=5.0f)
 		{
 			//horizontal lines
@@ -1938,20 +1967,26 @@ void UPlot::replot(QPainter * painter)
 			{
 				if(painter)
 				{
-					painter->drawLine(0, stepV*i+borderVer+0.5f, borderHor, stepV*i+borderVer+0.5f);
 					painter->save();
 					painter->setPen(pen);
+					painter->drawLine(0, stepV*i+borderVer+0.5f, borderHor, stepV*i+borderVer+0.5f);
+
+					painter->setPen(dashPen);
 					painter->drawLine(borderHor, stepV*i+borderVer+0.5f, w+borderHor, stepV*i+borderVer+0.5f);
-					painter->restore();
+
+					painter->setPen(pen);
 					painter->drawLine(w+borderHor, stepV*i+borderVer+0.5f, w+borderHor*2, stepV*i+borderVer+0.5f);
+					painter->restore();
 				}
 			}
 			else
 			{
 				hGridLines.append(new QGraphicsLineItem(0, stepV*i+borderVer, borderHor, stepV*i+borderVer, _sceneRoot));
-				hGridLines.append(new QGraphicsLineItem(borderHor, stepV*i+borderVer, w+borderHor, stepV*i+borderVer, _sceneRoot));
 				hGridLines.last()->setPen(pen);
+				hGridLines.append(new QGraphicsLineItem(borderHor, stepV*i+borderVer, w+borderHor, stepV*i+borderVer, _sceneRoot));
+				hGridLines.last()->setPen(dashPen);
 				hGridLines.append(new QGraphicsLineItem(w+borderHor, stepV*i+borderVer, w+borderHor*2, stepV*i+borderVer, _sceneRoot));
+				hGridLines.last()->setPen(pen);
 			}
 		}
 		for(float i=0; i*stepH < w+stepH; i+=5.0f)
@@ -1961,20 +1996,26 @@ void UPlot::replot(QPainter * painter)
 			{
 				if(painter)
 				{
-					painter->drawLine(stepH*i+borderHor+0.5f, 0, stepH*i+borderHor+0.5f, borderVer);
 					painter->save();
 					painter->setPen(pen);
+					painter->drawLine(stepH*i+borderHor+0.5f, 0, stepH*i+borderHor+0.5f, borderVer);
+
+					painter->setPen(dashPen);
 					painter->drawLine(stepH*i+borderHor+0.5f, borderVer, stepH*i+borderHor+0.5f, h+borderVer);
-					painter->restore();
+
+					painter->setPen(pen);
 					painter->drawLine(stepH*i+borderHor+0.5f, h+borderVer, stepH*i+borderHor+0.5f, h+borderVer*2);
+					painter->restore();
 				}
 			}
 			else
 			{
 				vGridLines.append(new QGraphicsLineItem(stepH*i+borderHor, 0, stepH*i+borderHor, borderVer, _sceneRoot));
-				vGridLines.append(new QGraphicsLineItem(stepH*i+borderHor, borderVer, stepH*i+borderHor, h+borderVer, _sceneRoot));
 				vGridLines.last()->setPen(pen);
+				vGridLines.append(new QGraphicsLineItem(stepH*i+borderHor, borderVer, stepH*i+borderHor, h+borderVer, _sceneRoot));
+				vGridLines.last()->setPen(dashPen);
 				vGridLines.append(new QGraphicsLineItem(stepH*i+borderHor, h+borderVer, stepH*i+borderHor, h+borderVer*2, _sceneRoot));
+				vGridLines.last()->setPen(pen);
 			}
 		}
 	}
@@ -2147,7 +2188,7 @@ void UPlot::paintEvent(QPaintEvent * event)
 		QPainter painter(this);
 		painter.translate(_graphicsViewHolder->pos());
 		painter.save();
-		painter.setBrush(Qt::white);
+		painter.setBrush(_bgColor);
 		painter.setPen(QPen(Qt::NoPen));
 		painter.drawRect(_graphicsViewHolder->rect());
 		painter.restore();
@@ -2179,7 +2220,7 @@ void UPlot::paintEvent(QPaintEvent * event)
 				bottom = _graphicsViewHolder->height()-1;
 			}
 			painter.setPen(Qt::NoPen);
-			painter.setBrush(QBrush(QColor(0,0,0,100)));
+			painter.setBrush(QBrush(QColor(255-_bgColor.red(),255-_bgColor.green(),255-_bgColor.blue(),100)));
 			painter.drawRect(0, 0, _graphicsViewHolder->width(), top);
 			painter.drawRect(0, top, left, bottom-top);
 			painter.drawRect(right, top, _graphicsViewHolder->width()-right, bottom-top);
@@ -2450,6 +2491,14 @@ void UPlot::contextMenuEvent(QContextMenuEvent * event)
 	{
 		this->setYLabel(_yLabel->text(), _aYLabelVertical->isChecked()?Qt::Vertical:Qt::Horizontal);
 	}
+	else if(action == _aChangeBackgroundColor)
+	{
+		QColor color = QColorDialog::getColor(_bgColor, this);
+		if(color.isValid())
+		{
+			this->setBackgroundColor(color);
+		}
+	}
 	else if(action == _aSaveFigure)
 	{
 
@@ -2645,6 +2694,19 @@ void UPlot::setYLabel(const QString & text, Qt::Orientation orientation)
 	if(_aGraphicsView->isChecked())
 	{
 		QTimer::singleShot(10, this, SLOT(updateAxis()));
+	}
+}
+
+void UPlot::setBackgroundColor(const QColor & color)
+{
+	if(color.isValid())
+	{
+		_bgColor = color;
+		_view->scene()->setBackgroundBrush(QBrush(_bgColor));
+		for(QList<UPlotCurve*>::iterator iter=_curves.begin(); iter!=_curves.end(); ++iter)
+		{
+			(*iter)->setItemsColor(QColor(255-_bgColor.red(), 255-_bgColor.green(), 255-_bgColor.blue(), _bgColor.alpha()));
+		}
 	}
 }
 

@@ -125,6 +125,9 @@ public:
 	 */
 	void setBrush(const QBrush & brush);
 
+	void setItemsColor(const QColor & color);
+	QColor itemsColor() const  {return _itemsColor;}
+
 	/**
 	 * Get name.
 	 */
@@ -247,6 +250,7 @@ private:
 	bool _valuesShown;
 	QVector<float> _minMax; // minX, maxX, minY, maxY
 	QGraphicsRectItem * _rootItem;
+	QColor _itemsColor;
 };
 
 
@@ -511,6 +515,7 @@ public:
 	void setYLabel(const QString & text, Qt::Orientation orientation = Qt::Vertical);
 	void setWorkingDirectory(const QString & workingDirectory);
 	void setGraphicsView(bool on);
+	void setBackgroundColor(const QColor & color);
 	QRectF sceneRect() const;
 
 public slots:
@@ -580,6 +585,7 @@ private:
 	QString _autoScreenCaptureFormat;
 	QPoint _mousePressedPos;
 	QPoint _mouseCurrentPos;
+	QColor _bgColor;
 
 	QMenu * _menu;
 	QAction * _aShowLegend;
@@ -597,6 +603,7 @@ private:
 	QAction * _aChangeTitle;
 	QAction * _aChangeXLabel;
 	QAction * _aChangeYLabel;
+	QAction * _aChangeBackgroundColor;
 	QAction * _aYLabelVertical;
 	QAction * _aShowRefreshRate;
 	QAction * _aMouseTracking;
