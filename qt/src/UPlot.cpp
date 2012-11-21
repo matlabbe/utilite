@@ -1341,12 +1341,17 @@ UPlotLegendItem::UPlotLegendItem(UPlotCurve * curve, QWidget * parent) :
 	_aResetText = new QAction(tr("Reset text..."), this);
 	_aChangeColor = new QAction(tr("Change color..."), this);
 	_aCopyToClipboard = new QAction(tr("Copy curve data to the clipboard"), this);
+	_aMoveUp = new QAction(tr("Move up"), this);
+	_aMoveDown = new QAction(tr("Move down"), this);
 	_aRemoveCurve = new QAction(tr("Remove this curve"), this);
 	_menu = new QMenu(tr("Curve"), this);
 	_menu->addAction(_aChangeText);
 	_menu->addAction(_aResetText);
 	_menu->addAction(_aChangeColor);
 	_menu->addAction(_aCopyToClipboard);
+	_menu->addSeparator();
+	_menu->addAction(_aMoveUp);
+	_menu->addAction(_aMoveDown);
 	_menu->addSeparator();
 	_menu->addAction(_aRemoveCurve);
 }
@@ -1414,6 +1419,14 @@ void UPlotLegendItem::contextMenuEvent(QContextMenuEvent * event)
 	else if(action == _aRemoveCurve)
 	{
 		emit legendItemRemoved(_curve);
+	}
+	else if(action == _aMoveUp)
+	{
+		emit moveUpRequest(this);
+	}
+	else if(action == _aMoveDown)
+	{
+		emit moveDownRequest(this);
 	}
 }
 
@@ -1485,6 +1498,8 @@ void UPlotLegend::addItem(UPlotCurve * curve)
 		legendItem->setChecked(false);
 		connect(legendItem, SIGNAL(toggled(bool)), this, SLOT(redirectToggled(bool)));
 		connect(legendItem, SIGNAL(legendItemRemoved(const UPlotCurve *)), this, SLOT(removeLegendItem(const UPlotCurve *)));
+		connect(legendItem, SIGNAL(moveUpRequest(UPlotLegendItem *)), this, SLOT(moveUp(UPlotLegendItem *)));
+		connect(legendItem, SIGNAL(moveDownRequest(UPlotLegendItem *)), this, SLOT(moveDown(UPlotLegendItem *)));
 
 		// layout
 		QHBoxLayout * hLayout = new QHBoxLayout();
@@ -1516,6 +1531,60 @@ void UPlotLegend::removeLegendItem(const UPlotCurve * curve)
 	if(this->remove(curve))
 	{
 		emit legendItemRemoved(curve);
+	}
+}
+
+void UPlotLegend::moveUp(UPlotLegendItem * item)
+{
+	int index = -1;
+	QLayoutItem * layoutItem = 0;
+	for(int i=0; i<this->layout()->count(); ++i)
+	{
+		if(this->layout()->itemAt(i)->layout() &&
+		   this->layout()->itemAt(i)->layout()->indexOf(item) != -1)
+		{
+			layoutItem = this->layout()->itemAt(i);
+			index = i;
+			break;
+		}
+	}
+	if(index > 0 && layoutItem)
+	{
+		this->layout()->removeItem(layoutItem);
+		QHBoxLayout * hLayout = new QHBoxLayout();
+		hLayout->addWidget(layoutItem->layout()->itemAt(0)->widget());
+		hLayout->addStretch(0);
+		hLayout->setMargin(0);
+		((QVBoxLayout*)this->layout())->insertLayout(index-1, hLayout);
+		delete layoutItem;
+		emit legendItemMoved(item->curve(), index-1);
+	}
+}
+
+void UPlotLegend::moveDown(UPlotLegendItem * item)
+{
+	int index = -1;
+	QLayoutItem * layoutItem = 0;
+	for(int i=0; i<this->layout()->count(); ++i)
+	{
+		if(this->layout()->itemAt(i)->layout() &&
+		   this->layout()->itemAt(i)->layout()->indexOf(item) != -1)
+		{
+			layoutItem = this->layout()->itemAt(i);
+			index = i;
+			break;
+		}
+	}
+	if(index < this->layout()->count()-2 && layoutItem)
+	{
+		this->layout()->removeItem(layoutItem);
+		QHBoxLayout * hLayout = new QHBoxLayout();
+		hLayout->addWidget(layoutItem->layout()->itemAt(0)->widget());
+		hLayout->addStretch(0);
+		hLayout->setMargin(0);
+		((QVBoxLayout*)this->layout())->insertLayout(index+1, hLayout);
+		delete layoutItem;
+		emit legendItemMoved(item->curve(), index+1);
 	}
 }
 
@@ -1718,6 +1787,7 @@ void UPlot::setupUi()
 
 	connect(_legend, SIGNAL(legendItemToggled(const UPlotCurve *, bool)), this, SLOT(showCurve(const UPlotCurve *, bool)));
 	connect(_legend, SIGNAL(legendItemRemoved(const UPlotCurve *)), this, SLOT(removeCurve(const UPlotCurve *)));
+	connect(_legend, SIGNAL(legendItemMoved(const UPlotCurve *, int)), this, SLOT(moveCurve(const UPlotCurve *, int)));
 }
 
 void UPlot::createActions()
@@ -2858,6 +2928,51 @@ void UPlot::showCurve(const UPlotCurve * curve, bool shown)
 		{
 			value->setVisible(shown);
 			this->updateAxis();
+		}
+	}
+}
+
+void UPlot::moveCurve(const UPlotCurve * curve, int index)
+{
+	// this will change the print order
+	int currentIndex = -1;
+	UPlotCurve * c = 0;
+	for(int i=0; i<_curves.size(); ++i)
+	{
+		if(_curves.at(i) == curve)
+		{
+			c = _curves.at(i);
+			currentIndex = i;
+			break;
+		}
+	}
+
+	if(c && currentIndex != index)
+	{
+		_curves.removeAt(currentIndex);
+		QList<QGraphicsItem *> children = _sceneRoot->childItems();
+		_curves.insert(index, c);
+		if(currentIndex > index)
+		{
+			children[currentIndex]->stackBefore(children[index]);
+		}
+		else
+		{
+			if(currentIndex<children.size()-2)
+			{
+				if(index < children.size()-1)
+				{
+					children[index]->stackBefore(children[currentIndex]);
+				}
+				else
+				{
+					children[currentIndex]->stackBefore(children[index]);
+				}
+			}
+			if(currentIndex == children.size()-2 && currentIndex < index)
+			{
+				children[index]->stackBefore(children[currentIndex]);
+			}
 		}
 	}
 }
