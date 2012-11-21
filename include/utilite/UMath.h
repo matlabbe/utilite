@@ -62,6 +62,18 @@ inline T uMax(const T * v, unsigned int size, unsigned int & index)
 /**
  * Get the maximum of a vector.
  * @param v the array
+ * @param index the index of the maximum value in the vector.
+ * @return the maximum value of the array
+ */
+template<class T>
+inline T uMax(const std::vector<T> & v, unsigned int & index)
+{
+	return uMax(v.data(), v->size(), index);
+}
+
+/**
+ * Get the maximum of a vector.
+ * @param v the array
  * @param size the size of the array
  * @return the maximum value of the array
  */
@@ -70,6 +82,17 @@ inline T uMax(const T * v, unsigned int size)
 {
 	unsigned int index;
 	return uMax(v, size, index);
+}
+
+/**
+ * Get the maximum of a vector.
+ * @param v the array
+ * @return the maximum value of the array
+ */
+template<class T>
+inline T uMax(const std::vector<T> & v)
+{
+	return uMax(v.data(), v.size());
 }
 
 /**
@@ -104,6 +127,18 @@ inline T uMin(const T * v, unsigned int size, unsigned int & index)
 /**
  * Get the minimum of a vector.
  * @param v the array
+ * @param index the index of the minimum value in the vector.
+ * @return the minimum value of the array
+ */
+template<class T>
+inline T uMin(const std::vector<T> & v, unsigned int & index)
+{
+	return uMin(v.data(), v.size(), index);
+}
+
+/**
+ * Get the minimum of a vector.
+ * @param v the array
  * @param size the size of the array
  * @return the minimum value of the array
  */
@@ -112,6 +147,17 @@ inline T uMin(const T * v, unsigned int size)
 {
 	unsigned int index;
 	return uMin(v, size, index);
+}
+
+/**
+ * Get the minimum of a vector.
+ * @param v the array
+ * @return the minimum value of the array
+ */
+template<class T>
+inline T uMin(const std::vector<T> & v)
+{
+	return uMin(v.data(), v.size());
 }
 
 /**
@@ -155,6 +201,20 @@ inline void uMinMax(const T * v, unsigned int size, T & min, T & max, unsigned i
 /**
  * Get the minimum and maximum of a vector.
  * @param v the array
+ * @param min reference to output minimum
+ * @param max reference to output maximum
+ * @param min reference to output minimum index
+ * @param max reference to output maximum index
+ */
+template<class T>
+inline void uMinMax(const std::vector<T> & v, T & min, T & max, unsigned int & indexMin, unsigned int & indexMax)
+{
+	uMinMax(v.data(), v.size(), min, max, indexMin, indexMax);
+}
+
+/**
+ * Get the minimum and maximum of a vector.
+ * @param v the array
  * @param size the size of the array
  * @param min reference to output minimum
  * @param max reference to output maximum
@@ -165,6 +225,18 @@ inline void uMinMax(const T * v, unsigned int size, T & min, T & max)
 	unsigned int indexMin;
 	unsigned int indexMax;
 	uMinMax(v, size, min, max, indexMin, indexMax);
+}
+
+/**
+ * Get the minimum and maximum of a vector.
+ * @param v the array
+ * @param min reference to output minimum
+ * @param max reference to output maximum
+ */
+template<class T>
+inline void uMinMax(const std::vector<T> & v, T & min, T & max)
+{
+	uMinMax(v.data(), v.size(), min, max);
 }
 
 /**
@@ -202,22 +274,6 @@ inline T uSum(const std::list<T> & list)
 }
 
 /**
- * Get the sum of all values contained in a vector. Provided for convenience.
- * @param v the vector
- * @return the sum of values of the vector
- */
-template<class T>
-inline T uSum(const std::vector<T> & v)
-{
-	T sum = 0;
-	for(unsigned int i=0; i<v.size(); ++i)
-	{
-		sum += v[i];
-	}
-	return sum;
-}
-
-/**
  * Get the sum of all values contained in an array: sum(x).
  * @param v the array
  * @param size the size of the array
@@ -235,6 +291,17 @@ inline T uSum(const T * v, unsigned int size)
 		}
 	}
 	return sum;
+}
+
+/**
+ * Get the sum of all values contained in a vector. Provided for convenience.
+ * @param v the vector
+ * @return the sum of values of the vector
+ */
+template<class T>
+inline T uSum(const std::vector<T> & v)
+{
+	return uSum(v.data(), v.size());
 }
 
 /**
@@ -256,6 +323,18 @@ inline T uSumSquared(const T * v, unsigned int size, T subtract = T())
 		}
 	}
 	return sum;
+}
+
+/**
+ * Get the sum of all squared values contained in an array: sum(x.^2).
+ * @param v the array
+ * @param subtract an optional value to remove to v before squaring v: sum((x-sub).^2)
+ * @return the sum of values of the array
+ */
+template<class T>
+inline T uSumSquared(const std::vector<T> & v, T subtract = T())
+{
+	return uSumSquared(v.data(), v.size(), subtract);
 }
 
 /**
@@ -332,6 +411,18 @@ inline T uMeanSquaredError(const T * x, unsigned int sizeX, const T * y, unsigne
 		return sum/(T)sizeX;
 	}
 	return (T)-1;
+}
+
+/**
+ * Compute mean squared error between two arrays: mean((x-y).^2).
+ * @param x the first array
+ * @param y the second array (must be same size as x)
+ * @return the mean squared error (return -1 if error cannot be computed)
+ */
+template<class T>
+inline T uMeanSquaredError(const std::vector<T> & x, const std::vector<T> & y)
+{
+	return uMeanSquaredError(x.data(), x.size(), y.data(), y.size());
 }
 
 /**
@@ -488,6 +579,15 @@ inline std::list<unsigned int> uLocalMaxima(const T * v, unsigned int size)
 }
 
 /**
+ * Find all local maxima.
+ */
+template<class T>
+inline std::list<unsigned int> uLocalMaxima(const std::vector<T> & v)
+{
+	return uLocalMaxima(v.data(), v.size());
+}
+
+/**
  * Enum of cross matching methods (cross-correlation, cross-covariance) :
  * UXCorrRaw, UXCorrBiased, UXCorrUnbiased, UXCorrCoeff, UXCovRaw, UXCovBiased, UXCovUnbiased, UXCovCoeff.
  */
@@ -608,6 +708,19 @@ inline std::vector<T> uXMatch(const T * vA, const T * vB, unsigned int sizeA, un
 }
 
 /**
+ * Do a full cross-correlation or cross-covariance between 2 arrays.
+ * @param vA the first array
+ * @param vB the second array
+ * @param method see UXMatchMethod
+ * @return the resulting correlation/covariance vector of size = sizeA + sizeB - 1
+ */
+template<class T>
+inline std::vector<T> uXMatch(const std::vector<T> & vA, const std::vector<T> & vB, UXMatchMethod method)
+{
+	return uXMatch(vA.data(), vB.data(), vA.size(), vB.size(), method);
+}
+
+/**
  * Do a cross correlation between 2 arrays at a specified index.
  * @param vA the first array
  * @param vB the second array
@@ -678,6 +791,22 @@ inline T uXMatch(const T * vA, const T * vB, unsigned int sizeA, unsigned int si
 		}
 	}
 	return result / den;
+}
+
+/**
+ * Do a cross correlation between 2 arrays at a specified index.
+ * @param vA the first array
+ * @param vB the second array
+ * @param sizeA the size of the first array
+ * @param sizeB the size of the second array
+ * @param index the index to correlate
+ * @param method see UXMatchMethod
+ * @return the resulting correlation value
+ */
+template<class T>
+inline T uXMatch(const std::vector<T> & vA, const std::vector<T> & vB, unsigned int index, UXMatchMethod method)
+{
+	return uXMatch(vA.data(), vB.data(), vA.size(), vB.size(), index, method);
 }
 
 /**
