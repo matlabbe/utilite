@@ -2974,5 +2974,6 @@ void UPlot::moveCurve(const UPlotCurve * curve, int index)
 				children[index]->stackBefore(children[currentIndex]);
 			}
 		}
+		this->update();
 	}
 }
