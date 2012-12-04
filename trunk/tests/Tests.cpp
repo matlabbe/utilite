@@ -473,27 +473,53 @@ void Tests::testUtilStl()
 	CPPUNIT_ASSERT( *list.begin() == 1 );
 	CPPUNIT_ASSERT( *(++list.begin()) == 2 );
 
-	//std::list<K> uKeys(const std::multimap<K, V> & mm)
+	//std::vector<K> uKeys(const std::multimap<K, V> & mm)
 	multimap.clear();
-	list = uKeys(multimap);
+	vector = uKeys(multimap);
+	CPPUNIT_ASSERT( vector.size() == 0 );
+	multimap.insert(std::pair<int,int>(1,10));
+	multimap.insert(std::pair<int,int>(1,11));
+	multimap.insert(std::pair<int,int>(2,20));
+	vector = uKeys(multimap);
+	CPPUNIT_ASSERT( vector.size() == 3 );
+	CPPUNIT_ASSERT( *vector.begin() == 1 );
+	CPPUNIT_ASSERT( *(++vector.begin()) == 1 );
+	CPPUNIT_ASSERT( *(++(++vector.begin())) == 2 );
+
+	//std::vector<V> uValues(const std::multimap<K, V> & mm)
+	multimap.clear();
+	vector = uValues(multimap);
+	CPPUNIT_ASSERT( vector.size() == 0 );
+	multimap.insert(std::pair<int,int>(1,10));
+	multimap.insert(std::pair<int,int>(1,11));
+	multimap.insert(std::pair<int,int>(2,20));
+	vector = uValues(multimap);
+	CPPUNIT_ASSERT( vector.size() == 3 );
+	CPPUNIT_ASSERT( *vector.begin() == 10 );
+	CPPUNIT_ASSERT( *(++vector.begin()) == 11 );
+	CPPUNIT_ASSERT( *(++(++vector.begin())) == 20 );
+
+	//std::list<K> uKeysList(const std::multimap<K, V> & mm)
+	multimap.clear();
+	list = uKeysList(multimap);
 	CPPUNIT_ASSERT( list.size() == 0 );
 	multimap.insert(std::pair<int,int>(1,10));
 	multimap.insert(std::pair<int,int>(1,11));
 	multimap.insert(std::pair<int,int>(2,20));
-	list = uKeys(multimap);
+	list = uKeysList(multimap);
 	CPPUNIT_ASSERT( list.size() == 3 );
 	CPPUNIT_ASSERT( *list.begin() == 1 );
 	CPPUNIT_ASSERT( *(++list.begin()) == 1 );
 	CPPUNIT_ASSERT( *(++(++list.begin())) == 2 );
 
-	//std::list<V> uValues(const std::multimap<K, V> & mm)
+	//std::list<V> uValuesList(const std::multimap<K, V> & mm)
 	multimap.clear();
-	list = uValues(multimap);
+	list = uValuesList(multimap);
 	CPPUNIT_ASSERT( list.size() == 0 );
 	multimap.insert(std::pair<int,int>(1,10));
 	multimap.insert(std::pair<int,int>(1,11));
 	multimap.insert(std::pair<int,int>(2,20));
-	list = uValues(multimap);
+	list = uValuesList(multimap);
 	CPPUNIT_ASSERT( list.size() == 3 );
 	CPPUNIT_ASSERT( *list.begin() == 10 );
 	CPPUNIT_ASSERT( *(++list.begin()) == 11 );

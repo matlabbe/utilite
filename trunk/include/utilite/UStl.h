@@ -60,13 +60,30 @@ inline std::list<K> uUniqueKeys(const std::multimap<K, V> & mm)
 /**
  * Get all keys from a std::multimap.
  * @param mm the multimap
+ * @return the vector which contains all keys (may contains duplicated keys)
+ */
+template<class K, class V>
+inline std::vector<K> uKeys(const std::multimap<K, V> & mm)
+{
+	std::vector<K> v(mm.size());
+	int i=0;
+	for(typename std::map<K, V>::const_iterator iter = mm.begin(); iter!=mm.end(); ++iter)
+	{
+		v[i++] = iter->first;
+	}
+	return v;
+}
+
+/**
+ * Get all keys from a std::multimap.
+ * @param mm the multimap
  * @return the list which contains all keys (may contains duplicated keys)
  */
 template<class K, class V>
-inline std::list<K> uKeys(const std::multimap<K, V> & mm)
+inline std::list<K> uKeysList(const std::multimap<K, V> & mm)
 {
 	std::list<K> l;
-	for(typename std::multimap<K, V>::const_iterator iter = mm.begin(); iter!=mm.end(); ++iter)
+	for(typename std::map<K, V>::const_iterator iter = mm.begin(); iter!=mm.end(); ++iter)
 	{
 		l.push_back(iter->first);
 	}
@@ -76,13 +93,30 @@ inline std::list<K> uKeys(const std::multimap<K, V> & mm)
 /**
  * Get all values from a std::multimap.
  * @param mm the multimap
+ * @return the vector which contains all values (contains values from duplicated keys)
+ */
+template<class K, class V>
+inline std::vector<V> uValues(const std::multimap<K, V> & mm)
+{
+	std::vector<V> v(mm.size());
+	int i=0;
+	for(typename std::map<K, V>::const_iterator iter = mm.begin(); iter!=mm.end(); ++iter)
+	{
+		v[i++] = iter->second;
+	}
+	return v;
+}
+
+/**
+ * Get all values from a std::multimap.
+ * @param mm the multimap
  * @return the list which contains all values (contains values from duplicated keys)
  */
 template<class K, class V>
-inline std::list<V> uValues(const std::multimap<K, V> & mm)
+inline std::list<V> uValuesList(const std::multimap<K, V> & mm)
 {
 	std::list<V> l;
-	for(typename std::multimap<K, V>::const_iterator iter = mm.begin(); iter!=mm.end(); ++iter)
+	for(typename std::map<K, V>::const_iterator iter = mm.begin(); iter!=mm.end(); ++iter)
 	{
 		l.push_back(iter->second);
 	}
