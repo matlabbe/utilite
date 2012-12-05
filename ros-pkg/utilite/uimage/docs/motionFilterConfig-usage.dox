@@ -1,0 +1,7 @@
+\subsubsection usage Usage
+\verbatim
+<node name="dynamic_motion_filter" pkg="rtabmap_image" type="dynamic_motion_filter">
+  <param name="ratio" type="double" value="0.2" />
+</node>
+\endverbatim
+
