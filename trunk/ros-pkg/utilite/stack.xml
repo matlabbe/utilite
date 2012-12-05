@@ -1,0 +1,15 @@
+<stack>
+  <description brief="utilite">
+
+    UtiLite stack
+
+  </description>
+  <author>Mathieu Labbe</author>
+  <license>GPL</license>  
+  <review status="unreviewed" notes=""/>
+  <url>http://utilite.googlecode.com</url>
+  <depend stack="common_msgs" /> <!-- sensor_msgs -->
+  <depend stack="ros" />
+  <depend stack="ros_comm" /> <!-- std_msgs, std_srvs, roscpp -->
+  <depend stack="vision_opencv" /> <!-- cv_bridge, opencv2 -->
+</stack>
