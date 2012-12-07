@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.4.6)
 include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
-project(rtabmap-audio-pkg)
+project(uaudio-pkg)
 
 # Set the build type.  Options are:
 #  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
@@ -38,14 +38,13 @@ gencfg()
 #rosbuild_add_executable(example examples/example.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
 
-rosbuild_add_executable(audio_recorder AudioRecorderNode.cpp)
-rosbuild_add_executable(audio_save AudioSaveNode.cpp)
-rosbuild_add_executable(audio_overlap AudioOverlapNode.cpp)
+rosbuild_add_executable(recorder AudioRecorderNode.cpp)
+rosbuild_add_executable(save AudioSaveNode.cpp)
+rosbuild_add_executable(overlap AudioOverlapNode.cpp)
 
 FIND_PACKAGE(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 find_package(Fmodex REQUIRED)
 INCLUDE(${QT_USE_FILE})
-
 INCLUDE_DIRECTORIES(${Fmodex_INCLUDE_DIRS})
-rosbuild_add_executable(audio_player AudioPlayerNode.cpp)
-target_link_libraries(audio_player ${Fmodex_LIBRARIES} ${QT_LIBRARIES})
+rosbuild_add_executable(player AudioPlayerNode.cpp)
+target_link_libraries(player ${Fmodex_LIBRARIES} ${QT_LIBRARIES})

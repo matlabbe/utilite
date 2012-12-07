@@ -48,10 +48,16 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="rtabmap_audio.null.631333535" name="rtabmap_audio"/>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-	</storageModule>
 	<storageModule moduleId="refreshScope" versionNumber="1">
 		<resource resourceType="PROJECT" workspacePath="/rtabmap_audio"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.base.1842977693;cdt.managedbuild.toolchain.gnu.base.1842977693.754746911;cdt.managedbuild.tool.gnu.c.compiler.base.1824024806;cdt.managedbuild.tool.gnu.c.compiler.input.246053058">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.base.1842977693;cdt.managedbuild.toolchain.gnu.base.1842977693.754746911;cdt.managedbuild.tool.gnu.cpp.compiler.base.959848287;cdt.managedbuild.tool.gnu.cpp.compiler.input.903737191">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
+		</scannerConfigBuildInfo>
 	</storageModule>
 </cproject>
