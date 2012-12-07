@@ -21,16 +21,17 @@ INSTALL (full, optional libraries)
 Requirements:
 - With BUILD_QT=ON, Qt4 must be installed. 
 - With BUILD_AUDIO=ON, FMOD and Lame must be installed. 
+- With BUILD_OPENCV=ON, OpenCV must be installed. 
 
 [Unix]
  > cd build
- > cmake -DBUILD_QT=ON -DBUILD_AUDIO=ON ..
+ > cmake -DBUILD_QT=ON -DBUILD_AUDIO=ON -DBUILD_OPENCV=ON ..
  > make
  > sudo make install
 
 [Win32]
  > cd build
- > cmake -G "MinGW Makefiles" -DBUILD_QT=ON -DBUILD_AUDIO=ON ..
+ > cmake -G "MinGW Makefiles" -DBUILD_QT=ON -DBUILD_AUDIO=ON -DBUILD_OPENCV=ON ..
  > mingw32-make
  > mingw32-make install
 
@@ -44,7 +45,7 @@ Developer (Using Eclipse)
 
 # compilation
 	1- Eclipse -> Import existing project -> select this directory
-	2- Eclipse -> Make targets -> Avpd -> execute CMake-Unix-Release (CMake-MinGW-Release on Windows)
+	2- Eclipse -> Make targets -> utilite -> execute CMake-Unix-Release (CMake-MinGW-Release on Windows)
 	3- Eclipse -> Project -> Build All
 
 -The AutoCompletion should already works... (Project->Properties->C/C++Build->Discovery options)

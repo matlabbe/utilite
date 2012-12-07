@@ -1,12 +1,13 @@
 
 SET(SRC_FILES
-	UAudioRecorderFile.cpp
-    UAudioRecorderMic.cpp
+	UAudioCaptureFile.cpp
+    UAudioCaptureMic.cpp
     UAudioPlayer.cpp
-    UAudioRecorder.cpp
+    UAudioCapture.cpp
     UAudioSystem.cpp
     UAudioPlayerTone.cpp
-    UAudioRecorderFreqWrapper.cpp
+    UAudioCaptureFFT.cpp
+    UAudioEvent.cpp
     UWav.cpp
 )
 

@@ -2,8 +2,8 @@
 #include <cppunit/config/SourcePrefix.h>
 #include "Tests.h"
 
-#include "utilite/UAudioRecorderFile.h"
-#include "utilite/UAudioRecorderMic.h"
+#include "utilite/UAudioCaptureFile.h"
+#include "utilite/UAudioCaptureMic.h"
 #include "utilite/UAudioPlayer.h"
 #include "utilite/UAudioPlayerTone.h"
 #include "utilite/UWav.h"
@@ -40,7 +40,7 @@ void Tests::testMicRecorder()
     //
     // getRecordDrivers
     //
-    std::vector<std::string> drivers = UAudioRecorderMic::getRecordDrivers();
+    std::vector<std::string> drivers = UAudioCaptureMic::getRecordDrivers();
     if(!drivers.size())
     {
     	UFATAL("Micro required for audio lib tests...");
@@ -60,7 +60,7 @@ void Tests::testMicRecorder()
         CPPUNIT_ASSERT(remove(fileName.c_str()) == 0);
     }
 
-    UAudioRecorder* recorder = new UAudioRecorderMic(fileName, 100, 0);
+    UAudioCapture* recorder = new UAudioCaptureMic(fileName, 100, 0);
     recorder->init();
     recorder->start();
     std::vector<char> frame;
@@ -85,7 +85,7 @@ void Tests::testFileRecorder()
 {
     std::string fileName = TEST_SOUND_WAV;
     CPPUNIT_ASSERT(UFile::exists(fileName));
-    UAudioRecorder* recorder = new UAudioRecorderFile(fileName);
+    UAudioCapture* recorder = new UAudioCaptureFile(fileName);
     recorder->init();
     recorder->start();
     std::vector<char> frame;
@@ -122,7 +122,7 @@ void Tests::testFilePlayRecorder()
 {
     std::string fileName = TEST_SOUND_WAV;
     CPPUNIT_ASSERT(UFile::exists(fileName));
-   UAudioRecorder* recorder = new UAudioRecorderFile(fileName, true, 1024);
+   UAudioCapture* recorder = new UAudioCaptureFile(fileName, true, 1024);
     recorder->init();
     recorder->start();
     std::vector<char> frame;
@@ -158,7 +158,7 @@ void Tests::testFileRecorderStereo()
 {
     std::string fileName = TEST_SOUND_STEREO_WAV;
     CPPUNIT_ASSERT(UFile::exists(fileName));
-   UAudioRecorder* recorder = new UAudioRecorderFile(fileName);
+   UAudioCapture* recorder = new UAudioCaptureFile(fileName);
     recorder->init();
     recorder->start();
     std::vector<char> frame;
@@ -189,7 +189,7 @@ void Tests::testPlayRecorderStereo()
 {
     std::string fileName = TEST_SOUND_STEREO_WAV;
     CPPUNIT_ASSERT(UFile::exists(fileName));
-   UAudioRecorder* recorder = new UAudioRecorderFile(fileName, 1024, true);
+   UAudioCapture* recorder = new UAudioCaptureFile(fileName, 1024, true);
     recorder->init();
     recorder->start();
     std::vector<char> frame;

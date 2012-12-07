@@ -1,4 +1,4 @@
-#include "utilite/UAudioRecorderMic.h"
+#include "utilite/UAudioCaptureMic.h"
 #ifdef BUILT_WITH_LAME
 #include "utilite/UMp3Encoder.h"
 #endif
@@ -8,12 +8,12 @@
 #include <utilite/ULogger.h>
 #include <string.h>
 
-UAudioRecorderMic::UAudioRecorderMic(int driver,
+UAudioCaptureMic::UAudioCaptureMic(int driver,
 						 int fs,
 						 int frameLength,
 						 int bytesPerSample,
 						 int channels) :
-	UAudioRecorder(fs, frameLength, bytesPerSample, channels),
+	UAudioCapture(fs, frameLength, bytesPerSample, channels),
 	_driver(driver),
 	_fileName(""),
 	_maxFileSize(0),
@@ -28,14 +28,14 @@ UAudioRecorderMic::UAudioRecorderMic(int driver,
     UDEBUG("");
 }
 
-UAudioRecorderMic::UAudioRecorderMic(const std::string &fileName,
+UAudioCaptureMic::UAudioCaptureMic(const std::string &fileName,
                          int maxFileSizeMb,
                          int driver,
                          int fs,
 						 int frameLength,
 						 int bytesPerSample,
 						 int channels) :
-	UAudioRecorder(fs, frameLength, bytesPerSample, channels),
+	UAudioCapture(fs, frameLength, bytesPerSample, channels),
 	_driver(driver),
 	_fileName(fileName),
 	_maxFileSize(maxFileSizeMb*1000000), // Mb to bytes
@@ -49,13 +49,13 @@ UAudioRecorderMic::UAudioRecorderMic(const std::string &fileName,
     UDEBUG("");
 }
 
-UAudioRecorderMic::~UAudioRecorderMic()
+UAudioCaptureMic::~UAudioCaptureMic()
 {
     this->join(this);
     this->close();
 }
 
-void UAudioRecorderMic::close()
+void UAudioCaptureMic::close()
 {
 	if(_sound)
 	{
@@ -100,10 +100,10 @@ void UAudioRecorderMic::close()
 	}
 }
 
-bool UAudioRecorderMic::init()
+bool UAudioCaptureMic::init()
 {
 	this->close();
-	bool ok = UAudioRecorder::init();
+	bool ok = UAudioCapture::init();
 	if(ok)
 	{
 		std::string::size_type loc;
@@ -172,7 +172,7 @@ bool UAudioRecorderMic::init()
 	return ok;
 }
 
-std::vector<std::string> UAudioRecorderMic::getRecordDrivers()
+std::vector<std::string> UAudioCaptureMic::getRecordDrivers()
 {
     /*
         Enumerate record devices
@@ -194,7 +194,7 @@ std::vector<std::string> UAudioRecorderMic::getRecordDrivers()
     return listDrivers;
 }
 
-void UAudioRecorderMic::mainLoopBegin()
+void UAudioCaptureMic::mainLoopBegin()
 {
 	_lastRecordPos = 0;
 	if(_sound)
@@ -208,7 +208,7 @@ void UAudioRecorderMic::mainLoopBegin()
 Fonction RecordFichier
 Permet d'enregistrer un fichier WAV
 *********************************/
-void UAudioRecorderMic::mainLoop()
+void UAudioCaptureMic::mainLoop()
 {
 	if(!_sound)
 	{
@@ -279,7 +279,7 @@ void UAudioRecorderMic::mainLoop()
     }
 }
 
-void UAudioRecorderMic::mainLoopEnd()
+void UAudioCaptureMic::mainLoopEnd()
 {
     UDEBUG("");
     FMOD_RESULT result;
@@ -290,5 +290,5 @@ void UAudioRecorderMic::mainLoopEnd()
     {
         result = UAudioSystem::recordStop(_driver); UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
     }
-    UAudioRecorder::mainLoopEnd();
+    UAudioCapture::mainLoopEnd();
 }

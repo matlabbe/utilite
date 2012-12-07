@@ -11,62 +11,18 @@
 #include "utilite/UtiLiteExp.h" // DLL export/import defines
 
 #include "utilite/UThreadNode.h"
-#include "utilite/UEvent.h"
+#include "utilite/UAudioEvent.h"
 #include "utilite/UTimer.h"
 #include <string>
 #include <vector>
 
-class UAudioRecorder;
+class UAudioCapture;
 
-class UTILITE_EXP UAudioEvent :
-	public UEvent
-{
-public:
-	enum Type {
-		kTypeFrame,
-		kTypeFrameFreq,
-		kTypeFrameFreqSqrdMagn,
-		kTypeNoMoreFrames
-	};
-
-public:
-	// kTypeNoMoreFrames constructor
-	UAudioEvent(int microId = 0);
-	// kTypeFrame constructor
-	UAudioEvent(const std::vector<std::vector<char> > & frame,
-			int sampleSize,
-			int fs,
-			int channels,
-			int microId = 0);
-	// kTypeFrameFreq and kTypeFrameFreqSqrdMagn constructors
-	UAudioEvent(Type frameType,
-			const std::vector<std::vector<float> > & frameFreq,
-			int fs,
-			int channels,
-			int microId = 0);
-
-	int type() const {return this->getCode();}
-	const std::vector<std::vector<char> > & frame() const {return _frame;}
-	const std::vector<std::vector<float> > & frameFreq() const {return _frameFreq;}
-	int sampleSize() const {return _sampleSize;}
-	int microId() const {return _microId;}
-	int fs() const {return _fs;}
-	virtual ~UAudioEvent() {}
-	virtual std::string getClassName() const {return std::string("UAudioEvent");}
-
-private:
-	std::vector<std::vector<char> > _frame;
-	std::vector<std::vector<float> > _frameFreq;
-	int _sampleSize; // bytes
-	int _fs; //sampling rate
-	int _microId;
-};
-
-class UTILITE_EXP UAudioRecorderFreqWrapper : public UThreadNode
+class UTILITE_EXP UAudioCaptureFFT : public UThreadNode
 {
 	typedef float fftwf_complex[2];
 public:
-	UAudioRecorderFreqWrapper(UAudioEvent::Type eventType,
+	UAudioCaptureFFT(UAudioEvent::Type eventType,
 			int deviceId,
 			int fs,
 			int frameLength,
@@ -74,14 +30,14 @@ public:
 			int bytesPerSample,
 			bool overlap = false,
 			int id = 0);
-	UAudioRecorderFreqWrapper(UAudioEvent::Type eventType,
+	UAudioCaptureFFT(UAudioEvent::Type eventType,
 			const std::string & path,
 			float frameRate,
 			bool simulateFrameRate = true,
 			bool playWhileRecording = false,
 			bool overlap = false,
 			int id = 0);
-	virtual ~UAudioRecorderFreqWrapper();
+	virtual ~UAudioCaptureFFT();
 
 	bool init();
 	void stop(); // same as kill() but handle the case where underlying recorder is running and not the micro.
@@ -107,7 +63,7 @@ protected:
 
 private:
 	UAudioEvent::Type _eventType;
-	UAudioRecorder* _recorder;
+	UAudioCapture* _recorder;
 	float _frameRate;
 	bool _simulateFreq;
 	bool _overlap;

@@ -1,5 +1,5 @@
 /**
- * @file UAudioRecorder.h
+ * @file UAudioCapture.h
  *
  * @author Unknown, Modified by Mathieu Labbe
  */
@@ -25,7 +25,7 @@
  *
  * \n Example : 
  * @code
- *    UAudioRecorder* recorder = <<SeeInheritedClasses>>;
+ *    UAudioCapture* recorder = <<SeeInheritedClasses>>;
  *    Frame frame;
  *    unsigned int frameId = 0;
  *    recorder->start();
@@ -38,14 +38,14 @@
  *    delete recorder;
  * @endcode
  *
- * @see UAudioRecorder::start
- * @see UAudioRecorder::stop
- * @see UAudioRecorder::getNextFrame
+ * @see UAudioCapture::start
+ * @see UAudioCapture::stop
+ * @see UAudioCapture::getNextFrame
  *
  */
-class UTILITE_EXP UAudioRecorder : public UThreadNode {
+class UTILITE_EXP UAudioCapture : public UThreadNode {
 public:
-    virtual ~UAudioRecorder();
+    virtual ~UAudioCapture();
 
     virtual bool init()
     {
@@ -144,7 +144,7 @@ public:
     void setFrameLength(int frameLength) {_frameLength = frameLength;}
 
 protected:
-    UAudioRecorder(int fs = 44100,
+    UAudioCapture(int fs = 44100,
     		 int frameLength = 1024,
     		 int bytesPerSample = 2,
     		 int channels = 1);

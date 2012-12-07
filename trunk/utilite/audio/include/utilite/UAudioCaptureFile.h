@@ -1,5 +1,5 @@
 /**
- * @file UAudioRecorderFile.h
+ * @file UAudioCaptureFile.h
  *
  * @author Modified by Mathieu Labbe
  */
@@ -9,7 +9,7 @@
 
 #include "utilite/UtiLiteExp.h" // DLL export/import defines
 
-#include "utilite/UAudioRecorder.h"
+#include "utilite/UAudioCapture.h"
 #include <string>
 
 class FMOD_SOUND;
@@ -17,13 +17,13 @@ class FMOD_CHANNEL;
 
 /**
  * This recorder loads frames from an audio file in 
- * the samples list of the UAudioRecorder. Almost all 
+ * the samples list of the UAudioCapture. Almost all
  * audio file types are supported (see Fmod audio 
  * types supported).
  *
  * \n Example : 
  * @code
- *    UAudioRecorder* recorder = new UAudioRecorderFile("fileName.wav");
+ *    UAudioCapture* recorder = new UAudioCaptureFile("fileName.wav");
  *    Frame frame;
  *    unsigned int frameId = 0;
  *    recorder->start();
@@ -38,14 +38,14 @@ class FMOD_CHANNEL;
  *
  *
  */
-class UTILITE_EXP UAudioRecorderFile : public UAudioRecorder
+class UTILITE_EXP UAudioCaptureFile : public UAudioCapture
 {
 public:
-    UAudioRecorderFile(const std::string &fileName, 
+    UAudioCaptureFile(const std::string &fileName, 
                  bool playSoundWhileRecording = false,
 				 int frameLength = 1024);
 
-    virtual ~UAudioRecorderFile();
+    virtual ~UAudioCaptureFile();
 
     const std::string &getFileName() const {return _fileName;}
     void setPositionMs(unsigned int pos);
