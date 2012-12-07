@@ -23,7 +23,7 @@
 #include <utilite/UMath.h>
 #include <utilite/UStl.h>
 #include <utilite/USpectrogram.h>
-#include "utilite/UAudioRecorderFreqWrapper.h"
+#include "utilite/UAudioCaptureFFT.h"
 #include <math.h>
 #include <cmath>
 #include <QtGui/QApplication>
@@ -205,14 +205,14 @@ int main(int argc, char * argv[])
 	ULogger::setType(ULogger::kTypeConsole);
 
 
-	UAudioRecorderFreqWrapper * recorder;
+	UAudioCaptureFFT * recorder;
 	if(micDevice >= 0 )
 	{
-		recorder = new UAudioRecorderFreqWrapper(UAudioEvent::kTypeFrameFreqSqrdMagn, micDevice, fs, frameLength, 1, 2, overlap);
+		recorder = new UAudioCaptureFFT(UAudioEvent::kTypeFrameFreqSqrdMagn, micDevice, fs, frameLength, 1, 2, overlap);
 	}
 	else
 	{
-		recorder = new UAudioRecorderFreqWrapper(UAudioEvent::kTypeFrameFreqSqrdMagn, path, fs/frameLength, !offline, !offline, overlap);
+		recorder = new UAudioCaptureFFT(UAudioEvent::kTypeFrameFreqSqrdMagn, path, fs/frameLength, !offline, !offline, overlap);
 	}
 	recorder->init();
 

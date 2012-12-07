@@ -9,7 +9,7 @@
 
 #include "utilite/UtiLiteExp.h" // DLL export/import defines
 
-#include "utilite/UAudioRecorder.h"
+#include "utilite/UAudioCapture.h"
 #include <string>
 #include <vector>
 
@@ -28,7 +28,7 @@ class FMOD_SOUND;
  *
  * \n Example recording to a file and processing the frame: 
  * @code
- *    UAudioRecorder* recorder = new PlayRecorder("fileName.wav", 100);
+ *    UAudioCapture* recorder = new UAudioCaptureMic("fileName.wav", 100);
  *    Frame frame;
  *    unsigned int frameId = 0;
  *    recorder->start();
@@ -44,13 +44,13 @@ class FMOD_SOUND;
  * @see UAudioRecorderMic::getRecordDrivers
  *
  */
-class UTILITE_EXP UAudioRecorderMic : public UAudioRecorder
+class UTILITE_EXP UAudioCaptureMic : public UAudioCapture
 {
 public:
 	/**
 	 * Record from mic.
 	 */
-    UAudioRecorderMic(int driver = 0,
+    UAudioCaptureMic(int driver = 0,
     			int fs = 44100,
     			int frameLength = 1024,
     			int bytesPerSample = 2,
@@ -59,7 +59,7 @@ public:
     /**
      * Record from mic while saving frames to a file.
      */
-    UAudioRecorderMic(const std::string &fileName,
+    UAudioCaptureMic(const std::string &fileName,
                 int maxFileSizeMb,
                 int driver = 0,
                 int fs = 44100,
@@ -67,7 +67,7 @@ public:
 				int bytesPerSample = 2,
 				int channels = 1);
 
-    virtual ~UAudioRecorderMic();
+    virtual ~UAudioCaptureMic();
 
     virtual bool init();
     virtual void close();

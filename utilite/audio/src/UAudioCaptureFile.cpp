@@ -1,13 +1,13 @@
 
-#include "utilite/UAudioRecorderFile.h"
+#include "utilite/UAudioCaptureFile.h"
 #include "UAudioSystem.h"
 #include <utilite/UFile.h>
 #include <utilite/ULogger.h>
 
-UAudioRecorderFile::UAudioRecorderFile(const std::string &fileName, 
+UAudioCaptureFile::UAudioCaptureFile(const std::string &fileName, 
                            bool playSoundWhileRecording,
                            int frameLength) :
-    UAudioRecorder(0, frameLength, 0, 0),
+    UAudioCapture(0, frameLength, 0, 0),
     _fileName(fileName),
     _sound(0),
     _soundLength(0),
@@ -19,13 +19,13 @@ UAudioRecorderFile::UAudioRecorderFile(const std::string &fileName,
     UDEBUG("");
 }
 
-UAudioRecorderFile::~UAudioRecorderFile()
+UAudioCaptureFile::~UAudioCaptureFile()
 {
     this->join(true);
     this->close();
 }
 
-void UAudioRecorderFile::close()
+void UAudioCaptureFile::close()
 {
 	FMOD_RESULT result;
 	if(_channel)
@@ -45,10 +45,10 @@ void UAudioRecorderFile::close()
 	}
 }
 
-bool UAudioRecorderFile::init()
+bool UAudioCaptureFile::init()
 {
 	this->close();
-	bool ok = UAudioRecorder::init();
+	bool ok = UAudioCapture::init();
 	if(ok)
 	{
 		FMOD_RESULT result;
@@ -120,7 +120,7 @@ bool UAudioRecorderFile::init()
 	return ok;
 }
 
-void UAudioRecorderFile::mainLoopBegin()
+void UAudioCaptureFile::mainLoopBegin()
 {
 	// Set paused flag
 	if(_channel)
@@ -148,7 +148,7 @@ void UAudioRecorderFile::mainLoopBegin()
 	}
 }
 
-void UAudioRecorderFile::mainLoop()
+void UAudioCaptureFile::mainLoop()
 {
 	FMOD_RESULT result;
 
@@ -197,7 +197,7 @@ void UAudioRecorderFile::mainLoop()
 	uSleep(10);
 }
 
-void UAudioRecorderFile::mainLoopEnd()
+void UAudioCaptureFile::mainLoopEnd()
 {
 	// Set paused flag
 	if(_channel)
@@ -210,10 +210,10 @@ void UAudioRecorderFile::mainLoopEnd()
 			UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
 		}
 	}
-	UAudioRecorder::mainLoopEnd();
+	UAudioCapture::mainLoopEnd();
 }
 
-void UAudioRecorderFile::setPositionMs(unsigned int pos)
+void UAudioCaptureFile::setPositionMs(unsigned int pos)
 {
     UDEBUG("(%d)", pos);
     FMOD_RESULT result;

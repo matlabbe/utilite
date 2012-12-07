@@ -5,53 +5,19 @@
  *      Author: MatLab
  */
 
-#include "utilite/UAudioRecorderFreqWrapper.h"
+#include "utilite/UAudioCaptureFFT.h"
 
-#include "utilite/UAudioRecorderMic.h"
-#include "utilite/UAudioRecorderFile.h"
+#include "utilite/UAudioCaptureMic.h"
+#include "utilite/UAudioCaptureFile.h"
 #include <utilite/UEventsManager.h>
 #include <utilite/UFile.h>
 #include <utilite/UMath.h>
 #include <fftw3.h>
 #include <string.h>
 
-// kTypeNoMoreFrames constructor
-UAudioEvent::UAudioEvent(int microId) :
-	UEvent(kTypeNoMoreFrames),
-	_sampleSize(0),
-	_fs(0),
-	_microId(microId)
-{
-}
-// kTypeFrame constructor
-UAudioEvent::UAudioEvent(const std::vector<std::vector<char> > & frame,
-		int sampleSize,
-		int fs,
-		int channels,
-		int microId) :
-	UEvent(kTypeFrame),
-	_frame(frame),
-	_sampleSize(sampleSize),
-	_fs(0),
-	_microId(microId)
-{
-}
-// kTypeFrameFreq and kTypeFrameFreqSqrdMagn constructors
-UAudioEvent::UAudioEvent(Type frameType,
-		const std::vector<std::vector<float> > & frameFreq,
-		int fs,
-		int channels,
-		int microId) :
-	UEvent(frameType),
-	_frameFreq(frameFreq),
-	_sampleSize(sizeof(float)),
-	_fs(0),
-	_microId(microId)
-{
-	UASSERT(frameType == kTypeFrameFreqSqrdMagn || frameType == kTypeFrameFreq);
-}
 
-UAudioRecorderFreqWrapper::UAudioRecorderFreqWrapper(UAudioEvent::Type eventType,
+
+UAudioCaptureFFT::UAudioCaptureFFT(UAudioEvent::Type eventType,
 			int deviceId,
 			int fs,
 			int frameLength,
@@ -72,7 +38,7 @@ UAudioRecorderFreqWrapper::UAudioRecorderFreqWrapper(UAudioEvent::Type eventType
 	UASSERT(deviceId >= 0);
 	UASSERT(frameLength > 0);
 
-	_recorder = new UAudioRecorderMic(deviceId, fs, frameLength, bytesPerSample, channels);
+	_recorder = new UAudioCaptureMic(deviceId, fs, frameLength, bytesPerSample, channels);
 
 	// init FFTW stuff
 	if(_recorder->frameLength())
@@ -85,7 +51,7 @@ UAudioRecorderFreqWrapper::UAudioRecorderFreqWrapper(UAudioEvent::Type eventType
 	}
 }
 
-UAudioRecorderFreqWrapper::UAudioRecorderFreqWrapper(UAudioEvent::Type eventType,
+UAudioCaptureFFT::UAudioCaptureFFT(UAudioEvent::Type eventType,
 			const std::string & path,
 			float frameRate,
 			bool simulateFrameRate,
@@ -107,12 +73,12 @@ UAudioRecorderFreqWrapper::UAudioRecorderFreqWrapper(UAudioEvent::Type eventType
 	{
 		simulateFrameRate = false;
 	}
-	_recorder = new UAudioRecorderFile(path, playWhileRecording);
+	_recorder = new UAudioCaptureFile(path, playWhileRecording);
 
 	//FFTW stuff not initialized because it requires UAudioRecorderFile to be initialized
 }
 
-UAudioRecorderFreqWrapper::~UAudioRecorderFreqWrapper()
+UAudioCaptureFFT::~UAudioCaptureFFT()
 {
 	UDEBUG("");
 	join(true);
@@ -129,7 +95,7 @@ UAudioRecorderFreqWrapper::~UAudioRecorderFreqWrapper()
 	}
 }
 
-bool UAudioRecorderFreqWrapper::init()
+bool UAudioCaptureFFT::init()
 {
 	_lastFrame.clear();
 
@@ -166,16 +132,16 @@ bool UAudioRecorderFreqWrapper::init()
 	return true;
 }
 
-void UAudioRecorderFreqWrapper::setPositionMs(unsigned int pos)
+void UAudioCaptureFFT::setPositionMs(unsigned int pos)
 {
-	if(_recorder && dynamic_cast<UAudioRecorderFile*>(_recorder))
+	if(_recorder && dynamic_cast<UAudioCaptureFile*>(_recorder))
 	{
-		UAudioRecorderFile * fileRecorder = (UAudioRecorderFile*)_recorder;
+		UAudioCaptureFile * fileRecorder = (UAudioCaptureFile*)_recorder;
 		fileRecorder->setPositionMs(pos);
 	}
 }
 
-void UAudioRecorderFreqWrapper::stop()
+void UAudioCaptureFFT::stop()
 {
 	if(this->isRunning())
 	{
@@ -187,7 +153,7 @@ void UAudioRecorderFreqWrapper::stop()
 	}
 }
 
-void UAudioRecorderFreqWrapper::startRecorder()
+void UAudioCaptureFFT::startRecorder()
 {
 	if(_recorder)
 	{
@@ -196,12 +162,12 @@ void UAudioRecorderFreqWrapper::startRecorder()
 	}
 }
 
-void UAudioRecorderFreqWrapper::mainLoopBegin()
+void UAudioCaptureFFT::mainLoopBegin()
 {
 	this->startRecorder();
 }
 
-void UAudioRecorderFreqWrapper::mainLoop()
+void UAudioCaptureFFT::mainLoop()
 {
 	if(!_recorder)
 	{
@@ -258,7 +224,7 @@ void UAudioRecorderFreqWrapper::mainLoop()
 	}
 }
 
-void UAudioRecorderFreqWrapper::mainLoopKill()
+void UAudioCaptureFFT::mainLoopKill()
 {
 	if(_recorder)
 	{
@@ -266,7 +232,7 @@ void UAudioRecorderFreqWrapper::mainLoopKill()
 	}
 }
 
-std::vector<std::vector<char> > UAudioRecorderFreqWrapper::getFrame()
+std::vector<std::vector<char> > UAudioCaptureFFT::getFrame()
 {
 	std::vector<std::vector<char> > data;
 	std::vector<char> frame;
@@ -339,14 +305,14 @@ std::vector<std::vector<char> > UAudioRecorderFreqWrapper::getFrame()
 	return data;
 }
 
-std::vector<std::vector<char> > UAudioRecorderFreqWrapper::getFrame(std::vector<std::vector<float> > & frameFreq, bool sqrdMagn)
+std::vector<std::vector<char> > UAudioCaptureFFT::getFrame(std::vector<std::vector<float> > & frameFreq, bool sqrdMagn)
 {
 	std::vector<std::vector<char> > frame = this->getFrame();
 	frameFreq = this->computeFFT(frame, sqrdMagn);
 	return frame;
 }
 
-std::vector<std::vector<float> > UAudioRecorderFreqWrapper::computeFFT(const std::vector<std::vector<char> > & frame, bool sqrdMagn)
+std::vector<std::vector<float> > UAudioCaptureFFT::computeFFT(const std::vector<std::vector<char> > & frame, bool sqrdMagn)
 {
 	std::vector<std::vector<float> > frameFreq;
 	if(!frame.size())
@@ -426,7 +392,7 @@ std::vector<std::vector<float> > UAudioRecorderFreqWrapper::computeFFT(const std
 	return frameFreq;
 }
 
-int UAudioRecorderFreqWrapper::fs()
+int UAudioCaptureFFT::fs()
 {
 	int fs = 0;
 	if(_recorder)
@@ -436,7 +402,7 @@ int UAudioRecorderFreqWrapper::fs()
 	return fs;
 }
 
-int UAudioRecorderFreqWrapper::bytesPerSample()
+int UAudioCaptureFFT::bytesPerSample()
 {
 	int bytes = 0;
 	if(_recorder)
@@ -446,7 +412,7 @@ int UAudioRecorderFreqWrapper::bytesPerSample()
 	return bytes;
 }
 
-int UAudioRecorderFreqWrapper::channels()
+int UAudioCaptureFFT::channels()
 {
 	int channels = 0;
 	if(_recorder)
@@ -456,7 +422,7 @@ int UAudioRecorderFreqWrapper::channels()
 	return channels;
 }
 
-int UAudioRecorderFreqWrapper::samples()
+int UAudioCaptureFFT::samples()
 {
 	int n = 0;
 	if(_recorder)

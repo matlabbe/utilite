@@ -1,7 +1,7 @@
 /*********************************
 Fonction de la classe UAudioRecorder
 *********************************/
-#include "utilite/UAudioRecorder.h"
+#include "utilite/UAudioCapture.h"
 #include "UAudioSystem.h"
 #include <utilite/ULogger.h>
 #include <string.h>
@@ -9,7 +9,7 @@ Fonction de la classe UAudioRecorder
 /*********************************
 Fonction constructeur de UAudioRecorder
 *********************************/
-UAudioRecorder::UAudioRecorder(int fs,
+UAudioCapture::UAudioCapture(int fs,
 		 	 	   int frameLength,
 		 	 	   int bytesPerSample,
 		 	 	   int channels) :
@@ -26,7 +26,7 @@ UAudioRecorder::UAudioRecorder(int fs,
 /*********************************
 Fonction destructeur de UAudioRecorder
 *********************************/
-UAudioRecorder::~UAudioRecorder()
+UAudioCapture::~UAudioCapture()
 {
     UDEBUG("");
     this->join(true);
@@ -34,13 +34,13 @@ UAudioRecorder::~UAudioRecorder()
     UAudioSystem::release();
 }
 
-bool UAudioRecorder::getNextFrame(std::vector<char> & frame, int &frameId)
+bool UAudioCapture::getNextFrame(std::vector<char> & frame, int &frameId)
 {
     frameId = _nextFrameToGet++;
     return getFrame(frame, frameId);
 }
 
-bool UAudioRecorder::getNextFrame(std::vector<char> & frame, bool removeOldFrames)
+bool UAudioCapture::getNextFrame(std::vector<char> & frame, bool removeOldFrames)
 {
     int frameId = _nextFrameToGet;
     bool result =  getFrame(frame, frameId);
@@ -56,7 +56,7 @@ bool UAudioRecorder::getNextFrame(std::vector<char> & frame, bool removeOldFrame
     return result;
 }
 
-int UAudioRecorder::getNextFrameToGet()
+int UAudioCapture::getNextFrameToGet()
 {
     return _nextFrameToGet;
 }
@@ -65,7 +65,7 @@ int UAudioRecorder::getNextFrameToGet()
 Fonction getTrame
 Permet de retourner la trame demand�e
 *********************************/
-bool UAudioRecorder::getFrame(std::vector<char> & frame, int frameId)
+bool UAudioCapture::getFrame(std::vector<char> & frame, int frameId)
 {
     return getMultiFrame(frame, frameId, frameId);
 }
@@ -74,7 +74,7 @@ bool UAudioRecorder::getFrame(std::vector<char> & frame, int frameId)
 Fonction getMultiTrame
 Permet de retourner les trames demand�es dans une seule trame
 *********************************/
-bool UAudioRecorder::getMultiFrame(std::vector<char> & frame, int frameIdBeg, int frameIdEnd)
+bool UAudioCapture::getMultiFrame(std::vector<char> & frame, int frameIdBeg, int frameIdEnd)
 {
 	while(this->isCreating())
 	{
@@ -117,12 +117,12 @@ bool UAudioRecorder::getMultiFrame(std::vector<char> & frame, int frameIdBeg, in
 Fonction getNbTrame
 Permet de tourner le nombre de trames disponibles
 *********************************/
-int UAudioRecorder::getNumFrames()
+int UAudioCapture::getNumFrames()
 {
     return samples()/_frameLength;
 }
 
-int UAudioRecorder::samples()
+int UAudioCapture::samples()
 {
     int size = 0;
     _samplesMutex.lock();
@@ -133,7 +133,7 @@ int UAudioRecorder::samples()
     return size;
 }
 
-void UAudioRecorder::pushBackSamples(void * data, int dataLengthInBytes)
+void UAudioCapture::pushBackSamples(void * data, int dataLengthInBytes)
 {
     _samplesMutex.lock();
     {
@@ -150,7 +150,7 @@ void UAudioRecorder::pushBackSamples(void * data, int dataLengthInBytes)
     _samplesMutex.unlock();
 }
 
-void UAudioRecorder::removeFrames(int frameIdBeg, int frameIdEnd)
+void UAudioCapture::removeFrames(int frameIdBeg, int frameIdEnd)
 {
     _samplesMutex.lock();
     {
@@ -165,7 +165,7 @@ void UAudioRecorder::removeFrames(int frameIdBeg, int frameIdEnd)
     _samplesMutex.unlock();
 }
 
-void UAudioRecorder::removeSamples(int sampleByteBeg, int sampleByteEnd)
+void UAudioCapture::removeSamples(int sampleByteBeg, int sampleByteEnd)
 {
     _samplesMutex.lock();
     {
@@ -180,7 +180,7 @@ void UAudioRecorder::removeSamples(int sampleByteBeg, int sampleByteEnd)
     _samplesMutex.unlock();
 }
 
-void UAudioRecorder::mainLoopEnd()
+void UAudioCapture::mainLoopEnd()
 {
 	_getTrameSemaphore.release();
 }
