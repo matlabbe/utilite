@@ -39,6 +39,16 @@ ELSE ()
 ENDIF()
 #ADD_DEFINITIONS("-DUNICODE") # to test with UNICODE projects
 
+#Find libraries included with our project first
+IF(WIN32)
+   SET(CMAKE_INCLUDE_PATH "${PROJECT_SOURCE_DIR}/3rdParty/include;${CMAKE_INCLUDE_PATH}")
+   SET(CMAKE_LIBRARY_PATH "${PROJECT_SOURCE_DIR}/3rdParty/lib;${CMAKE_LIBRARY_PATH}")
+ELSEIF(APPLE)
+   # For Mac ports
+   SET(CMAKE_INCLUDE_PATH "/opt/local/include;${CMAKE_INCLUDE_PATH}")
+   SET(CMAKE_LIBRARY_PATH "/opt/local/lib;${CMAKE_LIBRARY_PATH}")
+ENDIF()
+
 # It is a bit messed up on Windows between STATIC and SHARED, if we don't want
 # to add UtiLite_DEFINITIONS in FindUtiLite.cmake... to know from 3rd party application if it needs to
 # link dynamically [UTILITE_EXP __declspec( dllimport )] or statically (UTILITE_EXP "nothing").
