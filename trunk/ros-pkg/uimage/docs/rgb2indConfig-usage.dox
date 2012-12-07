@@ -1,6 +1,6 @@
 \subsubsection usage Usage
 \verbatim
-<node name="dynamic_rgb2ind" pkg="rtabmap_image" type="dynamic_rgb2ind">
+<node name="dynamic_rgb2ind" pkg="uimage" type="dynamic_rgb2ind">
   <param name="color_table_size" type="int" value="7" />
 </node>
 \endverbatim

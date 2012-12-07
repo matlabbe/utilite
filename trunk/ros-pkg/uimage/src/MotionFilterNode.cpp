@@ -9,13 +9,13 @@
 #include <signal.h>
 
 #include <dynamic_reconfigure/server.h>
-#include <rtabmap_image/motionFilterConfig.h>
+#include <uimage/motionFilterConfig.h>
 
 image_transport::Publisher rosPublisher;
 cv::Mat previousImage;
 double ratio = 0.2;
 
-void callback(rtabmap_image::motionFilterConfig &config, uint32_t level)
+void callback(uimage::motionFilterConfig &config, uint32_t level)
 {
 	ratio = config.ratio;
 }
@@ -78,8 +78,8 @@ int main(int argc, char * argv[])
 	image_transport::Subscriber image_sub = it.subscribe("image", 1, imgReceivedCallback);
 	rosPublisher = it.advertise("image_motion", 1);
 
-	dynamic_reconfigure::Server<rtabmap_image::motionFilterConfig> server;
-	dynamic_reconfigure::Server<rtabmap_image::motionFilterConfig>::CallbackType f;
+	dynamic_reconfigure::Server<uimage::motionFilterConfig> server;
+	dynamic_reconfigure::Server<uimage::motionFilterConfig>::CallbackType f;
 	f = boost::bind(&callback, _1, _2);
 	server.setCallback(f);
 
