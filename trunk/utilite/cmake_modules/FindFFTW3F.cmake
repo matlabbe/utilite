@@ -11,8 +11,7 @@
 
      
 FIND_PATH(FFTW3F_INCLUDE_DIRS 
-          fftw3.h
-          PATH_SUFFIXES fftw3)
+          fftw3.h)
 
 FIND_LIBRARY(FFTW3F_LIBRARIES NAMES fftw3f-3 fftw3f libfftw3f-3)
 
