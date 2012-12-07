@@ -6,6 +6,7 @@ SET(SRC_FILES
     UAudioRecorder.cpp
     UAudioSystem.cpp
     UAudioPlayerTone.cpp
+    UAudioRecorderFreqWrapper.cpp
     UWav.cpp
 )
 
@@ -13,10 +14,12 @@ SET(INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../include
 	${Fmodex_INCLUDE_DIRS}
+	${FFTW3F_INCLUDE_DIRS}
 )
 
 SET(LIBRARIES
     ${Fmodex_LIBRARIES}
+    ${FFTW3F_LIBRARIES}
 )
 
 IF(Lame_FOUND)
