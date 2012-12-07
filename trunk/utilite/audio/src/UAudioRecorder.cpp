@@ -42,7 +42,6 @@ bool UAudioRecorder::getNextFrame(std::vector<char> & frame, int &frameId)
 
 bool UAudioRecorder::getNextFrame(std::vector<char> & frame, bool removeOldFrames)
 {
-	UDEBUG("");
     int frameId = _nextFrameToGet;
     bool result =  getFrame(frame, frameId);
     if(result)

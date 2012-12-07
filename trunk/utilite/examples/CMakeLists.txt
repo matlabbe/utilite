@@ -25,6 +25,34 @@ TARGET_LINK_LIBRARIES(example-counterThread utilite)
 ADD_EXECUTABLE(example-math math.cpp)
 TARGET_LINK_LIBRARIES(example-math utilite)
 
+IF(OpenCV_FOUND)
+	INCLUDE_DIRECTORIES(${OpenCV_INCLUDE_DIRS})
+ENDIF(OpenCV_FOUND)
+
+IF(QT4_FOUND AND QT_QTCORE_FOUND AND QT_QTGUI_FOUND)
+	INCLUDE(${QT_USE_FILE})
+ENDIF(QT4_FOUND AND QT_QTCORE_FOUND AND QT_QTGUI_FOUND)
+
+IF(utilite_cv)
+	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/cv/include)
+	ADD_EXECUTABLE(example-colorIndexesGenerator colorIndexesGenerator.cpp)
+	TARGET_LINK_LIBRARIES(example-colorIndexesGenerator utilite utilite_cv ${OpenCV_LIBS})
+ENDIF(utilite_cv)
+
+IF(utilite_audio)
+	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/audio/include)
+	ADD_EXECUTABLE(example-spectrogram spectrogram.cpp)
+	TARGET_LINK_LIBRARIES(example-spectrogram utilite utilite_audio ${QT_LIBRARIES})
+ENDIF(utilite_audio)
+
+IF(utilite_cvqt)
+	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/cv_qt/include)
+	ADD_EXECUTABLE(example-imageCapture imageCapture.cpp)
+	TARGET_LINK_LIBRARIES(example-imageCapture utilite utilite_cv utilite_cvqt ${OpenCV_LIBS} ${QT_LIBRARIES})
+ENDIF(utilite_cvqt)
+
+
+
 ####################################
 # Resources example
 # Note that external projects using FindUtiLite.cmake 
