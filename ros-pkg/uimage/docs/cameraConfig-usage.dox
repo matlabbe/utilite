@@ -1,6 +1,6 @@
 \subsubsection usage Usage
 \verbatim
-<node name="dynamic_camera" pkg="rtabmap_image" type="dynamic_camera">
+<node name="dynamic_camera" pkg="uimage" type="dynamic_camera">
   <param name="device_id" type="int" value="0" />
   <param name="frame_rate" type="double" value="15.0" />
   <param name="width" type="int" value="640" />

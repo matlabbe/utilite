@@ -8,7 +8,7 @@
 #include <sensor_msgs/image_encodings.h>
 #include <opencv2/imgproc/imgproc_c.h>
 #include <dynamic_reconfigure/server.h>
-#include <rtabmap_image/xy2polarConfig.h>
+#include <uimage/xy2polarConfig.h>
 
 int dp_rays = 128;
 int dp_rings = 64;
@@ -16,7 +16,7 @@ int dp_rings = 64;
 image_transport::Publisher rosPublisherPolar;
 image_transport::Publisher rosPublisherPolarReconstructed;
 
-void callback(rtabmap_image::xy2polarConfig &config, uint32_t level)
+void callback(uimage::xy2polarConfig &config, uint32_t level)
 {
 	dp_rays = config.rays;
 	dp_rings = config.rings;
@@ -85,8 +85,8 @@ int main(int argc, char * argv[])
 	rosPublisherPolar = it.advertise("image_polar", 1);
 	rosPublisherPolarReconstructed = it.advertise("image_polar_reconstructed", 1);
 
-	dynamic_reconfigure::Server<rtabmap_image::xy2polarConfig> server;
-	dynamic_reconfigure::Server<rtabmap_image::xy2polarConfig>::CallbackType f;
+	dynamic_reconfigure::Server<uimage::xy2polarConfig> server;
+	dynamic_reconfigure::Server<uimage::xy2polarConfig>::CallbackType f;
 	f = boost::bind(&callback, _1, _2);
 	server.setCallback(f);
 

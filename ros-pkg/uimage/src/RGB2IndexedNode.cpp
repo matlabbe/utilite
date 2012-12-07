@@ -7,22 +7,22 @@
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
 #include <signal.h>
-#include <rtabmap/core/ColorTable.h>
+#include <utilite/UColorTable.h>
 #include <dynamic_reconfigure/server.h>
-#include <rtabmap_image/rgb2indConfig.h>
+#include <uimage/rgb2indConfig.h>
 
 image_transport::Publisher rosPublisher;
-rtabmap::ColorTable colorTable(rtabmap::ColorTable::kSize1024);
+UColorTable colorTable(UColorTable::kSize1024);
 
-void callback(rtabmap_image::rgb2indConfig &config, uint32_t level)
+void callback(uimage::rgb2indConfig &config, uint32_t level)
 {
 	if(config.color_table_size == 14)
 	{
-		colorTable = rtabmap::ColorTable(rtabmap::ColorTable::kSize16777216);
+		colorTable = UColorTable(UColorTable::kSize16777216);
 	}
 	else
 	{
-		colorTable = rtabmap::ColorTable(1<<(config.color_table_size+3));
+		colorTable = UColorTable(1<<(config.color_table_size+3));
 	}
 }
 
@@ -71,8 +71,8 @@ int main(int argc, char * argv[])
 	image_transport::Subscriber image_sub = it.subscribe("image", 1, imgReceivedCallback);
 	rosPublisher = it.advertise("image_indexed", 1);
 
-	dynamic_reconfigure::Server<rtabmap_image::rgb2indConfig> server;
-	dynamic_reconfigure::Server<rtabmap_image::rgb2indConfig>::CallbackType f;
+	dynamic_reconfigure::Server<uimage::rgb2indConfig> server;
+	dynamic_reconfigure::Server<uimage::rgb2indConfig>::CallbackType f;
 	f = boost::bind(&callback, _1, _2);
 	server.setCallback(f);
 

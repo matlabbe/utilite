@@ -13,8 +13,7 @@
 #include <image_transport/image_transport.h>
 #include <std_srvs/Empty.h>
 
-#include <rtabmap/core/Camera.h>
-#include <rtabmap/core/Parameters.h>
+#include <utilite/UImageCapture.h>
 
 #include <utilite/ULogger.h>
 #include <utilite/UEventsHandler.h>
@@ -23,7 +22,7 @@
 #include <utilite/UFile.h>
 
 #include <dynamic_reconfigure/server.h>
-#include <rtabmap_image/cameraConfig.h>
+#include <uimage/cameraConfig.h>
 
 class CameraWrapper : public UEventsHandler
 {
@@ -95,8 +94,8 @@ public:
 				deviceId, path.c_str(), frameRate, width, height, autoRestart?"true":"false");
 		if(camera_)
 		{
-			rtabmap::CameraVideo * videoCam = dynamic_cast<rtabmap::CameraVideo *>(camera_);
-			rtabmap::CameraImages * imagesCam = dynamic_cast<rtabmap::CameraImages *>(camera_);
+			UVideoCapture * videoCam = dynamic_cast<UVideoCapture *>(camera_);
+			UImageFolderCapture * imagesCam = dynamic_cast<UImageFolderCapture *>(camera_);
 
 			if(imagesCam)
 			{
@@ -160,12 +159,12 @@ public:
 			if(!path.empty() && UDirectory::exists(path))
 			{
 				//images
-				camera_ = new rtabmap::CameraImages(path, 1, false, frameRate, autoRestart, width, height);
+				camera_ = new UImageFolderCapture(path, 1, false, frameRate, autoRestart, width, height);
 			}
 			else if(!path.empty() && UFile::exists(path))
 			{
 				//video
-				camera_ = new rtabmap::CameraVideo(path, frameRate, autoRestart, width, height);
+				camera_ = new UVideoCapture(path, frameRate, autoRestart, width, height);
 			}
 			else
 			{
@@ -174,7 +173,7 @@ public:
 					ROS_ERROR("Path \"%s\" does not exist (or you don't have the permissions to read)... falling back to usb device...", path.c_str());
 				}
 				//usb device
-				camera_ = new rtabmap::CameraVideo(deviceId, frameRate, autoRestart, width, height);
+				camera_ = new UVideoCapture(deviceId, frameRate, autoRestart, width, height);
 			}
 			init();
 			start();
@@ -184,9 +183,9 @@ public:
 protected:
 	virtual void handleEvent(UEvent * event)
 	{
-		if(event->getClassName().compare("CameraEvent") == 0)
+		if(event->getClassName().compare("UImageEvent") == 0)
 		{
-			rtabmap::CameraEvent * e = (rtabmap::CameraEvent*)event;
+			UImageEvent * e = (UImageEvent*)event;
 			const cv::Mat & image = e->image();
 			if(!image.empty() && image.depth() == CV_8U)
 			{
@@ -222,13 +221,13 @@ protected:
 
 private:
 	image_transport::Publisher rosPublisher_;
-	rtabmap::Camera * camera_;
+	UAbstractImageCapture * camera_;
 	ros::ServiceServer startSrv_;
 	ros::ServiceServer stopSrv_;
 };
 
 CameraWrapper * camera = 0;
-void callback(rtabmap_image::cameraConfig &config, uint32_t level)
+void callback(uimage::cameraConfig &config, uint32_t level)
 {
 	if(camera)
 	{
@@ -248,8 +247,8 @@ int main(int argc, char** argv)
 
 	camera = new CameraWrapper(); // webcam device 0
 
-	dynamic_reconfigure::Server<rtabmap_image::cameraConfig> server;
-	dynamic_reconfigure::Server<rtabmap_image::cameraConfig>::CallbackType f;
+	dynamic_reconfigure::Server<uimage::cameraConfig> server;
+	dynamic_reconfigure::Server<uimage::cameraConfig>::CallbackType f;
 	f = boost::bind(&callback, _1, _2);
 	server.setCallback(f);
 
