@@ -14,7 +14,7 @@
 #include <std_msgs/Empty.h>
 #include <std_srvs/Empty.h>
 
-#include <utilite/UAudioRecorderFreqWrapper.h>
+#include <utilite/UAudioCaptureFFT.h>
 
 #include "uaudio/AudioFrame.h"
 #include "uaudio/AudioFrameFreq.h"
@@ -31,7 +31,7 @@ class MicroWrapper : public UThreadNode
 public:
 	MicroWrapper(int deviceId, int frameLength, int fs, int sampleSize, int nChannels)
 	{
-		micro_ = new UAudioRecorderFreqWrapper(UAudioEvent::kTypeFrame, deviceId, fs, frameLength, nChannels, sampleSize);
+		micro_ = new UAudioCaptureFFT(UAudioEvent::kTypeFrame, deviceId, fs, frameLength, nChannels, sampleSize);
 		ros::NodeHandle nh("");
 		audioFramePublisher_ = nh.advertise<uaudio::AudioFrame>("audioFrame", 1);
 		audioFrameFreqPublisher_ = nh.advertise<uaudio::AudioFrameFreq>("audioFrameFreq", 1);
@@ -44,7 +44,7 @@ public:
 	MicroWrapper(const std::string & fileName, float frameRate, const std::vector<std::string> & nextFileNames) :
 		nextFileNames_(nextFileNames)
 	{
-		micro_ = new UAudioRecorderFreqWrapper(UAudioEvent::kTypeFrame, fileName, frameRate);
+		micro_ = new UAudioCaptureFFT(UAudioEvent::kTypeFrame, fileName, frameRate);
 		ros::NodeHandle nh("");
 		audioFramePublisher_ = nh.advertise<uaudio::AudioFrame>("audioFrame", 1);
 		audioFrameFreqPublisher_ = nh.advertise<uaudio::AudioFrameFreq>("audioFrameFreq", 1);
@@ -125,7 +125,7 @@ public:
 		while(!init && nextFileNames_.size())
 		{
 			delete micro_;
-			micro_ = new UAudioRecorderFreqWrapper(UAudioEvent::kTypeFrame, nextFileNames_[0], frameRate);
+			micro_ = new UAudioCaptureFFT(UAudioEvent::kTypeFrame, nextFileNames_[0], frameRate);
 			currentFileName = nextFileNames_[0];
 			nextFileNames_.erase(nextFileNames_.begin());
 			init = micro_->init();
@@ -258,7 +258,7 @@ private:
 	ros::Publisher audioFramePublisher_;
 	ros::Publisher audioFrameFreqPublisher_;
 	ros::Publisher audioFrameFreqSqrdMagnPublisher_;
-	UAudioRecorderFreqWrapper * micro_;
+	UAudioCaptureFFT * micro_;
 	std::vector<std::string> nextFileNames_;
 	ros::ServiceServer pauseSrv_;
 	ros::ServiceServer nextSrv_;

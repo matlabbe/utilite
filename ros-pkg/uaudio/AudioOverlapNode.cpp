@@ -5,7 +5,7 @@
 #include <ros/ros.h>
 
 #include <utilite/ULogger.h>
-#include <utilite/UAudioRecorderFreqWrapper.h>
+#include <utilite/UAudioCaptureFFT.h>
 
 #include "uaudio/AudioFrame.h"
 #include "uaudio/AudioFrameFreq.h"
@@ -104,7 +104,7 @@ private:
 			// this should initialize FFTW stuff (to use Micro::computeFFT()) and
 			// no need to call micro_->init()
 			ROS_INFO("buffer.frame.size()=%d, frameLength = %d",buffer.frame.size(), buffer.frame.size() / (msgReceived->nChannels * msgReceived->sampleSize));
-			micro_ = new UAudioRecorderFreqWrapper(
+			micro_ = new UAudioCaptureFFT(
 				UAudioEvent::kTypeFrame,
 				0, msgReceived->fs,
 				buffer.frame.size() / (msgReceived->nChannels * msgReceived->sampleSize),
@@ -203,7 +203,7 @@ private:
 	ros::Publisher audioFrameFreqPublisher_;
 	ros::Publisher audioFrameFreqSqrdMagnPublisher_;
 	double ratio_;
-	UAudioRecorderFreqWrapper * micro_;
+	UAudioCaptureFFT * micro_;
 };
 
 
