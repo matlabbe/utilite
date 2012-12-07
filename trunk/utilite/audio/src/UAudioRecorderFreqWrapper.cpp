@@ -397,7 +397,7 @@ std::vector<std::vector<float> > UAudioRecorderFreqWrapper::computeFFT(const std
 			frameFreq.resize(timeSample.size(), std::vector<float>(size*2)); //[re, im, re, im, ...]
 		}
 
-		// for each channels
+		// for each channel
 		for(unsigned int j=0; j<timeSample.size(); ++j)
 		{
 			std::vector<float> & row = timeSample.at(j);

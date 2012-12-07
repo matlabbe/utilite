@@ -8,9 +8,6 @@
 
 #include "utilite/UColorTable.h"
 
-namespace rtabmap
-{
-
 unsigned char UColorTable::INDEXED_TABLE_1024[3076] = {
 28, 28, 0,
 28, 57, 0,
@@ -1037,5 +1034,3 @@ unsigned char UColorTable::INDEXED_TABLE_1024[3076] = {
 238, 238, 238,
 255, 255, 255
 };
-
-}

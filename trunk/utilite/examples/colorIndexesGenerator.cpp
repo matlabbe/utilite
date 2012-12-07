@@ -12,8 +12,6 @@
 #define FILE_NAME_SUFFIX ".bin"
 #define CHUNK 16384
 
-using namespace rtabmap;
-
 void showUsage()
 {
 	printf("\nUsage:\n"
