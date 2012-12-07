@@ -327,10 +327,7 @@ std::vector<std::vector<char> > UAudioRecorderFreqWrapper::getFrame()
 			{
 				for(unsigned int j=0; j<(unsigned int)channels; ++j)
 				{
-					for(unsigned int k=0; k<(unsigned int)bytesPerSample; ++k)
-					{
-						data.at(j).at(i/channels + k) = frame[i + j*bytesPerSample + k];
-					}
+					memcpy(data[j].data() + i/channels, frame.data() + i + j*bytesPerSample, bytesPerSample);
 				}
 			}
 		}

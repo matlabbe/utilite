@@ -31,25 +31,29 @@ ENDIF(OpenCV_FOUND)
 
 IF(QT4_FOUND AND QT_QTCORE_FOUND AND QT_QTGUI_FOUND)
 	INCLUDE(${QT_USE_FILE})
+	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/qt/include)
 ENDIF(QT4_FOUND AND QT_QTCORE_FOUND AND QT_QTGUI_FOUND)
 
-IF(utilite_cv)
+IF(TARGET utilite_cv)
+MESSAGE(STATUS "test3")
 	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/cv/include)
 	ADD_EXECUTABLE(example-colorIndexesGenerator colorIndexesGenerator.cpp)
 	TARGET_LINK_LIBRARIES(example-colorIndexesGenerator utilite utilite_cv ${OpenCV_LIBS})
-ENDIF(utilite_cv)
+ENDIF(TARGET utilite_cv)
 
-IF(utilite_audio)
+MESSAGE(STATUS "test")
+IF(TARGET utilite_audio)
+MESSAGE(STATUS "test2")
 	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/audio/include)
 	ADD_EXECUTABLE(example-audioCapture audioCapture.cpp)
-	TARGET_LINK_LIBRARIES(example-audioCapture utilite utilite_audio ${QT_LIBRARIES})
-ENDIF(utilite_audio)
+	TARGET_LINK_LIBRARIES(example-audioCapture utilite utilite_audio utilite_qt ${QT_LIBRARIES})
+ENDIF(TARGET utilite_audio)
 
-IF(utilite_cvqt)
+IF(TARGET utilite_cvqt)
 	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/cv_qt/include)
 	ADD_EXECUTABLE(example-imageCapture imageCapture.cpp)
 	TARGET_LINK_LIBRARIES(example-imageCapture utilite utilite_cv utilite_cvqt ${OpenCV_LIBS} ${QT_LIBRARIES})
-ENDIF(utilite_cvqt)
+ENDIF(TARGET utilite_cvqt)
 
 
 
