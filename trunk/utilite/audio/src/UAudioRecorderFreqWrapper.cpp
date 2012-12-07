@@ -292,7 +292,7 @@ std::vector<std::vector<char> > UAudioRecorderFreqWrapper::getFrame()
 		{
 			//
 		}
-		double slept = _timer.getElapsedTime();
+		//double slept = _timer.getElapsedTime();
 		_timer.start();
 		//UDEBUG("slept=%fs vs target=%fs", slept, double(frameLength)/double(fs));
 	}
