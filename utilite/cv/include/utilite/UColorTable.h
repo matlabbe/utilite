@@ -6,8 +6,6 @@
 
 #include <vector>
 
-namespace rtabmap
-{
 // Note INDEXED_TABLE_# are generated using MATLAB with command "ceil(colorcube(#)*255)".
 class UTILITE_EXP UColorTable
 {
@@ -55,7 +53,5 @@ private:
 	std::vector<unsigned short> _rgb2indexed;
 	unsigned char * _indexedTable;
 };
-
-} // namespace rtabmap
 
 #endif // COLORTABLE_H

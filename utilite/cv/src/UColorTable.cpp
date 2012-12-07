@@ -25,8 +25,6 @@
 #include <utilite/ULogger.h>
 #include <utilite/UConversion.h>
 
-namespace rtabmap
-{
 UColorTable::UColorTable(int size) :
 	_size(size),
 	_rgb2indexed(0)
@@ -1200,8 +1198,3 @@ unsigned char UColorTable::INDEXED_TABLE_512[1536] = {
 , 255, 255, 255
 };
 
-
-
-
-
-} // namespace rtabmap
