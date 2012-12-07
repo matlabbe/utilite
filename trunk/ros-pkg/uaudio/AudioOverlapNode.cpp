@@ -5,11 +5,11 @@
 #include <ros/ros.h>
 
 #include <utilite/ULogger.h>
-#include <rtabmap/core/Micro.h>
+#include <utilite/UAudioRecorderFreqWrapper.h>
 
-#include "rtabmap_audio/AudioFrame.h"
-#include "rtabmap_audio/AudioFrameFreq.h"
-#include "rtabmap_audio/AudioFrameFreqSqrdMagn.h"
+#include "uaudio/AudioFrame.h"
+#include "uaudio/AudioFrameFreq.h"
+#include "uaudio/AudioFrameFreqSqrdMagn.h"
 
 class FrameBuffer
 {
@@ -42,9 +42,9 @@ public:
 	{
 		ros::NodeHandle nh;
 		audioSubs_ = nh.subscribe("audioFrame", 1, &AudioOverlap::frameReceivedCallback, this);
-		audioFramePublisher_ = nh.advertise<rtabmap_audio::AudioFrame>("audioOverlappedFrame", 1);
-		audioFrameFreqPublisher_ = nh.advertise<rtabmap_audio::AudioFrameFreq>("audioOverlappedFrameFreq", 1);
-		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<rtabmap_audio::AudioFrameFreqSqrdMagn>("audioOverlappedFrameFreqSqrdMagn", 1);
+		audioFramePublisher_ = nh.advertise<uaudio::AudioFrame>("audioOverlappedFrame", 1);
+		audioFrameFreqPublisher_ = nh.advertise<uaudio::AudioFrameFreq>("audioOverlappedFrameFreq", 1);
+		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<uaudio::AudioFrameFreqSqrdMagn>("audioOverlappedFrameFreqSqrdMagn", 1);
 	}
 	~AudioOverlap()
 	{
@@ -55,7 +55,7 @@ public:
 	}
 
 private:
-	void frameReceivedCallback(const rtabmap_audio::AudioFramePtr & msgReceived)
+	void frameReceivedCallback(const uaudio::AudioFramePtr & msgReceived)
 	{
 		if(!msgReceived->data.size())
 		{
@@ -104,8 +104,8 @@ private:
 			// this should initialize FFTW stuff (to use Micro::computeFFT()) and
 			// no need to call micro_->init()
 			ROS_INFO("buffer.frame.size()=%d, frameLength = %d",buffer.frame.size(), buffer.frame.size() / (msgReceived->nChannels * msgReceived->sampleSize));
-			micro_ = new rtabmap::Micro(
-				rtabmap::MicroEvent::kTypeFrame,
+			micro_ = new UAudioRecorderFreqWrapper(
+				UAudioEvent::kTypeFrame,
 				0, msgReceived->fs,
 				buffer.frame.size() / (msgReceived->nChannels * msgReceived->sampleSize),
 				msgReceived->nChannels,
@@ -123,7 +123,7 @@ private:
 		{
 			if(audioFramePublisher_.getNumSubscribers())
 			{
-				rtabmap_audio::AudioFramePtr msg(new rtabmap_audio::AudioFrame);
+				uaudio::AudioFramePtr msg(new uaudio::AudioFrame);
 				msg->header.frame_id = msgReceived->header.frame_id;
 				msg->header.stamp = msgReceived->header.stamp;
 				msg->data = buffer.frame;
@@ -137,59 +137,60 @@ private:
 			if(audioFrameFreqPublisher_.getNumSubscribers() || audioFrameFreqSqrdMagnPublisher_.getNumSubscribers())
 			{
 				int frameLength = buffer.frame.size() / (msgReceived->nChannels * msgReceived->sampleSize);
-				cv::Mat data(msgReceived->nChannels, frameLength, msgReceived->sampleSize==1?CV_8S:msgReceived->sampleSize==2?CV_16S:CV_32S);
 				// "uninterleave" the data
-				for(unsigned int i=0; i<buffer.frame.size(); i+=data.elemSize()*data.rows)
+				std::vector<std::vector<char> > data(msgReceived->nChannels, std::vector<char>(frameLength*msgReceived->sampleSize));
+				for(unsigned int i = 0; i<buffer.frame.size(); i+=msgReceived->nChannels*msgReceived->sampleSize)
 				{
-					for(int j=0; j<data.rows; ++j)
+					for(unsigned int j=0; j<data.size(); ++j)
 					{
-						memcpy(data.data + (i/(data.elemSize()*data.rows))*data.elemSize() + j*data.cols*data.elemSize(), buffer.frame.data()+i+j*data.elemSize(), data.elemSize());
+						memcpy(data[j].data() + i/data.size(), buffer.frame.data() + i + j*msgReceived->sampleSize, msgReceived->sampleSize);
 					}
 				}
 
-				cv::Mat freq;
+				std::vector<std::vector<float> > freq;
 				freq = micro_->computeFFT(data, false);
 
 				if(audioFrameFreqPublisher_.getNumSubscribers())
 				{
-					rtabmap_audio::AudioFrameFreqPtr msg(new rtabmap_audio::AudioFrameFreq);
+					uaudio::AudioFrameFreqPtr msg(new uaudio::AudioFrameFreq);
 					msg->header.frame_id = msgReceived->header.frame_id;
 					msg->header.stamp = msgReceived->header.stamp;
-					msg->data.resize(freq.total()*freq.elemSize());
-					memcpy(msg->data.data(), freq.data, msg->data.size());
-					msg->frameLength = freq.cols;
+					msg->data.resize(freq.size()*freq[0].size());
+					for(unsigned int i=0; i<freq.size(); ++i)
+					{
+						memcpy(msg->data.data()+i*freq[i].size(), freq[i].data(), freq[i].size()*sizeof(float));
+					}
+					msg->frameLength = freq[0].size();
 					msg->fs = msgReceived->fs;
-					msg->nChannels = freq.rows;
+					msg->nChannels = freq.size();
 					audioFrameFreqPublisher_.publish(msg);
 				}
 				if(audioFrameFreqSqrdMagnPublisher_.getNumSubscribers())
 				{
-					rtabmap_audio::AudioFrameFreqSqrdMagnPtr msg(new rtabmap_audio::AudioFrameFreqSqrdMagn);
+					uaudio::AudioFrameFreqSqrdMagnPtr msg(new uaudio::AudioFrameFreqSqrdMagn);
 					msg->header.frame_id = msgReceived->header.frame_id;
 					msg->header.stamp = msgReceived->header.stamp;
 
 					//compute the squared magnitude
-					cv::Mat sqrdMagn(freq.rows, freq.cols/2, CV_32F);
-					//for each channels
-					for(int i=0; i<sqrdMagn.rows; ++i)
+					msg->data.resize(freq.size() * freq[0].size()/2);
+
+					// for each channel
+					for(unsigned int j=0; j<freq.size(); ++j)
 					{
-						cv::Mat rowFreq = freq.row(i);
-						cv::Mat rowSqrdMagn = sqrdMagn.row(i);
+						std::vector<float> & rowFreq = freq.at(j);
+
 						float re;
 						float im;
-						for(int j=0; j<rowSqrdMagn.cols; ++j)
+						for(unsigned int i=0; i<rowFreq.size()/2; ++i)
 						{
-							re = rowFreq.at<float>(0, j*2);
-							im = rowFreq.at<float>(0, j*2+1);
-							rowSqrdMagn.at<float>(0, j) = re*re + im*im;
+							re = rowFreq[i*2];
+							im = rowFreq[i*2+1];
+							msg->data[i+j*rowFreq.size()/2] = re*re+im*im; // squared magnitude
 						}
 					}
-
-					msg->data.resize(sqrdMagn.cols * sqrdMagn.rows);
-					memcpy(msg->data.data(), sqrdMagn.data, sqrdMagn.total() * sqrdMagn.elemSize());
-					msg->frameLength = sqrdMagn.cols;
+					msg->frameLength = freq[0].size()/2;
 					msg->fs = msgReceived->fs;
-					msg->nChannels = sqrdMagn.rows;
+					msg->nChannels = freq.size();
 
 					audioFrameFreqSqrdMagnPublisher_.publish(msg);
 				}
@@ -202,7 +203,7 @@ private:
 	ros::Publisher audioFrameFreqPublisher_;
 	ros::Publisher audioFrameFreqSqrdMagnPublisher_;
 	double ratio_;
-	rtabmap::Micro * micro_;
+	UAudioRecorderFreqWrapper * micro_;
 };
 
 

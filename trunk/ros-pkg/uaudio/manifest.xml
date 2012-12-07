@@ -12,7 +12,7 @@
   <depend package="std_msgs"/>
   <depend package="roscpp"/>
   <depend package="dynamic_reconfigure"/>
-  <depend package="rtabmap_lib"/>
+  <depend package="utilite"/>
   <depend package="fmodex"/>
 
   <rosdep name="libqt4-dev"/>

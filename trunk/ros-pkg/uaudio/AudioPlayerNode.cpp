@@ -10,8 +10,8 @@
 #include <utilite/UThreadNode.h>
 #include <utilite/UPlot.h>
 #include <utilite/USpectrogram.h>
-#include "rtabmap_audio/AudioFrame.h"
-#include "rtabmap_audio/AudioFrameFreqSqrdMagn.h"
+#include "uaudio/AudioFrame.h"
+#include "uaudio/AudioFrameFreqSqrdMagn.h"
 
 #include <QApplication>
 #include <signal.h>
@@ -208,7 +208,7 @@ bool initAudioPlayer(unsigned int decoderBufferSize, int fs, int channels, int b
 	return true;
 }
 
-void frameReceivedCallback(const rtabmap_audio::AudioFramePtr & msg)
+void frameReceivedCallback(const uaudio::AudioFramePtr & msg)
 {
 	if(msg->data.size())
 	{
@@ -306,7 +306,7 @@ void frameReceivedCallback(const rtabmap_audio::AudioFramePtr & msg)
 	}
 }
 
-void frameFreqSqrdMagnReceivedCallback(const rtabmap_audio::AudioFrameFreqSqrdMagnPtr & msg)
+void frameFreqSqrdMagnReceivedCallback(const uaudio::AudioFrameFreqSqrdMagnPtr & msg)
 {
 	if(!g_spectrogramAlreadyShown && g_spectrogram->isHidden())
 	{

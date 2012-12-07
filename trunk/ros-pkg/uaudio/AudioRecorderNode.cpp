@@ -14,11 +14,11 @@
 #include <std_msgs/Empty.h>
 #include <std_srvs/Empty.h>
 
-#include <rtabmap/core/Micro.h>
+#include <utilite/UAudioRecorderFreqWrapper.h>
 
-#include "rtabmap_audio/AudioFrame.h"
-#include "rtabmap_audio/AudioFrameFreq.h"
-#include "rtabmap_audio/AudioFrameFreqSqrdMagn.h"
+#include "uaudio/AudioFrame.h"
+#include "uaudio/AudioFrameFreq.h"
+#include "uaudio/AudioFrameFreqSqrdMagn.h"
 
 class EndEvent : public UEvent
 {
@@ -31,11 +31,11 @@ class MicroWrapper : public UThreadNode
 public:
 	MicroWrapper(int deviceId, int frameLength, int fs, int sampleSize, int nChannels)
 	{
-		micro_ = new rtabmap::Micro(rtabmap::MicroEvent::kTypeFrame, deviceId, fs, frameLength, nChannels, sampleSize);
+		micro_ = new UAudioRecorderFreqWrapper(UAudioEvent::kTypeFrame, deviceId, fs, frameLength, nChannels, sampleSize);
 		ros::NodeHandle nh("");
-		audioFramePublisher_ = nh.advertise<rtabmap_audio::AudioFrame>("audioFrame", 1);
-		audioFrameFreqPublisher_ = nh.advertise<rtabmap_audio::AudioFrameFreq>("audioFrameFreq", 1);
-		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<rtabmap_audio::AudioFrameFreqSqrdMagn>("audioFrameFreqSqrdMagn", 1);
+		audioFramePublisher_ = nh.advertise<uaudio::AudioFrame>("audioFrame", 1);
+		audioFrameFreqPublisher_ = nh.advertise<uaudio::AudioFrameFreq>("audioFrameFreq", 1);
+		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<uaudio::AudioFrameFreqSqrdMagn>("audioFrameFreqSqrdMagn", 1);
 
 		ros::NodeHandle np("~");
 		pauseSrv_ = np.advertiseService("pause", &MicroWrapper::pause, this);
@@ -44,11 +44,11 @@ public:
 	MicroWrapper(const std::string & fileName, float frameRate, const std::vector<std::string> & nextFileNames) :
 		nextFileNames_(nextFileNames)
 	{
-		micro_ = new rtabmap::Micro(rtabmap::MicroEvent::kTypeFrame, fileName, frameRate);
+		micro_ = new UAudioRecorderFreqWrapper(UAudioEvent::kTypeFrame, fileName, frameRate);
 		ros::NodeHandle nh("");
-		audioFramePublisher_ = nh.advertise<rtabmap_audio::AudioFrame>("audioFrame", 1);
-		audioFrameFreqPublisher_ = nh.advertise<rtabmap_audio::AudioFrameFreq>("audioFrameFreq", 1);
-		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<rtabmap_audio::AudioFrameFreqSqrdMagn>("audioFrameFreqSqrdMagn", 1);
+		audioFramePublisher_ = nh.advertise<uaudio::AudioFrame>("audioFrame", 1);
+		audioFrameFreqPublisher_ = nh.advertise<uaudio::AudioFrameFreq>("audioFrameFreq", 1);
+		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<uaudio::AudioFrameFreqSqrdMagn>("audioFrameFreqSqrdMagn", 1);
 
 		ros::NodeHandle np("~");
 		pauseSrv_ = np.advertiseService("pause", &MicroWrapper::pause, this);
@@ -125,7 +125,7 @@ public:
 		while(!init && nextFileNames_.size())
 		{
 			delete micro_;
-			micro_ = new rtabmap::Micro(rtabmap::MicroEvent::kTypeFrame, nextFileNames_[0], frameRate);
+			micro_ = new UAudioRecorderFreqWrapper(UAudioEvent::kTypeFrame, nextFileNames_[0], frameRate);
 			currentFileName = nextFileNames_[0];
 			nextFileNames_.erase(nextFileNames_.begin());
 			init = micro_->init();
@@ -159,8 +159,8 @@ protected:
 			computeFFT = true;
 		}
 
-		cv::Mat data;
-		cv::Mat freq;
+		std::vector<std::vector<char> > data;
+		std::vector<std::vector<float> > freq;
 		if(!computeFFT)
 		{
 			data = micro_->getFrame();
@@ -174,66 +174,73 @@ protected:
 			ros::Time now = ros::Time::now();
 			if(audioFramePublisher_.getNumSubscribers())
 			{
-				rtabmap_audio::AudioFramePtr msg(new rtabmap_audio::AudioFrame);
+				uaudio::AudioFramePtr msg(new uaudio::AudioFrame);
 				msg->header.frame_id = "micro";
 				msg->header.stamp = now;
-				msg->data.resize(data.total()*data.elemSize());
 				// Interleave the data
-				for(unsigned int i=0; i<msg->data.size(); i+=data.elemSize()*data.rows)
+				int channels = data.size();
+				int sampleSize = micro_->bytesPerSample();
+				int frameLength = data[0].size()/sampleSize;
+				msg->data.resize(frameLength*sampleSize*channels);
+				for(unsigned int i=0; i<msg->data.size(); i+=sampleSize*channels)
 				{
-					for(int j=0; j<data.rows; ++j)
+					for(int j=0; j<channels; ++j)
 					{
-						memcpy(msg->data.data()+i+j*data.elemSize(), data.data + (i/(data.elemSize()*data.rows))*data.elemSize() + j*data.cols*data.elemSize(), data.elemSize());
+						memcpy(msg->data.data()+i+j*sampleSize, data[j].data() + i/channels, sampleSize);
 					}
 				}
-				msg->frameLength = data.cols;
+				msg->frameLength = frameLength;
 				msg->fs = micro_->fs();
-				msg->nChannels = data.rows;
-				msg->sampleSize = data.elemSize();
+				msg->nChannels = channels;
+				msg->sampleSize = sampleSize;
 				audioFramePublisher_.publish(msg);
 			}
-			if(audioFrameFreqPublisher_.getNumSubscribers())
+			if(!freq.empty())
 			{
-				rtabmap_audio::AudioFrameFreqPtr msg(new rtabmap_audio::AudioFrameFreq);
-				msg->header.frame_id = "micro";
-				msg->header.stamp = now;
-				msg->data.resize(freq.total()*freq.elemSize());
-				memcpy(msg->data.data(), freq.data, msg->data.size());
-				msg->frameLength = freq.cols;
-				msg->fs = micro_->fs();
-				msg->nChannels = freq.rows;
-				audioFrameFreqPublisher_.publish(msg);
-			}
-			if(audioFrameFreqSqrdMagnPublisher_.getNumSubscribers())
-			{
-				rtabmap_audio::AudioFrameFreqSqrdMagnPtr msg(new rtabmap_audio::AudioFrameFreqSqrdMagn);
-				msg->header.frame_id = "micro";
-				msg->header.stamp = now;
-
-				//compute the squared magnitude
-				cv::Mat sqrdMagn(freq.rows, freq.cols/2, CV_32F);
-				//for each channels
-				for(int i=0; i<sqrdMagn.rows; ++i)
+				if(audioFrameFreqPublisher_.getNumSubscribers())
 				{
-					cv::Mat rowFreq = freq.row(i);
-					cv::Mat rowSqrdMagn = sqrdMagn.row(i);
-					float re;
-					float im;
-					for(int j=0; j<rowSqrdMagn.cols; ++j)
+					uaudio::AudioFrameFreqPtr msg(new uaudio::AudioFrameFreq);
+					msg->header.frame_id = "micro";
+					msg->header.stamp = now;
+					msg->data.resize(freq.size()*freq[0].size());
+					for(unsigned int i=0; i<freq.size(); ++i)
 					{
-						re = rowFreq.at<float>(0, j*2);
-						im = rowFreq.at<float>(0, j*2+1);
-						rowSqrdMagn.at<float>(0, j) = re*re + im*im;
+						memcpy(msg->data.data()+i*freq[i].size(), freq[i].data(), freq[i].size()*sizeof(float));
 					}
+					msg->frameLength = freq[0].size();
+					msg->fs = micro_->fs();
+					msg->nChannels = freq.size();
+					audioFrameFreqPublisher_.publish(msg);
 				}
+				if(audioFrameFreqSqrdMagnPublisher_.getNumSubscribers())
+				{
+					uaudio::AudioFrameFreqSqrdMagnPtr msg(new uaudio::AudioFrameFreqSqrdMagn);
+					msg->header.frame_id = "micro";
+					msg->header.stamp = now;
 
-				msg->data.resize(sqrdMagn.cols * sqrdMagn.rows);
-				memcpy(msg->data.data(), sqrdMagn.data, sqrdMagn.total() * sqrdMagn.elemSize());
-				msg->frameLength = sqrdMagn.cols;
-				msg->fs = micro_->fs();
-				msg->nChannels = sqrdMagn.rows;
+					//compute the squared magnitude
+					msg->data.resize(freq.size() * freq[0].size()/2);
 
-				audioFrameFreqSqrdMagnPublisher_.publish(msg);
+					// for each channel
+					for(unsigned int j=0; j<freq.size(); ++j)
+					{
+						std::vector<float> & rowFreq = freq.at(j);
+
+						float re;
+						float im;
+						for(unsigned int i=0; i<rowFreq.size()/2; ++i)
+						{
+							re = rowFreq[i*2];
+							im = rowFreq[i*2+1];
+							msg->data[i+j*rowFreq.size()/2] = re*re+im*im; // squared magnitude
+						}
+					}
+					msg->frameLength = freq[0].size()/2;
+					msg->fs = micro_->fs();
+					msg->nChannels = freq.size();
+
+					audioFrameFreqSqrdMagnPublisher_.publish(msg);
+				}
 			}
 		}
 		else if(nextFileNames_.size())
@@ -251,7 +258,7 @@ private:
 	ros::Publisher audioFramePublisher_;
 	ros::Publisher audioFrameFreqPublisher_;
 	ros::Publisher audioFrameFreqSqrdMagnPublisher_;
-	rtabmap::Micro * micro_;
+	UAudioRecorderFreqWrapper * micro_;
 	std::vector<std::string> nextFileNames_;
 	ros::ServiceServer pauseSrv_;
 	ros::ServiceServer nextSrv_;

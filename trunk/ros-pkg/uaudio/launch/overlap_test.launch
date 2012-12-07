@@ -1,40 +1,40 @@
 <launch>
 	<!-- The mp3 recorder -->
-    <node name="audio_recorder" type="audio_recorder" pkg="rtabmap_audio">
+    <node name="recorder" type="recorder" pkg="uaudio">
     	<!--
     	/media/Macintosh HD/Users/MatLab/Music/2012
     	/home/mathieu/inf_audio_saved.mp3
     	-->
-    	<param name="path" value="/home/mathieu/inf_audio_saved.mp3" type="string"/>
+    	<param name="path" value="" type="string"/>
     </node>
     
     <!-- The overlappers -->
-    <node name="audio_overlap0" type="audio_overlap" pkg="rtabmap_audio">
+    <node name="overlap0" type="overlap" pkg="uaudio">
     	<param name="ratio" value="0" type="double"/>
     	<remap from="audioOverlappedFrameFreqSqrdMagn" to="freqOverlap0" />
     </node>
-    <node name="audio_overlap50" type="audio_overlap" pkg="rtabmap_audio">
+    <node name="overlap50" type="overlap" pkg="uaudio">
     	<param name="ratio" value="0.5" type="double"/>
     	<remap from="audioOverlappedFrameFreqSqrdMagn" to="freqOverlap50" />
     </node>
-    <node name="audio_overlap100" type="audio_overlap" pkg="rtabmap_audio">
+    <node name="overlap100" type="overlap" pkg="uaudio">
     	<param name="ratio" value="1" type="double"/>
     	<remap from="audioOverlappedFrameFreqSqrdMagn" to="freqOverlap100" />
     </node>
     
     <!-- The players (only the first play the music) -->
-    <node name="audio_player" type="audio_player" pkg="rtabmap_audio">
+    <node name="player" type="player" pkg="uaudio">
     	<param name="gui_used" value="false" type="bool"/>
     </node>
-    <node name="audio_player0" type="audio_player" pkg="rtabmap_audio">
+    <node name="player0" type="player" pkg="uaudio">
     	<remap from="audioFrame" to="dummy" />
     	<remap from="audioFrameFreqSqrdMagn" to="freqOverlap0" />
     </node>
-    <node name="audio_player50" type="audio_player" pkg="rtabmap_audio">
+    <node name="player50" type="player" pkg="uaudio">
     	<remap from="audioFrame" to="dummy" />
     	<remap from="audioFrameFreqSqrdMagn" to="freqOverlap50" />
     </node>
-    <node name="audio_player100" type="audio_player" pkg="rtabmap_audio">
+    <node name="player100" type="player" pkg="uaudio">
     	<remap from="audioFrame" to="dummy" />
     	<remap from="audioFrameFreqSqrdMagn" to="freqOverlap100" />
     </node>
