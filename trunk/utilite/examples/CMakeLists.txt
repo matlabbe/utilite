@@ -36,9 +36,9 @@ ENDIF(QT4_FOUND AND QT_QTCORE_FOUND AND QT_QTGUI_FOUND)
 
 IF(TARGET utilite_cv)
 MESSAGE(STATUS "test3")
-	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/cv/include)
+	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/cv/include ${ZLIB_INCLUDE_DIRS})
 	ADD_EXECUTABLE(example-colorIndexesGenerator colorIndexesGenerator.cpp)
-	TARGET_LINK_LIBRARIES(example-colorIndexesGenerator utilite utilite_cv ${OpenCV_LIBS})
+	TARGET_LINK_LIBRARIES(example-colorIndexesGenerator utilite utilite_cv ${OpenCV_LIBS} ${ZLIB_LIBRARIES})
 ENDIF(TARGET utilite_cv)
 
 MESSAGE(STATUS "test")

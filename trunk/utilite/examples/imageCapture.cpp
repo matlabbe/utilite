@@ -35,7 +35,9 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include <signal.h>
+#ifndef WIN32
+	#include <signal.h>
+#endif
 #include <iostream>
 #include <fstream>
 
@@ -162,10 +164,12 @@ private:
 	double fps_;
 };
 
+#ifndef WIN32
 void my_handler(int s){
 	QApplication::closeAllWindows();
 	QApplication::exit();
 }
+#endif
 
 int main(int argc, char * argv[])
 {
@@ -304,6 +308,7 @@ int main(int argc, char * argv[])
 
 	capture->start();
 
+#ifndef WIN32
 	// Catch ctrl-c to close the gui
 	// (Place this after QApplication's constructor)
 	struct sigaction sigIntHandler;
@@ -311,6 +316,7 @@ int main(int argc, char * argv[])
 	sigemptyset(&sigIntHandler.sa_mask);
 	sigIntHandler.sa_flags = 0;
 	sigaction(SIGINT, &sigIntHandler, NULL);
+#endif
 
 	app.exec();
 	UEventsManager::removeHandler(&imgHandler);
