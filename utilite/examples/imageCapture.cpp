@@ -47,7 +47,7 @@ void showUsage()
 			"                         or a video file (default 0)\n"
 			"   -width #:			Image width (default 640)\n"
 			"   -height #:			Image height (default 480)\n"
-			"   -fps #.#:			Frame rate (Hz) (default 0.0)\n"
+			"   -fps #.#:			Frame rate (Hz) (default 30.0)\n"
 			"   -hide :			    Image not shown while capturing (default false)\n"
 			"   -saveto \"path\":	Name of the directory/video to save images\n"
 			"   -saveext \"ext\":	Image extension (default \"jpg\", use \"avi\" for video)\n"
@@ -177,7 +177,7 @@ int main(int argc, char * argv[])
 	std::string path;
 	int imageWidth = 640;
 	int imageHeight = 480;
-	float imageRate = 0.0;
+	float imageRate = 30.0;
 	std::string extension = "jpg";
 	std::string targetDirectory = "";
 
