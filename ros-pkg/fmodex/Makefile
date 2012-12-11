@@ -2,7 +2,7 @@
 all: installed
 
 TARBALL = build/fmodex44008.tar.gz
-TARBALL_URL = http://rtabmap.googlecode.com/files/fmodex44008.tar.gz
+TARBALL_URL = http://utilite.googlecode.com/files/fmodex44008.tar.gz
 SOURCE_DIR = build/fmodex44008
 UNPACK_CMD = tar xzf
 include $(shell rospack find mk)/download_unpack_build.mk
