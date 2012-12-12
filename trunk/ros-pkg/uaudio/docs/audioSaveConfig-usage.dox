@@ -1,7 +1,0 @@
-\subsubsection usage Usage
-\verbatim
-<node name="dynamic_audioSave" pkg="uaudio" type="dynamic_audioSave">
-  <param name="encode_to_mp3" type="bool" value="True" />
-</node>
-\endverbatim
-
