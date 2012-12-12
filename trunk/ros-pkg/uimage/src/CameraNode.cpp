@@ -88,10 +88,10 @@ public:
 		return true;
 	}
 
-	void setParameters(int deviceId, double frameRate, int width, int height, const std::string & path, bool autoRestart)
+	void setParameters(int deviceId, double frameRate, int width, int height, const std::string & path, bool autoRestart, bool pause)
 	{
-		ROS_INFO("Parameters changed: deviceId=%d, path=%s frameRate=%f w/h=%d/%d autoRestart=%s",
-				deviceId, path.c_str(), frameRate, width, height, autoRestart?"true":"false");
+		ROS_INFO("Parameters changed: deviceId=%d, path=%s frameRate=%f w/h=%d/%d autoRestart=%s pause=%s",
+				deviceId, path.c_str(), frameRate, width, height, autoRestart?"true":"false", pause?"true":"false");
 		if(camera_)
 		{
 			UVideoCapture * videoCam = dynamic_cast<UVideoCapture *>(camera_);
@@ -105,6 +105,14 @@ public:
 					imagesCam->setImageRate(frameRate);
 					imagesCam->setImageSize(width, height);
 					imagesCam->setAutoRestart(autoRestart);
+					if(pause && !camera_->isPaused())
+					{
+						imagesCam->join(true);
+					}
+					else if(!pause && imagesCam->isPaused())
+					{
+						imagesCam->start();
+					}
 				}
 				else
 				{
@@ -120,6 +128,14 @@ public:
 					videoCam->setImageRate(frameRate);
 					videoCam->setImageSize(width, height);
 					videoCam->setAutoRestart(autoRestart);
+					if(pause && !videoCam->isPaused())
+					{
+						videoCam->join(true);
+					}
+					else if(!pause && videoCam->isPaused())
+					{
+						videoCam->start();
+					}
 				}
 				else if(path.empty() &&
 						videoCam->getFilePath().empty() &&
@@ -133,6 +149,14 @@ public:
 					{
 						videoCam->setImageRate(frameRate);
 						videoCam->setAutoRestart(autoRestart);
+						if(pause && !videoCam->isPaused())
+						{
+							videoCam->join(true);
+						}
+						else if(!pause && videoCam->isPaused())
+						{
+							videoCam->start();
+						}
 					}
 					else
 					{
@@ -176,7 +200,10 @@ public:
 				camera_ = new UVideoCapture(deviceId, frameRate, autoRestart, width, height);
 			}
 			init();
-			start();
+			if(!pause)
+			{
+				start();
+			}
 		}
 	}
 
@@ -231,7 +258,7 @@ void callback(uimage::cameraConfig &config, uint32_t level)
 {
 	if(camera)
 	{
-		camera->setParameters(config.device_id, config.frame_rate, config.width, config.height, config.video_or_images_path, config.auto_restart);
+		camera->setParameters(config.device_id, config.frame_rate, config.width, config.height, config.video_or_images_path, config.auto_restart, config.pause);
 	}
 }
 
