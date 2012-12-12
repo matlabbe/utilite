@@ -1,7 +1,0 @@
-\subsubsection parameters ROS parameters
-
-Reads and maintains the following parameters on the ROS server
-
-- \b "~rays" : \b [int] Number of polar rays min: 1, default: 128, max: 1024
-- \b "~rings" : \b [int] Number of polar rings min: 1, default: 64, max: 1024
-
