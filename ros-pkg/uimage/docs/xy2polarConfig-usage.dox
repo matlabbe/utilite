@@ -1,8 +1,0 @@
-\subsubsection usage Usage
-\verbatim
-<node name="dynamic_xy2polar" pkg="uimage" type="dynamic_xy2polar">
-  <param name="rays" type="int" value="128" />
-  <param name="rings" type="int" value="64" />
-</node>
-\endverbatim
-

@@ -1,6 +1,0 @@
-\subsubsection parameters ROS parameters
-
-Reads and maintains the following parameters on the ROS server
-
-- \b "~color_table_size" : \b [int] Color index table size min: 0, default: 7, max: 14
-
