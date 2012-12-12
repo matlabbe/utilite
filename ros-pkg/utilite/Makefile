@@ -13,6 +13,7 @@ CMAKE = cmake
 CMAKE_ARGS = -D CMAKE_BUILD_TYPE=RELEASE \
              -D BUILD_AUDIO=ON \
              -D BUILD_QT=ON \
+             -D BUILD_OPENCV=ON \
              -D BUILD_EXAMPLES=OFF \
              -D BUILD_TESTS=OFF \
              -D CMAKE_INSTALL_PREFIX=`rospack find utilite`/$(INSTALL_DIR)
