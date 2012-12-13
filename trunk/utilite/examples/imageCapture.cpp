@@ -71,7 +71,7 @@ public:
 	{
 		if(show)
 		{
-			view_ = new UImageViewWidget();
+			view_ = new UImageView();
 			view_->show();
 		}
 	}
@@ -159,7 +159,7 @@ private:
 	std::string ext_;
 	bool save_;
 	int id_;
-	UImageViewWidget * view_;
+	UImageView * view_;
 	cv::VideoWriter * writer_;
 	double fps_;
 };
