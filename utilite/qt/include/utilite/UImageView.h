@@ -17,6 +17,7 @@ class UImageViewWidget : public QWidget
 public:
 	UImageViewWidget(QWidget * parent = 0) : QWidget(parent) {}
 	~UImageViewWidget() {}
+	void setBackgroundBrush(const QBrush & brush) {brush_ = brush;}
 
 public slots:
 	void setImage(const QImage & image)
@@ -73,6 +74,12 @@ protected:
 		QPainter painter(this);
 		if(!pixmap_.isNull())
 		{
+			//Draw background
+			painter.save();
+			painter.setBrush(brush_);
+			painter.drawRect(this->rect());
+			painter.restore();
+
 			painter.save();
 			//Scale
 			float ratio, offsetX, offsetY;
@@ -86,6 +93,7 @@ protected:
 
 private:
 	QPixmap pixmap_;
+	QBrush brush_;
 };
 
 
