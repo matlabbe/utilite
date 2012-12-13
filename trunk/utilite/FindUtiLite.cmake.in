@@ -68,9 +68,6 @@ IF(URESOURCEGENERATOR_EXEC)
 		FIND_LIBRARY(UtiLite_Cv 
 				NAMES utilite_cv
 			 	PATH_SUFFIXES "../lib")
-		FIND_LIBRARY(UtiLite_Cvqt 
-				NAMES utilite_cvqt
-			 	PATH_SUFFIXES "../lib")
 	
 	ELSE()
 		FIND_PATH(UtiLite_INCLUDE_DIRS 
@@ -89,9 +86,6 @@ IF(URESOURCEGENERATOR_EXEC)
 		FIND_LIBRARY(UtiLite_Cv 
 				NAMES utilite_cv
 				PATHS ${UtiLite_ROOT}/lib)
-		FIND_LIBRARY(UtiLite_Cvqt 
-				NAMES utilite_cvqt
-				PATHS ${UtiLite_ROOT}/lib)
 	ENDIF()
 	IF(UtiLite_LIBRARIES AND UtiLite_Qt)
 		SET(UtiLite_LIBRARIES ${UtiLite_LIBRARIES} ${UtiLite_Qt})
@@ -102,9 +96,6 @@ IF(URESOURCEGENERATOR_EXEC)
 	IF(UtiLite_LIBRARIES AND UtiLite_Cv)
 		SET(UtiLite_LIBRARIES ${UtiLite_LIBRARIES} ${UtiLite_Cv})
 	ENDIF(UtiLite_LIBRARIES AND UtiLite_Cv)
-	IF(UtiLite_LIBRARIES AND UtiLite_Cvqt)
-		SET(UtiLite_LIBRARIES ${UtiLite_LIBRARIES} ${UtiLite_Cvqt})
-	ENDIF(UtiLite_LIBRARIES AND UtiLite_Cvqt)
 	
 	IF (UtiLite_INCLUDE_DIRS AND UtiLite_LIBRARIES)
 	   SET(UtiLite_FOUND TRUE)
