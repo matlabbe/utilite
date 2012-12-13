@@ -11,12 +11,12 @@
 #include <QtGui/QWidget>
 #include <QtGui/QPainter>
 
-class UImageViewWidget : public QWidget
+class UImageView : public QWidget
 {
 	Q_OBJECT;
 public:
-	UImageViewWidget(QWidget * parent = 0) : QWidget(parent) {}
-	~UImageViewWidget() {}
+	UImageView(QWidget * parent = 0) : QWidget(parent) {}
+	~UImageView() {}
 	void setBackgroundBrush(const QBrush & brush) {brush_ = brush;}
 
 public slots:
