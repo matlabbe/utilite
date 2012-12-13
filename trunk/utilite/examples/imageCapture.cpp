@@ -26,7 +26,7 @@
 #include "utilite/UEventsManager.h"
 #include "utilite/UEventsHandler.h"
 
-#include "utilite/UImageViewWidget.h"
+#include "utilite/UImageView.h"
 #include "utilite/UCv2Qt.h"
 
 #include <QtGui/QApplication>

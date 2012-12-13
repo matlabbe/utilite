@@ -2,7 +2,7 @@
 SET(headers_ui 
 	../include/utilite/UPlot.h
 	../include/utilite/USpectrogram.h
-	../include/utilite/UImageViewWidget.h
+	../include/utilite/UImageView.h
 )
 
 #This will generate moc_* for Qt
