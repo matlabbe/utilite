@@ -9,7 +9,7 @@
   <review status="unreviewed" notes=""/>
   <url>http://utilite.googlecode.com</url>
   <export>
-    <cpp cflags="-I${prefix}/utilite/include" lflags="-L${prefix}/utilite/lib -Wl,-rpath, -lutilite -lutilite_qt -lutilite_audio -lutilite_cv -lutilite_cvqt"/>
+    <cpp cflags="-I${prefix}/utilite/include" lflags="-L${prefix}/utilite/lib -Wl,-rpath, -lutilite -lutilite_qt -lutilite_audio -lutilite_cv"/>
   </export>
   <versioncontrol type="svn" url="http://utilite.googlecode.com/svn/trunk/utilite"/>
   
