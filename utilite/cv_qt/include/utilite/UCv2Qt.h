@@ -12,7 +12,7 @@
 #include <opencv2/core/core.hpp>
 
 // assume bgr
-QImage cvMat2QImage(const cv::Mat & image, bool isBgr = true)
+inline QImage uCvMat2QImage(const cv::Mat & image, bool isBgr = true)
 {
 	QImage qtemp;
 	if(!image.empty() && image.depth() == CV_8U)
