@@ -4,7 +4,7 @@ INSTALL_DIR = utilite
 all: installed
 
 SVN_DIR = build/utilite-svn
-SVN_URL = https://utilite.googlecode.com/svn/trunk/utilite
+SVN_URL = https://utilite.googlecode.com/svn/tags/0.3.0/utilite
 SVN_REVISION = -rHEAD
 #SVN_PATCH = opencvVer.patch
 include $(shell rospack find mk)/svn_checkout.mk
