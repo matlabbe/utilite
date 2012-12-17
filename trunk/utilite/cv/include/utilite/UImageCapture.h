@@ -28,49 +28,11 @@
 #include <utilite/UEvent.h>
 #include <utilite/UDirectory.h>
 #include <utilite/UTimer.h>
+#include <utilite/UImageEvent.h>
 #include <set>
 #include <stack>
 #include <list>
 #include <vector>
-
-class UImageEvent :
-	public UEvent
-{
-public:
-	enum Code {
-		kCodeImage,
-		kCodeNoMoreImages
-	};
-
-public:
-	UImageEvent(const cv::Mat & image, int cameraId = 0) :
-		UEvent(kCodeImage),
-		_cameraId(cameraId),
-		_image(image)
-	{
-	}
-	UImageEvent(int cameraId = 0) :
-		UEvent(kCodeNoMoreImages),
-		_cameraId(cameraId)
-	{
-	}
-
-	int cameraId() const {return _cameraId;}
-
-	// Image or descriptors
-	const cv::Mat & image() const {return _image;}
-	const cv::Mat & descriptors() const {return _descriptors;}
-	const std::vector<cv::KeyPoint> & keypoints() const {return _keypoints;}
-
-	virtual ~UImageEvent() {}
-	virtual std::string getClassName() const {return std::string("UImageEvent");}
-
-private:
-	int _cameraId;
-	cv::Mat _image;
-	cv::Mat _descriptors;
-	std::vector<cv::KeyPoint> _keypoints;
-};
 
 /**
  * Class UAbstractImageCapture
