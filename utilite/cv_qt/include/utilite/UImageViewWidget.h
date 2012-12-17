@@ -11,13 +11,12 @@
 #include <QtGui/QWidget>
 #include <QtGui/QPainter>
 
-class UImageView : public QWidget
+class UImageViewWidget : public QWidget
 {
 	Q_OBJECT;
 public:
-	UImageView(QWidget * parent = 0) : QWidget(parent) {}
-	~UImageView() {}
-	void setBackgroundBrush(const QBrush & brush) {brush_ = brush;}
+	UImageViewWidget(QWidget * parent = 0) : QWidget(parent) {}
+	~UImageViewWidget() {}
 
 public slots:
 	void setImage(const QImage & image)
@@ -74,12 +73,6 @@ protected:
 		QPainter painter(this);
 		if(!pixmap_.isNull())
 		{
-			//Draw background
-			painter.save();
-			painter.setBrush(brush_);
-			painter.drawRect(this->rect());
-			painter.restore();
-
 			painter.save();
 			//Scale
 			float ratio, offsetX, offsetY;
@@ -93,7 +86,6 @@ protected:
 
 private:
 	QPixmap pixmap_;
-	QBrush brush_;
 };
 
 

@@ -26,7 +26,7 @@
 #include "utilite/UEventsManager.h"
 #include "utilite/UEventsHandler.h"
 
-#include "utilite/UImageView.h"
+#include "utilite/UImageViewWidget.h"
 #include "utilite/UCv2Qt.h"
 
 #include <QtGui/QApplication>
@@ -71,7 +71,7 @@ public:
 	{
 		if(show)
 		{
-			view_ = new UImageView();
+			view_ = new UImageViewWidget();
 			view_->show();
 		}
 	}
@@ -159,7 +159,7 @@ private:
 	std::string ext_;
 	bool save_;
 	int id_;
-	UImageView * view_;
+	UImageViewWidget * view_;
 	cv::VideoWriter * writer_;
 	double fps_;
 };

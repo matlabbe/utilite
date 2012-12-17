@@ -2,13 +2,10 @@
 SET(headers_ui 
 	../include/utilite/UPlot.h
 	../include/utilite/USpectrogram.h
-	../include/utilite/UImageView.h
 )
 
 #This will generate moc_* for Qt
 QT4_WRAP_CPP(moc_srcs ${headers_ui})
-
-ADD_LIBRARY(utilite_cvqt ${moc_srcs})
 
 SET(SRC_FILES 
 	./UPlot.cpp
