@@ -1,0 +1,6 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~encode_to_mp3" : \b [bool] Encode to mp3 min: False, default: True, max: True
+

@@ -1,0 +1,38 @@
+<launch>
+	<!-- Nodes -->
+	<node name="camera" pkg="uimage" type="camera" output="screen">
+		<remap from="camera/image" to="image"/>
+		<param name="device_id" value="0" type="int"/>
+		<param name="frame_rate" value="10" type="double"/>
+		<param name="width" value="640" type="int"/>
+		<param name="height" value="480" type="int"/>
+	</node>
+
+	<node name="rgb2ind" pkg="uimage" type="rgb2ind" output="screen"/>
+	<node name="xy2polar" pkg="uimage" type="xy2polar" output="screen"/>
+	<node name="motion_filter" pkg="uimage" type="motion_filter" output="screen"/>
+	<node name="canny_edge_detector" pkg="uimage" type="canny_edge_detector" output="screen"/>
+
+	<!-- Create some image_view_qt to see images -->
+	<node name="view_indexed" pkg="uimage" type="image_view_qt">
+		<remap from="image" to="image_indexed"/>
+	</node>
+	<node name="view_polar" pkg="uimage" type="image_view_qt">
+		<remap from="image" to="image_polar"/>
+	</node>
+	<node name="view_polar_reconstructed" pkg="uimage" type="image_view_qt">
+		<remap from="image" to="image_polar_reconstructed"/>
+	</node>
+	<node name="view_motion" pkg="uimage" type="image_view_qt">
+		<remap from="image" to="image_motion"/>
+	</node>
+	<node name="view_original" pkg="uimage" type="image_view_qt">
+		<remap from="image" to="image"/>
+	</node>
+	<node name="view_canny_edges" pkg="uimage" type="image_view_qt">
+		<remap from="image" to="image_edges"/>
+	</node>
+	
+	<!-- pop up a dynamic reconfigure -->
+	<node name="dynamic_reconfigure" pkg="dynamic_reconfigure" type="reconfigure_gui"/>
+</launch>
