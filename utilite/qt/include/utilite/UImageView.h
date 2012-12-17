@@ -72,14 +72,15 @@ protected:
 	virtual void paintEvent(QPaintEvent *event)
 	{
 		QPainter painter(this);
+
+		//Draw background
+		painter.save();
+		painter.setBrush(brush_);
+		painter.drawRect(this->rect());
+		painter.restore();
+
 		if(!pixmap_.isNull())
 		{
-			//Draw background
-			painter.save();
-			painter.setBrush(brush_);
-			painter.drawRect(this->rect());
-			painter.restore();
-
 			painter.save();
 			//Scale
 			float ratio, offsetX, offsetY;
