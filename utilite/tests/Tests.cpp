@@ -222,6 +222,41 @@ void Tests::testSemaphore()
 	semThr.kill();
 }
 
+class MutexThread : public UThreadNode
+{
+public:
+	MutexThread(UMutex & mutex) :
+		mutex_(mutex)
+	{}
+protected:
+	virtual void mainLoop()
+	{
+		UScopeMutex sm(mutex_);
+		uSleep(100);
+		this->kill();
+	}
+private:
+	UMutex & mutex_;
+};
+
+void Tests::testMutex()
+{
+	UMutex mutex;
+	MutexThread t(mutex);
+	t.start();
+	while(t.isCreating())
+	{
+		// wait thread to be started
+		uSleep(0);
+	}
+	UTimer time;
+	UScopeMutex scopeMutex(mutex);
+	CPPUNIT_ASSERT(time.elapsed() > 0.09); // at least 100 ms
+	mutex.lock(); // should work, a mutex is recursive
+	mutex.unlock();
+
+}
+
 void Tests::testEventsManager()
 {
     /* Set logger type */
