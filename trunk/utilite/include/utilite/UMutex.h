@@ -157,23 +157,23 @@ public:
 class UScopeMutex
 {
 public:
-	UScopeMutex(UMutex * mutex) :
+	UScopeMutex(const UMutex & mutex) :
 		mutex_(mutex)
 	{
-		if(mutex_)
-		{
-			mutex_->lock();
-		}
+		mutex_.lock();
+	}
+	// backward compatibility
+	UScopeMutex(UMutex * mutex) :
+		mutex_(*mutex)
+	{
+		mutex_.lock();
 	}
 	~UScopeMutex()
 	{
-		if(mutex_)
-		{
-			mutex_->unlock();
-		}
+		mutex_.unlock();
 	}
 private:
-	UMutex * mutex_;
+	const UMutex & mutex_;
 };
 
 #endif // UMUTEX_H

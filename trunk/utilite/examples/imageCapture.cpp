@@ -100,7 +100,7 @@ protected:
 				if(view_)
 				{
 					// Process image in Qt thread...
-					QMetaObject::invokeMethod(view_, "setImage", Q_ARG(const QImage &, cvMat2QImage(image)));
+					QMetaObject::invokeMethod(view_, "setImage", Q_ARG(const QImage &, uCvMat2QImage(image)));
 				}
 
 				if(save_ && id_ == 1)
