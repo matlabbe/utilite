@@ -56,8 +56,7 @@ void imgReceivedCallback(const sensor_msgs::ImageConstPtr & msg)
 			previousImage = ptr->image.clone();
 
 			cv_bridge::CvImage img;
-			img.header.stamp = ptr->header.stamp;
-			img.header.frame_id = ptr->header.frame_id;
+			img.header = ptr->header;
 			img.encoding = ptr->encoding;
 			img.image = motion;
 			rosPublisher.publish(img.toImageMsg());		
