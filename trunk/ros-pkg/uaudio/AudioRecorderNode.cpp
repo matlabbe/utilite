@@ -29,7 +29,8 @@ public:
 class MicroWrapper : public UThreadNode
 {
 public:
-	MicroWrapper(int deviceId, int frameLength, int fs, int sampleSize, int nChannels)
+	MicroWrapper(int deviceId, int frameLength, int fs, int sampleSize, int nChannels) :
+		seqNumber_(0)
 	{
 		micro_ = new UAudioCaptureFFT(UAudioEvent::kTypeFrame, deviceId, fs, frameLength, nChannels, sampleSize);
 		ros::NodeHandle nh("");
@@ -67,6 +68,7 @@ public:
 
 	bool init()
 	{
+		seqNumber_ = 0;
 		return micro_->init();
 	}
 
@@ -171,12 +173,14 @@ protected:
 		}
 		if(!data.empty())
 		{
+			++seqNumber_;
 			ros::Time now = ros::Time::now();
 			if(audioFramePublisher_.getNumSubscribers())
 			{
 				uaudio::AudioFramePtr msg(new uaudio::AudioFrame);
 				msg->header.frame_id = "micro";
 				msg->header.stamp = now;
+				msg->header.seq = seqNumber_;
 				// Interleave the data
 				int channels = data.size();
 				int sampleSize = micro_->bytesPerSample();
@@ -202,6 +206,7 @@ protected:
 					uaudio::AudioFrameFreqPtr msg(new uaudio::AudioFrameFreq);
 					msg->header.frame_id = "micro";
 					msg->header.stamp = now;
+					msg->header.seq = seqNumber_;
 					msg->data.resize(freq.size()*freq[0].size());
 					for(unsigned int i=0; i<freq.size(); ++i)
 					{
@@ -217,6 +222,7 @@ protected:
 					uaudio::AudioFrameFreqSqrdMagnPtr msg(new uaudio::AudioFrameFreqSqrdMagn);
 					msg->header.frame_id = "micro";
 					msg->header.stamp = now;
+					msg->header.seq = seqNumber_;
 
 					//compute the squared magnitude
 					msg->data.resize(freq.size() * freq[0].size()/2);
@@ -262,6 +268,7 @@ private:
 	std::vector<std::string> nextFileNames_;
 	ros::ServiceServer pauseSrv_;
 	ros::ServiceServer nextSrv_;
+	int seqNumber_;
 };
 
 class Handler: public UEventsHandler
