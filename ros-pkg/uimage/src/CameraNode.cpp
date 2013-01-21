@@ -32,9 +32,12 @@ public:
 			      float imageRate = 0,
 				  unsigned int imageWidth = 0,
 				  unsigned int imageHeight = 0) :
-		camera_(0)
+		camera_(0),
+		seqNumber_(0),
+		frameId_("camera")
 	{
 		ros::NodeHandle nh("~");
+		nh.param("frame_id", frameId_, frameId_);
 		image_transport::ImageTransport it(nh);
 		rosPublisher_ = it.advertise("image", 1);
 		startSrv_ = nh.advertiseService("start", &CameraWrapper::startSrv, this);
@@ -53,6 +56,7 @@ public:
 
 	bool init()
 	{
+		seqNumber_ = 0;
 		if(camera_)
 		{
 			return camera_->init();
@@ -227,8 +231,9 @@ protected:
 				}
 				img.image = image;
 				sensor_msgs::ImagePtr rosMsg = img.toImageMsg();
-				rosMsg->header.frame_id = "camera";
+				rosMsg->header.frame_id = frameId_;
 				rosMsg->header.stamp = ros::Time::now();
+				rosMsg->header.seq = ++seqNumber_;
 				rosPublisher_.publish(rosMsg);
 			}
 		}
@@ -251,6 +256,8 @@ private:
 	UAbstractImageCapture * camera_;
 	ros::ServiceServer startSrv_;
 	ros::ServiceServer stopSrv_;
+	int seqNumber_;
+	std::string frameId_;
 };
 
 CameraWrapper * camera = 0;

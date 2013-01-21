@@ -34,8 +34,7 @@ void imgReceivedCallback(const sensor_msgs::ImageConstPtr & msg)
 
 
 		cv_bridge::CvImage img;
-		img.header.stamp = ptr->header.stamp;
-		img.header.frame_id = ptr->header.frame_id;
+		img.header = ptr->header;
 		img.encoding = sensor_msgs::image_encodings::BGR8;
 		img.image = color_dst;
 		rosPublisher.publish(img.toImageMsg());

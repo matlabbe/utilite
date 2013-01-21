@@ -47,8 +47,7 @@ void imgReceivedCallback(const sensor_msgs::ImageConstPtr & msg)
 			if(rosPublisherPolar.getNumSubscribers())
 			{
 				cv_bridge::CvImage img;
-				img.header.stamp = msg->header.stamp;
-				img.header.frame_id = msg->header.frame_id;
+				img.header = msg->header;
 				img.encoding = ptr->encoding;
 				img.image = polar;
 				rosPublisherPolar.publish(img.toImageMsg());
@@ -61,8 +60,7 @@ void imgReceivedCallback(const sensor_msgs::ImageConstPtr & msg)
 				cvLogPolar( &iplPolar, &iplReconstructed, cvPoint2D32f(radiusX, radiusY), double(M), CV_INTER_LINEAR+CV_WARP_FILL_OUTLIERS+CV_WARP_INVERSE_MAP );
 
 				cv_bridge::CvImage img;
-				img.header.stamp = msg->header.stamp;
-				img.header.frame_id = msg->header.frame_id;
+				img.header = msg->header;
 				img.encoding = ptr->encoding;
 				img.image = reconstructed;
 				rosPublisherPolarReconstructed.publish(img.toImageMsg());
