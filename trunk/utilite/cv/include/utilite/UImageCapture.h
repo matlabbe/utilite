@@ -39,7 +39,7 @@
  *
  */
 class UTILITE_EXP UAbstractImageCapture :
-	public UThreadNode
+	public UThread
 {
 public:
 	virtual ~UAbstractImageCapture();

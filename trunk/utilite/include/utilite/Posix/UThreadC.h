@@ -63,7 +63,7 @@ template
 <
   typename Thread_T
 >
-class UThread
+class UThreadC
 {
   private:
     struct Instance;
@@ -75,10 +75,10 @@ class UThread
     typedef THREAD_HANDLE Handle;
     typedef void ( *Handler)( Thread_R );
 
-    virtual ~UThread() {}
+    virtual ~UThreadC() {}
 
   protected:
-    UThread() {}
+    UThreadC() {}
 
     virtual void ThreadMain( Thread_R ) = 0;
 
@@ -146,7 +146,7 @@ class UThread
       if ( StackSize )
         pthread_attr_setstacksize(&attr,StackSize);
 
-      Instance I(Param,const_cast<UThread *>(this),0,CancelEnable,CancelAsync);
+      Instance I(Param,const_cast<UThreadC *>(this),0,CancelEnable,CancelAsync);
 
       Handle h=InvalidHandle;
       int R = pthread_create((pthread_t *)&h,&attr,(pthread_fn)ThreadMainHandler,(void *)&I);
@@ -204,11 +204,11 @@ class UThread
 
     struct Instance
     {
-      Instance( Thread_C_R P, UThread<Thread_T> *const &O, const UThread<Thread_T>::Handler &pH = 0, const bool &CE=false, const bool &CA=false )
+      Instance( Thread_C_R P, UThreadC<Thread_T> *const &O, const UThreadC<Thread_T>::Handler &pH = 0, const bool &CE=false, const bool &CA=false )
         : Data(P), Owner(O), pFN(pH), Flags(0) { if ( CE ) Flags|=1; if ( CA ) Flags|=2; }
 
       Thread_C_R      Data;
-      UThread<Thread_T>                * Owner;
+      UThreadC<Thread_T>                * Owner;
       Handler         pFN;
       unsigned char                     Flags;
     };
@@ -218,7 +218,7 @@ class UThread
 //  Explicit specialization, no thread parameters
 //
 template<>
-class UThread<void>
+class UThreadC<void>
 {
   private:
     struct Instance;
@@ -227,10 +227,10 @@ class UThread<void>
     typedef THREAD_HANDLE Handle;
     typedef void ( *Handler)();
 
-    virtual ~UThread<void>() {}
+    virtual ~UThreadC<void>() {}
 
   protected:
-    UThread<void>() {}
+    UThreadC<void>() {}
 
     virtual void ThreadMain() = 0;
 
@@ -296,7 +296,7 @@ class UThread<void>
       if ( StackSize )
         pthread_attr_setstacksize(&attr,StackSize);
 
-      Instance I(const_cast<UThread *>(this),0,CancelEnable,CancelAsync);
+      Instance I(const_cast<UThreadC *>(this),0,CancelEnable,CancelAsync);
 
       Handle h=InvalidHandle;
       int R = pthread_create((pthread_t *)&h,&attr,(pthread_fn)ThreadMainHandler,(void *)&I);
@@ -329,7 +329,7 @@ class UThread<void>
       if ( StackSize )
         pthread_attr_setstacksize(&attr,StackSize);
 
-      Instance I(const_cast<UThread *>(this),0,CancelEnable,CancelAsync);
+      Instance I(const_cast<UThreadC *>(this),0,CancelEnable,CancelAsync);
 
       *H = InvalidHandle;
       int R = pthread_create((pthread_t *)&(*H),&attr,(pthread_fn)ThreadMainHandler,(void *)&I);
@@ -387,11 +387,11 @@ class UThread<void>
 
     struct Instance
     {
-		Instance( UThread<void> *const &O, const UThread<void>::Handler &pH = 0, const bool &CE=false, const bool &CA=false )
+		Instance( UThreadC<void> *const &O, const UThreadC<void>::Handler &pH = 0, const bool &CE=false, const bool &CA=false )
         : pFN(pH), Owner(O), Flags(0) { if ( CE ) Flags|=1; if ( CA ) Flags|=2; }
 
-		UThread<void>::Handler             pFN;
-		UThread<void>                *     Owner;
+		UThreadC<void>::Handler             pFN;
+		UThreadC<void>                *     Owner;
 		unsigned char                     Flags;
 
     };

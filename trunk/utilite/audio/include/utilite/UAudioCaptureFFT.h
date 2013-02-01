@@ -18,7 +18,7 @@
 
 class UAudioCapture;
 
-class UTILITE_EXP UAudioCaptureFFT : public UThreadNode
+class UTILITE_EXP UAudioCaptureFFT : public UThread
 {
 	typedef float fftwf_complex[2];
 public:

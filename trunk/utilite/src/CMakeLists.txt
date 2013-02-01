@@ -6,7 +6,7 @@ SET(SRC_FILES
     UDirectory.cpp
     UConversion.cpp
     ULogger.cpp
-    UThreadNode.cpp
+    UThread.cpp
     UTimer.cpp
     UProcessInfo.cpp
 )

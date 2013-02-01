@@ -1,4 +1,4 @@
-#include <utilite/UThreadNode.h>
+#include <utilite/UThread.h>
 #include <stdio.h>
 
 /**
@@ -16,7 +16,7 @@
  * @endcode
  */
 
-class SimpleThread : public UThreadNode
+class SimpleThread : public UThread
 {
 public:
 	SimpleThread() : loopCount_(0) {}

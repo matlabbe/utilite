@@ -28,7 +28,7 @@
 #include <cmath>
 #include <QtGui/QApplication>
 #include <QtCore/QMetaObject>
-#include <utilite/UThreadNode.h>
+#include <utilite/UThread.h>
 #include <utilite/UEventsHandler.h>
 #include <utilite/UEventsManager.h>
 

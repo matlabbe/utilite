@@ -54,7 +54,7 @@ void loop()
 
 static SimpleStateThread threadStatic;
 
-void Tests::testThreadNode()
+void Tests::testThread()
 {
 	//Logger::setType(Logger::kTypeConsole);
 	//Logger::setLevel(Logger::kDebug);
@@ -222,7 +222,7 @@ void Tests::testSemaphore()
 	semThr.kill();
 }
 
-class MutexThread : public UThreadNode
+class MutexThread : public UThread
 {
 public:
 	MutexThread(UMutex & mutex) :

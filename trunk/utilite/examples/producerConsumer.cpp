@@ -1,4 +1,4 @@
-#include <utilite/UThreadNode.h>
+#include <utilite/UThread.h>
 #include <utilite/UEventsHandler.h>
 #include <utilite/ULogger.h>
 #include <utilite/UEvent.h>
@@ -19,7 +19,7 @@ public:
 };
 
 // The Producer class
-class Producer : public UThreadNode
+class Producer : public UThread
 {
 public:
 	Producer(const std::string & name, int ms) :

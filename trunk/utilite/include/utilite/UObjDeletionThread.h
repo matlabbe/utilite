@@ -45,7 +45,7 @@ public:
  * The deletion can be delayed on startDeletion(), the thread will wait the time given before deleting the object.
  */
 template<class T>
-class UObjDeletionThread : public UThreadNode
+class UObjDeletionThread : public UThread
 {
 public:
 	/**

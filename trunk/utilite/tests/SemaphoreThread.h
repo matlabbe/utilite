@@ -8,9 +8,9 @@
 #ifndef SEMAPHORETHREAD_H_
 #define SEMAPHORETHREAD_H_
 
-#include "utilite/UThreadNode.h"
+#include "utilite/UThread.h"
 
-class SemaphoreThread : public UThreadNode
+class SemaphoreThread : public UThread
 {
 public:
 	SemaphoreThread(USemaphore * sem) : _sem(sem), _count(0) {}
@@ -19,7 +19,7 @@ public:
 protected:
 
 private:
-    virtual void killCleanup()
+    virtual void mainLoopKill()
     {
     	if(_sem)
     	{

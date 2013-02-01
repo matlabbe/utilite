@@ -17,7 +17,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "utilite/UThreadNode.h"
+#include "utilite/UThread.h"
 #include "utilite/ULogger.h"
 #ifdef __APPLE__
 #include <mach/thread_policy.h>
@@ -30,7 +30,7 @@
 // public:
 ////////////////////////////
 
-UThreadNode::UThreadNode(Priority priority) : 
+UThread::UThread(Priority priority) : 
     state_(kSIdle), 
     priority_(priority), 
     handle_(0), 
@@ -38,14 +38,14 @@ UThreadNode::UThreadNode(Priority priority) :
     cpuAffinity_(-1)
 {}
 
-UThreadNode::~UThreadNode()
+UThread::~UThread()
 {
 #if PRINT_DEBUG
 	ULOGGER_DEBUG("");
 #endif
 }
 
-void UThreadNode::kill()
+void UThread::kill()
 {
 #if PRINT_DEBUG
 	ULOGGER_DEBUG("");
@@ -82,7 +82,7 @@ void UThreadNode::kill()
     killSafelyMutex_.unlock();
 }
 
-void UThreadNode::join(bool killFirst)
+void UThread::join(bool killFirst)
 {
 	//make sure the thread is created
 	while(this->isCreating())
@@ -92,14 +92,14 @@ void UThreadNode::join(bool killFirst)
 
 #if WIN32
 #if PRINT_DEBUG
-	UDEBUG("Thread %d joining %d", UThread<void>::Self(), threadId_);
+	UDEBUG("Thread %d joining %d", UThreadC<void>::Self(), threadId_);
 #endif
-	if(UThread<void>::Self() == threadId_)
+	if(UThreadC<void>::Self() == threadId_)
 #else
 #if PRINT_DEBUG
-	UDEBUG("Thread %d joining %d", UThread<void>::Self(), handle_);
+	UDEBUG("Thread %d joining %d", UThreadC<void>::Self(), handle_);
 #endif
-	if(UThread<void>::Self() == handle_)
+	if(UThreadC<void>::Self() == handle_)
 #endif
 	{
 		UERROR("Thread cannot join itself");
@@ -115,11 +115,11 @@ void UThreadNode::join(bool killFirst)
 	runningMutex_.unlock();
 
 #if PRINT_DEBUG
-	UDEBUG("Join ended for %d", UThread<void>::Self());
+	UDEBUG("Join ended for %d", UThreadC<void>::Self());
 #endif
 }
 
-void UThreadNode::start()
+void UThread::start()
 {
 #if PRINT_DEBUG
 	ULOGGER_DEBUG("");
@@ -135,7 +135,7 @@ void UThreadNode::start()
     	}
 
         state_ = kSCreating;
-        int r = UThread<void>::Create(threadId_, &handle_, true); // Create detached
+        int r = UThreadC<void>::Create(threadId_, &handle_, true); // Create detached
         if(r)
         {
         	UERROR("Failed to create a thread! errno=%d", r);
@@ -153,13 +153,13 @@ void UThreadNode::start()
 }
 
 //TODO : Support pThread
-void UThreadNode::setPriority(Priority priority)
+void UThread::setPriority(Priority priority)
 {
 	priority_ = priority;
 }
 
 //TODO : Support pThread
-void UThreadNode::applyPriority()
+void UThread::applyPriority()
 {
     if(handle_)
     {
@@ -195,7 +195,7 @@ void UThreadNode::applyPriority()
     }
 }
 
-void UThreadNode::setAffinity(int cpu)
+void UThread::setAffinity(int cpu)
 {
 	cpuAffinity_ = cpu;
 	if(cpuAffinity_<0)
@@ -205,7 +205,7 @@ void UThreadNode::setAffinity(int cpu)
 }
 
 //TODO : Support Windows and linux
-void UThreadNode::applyAffinity()
+void UThread::applyAffinity()
 {
 	if(cpuAffinity_>0)
 	{
@@ -237,22 +237,22 @@ void UThreadNode::applyAffinity()
 	}
 }
 
-bool UThreadNode::isCreating() const
+bool UThread::isCreating() const
 {
     return state_ == kSCreating;
 }
 
-bool UThreadNode::isRunning() const
+bool UThread::isRunning() const
 {
     return state_ == kSRunning || state_ == kSCreating;
 }
 
-bool UThreadNode::isIdle() const
+bool UThread::isIdle() const
 {
     return state_ == kSIdle;
 }
 
-bool UThreadNode::isKilled() const
+bool UThread::isKilled() const
 {
     return state_ == kSKilled;
 }
@@ -261,7 +261,7 @@ bool UThreadNode::isKilled() const
 // private:
 ////////////////////////////
 
-void UThreadNode::ThreadMain()
+void UThread::ThreadMain()
 {
 	runningMutex_.lock();
 	applyPriority();
@@ -299,6 +299,3 @@ void UThreadNode::ThreadMain()
 #endif
 }
 
-// For backward compatibilities...
-void UThreadNode::mainLoopBegin() {startInit();}
-void UThreadNode::mainLoopKill() {killCleanup();}

@@ -43,7 +43,7 @@
  * @see UAudioCapture::getNextFrame
  *
  */
-class UTILITE_EXP UAudioCapture : public UThreadNode {
+class UTILITE_EXP UAudioCapture : public UThread {
 public:
     virtual ~UAudioCapture();
 
