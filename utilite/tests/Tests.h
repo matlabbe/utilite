@@ -12,7 +12,7 @@
 class Tests : public CppUnit::TestFixture  {
 
   CPPUNIT_TEST_SUITE( Tests );
-  CPPUNIT_TEST( testThreadNode );
+  CPPUNIT_TEST( testThread );
   CPPUNIT_TEST( testThreadNodeMany );
   CPPUNIT_TEST( testSemaphore );
   CPPUNIT_TEST( testMutex );
@@ -55,7 +55,7 @@ public:
 	  //ULogger::setLevel(ULogger::kDebug);
   }
 
-  void testThreadNode();
+  void testThread();
   void testThreadNodeMany();
   void testSemaphore();
   void testMutex();

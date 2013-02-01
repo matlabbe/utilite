@@ -87,7 +87,7 @@ template
 <
   typename Thread_T
 >
-class UTILITE_EXP UThread
+class UTILITE_EXP UThreadC
 {
   private:
     struct Instance;
@@ -100,7 +100,7 @@ class UTILITE_EXP UThread
     typedef void (* Handler)( Thread_R );
 
   protected:
-    UThread() {}
+    UThreadC() {}
 
     virtual void ThreadMain( Thread_R ) = 0;
 
@@ -165,7 +165,7 @@ class UTILITE_EXP UThread
     {
       M_Create().lock();
 
-      Instance I(Param,const_cast<UThread *>(this));
+      Instance I(Param,const_cast<UThreadC *>(this));
 
       Handle Hnd(CREATE_THREAD(StackSize,ThreadMainHandler,&I));
 
@@ -227,12 +227,12 @@ class UTILITE_EXP UThread
 
     struct Instance
     {
-      Instance( Thread_C_R P, UThread<Thread_T> *const &O, const typename UThread<Thread_T>::Handler &pH = 0 )
+      Instance( Thread_C_R P, UThreadC<Thread_T> *const &O, const typename UThreadC<Thread_T>::Handler &pH = 0 )
         : pFN(pH), Data(P), Owner(O) {}
 
-      typename UThread<Thread_T>::Handler             pFN;
-      typename UThread<Thread_T>::Thread_C_R          Data;
-      UThread<Thread_T>                    * Owner;
+      typename UThreadC<Thread_T>::Handler             pFN;
+      typename UThreadC<Thread_T>::Thread_C_R          Data;
+      UThreadC<Thread_T>                    * Owner;
 
     };
 };
@@ -241,7 +241,7 @@ class UTILITE_EXP UThread
 //  Explicit Specialization of void
 //
 template<>
-class UTILITE_EXP UThread<void>
+class UTILITE_EXP UThreadC<void>
 {
   private:
     struct Instance;
@@ -250,10 +250,10 @@ class UTILITE_EXP UThread<void>
     typedef THREAD_HANDLE Handle;
     typedef void ( *Handler)();
 
-    virtual ~UThread<void>() {}
+    virtual ~UThreadC<void>() {}
 
   protected:
-    UThread<void>() {}
+    UThreadC<void>() {}
 
     virtual void ThreadMain() = 0;
 
@@ -364,7 +364,7 @@ class UTILITE_EXP UThread<void>
 
   private:
 
-    static THREAD_RET_T THREAD_CALL ThreadMainHandler( UThread<void> *Param )
+    static THREAD_RET_T THREAD_CALL ThreadMainHandler( UThreadC<void> *Param )
     {
       Param->ThreadMain();
       Exit();

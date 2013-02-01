@@ -1,5 +1,5 @@
 
-#include "utilite/UThreadNode.h"
+#include "utilite/UThread.h"
 #include "utilite/UEventsHandler.h"
 #include "utilite/UEventsManager.h"
 #include "utilite/UEvent.h"
@@ -14,7 +14,7 @@ public:
 };
 
 // There is the thread counting indefinitely, the count can be reseted by sending a ResetEvent.
-class CounterThread : public UThreadNode, public UEventsHandler
+class CounterThread : public UThread, public UEventsHandler
 {
 public:
 	CounterThread() : state_(0), count_(0) {}

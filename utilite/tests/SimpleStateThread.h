@@ -1,11 +1,11 @@
 #ifndef SIMPLESTATETHREAD_H
 #define SIMPLESTATETHREAD_H
 
-#include "utilite/UThreadNode.h"
+#include "utilite/UThread.h"
 
 #include <string>
 
-class SimpleStateThread : public UThreadNode
+class SimpleStateThread : public UThread
 {
 public:
 	SimpleStateThread(bool killItself = false) : _killItself(killItself) {}

@@ -104,7 +104,7 @@ void UEventsManager::mainLoop()
     }
 }
 
-void UEventsManager::killCleanup()
+void UEventsManager::mainLoopKill()
 {
     postEventSem_.release();
 }

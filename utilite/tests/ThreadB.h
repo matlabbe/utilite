@@ -4,14 +4,14 @@
 #include "utilite/UEventsManager.h"
 #include "EventA.h"
 #include "EventB.h"
-#include "utilite/UThreadNode.h"
+#include "utilite/UThread.h"
 
 #include "utilite/ULogger.h"
 
 
 #include <string>
 
-class ThreadB : public UEventsHandler, public UThreadNode
+class ThreadB : public UEventsHandler, public UThread
 {
 public:
     ThreadB(const int &workTime, const std::string &msg) : _workTime(workTime), _msg(msg){}

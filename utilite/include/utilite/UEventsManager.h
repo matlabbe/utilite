@@ -30,7 +30,7 @@
 #include <list>
 
 // TODO Not implemented... for multithreading event handling
-class UEventDispatcher : public UThreadNode
+class UEventDispatcher : public UThread
 {
 public:
 	virtual ~UEventDispatcher();
@@ -74,7 +74,7 @@ private:
  * @see addHandler()
  * @see removeHandler()
  */
-class UTILITE_EXP UEventsManager : public UThreadNode{
+class UTILITE_EXP UEventsManager : public UThread{
 
 public:
 
@@ -150,7 +150,7 @@ private:
     /**
 	 * Reimplemented to wake up UEventsManager on termination.
 	 */
-    virtual void killCleanup();
+    virtual void mainLoopKill();
 
     /*
      * This method dispatches asynchronized events to all handlers.

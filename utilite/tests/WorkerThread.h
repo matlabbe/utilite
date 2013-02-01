@@ -1,9 +1,9 @@
 #ifndef WORKERTHREAD_H
 #define WORKERTHREAD_H
 
-#include "utilite/UThreadNode.h"
+#include "utilite/UThread.h"
 
-class WorkerThread : public UThreadNode
+class WorkerThread : public UThread
 {
 public:
 	WorkerThread(){}
