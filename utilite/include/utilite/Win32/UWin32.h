@@ -9,7 +9,7 @@
 #ifndef _U_Win32_
 #define _U_Win32_
 
-#include "utilite/UtiLiteExp.h"
+#include "rtabmap/utilite/UtiLiteExp.h"
 
   #if !defined(_WINDOWS_)
   // WIN32 Excludes

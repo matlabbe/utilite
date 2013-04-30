@@ -12,8 +12,8 @@
 #ifndef _U_Thread_Posix_
 #define _U_Thread_Posix_
 
-#include "utilite/USemaphore.h"
-#include "utilite/UMutex.h"
+#include "rtabmap/utilite/USemaphore.h"
+#include "rtabmap/utilite/UMutex.h"
 
 #include <pthread.h>
 

@@ -17,13 +17,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "utilite/UtiLite.h"
-
-//HACK for dependencies, see CMakeLists.txt
-#ifdef BUILD_AUDIO
-#include "utilite/UWav.h"
-UWav wav;
-#endif
+#include "rtabmap/utilite/UtiLite.h"
 
 #include <fstream>
 #include <iostream>
