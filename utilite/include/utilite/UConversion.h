@@ -51,6 +51,22 @@
 std::string UTILITE_EXP uReplaceChar(const std::string & str, char before, char after);
 
 /**
+ * Replace old characters in a string with the specified string.
+ * Example :
+ * @code
+ * std::string str = "Hello";
+ * uReplaceChar(str, 'o', "oween");
+ * // The results is str = "Helloween";
+ * @endcode
+ *
+ * @param str the string
+ * @param before the character to be replaced by the new one
+ * @param after the new string replacing the old character
+ * @return the modified string
+ */
+std::string UTILITE_EXP uReplaceChar(const std::string & str, char before, const std::string & after);
+
+/**
  * Transform characters from a string to upper case.
  * Example :
  * @code

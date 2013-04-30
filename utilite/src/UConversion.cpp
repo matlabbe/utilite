@@ -36,6 +36,23 @@ std::string uReplaceChar(const std::string & str, char before, char after)
 	return result;
 }
 
+std::string uReplaceChar(const std::string & str, char before, const std::string & after)
+{
+	std::string s;
+	for(unsigned int i=0; i<str.size(); ++i)
+	{
+		if(str.at(i) != before)
+		{
+			s.push_back(str.at(i));
+		}
+		else
+		{
+			s.append(after);
+		}
+	}
+	return s;
+}
+
 std::string uToUpperCase(const std::string & str)
 {
 	std::string result = str;
