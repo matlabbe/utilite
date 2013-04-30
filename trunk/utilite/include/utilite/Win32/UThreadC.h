@@ -36,9 +36,9 @@
 #ifndef _U_Thread_Win32_
 #define _U_Thread_Win32_
 
-#include "utilite/Win32/UWin32.h"
-#include "utilite/USemaphore.h"
-#include "utilite/UMutex.h"
+#include "rtabmap/utilite/Win32/UWin32.h"
+#include "rtabmap/utilite/USemaphore.h"
+#include "rtabmap/utilite/UMutex.h"
 
 inline void uSleep(unsigned int ms)
 {
