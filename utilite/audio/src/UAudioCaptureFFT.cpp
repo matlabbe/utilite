@@ -325,7 +325,7 @@ std::vector<std::vector<float> > UAudioCaptureFFT::computeFFT(const std::vector<
 		UWARN("Micro not initialized!");
 		return frameFreq;
 	}
-	else if((int)_window.size()!=frame[0].size()/_recorder->bytesPerSample())
+	else if((int)_window.size()!=int(frame[0].size())/_recorder->bytesPerSample())
 	{
 		UWARN("Frame (%d) and initialized window (%d) are not the same size!", frame[0].size(), _window.size());
 		return frameFreq;
