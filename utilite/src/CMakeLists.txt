@@ -21,12 +21,14 @@ INCLUDE_DIRECTORIES(${INCLUDE_DIRS})
 
 # Adds a library called UtiLite (libutilite.so under Linux) from the source files
 ADD_LIBRARY( utilite ${SRC_FILES} )
-IF(WIN32)
-	FIND_LIBRARY(PSAPI_LIBRARIES NAMES psapi libpsapi.dll.a libpsapi.a libpsapi.lib )
+IF(MINGW)
+    TARGET_LINK_LIBRARIES(utilite ${PTHREADS_LIBRARY} "-lpsapi")
+ELSEIF(WIN32)
+    FIND_LIBRARY(PSAPI_LIBRARIES NAMES psapi libpsapi.dll.a libpsapi.a libpsapi.lib )
     TARGET_LINK_LIBRARIES(utilite ${PTHREADS_LIBRARY} ${PSAPI_LIBRARIES})
-ELSE(WIN32)
+ELSE()
     TARGET_LINK_LIBRARIES(utilite ${PTHREADS_LIBRARY})
-ENDIF(WIN32)
+ENDIF()
 
 SET_TARGET_PROPERTIES(
 utilite
