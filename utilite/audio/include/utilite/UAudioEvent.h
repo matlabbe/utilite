@@ -8,12 +8,12 @@
 #ifndef UAUDIOEVENT_H_
 #define UAUDIOEVENT_H_
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteAudioExp.h" // DLL export/import defines
 
 #include <utilite/UEvent.h>
 #include <vector>
 
-class UTILITE_EXP UAudioEvent :
+class UTILITEAUDIO_EXP UAudioEvent :
 	public UEvent
 {
 public:

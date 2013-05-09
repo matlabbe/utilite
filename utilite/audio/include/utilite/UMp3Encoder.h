@@ -7,7 +7,7 @@
 #ifndef UMP3ENCODER_H
 #define UMP3ENCODER_H
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteAudioExp.h" // DLL export/import defines
 
 #include <string>
 
@@ -16,7 +16,7 @@
  * can redefined the three virtual methods to have a 
  * feedback while the file is encoded.
  */
-class UTILITE_EXP UMp3Encoder
+class UTILITEAUDIO_EXP UMp3Encoder
 {
 public:
     int encode(const std::string &fileIn, const std::string &fileOut, bool writeOver = true);

@@ -20,7 +20,7 @@
 #ifndef UPLOT_H_
 #define UPLOT_H_
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteQtExp.h" // DLL export/import defines
 
 #include <QtGui/QFrame>
 #include <QtCore/QList>
@@ -42,7 +42,7 @@ class QFormLayout;
  * UPlotItem is a QGraphicsEllipseItem and can be inherited to do custom behaviors
  * on an hoverEnterEvent() for example.
  */
-class UTILITE_EXP UPlotItem : public QGraphicsEllipseItem
+class UTILITEQT_EXP UPlotItem : public QGraphicsEllipseItem
 {
 public:
 	/**
@@ -88,7 +88,7 @@ class UPlot;
 /**
  * UPlotCurve is a curve used to hold data shown in a UPlot.
  */
-class UTILITE_EXP UPlotCurve : public QObject
+class UTILITEQT_EXP UPlotCurve : public QObject
 {
 	Q_OBJECT
 
@@ -257,7 +257,7 @@ private:
 /**
  * A special UPlotCurve that shows as a line at the specified value, spanning all the UPlot.
  */
-class UTILITE_EXP UPlotCurveThreshold : public UPlotCurve
+class UTILITEQT_EXP UPlotCurveThreshold : public UPlotCurve
 {
 	Q_OBJECT
 
@@ -290,7 +290,7 @@ private:
 /**
  * The UPlot axis object.
  */
-class UTILITE_EXP UPlotAxis : public QWidget
+class UTILITEQT_EXP UPlotAxis : public QWidget
 {
 public:
 	/**
@@ -340,7 +340,7 @@ private:
 /**
  * The UPlot legend item. Used internally by UPlot.
  */
-class UTILITE_EXP UPlotLegendItem : public QPushButton
+class UTILITEQT_EXP UPlotLegendItem : public QPushButton
 {
 	Q_OBJECT
 
@@ -376,7 +376,7 @@ private:
 /**
  * The UPlot legend. Used internally by UPlot.
  */
-class UTILITE_EXP UPlotLegend : public QWidget
+class UTILITEQT_EXP UPlotLegend : public QWidget
 {
 	Q_OBJECT
 
@@ -418,7 +418,7 @@ private:
 /**
  * Orientable QLabel. Inherit QLabel and let you to specify the orientation.
  */
-class UTILITE_EXP UOrientableLabel : public QLabel
+class UTILITEQT_EXP UOrientableLabel : public QLabel
 {
 	Q_OBJECT
 
@@ -474,7 +474,7 @@ private:
  *
  *
  */
-class UTILITE_EXP UPlot : public QWidget
+class UTILITEQT_EXP UPlot : public QWidget
 {
 	Q_OBJECT
 

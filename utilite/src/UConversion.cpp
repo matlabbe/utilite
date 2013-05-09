@@ -258,7 +258,11 @@ std::string uFormatv (const char *fmt, va_list args)
     va_list argsTmp;
 
     while (1) {
-    	va_copy(argsTmp, args);
+#if defined(WIN32) && !defined(__MINGW32__)
+	argsTmp = args;
+#else
+	va_copy(argsTmp, args);
+#endif
 
         // Try to vsnprintf into our buffer.
     	int needed = vsnprintf (buf, size, fmt, argsTmp);

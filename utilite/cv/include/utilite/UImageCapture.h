@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteCvExp.h" // DLL export/import defines
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/features2d/features2d.hpp>
@@ -38,7 +38,7 @@
  * Class UAbstractImageCapture
  *
  */
-class UTILITE_EXP UAbstractImageCapture :
+class UTILITECV_EXP UAbstractImageCapture :
 	public UThread
 {
 public:
@@ -91,7 +91,7 @@ private:
 /////////////////////////
 // UImageFolderCapture
 /////////////////////////
-class UTILITE_EXP UImageFolderCapture :
+class UTILITECV_EXP UImageFolderCapture :
 	public UAbstractImageCapture
 {
 public:
@@ -132,7 +132,7 @@ private:
 /////////////////////////
 // UVideoCapture
 /////////////////////////
-class UTILITE_EXP UVideoCapture :
+class UTILITECV_EXP UVideoCapture :
 	public UAbstractImageCapture
 {
 public:

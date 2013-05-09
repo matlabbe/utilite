@@ -7,7 +7,7 @@
 #ifndef UWAV_H
 #define UWAV_H
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteAudioExp.h" // DLL export/import defines
 
 #include <stdio.h>
 
@@ -17,7 +17,7 @@
  * attributes accessibles with the getters. The data aren't 
  * read at the initialization.
  */
-class UTILITE_EXP UWav
+class UTILITEAUDIO_EXP UWav
 {
 
 public:

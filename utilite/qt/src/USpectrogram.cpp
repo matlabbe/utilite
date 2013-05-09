@@ -43,6 +43,15 @@
 #define YLABEL_DEFAULT "0 -- Time -->"
 #define PI 3.14159
 
+#if defined(WIN32) && !defined(__MINGW32__)
+// Calculates log2 of number.  
+double log2( double n )  
+{  
+    // log(n)/log(2) is log2.  
+    return log( n ) / log( 2.0 );  
+}
+#endif
+
 class View : public QGraphicsView
 {
 public:

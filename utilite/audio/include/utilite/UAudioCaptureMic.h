@@ -7,7 +7,7 @@
 #ifndef UMICAUDIORECORDER_H
 #define UMICAUDIORECORDER_H
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteAudioExp.h" // DLL export/import defines
 
 #include "utilite/UAudioCapture.h"
 #include <string>
@@ -44,7 +44,7 @@ class FMOD_SOUND;
  * @see UAudioRecorderMic::getRecordDrivers
  *
  */
-class UTILITE_EXP UAudioCaptureMic : public UAudioCapture
+class UTILITEAUDIO_EXP UAudioCaptureMic : public UAudioCapture
 {
 public:
 	/**
