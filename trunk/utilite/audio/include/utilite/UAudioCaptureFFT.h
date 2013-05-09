@@ -8,7 +8,7 @@
 #ifndef MICRO_H_
 #define MICRO_H_
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteAudioExp.h" // DLL export/import defines
 
 #include "utilite/UThreadNode.h"
 #include "utilite/UAudioEvent.h"
@@ -18,7 +18,7 @@
 
 class UAudioCapture;
 
-class UTILITE_EXP UAudioCaptureFFT : public UThread
+class UTILITEAUDIO_EXP UAudioCaptureFFT : public UThread
 {
 	typedef float fftwf_complex[2];
 public:

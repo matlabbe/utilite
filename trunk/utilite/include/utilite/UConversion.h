@@ -241,13 +241,13 @@ std::string UTILITE_EXP uFormat (const char *fmt, ...);
  * Convert multi-byte string to unicode (wide-char) string.
  * Note that returned whar_t * must be deleted : delete [] wText;
  */
-wchar_t * UTILITE_EXP createWCharFromChar(const char * text);
+UTILITE_EXP wchar_t * createWCharFromChar(const char * text);
 
 /**
  * Convert unicode (wide-char) string to multi-byte string.
  * Note that returned char * must be deleted : delete [] text;
  */
-char * UTILITE_EXP createCharFromWChar(const wchar_t * wText);
+UTILITE_EXP char * createCharFromWChar(const wchar_t * wText);
 #endif
 
 #endif /* UCONVERSION_H */

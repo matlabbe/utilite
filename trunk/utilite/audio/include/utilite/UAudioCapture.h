@@ -7,7 +7,7 @@
 #ifndef UAUDIORECORDER_H
 #define UAUDIORECORDER_H
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteAudioExp.h" // DLL export/import defines
 
 #include <utilite/USemaphore.h>
 #include <utilite/UMutex.h>
@@ -43,7 +43,7 @@
  * @see UAudioCapture::getNextFrame
  *
  */
-class UTILITE_EXP UAudioCapture : public UThread {
+class UTILITEAUDIO_EXP UAudioCapture : public UThread {
 public:
     virtual ~UAudioCapture();
 

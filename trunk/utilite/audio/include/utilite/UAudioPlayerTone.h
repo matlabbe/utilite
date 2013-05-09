@@ -7,7 +7,7 @@
 #ifndef UTONEAUDIOPLAYER_H
 #define UTONEAUDIOPLAYER_H
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteAudioExp.h" // DLL export/import defines
 
 #include "utilite/UAudioPlayer.h"
 #include <utilite/UThreadNode.h>
@@ -21,7 +21,7 @@ class FMOD_DSP;
  * use the DSP system of FMOD to generate a sound. It can be 
  * used with a file to repeat it after each a defined tick in ms.
  */
-class UTILITE_EXP UAudioPlayerTone : public UAudioPlayer, public UThread
+class UTILITEAUDIO_EXP UAudioPlayerTone : public UAudioPlayer, public UThread
 {
 public:
     UAudioPlayerTone(float freq = 440.0f, float vol = 0.5f,  unsigned int toneMs = 200, unsigned int tickMs = 200);

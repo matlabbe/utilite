@@ -2,12 +2,12 @@
 #ifndef COLORTABLE_H
 #define COLORTABLE_H
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteCvExp.h" // DLL export/import defines
 
 #include <vector>
 
 // Note INDEXED_TABLE_# are generated using MATLAB with command "ceil(colorcube(#)*255)".
-class UTILITE_EXP UColorTable
+class UTILITECV_EXP UColorTable
 {
 public:
 	enum Size{kSize8 = 8,

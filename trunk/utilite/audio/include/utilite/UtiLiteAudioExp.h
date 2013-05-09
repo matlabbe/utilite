@@ -17,20 +17,20 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTILITEEXP_H
-#define UTILITEEXP_H
+#ifndef UTILITEAUDIOEXP_H
+#define UTILITEAUDIOEXP_H
 
 /**
  * Used mainly on Windows for dynamic linked libraries (dll).
  */
 #if defined(_WIN32)
-  #if defined(utilite_EXPORTS)
-    #define UTILITE_EXP   __declspec( dllexport )
+  #if defined(utilite_audio_EXPORTS)
+    #define UTILITEAUDIO_EXP   __declspec( dllexport )
   #else
-    #define UTILITE_EXP   __declspec( dllimport )
+    #define UTILITEAUDIO_EXP   __declspec( dllimport )
   #endif
 #else
-  #define UTILITE_EXP
+  #define UTILITEAUDIO_EXP
 #endif
 
 #ifdef __GNUC__

@@ -46,11 +46,11 @@ IF(TARGET utilite_audio)
 	TARGET_LINK_LIBRARIES(example-audioCapture utilite utilite_audio utilite_qt ${QT_LIBRARIES})
 ENDIF(TARGET utilite_audio)
 
-IF(TARGET utilite_qt)
+IF(TARGET utilite_qt AND TARGET utilite_cv)
 	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/cv_qt/include)
 	ADD_EXECUTABLE(example-imageCapture imageCapture.cpp)
 	TARGET_LINK_LIBRARIES(example-imageCapture utilite utilite_cv utilite_qt ${OpenCV_LIBS} ${QT_LIBRARIES})
-ENDIF(TARGET utilite_qt)
+ENDIF(TARGET utilite_qt AND TARGET utilite_cv)
 
 
 

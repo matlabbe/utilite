@@ -7,7 +7,7 @@
 #ifndef UAUDIOPLAYER_H
 #define UAUDIOPLAYER_H
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteAudioExp.h" // DLL export/import defines
 
 #include <string>
 
@@ -21,7 +21,7 @@ class FMOD_CHANNEL;
  * Almost all sound formats are supported (wav, mp3, 
  * mid, ...), see FMOD documentation.
  */
-class UTILITE_EXP UAudioPlayer
+class UTILITEAUDIO_EXP UAudioPlayer
 {
 public:
     UAudioPlayer();

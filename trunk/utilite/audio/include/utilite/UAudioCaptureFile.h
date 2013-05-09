@@ -7,7 +7,7 @@
 #ifndef UFILEAUDIORECORDER_H
 #define UFILEAUDIORECORDER_H
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteAudioExp.h" // DLL export/import defines
 
 #include "utilite/UAudioCapture.h"
 #include <string>
@@ -38,7 +38,7 @@ class FMOD_CHANNEL;
  *
  *
  */
-class UTILITE_EXP UAudioCaptureFile : public UAudioCapture
+class UTILITEAUDIO_EXP UAudioCaptureFile : public UAudioCapture
 {
 public:
     UAudioCaptureFile(const std::string &fileName, 

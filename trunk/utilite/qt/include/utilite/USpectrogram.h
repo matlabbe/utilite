@@ -20,7 +20,7 @@
 #ifndef AUDIOWIDGET_H_
 #define AUDIOWIDGET_H_
 
-#include "utilite/UtiLiteExp.h" // DLL export/import defines
+#include "utilite/UtiLiteQtExp.h" // DLL export/import defines
 
 #include <QtGui/QWidget>
 
@@ -67,7 +67,7 @@ class QGridLayout;
  *
  *
  */
-class UTILITE_EXP USpectrogram : public QWidget
+class UTILITEQT_EXP USpectrogram : public QWidget
 {
 	Q_OBJECT;
 
