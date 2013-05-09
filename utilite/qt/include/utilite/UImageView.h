@@ -8,10 +8,13 @@
 #ifndef IMAGEVIEW_H_
 #define IMAGEVIEW_H_
 
+#include "utilite/UtiLiteQtExp.h" // DLL export/import defines
+
+
 #include <QtGui/QWidget>
 #include <QtGui/QPainter>
 
-class UImageView : public QWidget
+class UTILITEQT_EXP UImageView : public QWidget
 {
 	Q_OBJECT;
 public:
