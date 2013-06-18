@@ -786,6 +786,11 @@ void Tests::testFile()
 	CPPUNIT_ASSERT( UFile::exists("LogTestUtil\\testFile.txt") == true );
 #endif
 
+	UFile::copy("LogTestUtil/testFile.txt", "LogTestUtil/testFileCpy.txt");
+	CPPUNIT_ASSERT( UFile::exists("LogTestUtil/testFileCpy.txt") == true );
+	UFile::erase("LogTestUtil/testFileCpy.txt");
+	CPPUNIT_ASSERT( UFile::exists("LogTestUtil/testFileCpy.txt") == false );
+
 	//long UTIL_EXP fileLength(const std::string &filePath);
 
 	//int UTIL_EXP eraseFile(const std::string &filePath);
