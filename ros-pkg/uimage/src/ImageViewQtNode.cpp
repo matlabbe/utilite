@@ -14,6 +14,7 @@
 
 #include <utilite/UDirectory.h>
 #include <utilite/UConversion.h>
+#include <utilite/UMath.h>
 
 #include <signal.h>
 
@@ -31,29 +32,49 @@ QImage cvtCvMat2QImage(const cv::Mat & image, bool isBgr = true)
 	if(!image.empty() && image.depth() == CV_8U && image.channels()==3)
 	{
 		const unsigned char * data = image.data;
-		if(image.channels() == 3)
+		qtemp = QImage(image.cols, image.rows, QImage::Format_RGB32);
+		for(int y = 0; y < image.rows; ++y, data += image.cols*image.elemSize())
 		{
-			qtemp = QImage(image.cols, image.rows, QImage::Format_RGB32);
-			for(int y = 0; y < image.rows; ++y, data += image.cols*image.elemSize())
+			for(int x = 0; x < image.cols; ++x)
 			{
-				for(int x = 0; x < image.cols; ++x)
+				QRgb * p = ((QRgb*)qtemp.scanLine (y)) + x;
+				if(isBgr)
 				{
-					QRgb * p = ((QRgb*)qtemp.scanLine (y)) + x;
-					if(isBgr)
-					{
-						*p = qRgb(data[x * image.channels()+2], data[x * image.channels()+1], data[x * image.channels()]);
-					}
-					else
-					{
-						*p = qRgb(data[x * image.channels()], data[x * image.channels()+1], data[x * image.channels()+2]);
-					}
+					*p = qRgb(data[x * image.channels()+2], data[x * image.channels()+1], data[x * image.channels()]);
+				}
+				else
+				{
+					*p = qRgb(data[x * image.channels()], data[x * image.channels()+1], data[x * image.channels()+2]);
+				}
+			}
+		}
+	}
+	else if(image.depth() == CV_32F && image.channels()==1)
+	{
+		// Assume depth image (float in meters)
+		const float * data = (const float *)image.data;
+		float min=0, max=0;
+		uMinMax(data, image.rows*image.cols, min, max);
+		qtemp = QImage(image.cols, image.rows, QImage::Format_Indexed8);
+		for(int y = 0; y < image.rows; ++y, data += image.cols)
+		{
+			for(int x = 0; x < image.cols; ++x)
+			{
+				uchar * p = qtemp.scanLine (y) + x;
+				if(data[x] < min || data[x] > max || isnan(data[x]))
+				{
+					*p = 0;
+				}
+				else
+				{
+					*p = uchar(255.0f - ((data[x]-min)*255.0f)/(max-min));
 				}
 			}
 		}
 	}
 	else if(!image.empty() && image.depth() != CV_8U)
 	{
-		printf("Wrong image format, must be 8_bits, 3 channels\n");
+		printf("Wrong image format, 8UC3 or 32FC1\n");
 	}
 	return qtemp;
 }
@@ -112,6 +133,11 @@ void imgReceivedCallback(const sensor_msgs::ImageConstPtr & msg)
 				// Process image in Qt thread...
 				QMetaObject::invokeMethod(view, "setImage", Q_ARG(const QImage &, cvtCvMat2QImage(ptr->image, false)));
 			}
+			else if(ptr->encoding.compare(sensor_msgs::image_encodings::TYPE_32FC1) == 0)
+			{
+				// Process image in Qt thread...
+				QMetaObject::invokeMethod(view, "setImage", Q_ARG(const QImage &, cvtCvMat2QImage(ptr->image)));
+			}
 			else
 			{
 				ROS_WARN("Encoding \"%s\" is not supported yet (try \"bgr8\" or \"rgb8\")", ptr->encoding.c_str());
@@ -132,7 +158,7 @@ int main(int argc, char** argv)
 
 	pn.param("images_saved", imagesSaved, imagesSaved);
 	pn.param("images_compressed", imagesCompressed, imagesCompressed);
-	ROS_INFO("images_saved=%d", imagesSaved?1:0);
+	ROS_INFO("images_saved=%s", imagesSaved?"true":"false");
 	if(imagesSaved)
 	{
 		ROS_INFO("images_compressed=%d", imagesCompressed?1:0);
