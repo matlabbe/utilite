@@ -40,11 +40,11 @@ IF(TARGET utilite_cv)
 	TARGET_LINK_LIBRARIES(example-colorIndexesGenerator utilite utilite_cv ${OpenCV_LIBS} ${ZLIB_LIBRARIES})
 ENDIF(TARGET utilite_cv)
 
-IF(TARGET utilite_audio)
+IF(TARGET utilite_audio AND TARGET utilite_qt)
 	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/audio/include)
 	ADD_EXECUTABLE(example-audioCapture audioCapture.cpp)
 	TARGET_LINK_LIBRARIES(example-audioCapture utilite utilite_audio utilite_qt ${QT_LIBRARIES})
-ENDIF(TARGET utilite_audio)
+ENDIF(TARGET utilite_audio AND TARGET utilite_qt)
 
 IF(TARGET utilite_qt AND TARGET utilite_cv)
 	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/cv_qt/include)

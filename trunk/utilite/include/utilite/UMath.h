@@ -49,7 +49,7 @@ inline T uMax(const T * v, unsigned int size, unsigned int & index)
 	max = v[0];
 	for(unsigned int i=1; i<size; ++i)
 	{
-		if(isnan(max) || (max < v[i] && !isnan(v[i])))
+		if(std::isnan(max) || (max < v[i] && !std::isnan(v[i])))
 		{
 			max = v[i];
 			index = i;
@@ -114,7 +114,7 @@ inline T uMin(const T * v, unsigned int size, unsigned int & index)
 	min = v[0];
 	for(unsigned int i=1; i<size; ++i)
 	{
-		if(isnan(min) || (min > v[i] && !isnan(v[i])))
+		if(std::isnan(min) || (min > v[i] && !std::isnan(v[i])))
 		{
 			min = v[i];
 			index = i;
@@ -182,15 +182,16 @@ inline void uMinMax(const T * v, unsigned int size, T & min, T & max, unsigned i
 	}
 	min = v[0];
 	max = v[0];
+
 	for(unsigned int i=1; i<size; ++i)
 	{
-		if(isnan(min) || (min > v[i] && !isnan(v[i])))
+		if(std::isnan(min) || (min > v[i] && !std::isnan(v[i])))
 		{
 			min = v[i];
 			indexMin = i;
 		}
 
-		if(isnan(max) || (max < v[i] && !isnan(v[i])))
+		if(std::isnan(max) || (max < v[i] && !std::isnan(v[i])))
 		{
 			max = v[i];
 			indexMax = i;
