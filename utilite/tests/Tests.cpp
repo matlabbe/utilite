@@ -491,6 +491,7 @@ void Tests::testUtilStl()
 	//Logger::setType(Logger::kTypeConsole);
 
 	std::list<int> list;
+	std::list<int> list2;
 	std::vector<int> vector;
 	std::map<int,int> map;
 	std::multimap<int,int> multimap;
@@ -680,11 +681,12 @@ void Tests::testUtilStl()
 
 	//void append(std::list<V> & list, const std::list<V> & newItems)
 	list.clear();
-	uAppend(list, list);
+	list2.clear();
+	uAppend(list, list2);
 	CPPUNIT_ASSERT( list.size() == 0 );
-	list.push_back(1);
-	uAppend(list, list);
-	CPPUNIT_ASSERT( list.size() == 2 );
+	list2.push_back(1);
+	uAppend(list, list2);
+	CPPUNIT_ASSERT( list.size() == 1 );
 
 	//int uIndexOf(const std::vector<V> & list, const V & uValue)
 	vector.clear();
@@ -778,6 +780,7 @@ void Tests::testDirectory()
 void Tests::testFile()
 {
 	ULogger::setType(ULogger::kTypeFile, "LogTestUtil/testFile.txt", false);
+	ULogger::reset(); // this will close the file
 
 	//bool UTIL_EXP UFile::exists(const std::string &filePath);
 	CPPUNIT_ASSERT( UFile::exists("./LogTestUtil/dummyFile") == false );
@@ -1038,13 +1041,13 @@ void Tests::testMathFunctions()
 	int maximaV3[] = {1, 1, 1};
 	int maximaV4[] = {0, 1};
 	int maximaV5[] = {1};
-	int maximaV6[] = {};
+	std::vector<int> maximaV6;
 	CPPUNIT_ASSERT(uLocalMaxima(maximaV1, 12).size() == 4);
 	CPPUNIT_ASSERT(uLocalMaxima(maximaV2, 7).size() == 2);
 	CPPUNIT_ASSERT(uLocalMaxima(maximaV3, 3).size() == 0);
 	CPPUNIT_ASSERT(uLocalMaxima(maximaV4, 2).size() == 1);
 	CPPUNIT_ASSERT(uLocalMaxima(maximaV5, 1).size() == 1);
-	CPPUNIT_ASSERT(uLocalMaxima(maximaV6, 0).size() == 0);
+	CPPUNIT_ASSERT(uLocalMaxima(maximaV6.data(), 0).size() == 0);
 }
 
 void Tests::testTimer()

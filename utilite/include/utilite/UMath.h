@@ -30,6 +30,16 @@
 #include <list>
 #include <vector>
 
+#ifdef APPLE
+	#define ISNAN(value) std::isnan(value)
+#elif _MSC_VER
+	#define ISNAN(value) _isnan(value)
+	#undef min  
+	#undef max 
+#else
+	#define ISNAN(value) isnan(value)
+#endif
+
 /**
  * Get the maximum of a vector.
  * @param v the array
@@ -49,7 +59,7 @@ inline T uMax(const T * v, unsigned int size, unsigned int & index)
 	max = v[0];
 	for(unsigned int i=1; i<size; ++i)
 	{
-		if(std::isnan(max) || (max < v[i] && !std::isnan(v[i])))
+		if(ISNAN(max) || (max < v[i] && !ISNAN(v[i])))
 		{
 			max = v[i];
 			index = i;
@@ -114,7 +124,7 @@ inline T uMin(const T * v, unsigned int size, unsigned int & index)
 	min = v[0];
 	for(unsigned int i=1; i<size; ++i)
 	{
-		if(std::isnan(min) || (min > v[i] && !std::isnan(v[i])))
+		if(ISNAN(min) || (min > v[i] && !ISNAN(v[i])))
 		{
 			min = v[i];
 			index = i;
@@ -185,13 +195,13 @@ inline void uMinMax(const T * v, unsigned int size, T & min, T & max, unsigned i
 
 	for(unsigned int i=1; i<size; ++i)
 	{
-		if(std::isnan(min) || (min > v[i] && !std::isnan(v[i])))
+		if(ISNAN(min) || (min > v[i] && !ISNAN(v[i])))
 		{
 			min = v[i];
 			indexMin = i;
 		}
 
-		if(std::isnan(max) || (max < v[i] && !std::isnan(v[i])))
+		if(ISNAN(max) || (max < v[i] && !ISNAN(v[i])))
 		{
 			max = v[i];
 			indexMax = i;
@@ -628,7 +638,7 @@ inline std::vector<T> uXMatch(const T * vA, const T * vB, unsigned int sizeA, un
 	}
 	else if(method == UXCorrBiased || method == UXCovBiased)
 	{
-		den = std::max(sizeA, sizeB);
+		den = (T)std::max(sizeA, sizeB);
 	}
 
 	if(sizeA == sizeB)
@@ -756,7 +766,7 @@ inline T uXMatch(const T * vA, const T * vB, unsigned int sizeA, unsigned int si
 	}
 	else if(method == UXCorrBiased || method == UXCovBiased)
 	{
-		den = std::max(sizeA, sizeB);
+		den = (T)std::max(sizeA, sizeB);
 	}
 	else if(method == UXCorrUnbiased || method == UXCovUnbiased)
 	{
@@ -822,7 +832,7 @@ inline std::vector<float> uHamming(unsigned int L)
 	float pi = 3.14159265f;
 	for(unsigned int n=0; n<N; ++n)
 	{
-		w[n] = 0.54-0.46*std::cos(2*pi*n/N);
+		w[n] = 0.54f-0.46f*std::cos(2.0f*pi*float(n)/float(N));
 	}
 	return w;
 }
