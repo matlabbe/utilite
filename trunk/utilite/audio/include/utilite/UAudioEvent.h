@@ -13,6 +13,9 @@
 #include <utilite/UEvent.h>
 #include <vector>
 
+/**
+ * An audio event.
+ */
 class UTILITEAUDIO_EXP UAudioEvent :
 	public UEvent
 {

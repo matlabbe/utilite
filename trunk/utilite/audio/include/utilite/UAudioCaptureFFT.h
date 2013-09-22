@@ -18,6 +18,10 @@
 
 class UAudioCapture;
 
+/**
+ * Wrapper of UAudioCapture to get samples in frequency domain.
+ * Info: FFTW used.
+ */
 class UTILITEAUDIO_EXP UAudioCaptureFFT : public UThread
 {
 	typedef float fftwf_complex[2];

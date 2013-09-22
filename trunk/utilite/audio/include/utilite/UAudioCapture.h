@@ -16,12 +16,14 @@
 #include <vector>
 
 /**
- * This is the base class for all 
+ * This is the abstract class for all
  * recorders. A recorder is used to get fixed 
  * frame length from a stream. It is configured 
  * with the length of the frame wanted. 
  * The main methods are Start, 
- * stop, and getNextFrame.
+ * stop, and getNextFrame. See UAudioCaptureMic and
+ * UAudioCaptureFile for implementation. To extract samples in
+ * frequency domain, see UAudioCaptureFFT.
  *
  * \n Example : 
  * @code

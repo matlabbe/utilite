@@ -1,21 +1,21 @@
 /*
- * Copyright (C) 2010-2011, Mathieu Labbe and IntRoLab - Universite de Sherbrooke
- *
- * This file is part of utilite.
- *
- * utilite is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * utilite is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with utilite.  If not, see <http://www.gnu.org/licenses/>.
- */
+*  utilite is a cross-platform library with
+*  useful utilities for fast and small developing.
+*  Copyright (C) 2010  Mathieu Labbe
+*
+*  utilite is free library: you can redistribute it and/or modify
+*  it under the terms of the GNU Lesser General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  utilite is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #pragma once
 
@@ -88,9 +88,9 @@ private:
 
 
 
-/////////////////////////
-// UImageFolderCapture
-/////////////////////////
+/**
+ * UImageFolderCapture : Read images from a directory.
+ */
 class UTILITECV_EXP UImageFolderCapture :
 	public UAbstractImageCapture
 {
@@ -129,9 +129,9 @@ private:
 
 
 
-/////////////////////////
-// UVideoCapture
-/////////////////////////
+/**
+ * UVideoCapture : Read images from a usb device (webcam) or a video file.
+ */
 class UTILITECV_EXP UVideoCapture :
 	public UAbstractImageCapture
 {
@@ -139,6 +139,9 @@ public:
 	enum Source{kVideoFile, kUsbDevice};
 
 public:
+	/**
+	 * Usb device constructor
+	 */
 	UVideoCapture(int usbDevice = 0,
 			float imageRate = 0,
 			bool autoRestart = false,
@@ -146,6 +149,9 @@ public:
 			unsigned int imageHeight = 0,
 			unsigned int framesDropped = 0,
 			int id = 0);
+	/**
+	 * Video file constructor
+	 */
 	UVideoCapture(const std::string & filePath,
 			float imageRate = 0,
 			bool autoRestart = false,

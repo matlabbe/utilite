@@ -27,6 +27,7 @@
 #include <fstream>
 #include <iostream>
 #include <string.h>
+#include <cstdlib>
 
 void showUsage()
 {
