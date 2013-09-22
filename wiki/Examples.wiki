@@ -104,7 +104,7 @@ int main(int argc, char * argv[])
 This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples/simpleThread.cpp simpleThread.cpp].
 Output :
 {{{
-Example with the UThreadNode class
+Example with the UThread class
 
 This is called once before entering the main thread loop.
 This is the loop 1...
@@ -116,10 +116,10 @@ SimpleThread destructor
 }}}
 Code :
 {{{
-#include <utilite/UThreadNode.h>
+#include <utilite/UThread.h>
 #include <stdio.h>
 
-class SimpleThread : public UThreadNode
+class SimpleThread : public UThread
 {
 public:
    SimpleThread() : loopCount_(0) {}
@@ -199,7 +199,7 @@ Output :
 
 Code :
 {{{
-#include <utilite/UThreadNode.h>
+#include <utilite/UThread.h>
 #include <utilite/UEventsHandler.h>
 #include <utilite/ULogger.h>
 #include <utilite/UEvent.h>
@@ -210,7 +210,7 @@ Code :
  */
 
 // The Producer class
-class Producer : public UThreadNode
+class Producer : public UThread
 {
 public:
    Producer(const std::string & name, int ms) :
@@ -287,7 +287,7 @@ Output :
 }}}
 Code :
 {{{
-#include "utilite/UThreadNode.h"
+#include "utilite/UThread.h"
 #include "utilite/UEventsHandler.h"
 #include "utilite/UEventsManager.h"
 #include "utilite/UEvent.h"
@@ -302,7 +302,7 @@ public:
 };
 
 // There is the thread counting indefinitely, the count can be reseted by sending a ResetEvent.
-class CounterThread : public UThreadNode, public UEventsHandler
+class CounterThread : public UThread, public UEventsHandler
 {
 public:
         CounterThread() : state_(0), count_(0) {}
