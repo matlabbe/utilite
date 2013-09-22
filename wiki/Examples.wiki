@@ -1,7 +1,7 @@
 #summary Here are some examples of what can be done by the library.
 #labels Featured
 <wiki:toc max_depth="1" />
-These examples can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples]. Please refer to the [http://utilite.googlecode.com/svn/trunk/doc/html/index.html API documentation] for information about these classes.
+These examples can be found at [http://code.google.com/p/utilite/source/browse/trunk/utilite/examples]. Please refer to the [http://utilite.googlecode.com/svn/trunk/doc/html/index.html API documentation] for information about these classes.
 = Logger and events=
 Note : the communication used between threads is events-based. 
 
@@ -101,7 +101,7 @@ int main(int argc, char * argv[])
 }}}
 
 = Threads =
-This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples/simpleThread.cpp simpleThread.cpp].
+This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/utilite/examples/simpleThread.cpp simpleThread.cpp].
 Output :
 {{{
 Example with the UThread class
@@ -167,7 +167,7 @@ int main(int argc, char * argv[])
 }}}
 
 = Producer-Consumer problem =
-This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples/producerConsumer.cpp producerConsumer.cpp].
+This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/utilite/examples/producerConsumer.cpp producerConsumer.cpp].
 
 Output :
 {{{
@@ -269,7 +269,7 @@ int main(int argc, char * argv[])
 }}}
 
 = Events with threads =
-This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/examples/counterThread.cpp counterThread.cpp].
+This example code can be found at [http://code.google.com/p/utilite/source/browse/trunk/utilite/examples/counterThread.cpp counterThread.cpp].
 
 Output :
 {{{
