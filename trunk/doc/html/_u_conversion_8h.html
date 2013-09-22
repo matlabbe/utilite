@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.14</span>
+   &#160;<span id="projectnumber">0.3.1</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -95,6 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::string UTILITE_EXP&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_conversion_8h.html#a02be486aaee5b10071b5393bf7ea2d1c">uReplaceChar</a> (const std::string &amp;str, char before, char after)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">std::string UTILITE_EXP&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_conversion_8h.html#a1fd634468b8f3fcaa07d63881909d600">uReplaceChar</a> (const std::string &amp;str, char before, const std::string &amp;after)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::string UTILITE_EXP&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_conversion_8h.html#a09ab88a53877aec136150bfe8ddb48cd">uToUpperCase</a> (const std::string &amp;str)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::string UTILITE_EXP&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_conversion_8h.html#a145472af945ab538f074b7d1d672061f">uToLowerCase</a> (const std::string &amp;str)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::string UTILITE_EXP&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_u_conversion_8h.html#ae49c4dfb0edc535a642b3b30dc5b8d9e">uNumber2Str</a> (unsigned int number)</td></tr>
@@ -502,7 +503,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string UTILITE_EXP <a class="el" href="_u_conversion_8h.html#a02be486aaee5b10071b5393bf7ea2d1c">uReplaceChar</a> </td>
+          <td class="memname">std::string UTILITE_EXP <a class="el" href="_u_conversion_8h.html#a1fd634468b8f3fcaa07d63881909d600">uReplaceChar</a> </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>str</em>, </td>
@@ -536,6 +537,52 @@ Functions</h2></td></tr>
     <tr><td class="paramname">str</td><td>the string </td></tr>
     <tr><td class="paramname">before</td><td>the character to be replaced by the new one </td></tr>
     <tr><td class="paramname">after</td><td>the new character replacing the old one </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the modified string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1fd634468b8f3fcaa07d63881909d600"></a><!-- doxytag: member="UConversion.h::uReplaceChar" ref="a1fd634468b8f3fcaa07d63881909d600" args="(const std::string &amp;str, char before, const std::string &amp;after)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string UTILITE_EXP <a class="el" href="_u_conversion_8h.html#a1fd634468b8f3fcaa07d63881909d600">uReplaceChar</a> </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>before</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>after</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Replace old characters in a string with the specified string. Example : </p>
+<div class="fragment"><pre class="fragment"> std::string str = <span class="stringliteral">&quot;Hello&quot;</span>;
+ uReplaceChar(str, <span class="charliteral">&#39;o&#39;</span>, <span class="stringliteral">&quot;oween&quot;</span>);
+ <span class="comment">// The results is str = &quot;Helloween&quot;;</span>
+</pre></div><dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>the string </td></tr>
+    <tr><td class="paramname">before</td><td>the character to be replaced by the new one </td></tr>
+    <tr><td class="paramname">after</td><td>the new string replacing the old character </td></tr>
   </table>
   </dd>
 </dl>
@@ -642,7 +689,7 @@ Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 21:46:48 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 22 2013 10:03:34 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

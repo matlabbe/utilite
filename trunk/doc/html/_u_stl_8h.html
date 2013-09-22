@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.14</span>
+   &#160;<span id="projectnumber">0.3.1</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -99,9 +99,13 @@ Functions</h2></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class K , class V &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">std::list&lt; K &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#a0071662d9278f37f9720568ea10d23e6">uUniqueKeys</a> (const std::multimap&lt; K, V &gt; &amp;mm)</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class K , class V &gt; </td></tr>
-<tr><td class="memTemplItemLeft" align="right" valign="top">std::list&lt; K &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#ac614908fdef449f1d621beb27b261112">uKeys</a> (const std::multimap&lt; K, V &gt; &amp;mm)</td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; K &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#adb9ea526688366cda2a4ec12bd0fb0ec">uKeys</a> (const std::multimap&lt; K, V &gt; &amp;mm)</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class K , class V &gt; </td></tr>
-<tr><td class="memTemplItemLeft" align="right" valign="top">std::list&lt; V &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#a7fbfdbb91d4f77bb0d7b7845459c9c98">uValues</a> (const std::multimap&lt; K, V &gt; &amp;mm)</td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">std::list&lt; K &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#aa14ea77658947e1cef5aab421c8fdaae">uKeysList</a> (const std::multimap&lt; K, V &gt; &amp;mm)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class K , class V &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; V &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#a9a66b50874bee5f6e7fd56ec2dc4a2e1">uValues</a> (const std::multimap&lt; K, V &gt; &amp;mm)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class K , class V &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">std::list&lt; V &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#a35067a8b4518c489886f94b7fb3b5f15">uValuesList</a> (const std::multimap&lt; K, V &gt; &amp;mm)</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class K , class V &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">std::list&lt; V &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_u_stl_8h.html#a1572ff8c3de909a25e7e6af5be09db84">uValues</a> (const std::multimap&lt; K, V &gt; &amp;mm, const K &amp;key)</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class K , class V &gt; </td></tr>
@@ -511,14 +515,14 @@ template&lt;class V &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ac614908fdef449f1d621beb27b261112"></a><!-- doxytag: member="UStl.h::uKeys" ref="ac614908fdef449f1d621beb27b261112" args="(const std::multimap&lt; K, V &gt; &amp;mm)" -->
+<a class="anchor" id="adb9ea526688366cda2a4ec12bd0fb0ec"></a><!-- doxytag: member="UStl.h::uKeys" ref="adb9ea526688366cda2a4ec12bd0fb0ec" args="(const std::multimap&lt; K, V &gt; &amp;mm)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class K , class V &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;K&gt; <a class="el" href="_u_stl_8h.html#ada26eebe3240219a6c062a31a67cb816">uKeys</a> </td>
+          <td class="memname">std::vector&lt;K&gt; <a class="el" href="_u_stl_8h.html#ada26eebe3240219a6c062a31a67cb816">uKeys</a> </td>
           <td>(</td>
           <td class="paramtype">const std::multimap&lt; K, V &gt; &amp;&#160;</td>
           <td class="paramname"><em>mm</em></td><td>)</td>
@@ -534,7 +538,7 @@ template&lt;class K , class V &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>the list which contains all keys (may contains duplicated keys) </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the vector which contains all keys (may contains duplicated keys) </dd></dl>
 
 </div>
 </div>
@@ -562,6 +566,33 @@ template&lt;class K , class V &gt; </div>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>the vector of keys </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa14ea77658947e1cef5aab421c8fdaae"></a><!-- doxytag: member="UStl.h::uKeysList" ref="aa14ea77658947e1cef5aab421c8fdaae" args="(const std::multimap&lt; K, V &gt; &amp;mm)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class K , class V &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;K&gt; <a class="el" href="_u_stl_8h.html#a65a2fa7e3f32e7a544d4d16e4b6d0d9d">uKeysList</a> </td>
+          <td>(</td>
+          <td class="paramtype">const std::multimap&lt; K, V &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mm</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get all keys from a std::multimap. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mm</td><td>the multimap </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the list which contains all keys (may contains duplicated keys) </dd></dl>
 
 </div>
 </div>
@@ -943,14 +974,14 @@ template&lt;class V &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a7fbfdbb91d4f77bb0d7b7845459c9c98"></a><!-- doxytag: member="UStl.h::uValues" ref="a7fbfdbb91d4f77bb0d7b7845459c9c98" args="(const std::multimap&lt; K, V &gt; &amp;mm)" -->
+<a class="anchor" id="a9a66b50874bee5f6e7fd56ec2dc4a2e1"></a><!-- doxytag: member="UStl.h::uValues" ref="a9a66b50874bee5f6e7fd56ec2dc4a2e1" args="(const std::multimap&lt; K, V &gt; &amp;mm)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class K , class V &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;V&gt; <a class="el" href="_u_stl_8h.html#a3bbdc817647a349117a6a497c0106f3d">uValues</a> </td>
+          <td class="memname">std::vector&lt;V&gt; <a class="el" href="_u_stl_8h.html#a3bbdc817647a349117a6a497c0106f3d">uValues</a> </td>
           <td>(</td>
           <td class="paramtype">const std::multimap&lt; K, V &gt; &amp;&#160;</td>
           <td class="paramname"><em>mm</em></td><td>)</td>
@@ -966,7 +997,7 @@ template&lt;class K , class V &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>the list which contains all values (contains values from duplicated keys) </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the vector which contains all values (contains values from duplicated keys) </dd></dl>
 
 </div>
 </div>
@@ -1032,6 +1063,33 @@ template&lt;class K , class V &gt; </div>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>the vector of values </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a35067a8b4518c489886f94b7fb3b5f15"></a><!-- doxytag: member="UStl.h::uValuesList" ref="a35067a8b4518c489886f94b7fb3b5f15" args="(const std::multimap&lt; K, V &gt; &amp;mm)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class K , class V &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;V&gt; <a class="el" href="_u_stl_8h.html#ad7f7c40ee37f98ba6029a22f68a68f26">uValuesList</a> </td>
+          <td>(</td>
+          <td class="paramtype">const std::multimap&lt; K, V &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mm</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get all values from a std::multimap. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mm</td><td>the multimap </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the list which contains all values (contains values from duplicated keys) </dd></dl>
 
 </div>
 </div>
@@ -1107,7 +1165,7 @@ template&lt;class V &gt; </div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 21:46:48 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 22 2013 10:03:34 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

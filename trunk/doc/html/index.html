@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.14</span>
+   &#160;<span id="projectnumber">0.3.1</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -90,7 +90,7 @@ Introduction</h2>
 </pre></div><p>A generated <a class="el" href="find_utilite_page.html">FindUtiLite.cmake</a> is also provided for easy linking with the library.</p>
 <h2><a class="anchor" id="logger"></a>
 ULogger</h2>
-<p>The <a class="el" href="class_u_logger.html">ULogger</a> can be used anywhere in the application to log messages (formated like a printf). The logger can be set (<a class="el" href="class_u_logger.html#abc47408ee17e2a172ad3769ad319ef59">ULogger::setType()</a>) to print in a file or in the console (with colors depending on the severity). Convenient macros are given, working like a printf(), as <a class="el" href="_u_logger_8h.html#a9104cb408bf9019db2a2c4476835db4a">UDEBUG()</a>, <a class="el" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO()</a>, <a class="el" href="_u_logger_8h.html#ab5a739ad9340455e46eaa570f8223d9a">UWARN()</a>, <a class="el" href="_u_logger_8h.html#a1249ddbc4c9cc43be53048c08dda129b">UERROR()</a>, <a class="el" href="_u_logger_8h.html#aabc10368a622911d56a4dd5a4b461385">UFATAL()</a>. Small example: </p>
+<p>The <a class="el" href="class_u_logger.html">ULogger</a> can be used anywhere in the application to log messages (formated like a printf). The logger can be set (<a class="el" href="class_u_logger.html#abc47408ee17e2a172ad3769ad319ef59">ULogger::setType()</a>) to print in a file or in the console (with colors depending on the severity). Convenient macros are given, working like a printf(), as <a class="el" href="_u_logger_8h.html#a9104cb408bf9019db2a2c4476835db4a">UDEBUG()</a>, <a class="el" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO()</a>, <a class="el" href="_u_logger_8h.html#ab5a739ad9340455e46eaa570f8223d9a">UWARN()</a>, <a class="el" href="_u_logger_8h.html#a1249ddbc4c9cc43be53048c08dda129b">UERROR()</a>, <a class="el" href="_u_logger_8h.html#aabc10368a622911d56a4dd5a4b461385">UFATAL()</a>, <a class="el" href="_u_logger_8h.html#ab3436168e27946669bbd4c76e4c4007e">UASSERT()</a>. Small example: </p>
 <div class="fragment"><pre class="fragment"> ...
  <a class="code" href="_u_logger_8h.html#a5b63c9a1441181723754c0c6084231a8">UINFO</a>(<span class="stringliteral">&quot;A simple message with number %d&quot;</span>, 42);
  <a class="code" href="_u_logger_8h.html#a9104cb408bf9019db2a2c4476835db4a">UDEBUG</a>(<span class="stringliteral">&quot;A debug message&quot;</span>);
@@ -107,12 +107,12 @@ UEventsManager, UEventsHandler, UEvent</h2>
  <a class="code" href="class_u_events_manager.html#a4a8e72f893279b20426fcb23079ad9af">UEventsManager::post</a>(<span class="keyword">new</span> MyEvent()); <span class="comment">// MyEvent is an implementation of UEvent</span>
  <span class="comment">// The UEventsHandler::handleEvent() of &quot;handler&quot; will then be called by the UEventsManager&#39;s events dispatching thread.</span>
  ...
-</pre></div><p> Look at the <b>full example</b> in page of <a class="el" href="class_u_events_handler.html">UEventsHandler</a> on how communication works with threads (<a class="el" href="class_u_thread_node.html">UThreadNode</a>).</p>
-<h2><a class="anchor" id="threadnode"></a>
-UThreadNode, UMutex, USemaphore</h2>
-<p>The multi-threading framework use a <a class="el" href="class_u_thread_node.html">UThreadNode</a> as an abstract class to implement a thread in object-style. Reimplement <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">UThreadNode::mainLoop()</a> then call <a class="el" href="class_u_thread_node.html#a6f40dedbbe32ee422e136cbdd207de0b">UThreadNode::start()</a> to start the main loop of the thread. Threads can be joined by calling <a class="el" href="class_u_thread_node.html#ae32494e0bfbf99d1e5d575123f259fcd">UThreadNode::join()</a> and killed by calling <a class="el" href="class_u_thread_node.html#a86fed3387bdeedf58184e027cc51fb0d">UThreadNode::kill()</a>. Classes <a class="el" href="class_u_mutex.html">UMutex</a> and <a class="el" href="class_u_semaphore.html">USemaphore</a> provide blocking mechanisms to protect data between threads. </p>
+</pre></div><p> Look at the <b>full example</b> in page of <a class="el" href="class_u_events_handler.html">UEventsHandler</a> on how communication works with threads (<a class="el" href="class_u_thread.html">UThread</a>).</p>
+<h2><a class="anchor" id="thread"></a>
+UThread, UMutex, USemaphore</h2>
+<p>The multi-threading framework use a <a class="el" href="class_u_thread.html">UThread</a> as an abstract class to implement a thread in object-style. Reimplement <a class="el" href="class_u_thread.html#add4ddbb2c5d732baf3bf48d2b01757b7">UThread::mainLoop()</a> then call <a class="el" href="class_u_thread.html#a051e9adcf24f92b9c8e31acd06bad88c">UThread::start()</a> to start the main loop of the thread. Threads can be joined by calling <a class="el" href="class_u_thread.html#acf33c0e4b656af76da100e7d4f69ed1d">UThread::join()</a> and killed by calling <a class="el" href="class_u_thread.html#a8dfefcfd68b453da08ddba9836f35965">UThread::kill()</a>. Classes <a class="el" href="class_u_mutex.html">UMutex</a> and <a class="el" href="class_u_semaphore.html">USemaphore</a> provide blocking mechanisms to protect data between threads. </p>
 <div class="fragment"><pre class="fragment"> ...
- MyThread t; <span class="comment">// MyThread is an implementation of UThreadNode</span>
+ MyThread t; <span class="comment">// MyThread is an implementation of UThread</span>
  t.start();
  t.join(); <span class="comment">// Wait the thread to finish</span>
  ...
@@ -146,8 +146,8 @@ Convenient use of STL</h2>
 <p>The library provides some simple wrappers of the STL like:</p>
 <ul>
 <li><a class="el" href="_u_stl_8h.html#a0071662d9278f37f9720568ea10d23e6">uUniqueKeys()</a> to get unique keys from a std::multimap,</li>
-<li><a class="el" href="_u_stl_8h.html#ac614908fdef449f1d621beb27b261112">uKeys()</a> to get all keys of a std::multimap or std::map,</li>
-<li><a class="el" href="_u_stl_8h.html#a7fbfdbb91d4f77bb0d7b7845459c9c98">uValues()</a> to get all values of a std::multimap or std::map,</li>
+<li><a class="el" href="_u_stl_8h.html#adb9ea526688366cda2a4ec12bd0fb0ec">uKeys()</a> to get all keys of a std::multimap or std::map,</li>
+<li><a class="el" href="_u_stl_8h.html#a9a66b50874bee5f6e7fd56ec2dc4a2e1">uValues()</a> to get all values of a std::multimap or std::map,</li>
 <li><a class="el" href="_u_stl_8h.html#a155cd26667d2f88ee05dd3d819ae8182">uValue()</a> to get the value of a key (with a default argument if the key is not found),</li>
 <li><a class="el" href="_u_stl_8h.html#a6242bd5879bd7f06b8de6498650aa3b7">uTake()</a> to take the value of a key (with a default argument if the key is not found),</li>
 <li><a class="el" href="_u_stl_8h.html#a92ef0700d3f47d5882a403a13964b318">uIteratorAt()</a> to get iterator at a specified position in a std::list,</li>
@@ -197,24 +197,39 @@ UProcessInfo</h2>
 <p>This class can be used to get the process memory usage: <a class="el" href="class_u_process_info.html#af3843a5d724ae8d65157fda1d393c67d">UProcessInfo::getMemoryUsage()</a>.</p>
 <h2><a class="anchor" id="qtLib"></a>
 Qt Widgets (libutilite_qt.so : OPTIONAL)</h2>
-<p>If Qt is found on the system, the UtiLite Qt library (libutilite_qt.so, libutilite_qt.dll) with useful widgets is built. Use class <a class="el" href="class_u_plot.html">UPlot</a> to create a plot like MATLAB, and incrementally add new values like a scope. <a class="el" href="class_u_spectrogram.html">USpectrogram</a> is used to show audio frequency frames. </p>
-<div class="image">
+<p>If Qt is found on the system, the UtiLite Qt library (libutilite_qt.so, libutilite_qt.dll) with useful widgets is built. Use class <a class="el" href="class_u_plot.html">UPlot</a> to create a plot like MATLAB, and incrementally add new values like a scope. <a class="el" href="class_u_spectrogram.html">USpectrogram</a> is used to show audio frequency frames.</p>
+<ul>
+<li><a class="el" href="class_u_plot.html">UPlot</a>,</li>
+<li><a class="el" href="class_u_spectrogram.html">USpectrogram</a>,</li>
+<li><a class="el" href="class_u_image_view.html">UImageView</a>. <div class="image">
 <img src="UPlot.gif" alt="UPlot.gif"/>
 </div>
  <div class="image">
 <img src="USpectrogram.png" alt="USpectrogram.png"/>
 </div>
+</li>
+</ul>
 <h2><a class="anchor" id="audioLib"></a>
 Audio stuff (libutilite_audio.so : OPTIONAL)</h2>
 <p>If FMOD is found on the system, the UtiLite audio library is built (libutilite_audio.so, libutilite_audio.dll). It is a wrapper of FMOD methods with a convenient interface to extract audio frames.</p>
 <ul>
-<li><a class="el" href="class_u_audio_recorder.html">UAudioRecorder</a>,</li>
-<li><a class="el" href="class_u_audio_recorder_file.html">UAudioRecorderFile</a>,</li>
-<li><a class="el" href="class_u_audio_recorder_mic.html">UAudioRecorderMic</a></li>
+<li><a class="el" href="class_u_audio_capture.html">UAudioCapture</a>,</li>
+<li><a class="el" href="class_u_audio_capture_file.html">UAudioCaptureFile</a>,</li>
+<li><a class="el" href="class_u_audio_capture_mic.html">UAudioCaptureMic</a>,</li>
+<li><a class="el" href="class_u_audio_capture_f_f_t.html">UAudioCaptureFFT</a>,</li>
 <li><a class="el" href="class_u_audio_player.html">UAudioPlayer</a>,</li>
 <li><a class="el" href="class_u_audio_player_tone.html">UAudioPlayerTone</a>,</li>
 <li><a class="el" href="class_u_wav.html">UWav</a>,</li>
-<li><a class="el" href="class_u_mp3_encoder.html">UMp3Encoder</a> (only if Lame is also found on the system). </li>
+<li><a class="el" href="class_u_mp3_encoder.html">UMp3Encoder</a> (only if Lame is also found on the system).</li>
+</ul>
+<h2><a class="anchor" id="cvLib"></a>
+OpenCV stuff (libutilite_cv.so : OPTIONAL)</h2>
+<p>If OpenCV is found on the system, the UtiLite cv library is built (libutilite_cv.so, libutilite_cv.dll). It provides image capture classes used to read from a webcam, a video file or a directory of images. If UtiLite is also built with Qt, a convenient function uCvMat2QImage() can be used to convert a cv::Mat image to a QImage.</p>
+<ul>
+<li><a class="el" href="class_u_video_capture.html">UVideoCapture</a>,</li>
+<li><a class="el" href="class_u_image_folder_capture.html">UImageFolderCapture</a>,</li>
+<li><a class="el" href="class_u_color_table.html">UColorTable</a>,</li>
+<li>uTest(), (only if Qt is also found on the system). </li>
 </ul>
 </div></div><!-- contents -->
 <!-- window showing the filter options -->
@@ -234,7 +249,7 @@ Audio stuff (libutilite_audio.so : OPTIONAL)</h2>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 21:46:49 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 22 2013 10:03:34 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

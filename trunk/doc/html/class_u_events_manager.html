@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.14</span>
+   &#160;<span id="projectnumber">0.3.1</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -87,10 +87,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">UEventsManager Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<!-- doxytag: class="UEventsManager" --><!-- doxytag: inherits="UThreadNode" -->
+<!-- doxytag: class="UEventsManager" --><!-- doxytag: inherits="UThread" -->
 <p><code>#include &lt;<a class="el" href="_u_events_manager_8h_source.html">UEventsManager.h</a>&gt;</code></p>
 
-<p>Inherits <a class="el" href="class_u_thread_node.html">UThreadNode</a>.</p>
+<p>Inherits <a class="el" href="class_u_thread.html">UThread</a>.</p>
 
 <p><a href="class_u_events_manager-members.html">List of all members.</a></p>
 <table class="memberdecls">
@@ -104,7 +104,7 @@ Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#a76cd8389e7885af6f56fa29a604c6e94">mainLoop</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#a6a0a5891565fe2c09bd8eacdcacdf002">killCleanup</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_events_manager.html#afb57cdbafd2fb8673286ed6e253ba76c">mainLoopKill</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="friends"></a>
 Friends</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a084ed7b7f7c593d1df2341c59cfbfaf5"></a><!-- doxytag: member="UEventsManager::UDestroyer&lt; UEventsManager &gt;" ref="a084ed7b7f7c593d1df2341c59cfbfaf5" args="" -->
@@ -150,23 +150,6 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; UEven
 
 </div>
 </div>
-<a class="anchor" id="a6a0a5891565fe2c09bd8eacdcacdf002"></a><!-- doxytag: member="UEventsManager::killCleanup" ref="a6a0a5891565fe2c09bd8eacdcacdf002" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_u_events_manager.html#a6a0a5891565fe2c09bd8eacdcacdf002">UEventsManager::killCleanup</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td><code> [private, virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Reimplemented to wake up <a class="el" href="class_u_events_manager.html">UEventsManager</a> on termination. </p>
-
-</div>
-</div>
 <a class="anchor" id="a76cd8389e7885af6f56fa29a604c6e94"></a><!-- doxytag: member="UEventsManager::mainLoop" ref="a76cd8389e7885af6f56fa29a604c6e94" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -182,7 +165,26 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; UEven
 <div class="memdoc">
 <p>The <a class="el" href="class_u_events_manager.html">UEventsManager</a>'s main loop. </p>
 
-<p>Implements <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">UThreadNode</a>.</p>
+<p>Implements <a class="el" href="class_u_thread.html#add4ddbb2c5d732baf3bf48d2b01757b7">UThread</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afb57cdbafd2fb8673286ed6e253ba76c"></a><!-- doxytag: member="UEventsManager::mainLoopKill" ref="afb57cdbafd2fb8673286ed6e253ba76c" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_u_events_manager.html#afb57cdbafd2fb8673286ed6e253ba76c">UEventsManager::mainLoopKill</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [private, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Reimplemented to wake up <a class="el" href="class_u_events_manager.html">UEventsManager</a> on termination. </p>
+
+<p>Reimplemented from <a class="el" href="class_u_thread.html#aa27d7690b1ce0fbe57b3a946f2a4885c">UThread</a>.</p>
 
 </div>
 </div>
@@ -268,7 +270,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UDestroyer&lt; UEven
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 21:46:48 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 22 2013 10:03:34 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

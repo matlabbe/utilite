@@ -1,10 +1,9 @@
 var searchData=
 [
+  ['uaudiocapture_2eh',['UAudioCapture.h',['../_u_audio_capture_8h.html',1,'']]],
+  ['uaudiocapturefile_2eh',['UAudioCaptureFile.h',['../_u_audio_capture_file_8h.html',1,'']]],
   ['uaudioplayer_2eh',['UAudioPlayer.h',['../_u_audio_player_8h.html',1,'']]],
   ['uaudioplayertone_2eh',['UAudioPlayerTone.h',['../_u_audio_player_tone_8h.html',1,'']]],
-  ['uaudiorecorder_2eh',['UAudioRecorder.h',['../_u_audio_recorder_8h.html',1,'']]],
-  ['uaudiorecorderfile_2eh',['UAudioRecorderFile.h',['../_u_audio_recorder_file_8h.html',1,'']]],
-  ['uaudiorecordermic_2eh',['UAudioRecorderMic.h',['../_u_audio_recorder_mic_8h.html',1,'']]],
   ['uconversion_2eh',['UConversion.h',['../_u_conversion_8h.html',1,'']]],
   ['ulogger_2eh',['ULogger.h',['../_u_logger_8h.html',1,'']]],
   ['umath_2eh',['UMath.h',['../_u_math_8h.html',1,'']]],

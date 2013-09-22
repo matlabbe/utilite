@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.14</span>
+   &#160;<span id="projectnumber">0.3.1</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -85,10 +85,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">UObjDeletionThread&lt; T &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<!-- doxytag: class="UObjDeletionThread" --><!-- doxytag: inherits="UThreadNode" -->
+<!-- doxytag: class="UObjDeletionThread" --><!-- doxytag: inherits="UThread" -->
 <p><code>#include &lt;<a class="el" href="_u_obj_deletion_thread_8h_source.html">UObjDeletionThread.h</a>&gt;</code></p>
 
-<p>Inherits <a class="el" href="class_u_thread_node.html">UThreadNode</a>.</p>
+<p>Inherits <a class="el" href="class_u_thread.html">UThread</a>.</p>
 
 <p><a href="class_u_obj_deletion_thread-members.html">List of all members.</a></p>
 <table class="memberdecls">
@@ -161,7 +161,7 @@ template&lt;class T &gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<p>The destructor. If this thread is not started but with an object set, the object is deleted. If the thread has not finished to delete the object, the calling thread will wait (on a <a class="el" href="class_u_thread_node.html#ae32494e0bfbf99d1e5d575123f259fcd">UThreadNode::join()</a>) until the object is deleted. </p>
+<p>The destructor. If this thread is not started but with an object set, the object is deleted. If the thread has not finished to delete the object, the calling thread will wait (on a <a class="el" href="class_u_thread.html#acf33c0e4b656af76da100e7d4f69ed1d">UThreadNode::join()</a>) until the object is deleted. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">obj</td><td>the object to delete </td></tr>
@@ -210,7 +210,7 @@ template&lt;class T &gt; </div>
 <div class="memdoc">
 <p>Thread main loop... </p>
 
-<p>Implements <a class="el" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">UThreadNode</a>.</p>
+<p>Implements <a class="el" href="class_u_thread.html#add4ddbb2c5d732baf3bf48d2b01757b7">UThread</a>.</p>
 
 </div>
 </div>
@@ -287,7 +287,7 @@ template&lt;class T &gt; </div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 21:46:49 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 22 2013 10:03:34 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

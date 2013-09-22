@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['priority',['Priority',['../class_u_thread_node.html#a2d9385fc6162d6832304c7eb8c8da0c5',1,'UThreadNode']]]
+  ['priority',['Priority',['../class_u_thread.html#a731ef4dd5a8d15abcc06e7cfa53cd153',1,'UThread']]]
 ];
