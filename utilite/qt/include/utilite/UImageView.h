@@ -14,6 +14,13 @@
 #include <QtGui/QWidget>
 #include <QtGui/QPainter>
 
+/**
+ * UImageView is a QWidget to show an image, which
+ * scales automatically when resizing the widget.
+ *
+ * @see setImage()
+ *
+ */
 class UTILITEQT_EXP UImageView : public QWidget
 {
 	Q_OBJECT;
