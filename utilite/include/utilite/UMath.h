@@ -30,15 +30,38 @@
 #include <list>
 #include <vector>
 
-#ifdef APPLE
-	#define ISNAN(value) std::isnan(value)
-#elif _MSC_VER
-	#define ISNAN(value) _isnan(value)
-	#undef min  
-	#undef max 
-#else
-	#define ISNAN(value) isnan(value)
+#if _MSC_VER
+	#undef min
+	#undef max
 #endif
+
+/**
+ * Return true if the number is NAN.
+ */
+template<class T>
+inline bool uIsNan(const T & value)
+{
+#ifdef APPLE
+	return std::isnan(value);
+#elif _MSC_VER
+	return _isnan(value);
+#else
+	return isnan(value);
+#endif
+}
+
+/**
+ * Return true if the number is finite.
+ */
+template<class T>
+inline bool uIsFinite(const T & value)
+{
+#if _MSC_VER
+	return _finite(value);
+#else
+	return std::isfinite(value);
+#endif
+}
 
 /**
  * Get the maximum of a vector.
@@ -59,7 +82,7 @@ inline T uMax(const T * v, unsigned int size, unsigned int & index)
 	max = v[0];
 	for(unsigned int i=1; i<size; ++i)
 	{
-		if(ISNAN(max) || (max < v[i] && !ISNAN(v[i])))
+		if(uIsNan(max) || (max < v[i] && !uIsNan(v[i])))
 		{
 			max = v[i];
 			index = i;
@@ -124,7 +147,7 @@ inline T uMin(const T * v, unsigned int size, unsigned int & index)
 	min = v[0];
 	for(unsigned int i=1; i<size; ++i)
 	{
-		if(ISNAN(min) || (min > v[i] && !ISNAN(v[i])))
+		if(uIsNan(min) || (min > v[i] && !uIsNan(v[i])))
 		{
 			min = v[i];
 			index = i;
@@ -195,13 +218,13 @@ inline void uMinMax(const T * v, unsigned int size, T & min, T & max, unsigned i
 
 	for(unsigned int i=1; i<size; ++i)
 	{
-		if(ISNAN(min) || (min > v[i] && !ISNAN(v[i])))
+		if(uIsNan(min) || (min > v[i] && !uIsNan(v[i])))
 		{
 			min = v[i];
 			indexMin = i;
 		}
 
-		if(ISNAN(max) || (max < v[i] && !ISNAN(v[i])))
+		if(uIsNan(max) || (max < v[i] && !uIsNan(v[i])))
 		{
 			max = v[i];
 			indexMax = i;

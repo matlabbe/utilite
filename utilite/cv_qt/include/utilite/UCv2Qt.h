@@ -22,10 +22,12 @@
 
 #include <QtGui/QImage>
 #include <opencv2/core/core.hpp>
+#include <utilite/UMath.h>
 
 /**
- * Convert a cv::Mat image to a QImage.
- * @param image the cv::Mat image (can be 1 channel or 3 channels of type CV_U8)
+ * Convert a cv::Mat image to a QImage. Support 
+ * depth (float) image and RGB/BGR 8bits images.
+ * @param image the cv::Mat image (can be 1 channel [CV_8U or CV_32F] or 3 channels [CV_U8])
  * @param isBgr if 3 channels, it is BGR or RGB order.
  * @return the QImage
  */
@@ -67,9 +69,32 @@ inline QImage uCvMat2QImage(const cv::Mat & image, bool isBgr = true)
 			printf("Wrong image format, must have 1 or 3 channels\n");
 		}
 	}
+	else if(image.depth() == CV_32F && image.channels()==1)
+    {
+		// Assume depth image (float in meters)
+		const float * data = (const float *)image.data;
+		float min=0, max=0;
+		uMinMax(data, image.rows*image.cols, min, max);
+		qtemp = QImage(image.cols, image.rows, QImage::Format_Indexed8);
+		for(int y = 0; y < image.rows; ++y, data += image.cols)
+		{
+			for(int x = 0; x < image.cols; ++x)
+			{
+				uchar * p = qtemp.scanLine (y) + x;
+				if(data[x] < min || data[x] > max || uIsNan(data[x]))
+				{
+					*p = 0;
+				}
+				else
+				{
+					*p = uchar(255.0f - ((data[x]-min)*255.0f)/(max-min));
+				}
+			}
+		}
+    }
 	else if(!image.empty() && image.depth() != CV_8U)
 	{
-		printf("Wrong image format, must be 8_bits, 3 channels\n");
+		printf("Wrong image format, must be 8_bits/3channels or (depth) 32bitsFloat/1channel\n");
 	}
 	return qtemp;
 }
