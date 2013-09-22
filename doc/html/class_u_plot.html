@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.14</span>
+   &#160;<span id="projectnumber">0.3.1</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -99,7 +99,7 @@ Public Slots</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_plot.html#ae4375cb7a6193b1f4166fbda1cf86707">UPlot</a> (QWidget *parent=0)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_plot_curve.html">UPlotCurve</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_plot.html#aa30b1164a55575ff9d835ecde5225919">addCurve</a> (const QString &amp;curveName, const QColor &amp;color=QColor())</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_plot.html#ac2607fa70fa1702b2ea2ff36489e227d">addCurve</a> (<a class="el" href="class_u_plot_curve.html">UPlotCurve</a> *curve)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_plot.html#a64e72c2d29a44c1207a1b61dc112be98">addCurve</a> (<a class="el" href="class_u_plot_curve.html">UPlotCurve</a> *curve, bool ownershipTransferred=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_plot.html#a3af1f20a274b33ce6d01326dcad298bb">curveNames</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_plot_curve_threshold.html">UPlotCurveThreshold</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_plot.html#ac518e3f3e4f8d9ea8895aa9addd5d839">addThreshold</a> (const QString &amp;name, float value, Qt::Orientation orientation=Qt::Horizontal)</td></tr>
 <tr><td colspan="2"><h2><a name="friends"></a>
@@ -183,7 +183,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UPlotCurve</b></td><
 
 </div>
 </div>
-<a class="anchor" id="ac2607fa70fa1702b2ea2ff36489e227d"></a><!-- doxytag: member="UPlot::addCurve" ref="ac2607fa70fa1702b2ea2ff36489e227d" args="(UPlotCurve *curve)" -->
+<a class="anchor" id="a64e72c2d29a44c1207a1b61dc112be98"></a><!-- doxytag: member="UPlot::addCurve" ref="a64e72c2d29a44c1207a1b61dc112be98" args="(UPlotCurve *curve, bool ownershipTransferred=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -191,13 +191,23 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UPlotCurve</b></td><
           <td class="memname">bool <a class="el" href="class_u_plot.html#aa30b1164a55575ff9d835ecde5225919">UPlot::addCurve</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_u_plot_curve.html">UPlotCurve</a> *&#160;</td>
-          <td class="paramname"><em>curve</em></td><td>)</td>
+          <td class="paramname"><em>curve</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>ownershipTransferred</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Add a curve. Ownership is transferred to <a class="el" href="class_u_plot.html">UPlot</a>. If you add the curve to more than one <a class="el" href="class_u_plot.html">UPlot</a>, the ownership is transferred to the last <a class="el" href="class_u_plot.html">UPlot</a>. </p>
+<p>Add a curve. Ownership is transferred to <a class="el" href="class_u_plot.html">UPlot</a> if ownershipTransferred=true. </p>
 
 </div>
 </div>
@@ -308,7 +318,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>UPlotCurve</b></td><
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 21:46:49 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 22 2013 10:03:34 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

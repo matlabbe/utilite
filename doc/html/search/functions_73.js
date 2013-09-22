@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['setaffinity',['setAffinity',['../class_u_thread_node.html#a0113689966d8850c06ece3290cc8d587',1,'UThreadNode']]],
+  ['separator',['separator',['../class_u_directory.html#a5f65ad50ccdd99ac9d1f5a0b81d319e9',1,'UDirectory']]],
+  ['setaffinity',['setAffinity',['../class_u_thread.html#aabcf31acae6ca5b8503ec320acbc11f8',1,'UThread']]],
   ['setaxis',['setAxis',['../class_u_plot_axis.html#a680ae4098d806e83b5b35fb247ec7d57',1,'UPlotAxis']]],
   ['setbrush',['setBrush',['../class_u_plot_curve.html#ae5a832d54884a9e883c5806373aabbb9',1,'UPlotCurve']]],
   ['setbuffered',['setBuffered',['../class_u_logger.html#a93c3e5abae98338e03f78cb99b354a74',1,'ULogger']]],
@@ -13,12 +14,13 @@ var searchData=
   ['setorientation',['setOrientation',['../class_u_plot_curve_threshold.html#a4831589cc7215c6c5f0972a97ced8c8f',1,'UPlotCurveThreshold::setOrientation()'],['../class_u_orientable_label.html#a42876fbf28d26fb3a74ddf96da514f74',1,'UOrientableLabel::setOrientation()']]],
   ['setpath',['setPath',['../class_u_directory.html#aadfc0f6dfedc74bb6ef67dc87d6441f4',1,'UDirectory']]],
   ['setpen',['setPen',['../class_u_plot_curve.html#a0b464f2ba7d558d292d9f64851941b3c',1,'UPlotCurve']]],
+  ['setprintcolored',['setPrintColored',['../class_u_logger.html#a773d95354adfe1fd1296f3b2f09668d3',1,'ULogger']]],
   ['setprintendline',['setPrintEndline',['../class_u_logger.html#aa7cd59599601cdb214c6cb4df103dca0',1,'ULogger']]],
   ['setprintlevel',['setPrintLevel',['../class_u_logger.html#a4a97457a98a02f60580e6f3c93f83d7a',1,'ULogger']]],
   ['setprinttime',['setPrintTime',['../class_u_logger.html#a2142b47257ecf1f2561afa8353eae411',1,'ULogger']]],
   ['setprintwhere',['setPrintWhere',['../class_u_logger.html#af5a2e0f11770fcb457c1859c9f8b5ec3',1,'ULogger']]],
   ['setprintwherefullpath',['setPrintWhereFullPath',['../class_u_logger.html#a2784b7a88339964e2a1c2b3436245bfc',1,'ULogger']]],
-  ['setpriority',['setPriority',['../class_u_thread_node.html#a0b2347d58c77d8b2b220fc450303bc64',1,'UThreadNode']]],
+  ['setpriority',['setPriority',['../class_u_thread.html#a80418be3a80a01ddd05a863b58787b43',1,'UThread']]],
   ['setreversed',['setReversed',['../class_u_plot_axis.html#abd537d67ba8f7abb6c61fea6fb0a6194',1,'UPlotAxis']]],
   ['setsamplingrate',['setSamplingRate',['../class_u_spectrogram.html#a4a4cf099aed9b6721921789fefdc6846',1,'USpectrogram']]],
   ['setthreshold',['setThreshold',['../class_u_plot_curve_threshold.html#a7d799624dac6bfb6d37161940a640c37',1,'UPlotCurveThreshold']]],
@@ -26,7 +28,7 @@ var searchData=
   ['setvisible',['setVisible',['../class_u_plot_curve.html#aecbcefdb9d43b6269fad88144d5614b4',1,'UPlotCurve']]],
   ['setxincrement',['setXIncrement',['../class_u_plot_curve.html#aea68434880edba3fe1fd075ae7a121b3',1,'UPlotCurve']]],
   ['setxstart',['setXStart',['../class_u_plot_curve.html#a5b660bc8ce1e72c07ecf135b03671eb9',1,'UPlotCurve']]],
-  ['start',['start',['../class_u_thread_node.html#a6f40dedbbe32ee422e136cbdd207de0b',1,'UThreadNode::start()'],['../class_u_timer.html#a10f628d8be04474d13c04b07c0426200',1,'UTimer::start()']]],
+  ['start',['start',['../class_u_thread.html#a051e9adcf24f92b9c8e31acd06bad88c',1,'UThread::start()'],['../class_u_timer.html#a10f628d8be04474d13c04b07c0426200',1,'UTimer::start()']]],
   ['startdeletion',['startDeletion',['../class_u_obj_deletion_thread.html#a2b4e12d9f11684b1378bb77a1a3c54b3',1,'UObjDeletionThread']]],
   ['step',['step',['../class_u_plot_axis.html#ab8701f7fa9364b052378d28aab5b05c0',1,'UPlotAxis']]],
   ['stop',['stop',['../class_u_timer.html#a6a517d6f5f6e6c28b9392d04be22a320',1,'UTimer']]]

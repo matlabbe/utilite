@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.14</span>
+   &#160;<span id="projectnumber">0.3.1</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -102,7 +102,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef AUDIOWIDGET_H_</span>
 <a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define AUDIOWIDGET_H_</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;utilite/UtiLiteExp.h&quot;</span> <span class="comment">// DLL export/import defines</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;utilite/UtiLiteQtExp.h&quot;</span> <span class="comment">// DLL export/import defines</span>
 <a name="l00024"></a>00024 
 <a name="l00025"></a>00025 <span class="preprocessor">#include &lt;QtGui/QWidget&gt;</span>
 <a name="l00026"></a>00026 
@@ -115,7 +115,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00033"></a>00033 <span class="keyword">class </span>QLabel;
 <a name="l00034"></a>00034 <span class="keyword">class </span>QGridLayout;
 <a name="l00035"></a>00035 
-<a name="l00070"></a><a class="code" href="class_u_spectrogram.html">00070</a> <span class="keyword">class </span>UTILITE_EXP <a class="code" href="class_u_spectrogram.html">USpectrogram</a> : <span class="keyword">public</span> QWidget
+<a name="l00070"></a><a class="code" href="class_u_spectrogram.html">00070</a> <span class="keyword">class </span>UTILITEQT_EXP <a class="code" href="class_u_spectrogram.html">USpectrogram</a> : <span class="keyword">public</span> QWidget
 <a name="l00071"></a>00071 {
 <a name="l00072"></a>00072         Q_OBJECT;
 <a name="l00073"></a>00073 
@@ -127,68 +127,76 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00085"></a>00085         <span class="keywordtype">void</span> setZoomed(<span class="keywordtype">bool</span> zoomed);
 <a name="l00086"></a>00086         <span class="keywordtype">void</span> setAxesSwitched(<span class="keywordtype">bool</span> axesSwitched);
 <a name="l00087"></a>00087         <span class="keywordtype">void</span> setOnlyLastFramesDrawn(<span class="keywordtype">bool</span> onlyLastFramesDrawn);
-<a name="l00088"></a>00088         <span class="keywordtype">void</span> setHorizontalScrollBarValue(<span class="keywordtype">int</span> value);
-<a name="l00089"></a>00089         <span class="keywordtype">void</span> setVerticalScrollBarValue(<span class="keywordtype">int</span> value);
-<a name="l00090"></a>00090         <span class="keywordtype">void</span> setDBGain(<span class="keywordtype">float</span> value);
-<a name="l00091"></a>00091         <span class="keywordtype">void</span> setDBMin(<span class="keywordtype">float</span> value);
-<a name="l00092"></a>00092         <span class="keywordtype">int</span> samplingRate()<span class="keyword"> const </span>{<span class="keywordflow">return</span> _fs;}
-<a name="l00093"></a>00093         <span class="keywordtype">bool</span> isScaledTime() <span class="keyword">const</span>;
-<a name="l00094"></a>00094         <span class="keywordtype">bool</span> isScaledFreq() <span class="keyword">const</span>;
-<a name="l00095"></a>00095         <span class="keywordtype">bool</span> isAxesSwitched() <span class="keyword">const</span>;
-<a name="l00096"></a>00096         <span class="keywordtype">bool</span> isZoomed() <span class="keyword">const</span>;
-<a name="l00097"></a>00097         <span class="keywordtype">bool</span> isOnlyLastFramesDrawn() <span class="keyword">const</span>;
-<a name="l00101"></a>00101         <span class="keywordtype">void</span> setData(<span class="keyword">const</span> QList&lt;QVector&lt;float&gt; &gt; &amp; data);
-<a name="l00102"></a>00102         <a class="code" href="class_u_spectrogram.html">USpectrogram</a> * clone() <span class="keyword">const</span>;
-<a name="l00103"></a>00103 
-<a name="l00104"></a>00104 <span class="keyword">public</span> slots:
-<a name="l00108"></a>00108         <span class="keywordtype">void</span> clear();
-<a name="l00113"></a>00113         <span class="keywordtype">void</span> push(<span class="keyword">const</span> std::vector&lt;float&gt; &amp; frame);
-<a name="l00118"></a>00118         <span class="keywordtype">void</span> push(<span class="keyword">const</span> QVector&lt;float&gt; &amp; frame);
-<a name="l00122"></a>00122         <span class="keywordtype">void</span> setSamplingRate(<span class="keywordtype">int</span> fs);
-<a name="l00123"></a>00123 
-<a name="l00124"></a>00124 <span class="keyword">protected</span>:
-<a name="l00125"></a>00125         <span class="keyword">virtual</span> <span class="keywordtype">void</span> resizeEvent(QResizeEvent * event);
-<a name="l00126"></a>00126         <span class="keyword">virtual</span> <span class="keywordtype">void</span> showEvent(QShowEvent * event);
-<a name="l00127"></a>00127         <span class="keyword">virtual</span> <span class="keywordtype">void</span> mouseMoveEvent(QMouseEvent * event);
-<a name="l00128"></a>00128         <span class="keyword">virtual</span> <span class="keywordtype">void</span> contextMenuEvent(QContextMenuEvent * event);
-<a name="l00129"></a>00129 
-<a name="l00130"></a>00130 <span class="keyword">private</span>:
-<a name="l00131"></a>00131         <span class="keywordtype">void</span> setupUi();
-<a name="l00132"></a>00132         <span class="keywordtype">void</span> updateView();
-<a name="l00133"></a>00133         <span class="keywordtype">void</span> push(<span class="keyword">const</span> <span class="keywordtype">float</span> frame[], <span class="keywordtype">int</span> frameLength);
-<a name="l00134"></a>00134 
-<a name="l00135"></a>00135 <span class="keyword">private</span>:
-<a name="l00136"></a>00136         QGraphicsView * _view;
-<a name="l00137"></a>00137         QList&lt;QVector&lt;QRgb&gt; &gt; _rgbData;
-<a name="l00138"></a>00138         QList&lt;QVector&lt;QRgb&gt; &gt; _rgbLogData;
-<a name="l00139"></a>00139         QList&lt;QVector&lt;float&gt; &gt; _data;
-<a name="l00140"></a>00140         QList&lt;QVector&lt;float&gt; &gt; _dataLog;
-<a name="l00141"></a>00141         <span class="keywordtype">int</span> _fs;
-<a name="l00142"></a>00142         QGraphicsPixmapItem * _imageItem;
-<a name="l00143"></a>00143         <a class="code" href="class_u_orientable_label.html">UOrientableLabel</a> * _xLabel;
-<a name="l00144"></a>00144         <a class="code" href="class_u_orientable_label.html">UOrientableLabel</a> * _yLabel;
-<a name="l00145"></a>00145         <span class="keywordtype">bool</span> _axesSwitched;
-<a name="l00146"></a>00146         QGridLayout * _gridLayout;
-<a name="l00147"></a>00147         <span class="keywordtype">int</span> _nbSubOctave;
-<a name="l00148"></a>00148         <span class="keywordtype">int</span> _minLogSample;
-<a name="l00149"></a>00149         <span class="keywordtype">float</span> _dBGain;
-<a name="l00150"></a>00150         <span class="keywordtype">float</span> _dBMin;
-<a name="l00151"></a>00151 
-<a name="l00152"></a>00152         QMenu * _menu;
-<a name="l00153"></a>00153         QAction * _aClear;
-<a name="l00154"></a>00154         QAction * _aOnlyLastFramesDrawn;
-<a name="l00155"></a>00155         QAction * _aScaledFreq;
-<a name="l00156"></a>00156         QAction * _aScaledTime;
-<a name="l00157"></a>00157         QAction * _aZoom2x;
-<a name="l00158"></a>00158         QAction * _aSwitchAxes;
-<a name="l00159"></a>00159         QAction * _aOpenNewWindow;
-<a name="l00160"></a>00160         QAction * _aLogFrequency;
-<a name="l00161"></a>00161         QAction * _aSaveTo;
-<a name="l00162"></a>00162         QAction * _aDBMin;
-<a name="l00163"></a>00163         QAction * _aDBGain;
-<a name="l00164"></a>00164 };
-<a name="l00165"></a>00165 
-<a name="l00166"></a>00166 <span class="preprocessor">#endif </span><span class="comment">/* AUDIOWIDGET_H_ */</span>
+<a name="l00088"></a>00088         <span class="keywordtype">void</span> setAllDataKept(<span class="keywordtype">bool</span> allDataKept);
+<a name="l00089"></a>00089         <span class="keywordtype">void</span> setHorizontalScrollBarValue(<span class="keywordtype">int</span> value);
+<a name="l00090"></a>00090         <span class="keywordtype">void</span> setVerticalScrollBarValue(<span class="keywordtype">int</span> value);
+<a name="l00091"></a>00091         <span class="keywordtype">void</span> setDBRelative(<span class="keywordtype">bool</span> dBRelative);
+<a name="l00092"></a>00092         <span class="keywordtype">void</span> setDBGain(<span class="keywordtype">float</span> value);
+<a name="l00093"></a>00093         <span class="keywordtype">void</span> setDBMin(<span class="keywordtype">float</span> value);
+<a name="l00094"></a>00094         <span class="keywordtype">int</span> samplingRate()<span class="keyword"> const </span>{<span class="keywordflow">return</span> _fs;}
+<a name="l00095"></a>00095         <span class="keywordtype">bool</span> isScaledTime() <span class="keyword">const</span>;
+<a name="l00096"></a>00096         <span class="keywordtype">bool</span> isScaledFreq() <span class="keyword">const</span>;
+<a name="l00097"></a>00097         <span class="keywordtype">bool</span> isAxesSwitched() <span class="keyword">const</span>;
+<a name="l00098"></a>00098         <span class="keywordtype">bool</span> isZoomed() <span class="keyword">const</span>;
+<a name="l00099"></a>00099         <span class="keywordtype">bool</span> isOnlyLastFramesDrawn() <span class="keyword">const</span>;
+<a name="l00100"></a>00100         <span class="keywordtype">bool</span> isAllDataKept() <span class="keyword">const</span>;
+<a name="l00101"></a>00101         <span class="keywordtype">bool</span> isDBRelative() <span class="keyword">const</span>;
+<a name="l00105"></a>00105         <span class="keywordtype">void</span> setData(<span class="keyword">const</span> QList&lt;QVector&lt;float&gt; &gt; &amp; data);
+<a name="l00106"></a>00106         <a class="code" href="class_u_spectrogram.html">USpectrogram</a> * clone() <span class="keyword">const</span>;
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108 <span class="keyword">public</span> slots:
+<a name="l00112"></a>00112         <span class="keywordtype">void</span> clear();
+<a name="l00117"></a>00117         <span class="keywordtype">void</span> push(<span class="keyword">const</span> std::vector&lt;float&gt; &amp; frame);
+<a name="l00122"></a>00122         <span class="keywordtype">void</span> push(<span class="keyword">const</span> QVector&lt;float&gt; &amp; frame);
+<a name="l00126"></a>00126         <span class="keywordtype">void</span> setSamplingRate(<span class="keywordtype">int</span> fs);
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128 <span class="keyword">protected</span>:
+<a name="l00129"></a>00129         <span class="keyword">virtual</span> <span class="keywordtype">void</span> resizeEvent(QResizeEvent * event);
+<a name="l00130"></a>00130         <span class="keyword">virtual</span> <span class="keywordtype">void</span> showEvent(QShowEvent * event);
+<a name="l00131"></a>00131         <span class="keyword">virtual</span> <span class="keywordtype">void</span> mouseMoveEvent(QMouseEvent * event);
+<a name="l00132"></a>00132         <span class="keyword">virtual</span> <span class="keywordtype">void</span> contextMenuEvent(QContextMenuEvent * event);
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134 <span class="keyword">private</span>:
+<a name="l00135"></a>00135         <span class="keywordtype">void</span> setupUi();
+<a name="l00136"></a>00136         <span class="keywordtype">void</span> updateView();
+<a name="l00137"></a>00137         <span class="keywordtype">void</span> push(<span class="keyword">const</span> <span class="keywordtype">float</span> frame[], <span class="keywordtype">int</span> frameLength);
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139 <span class="keyword">private</span>:
+<a name="l00140"></a>00140         QGraphicsView * _view;
+<a name="l00141"></a>00141         QList&lt;QVector&lt;QRgb&gt; &gt; _rgbData;
+<a name="l00142"></a>00142         QList&lt;QVector&lt;QRgb&gt; &gt; _rgbLogData;
+<a name="l00143"></a>00143         QList&lt;QVector&lt;float&gt; &gt; _data;
+<a name="l00144"></a>00144         QList&lt;QVector&lt;float&gt; &gt; _dataLog;
+<a name="l00145"></a>00145         <span class="keywordtype">int</span> _fs;
+<a name="l00146"></a>00146         QGraphicsPixmapItem * _imageItem;
+<a name="l00147"></a>00147         <a class="code" href="class_u_orientable_label.html">UOrientableLabel</a> * _xLabel;
+<a name="l00148"></a>00148         <a class="code" href="class_u_orientable_label.html">UOrientableLabel</a> * _yLabel;
+<a name="l00149"></a>00149         <span class="keywordtype">bool</span> _axesSwitched;
+<a name="l00150"></a>00150         QGridLayout * _gridLayout;
+<a name="l00151"></a>00151         <span class="keywordtype">int</span> _nbSubOctave;
+<a name="l00152"></a>00152         <span class="keywordtype">int</span> _minLogSample;
+<a name="l00153"></a>00153         <span class="keywordtype">float</span> _dBGain;
+<a name="l00154"></a>00154         <span class="keywordtype">float</span> _dBMin;
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156         QMenu * _menu;
+<a name="l00157"></a>00157         QAction * _aClear;
+<a name="l00158"></a>00158         QAction * _aOnlyLastFramesDrawn;
+<a name="l00159"></a>00159         QAction * _aAllDataKept;
+<a name="l00160"></a>00160         QAction * _aScaledFreq;
+<a name="l00161"></a>00161         QAction * _aScaledTime;
+<a name="l00162"></a>00162         QAction * _aZoom2x;
+<a name="l00163"></a>00163         QAction * _aSwitchAxes;
+<a name="l00164"></a>00164         QAction * _aOpenNewWindow;
+<a name="l00165"></a>00165         QAction * _aLogFrequency;
+<a name="l00166"></a>00166         QAction * _aSaveTo;
+<a name="l00167"></a>00167         QAction * _aCopyFrame;
+<a name="l00168"></a>00168         QAction * _aPlotFrame;
+<a name="l00169"></a>00169         QAction * _aDBRelative;
+<a name="l00170"></a>00170         QAction * _aDBMin;
+<a name="l00171"></a>00171         QAction * _aDBGain;
+<a name="l00172"></a>00172 };
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174 <span class="preprocessor">#endif </span><span class="comment">/* AUDIOWIDGET_H_ */</span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -207,7 +215,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 21:46:48 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 22 2013 10:03:34 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

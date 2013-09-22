@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.14</span>
+   &#160;<span id="projectnumber">0.3.1</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -99,6 +99,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_file.html#a4918a111f92f2fdb7406fbd1661a1587">rename</a> (const std::string &amp;newName)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_file.html#af7e7f5995b05cda098037ca1cdcd63f4">getName</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_file.html#aa937b9f20ef2e51091845c5108ded154">getExtension</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_file.html#aa02141310fab62290721deee433f6314">copy</a> (const std::string &amp;to)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_file.html#ab0e4b73c41bf060d0167f039cc270b87">exists</a> (const std::string &amp;filePath)</td></tr>
@@ -106,6 +107,8 @@ Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_file.html#a3c4b790222e27306bba5502fecbaade9">erase</a> (const std::string &amp;filePath)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_file.html#a2c7f4498b8c4bd6b9c4691ae6635f4e7">rename</a> (const std::string &amp;oldFilePath, const std::string &amp;newFilePath)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_file.html#af4d278215cc2dab07c92c25cefe66a9c">getName</a> (const std::string &amp;filePath)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_file.html#a72f0052fd3ed5582ce17adf5f114ac1d">getExtension</a> (const std::string &amp;filePath)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_file.html#ab30f4244c39ce13698931a3d058a4ef0">copy</a> (const std::string &amp;from, const std::string &amp;to)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Class <a class="el" href="class_u_file.html">UFile</a>.</p>
@@ -136,6 +139,65 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="ab30f4244c39ce13698931a3d058a4ef0"></a><!-- doxytag: member="UFile::copy" ref="ab30f4244c39ce13698931a3d058a4ef0" args="(const std::string &amp;from, const std::string &amp;to)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_u_file.html#ab30f4244c39ce13698931a3d058a4ef0">UFile::copy</a> </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>from</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>to</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Copy a file. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">from</td><td>the file path </td></tr>
+    <tr><td class="paramname">to</td><td>destination file path </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aa02141310fab62290721deee433f6314"></a><!-- doxytag: member="UFile::copy" ref="aa02141310fab62290721deee433f6314" args="(const std::string &amp;to)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_u_file.html#ab30f4244c39ce13698931a3d058a4ef0">UFile::copy</a> </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>to</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Copy a file. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">to</td><td>destination file path </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a3c4b790222e27306bba5502fecbaade9"></a><!-- doxytag: member="UFile::erase" ref="a3c4b790222e27306bba5502fecbaade9" args="(const std::string &amp;filePath)" -->
 <div class="memitem">
 <div class="memproto">
@@ -204,12 +266,31 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a72f0052fd3ed5582ce17adf5f114ac1d"></a><!-- doxytag: member="UFile::getExtension" ref="a72f0052fd3ed5582ce17adf5f114ac1d" args="(const std::string &amp;filePath)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string <a class="el" href="class_u_file.html#a72f0052fd3ed5582ce17adf5f114ac1d">UFile::getExtension</a> </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get the file extension. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the file extension </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="aa937b9f20ef2e51091845c5108ded154"></a><!-- doxytag: member="UFile::getExtension" ref="aa937b9f20ef2e51091845c5108ded154" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string UFile::getExtension </td>
+          <td class="memname">std::string <a class="el" href="class_u_file.html#a72f0052fd3ed5582ce17adf5f114ac1d">UFile::getExtension</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [inline]</code></td>
@@ -408,7 +489,7 @@ Static Public Member Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 21:46:49 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 22 2013 10:03:34 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

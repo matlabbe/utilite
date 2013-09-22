@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.14</span>
+   &#160;<span id="projectnumber">0.3.1</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -103,8 +103,8 @@ Friends</h2></td></tr>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>The class <a class="el" href="class_u_events_handler.html">UEventsHandler</a> is an abstract class for handling events.</p>
 <p>Inherited classes must implement <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> function, which is called by the <a class="el" href="class_u_events_manager.html">UEventsManager</a> when an event is dispatched. Once the handler is created, it must be added to events manager with <a class="el" href="class_u_events_manager.html#aa673feac9cf66a3cee01cf58095b4f6c">UEventsManager::addHandler()</a> function. Note that it is not safe to automatically add the handler to <a class="el" href="class_u_events_manager.html">UEventsManager</a> in the handler's constructor.</p>
-<p>Note for multi-threading: the <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> method is called inside the <a class="el" href="class_u_events_manager.html">UEventsManager</a> thread. If the inherited class also inherits from <a class="el" href="class_u_thread_node.html">UThreadNode</a>, <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> is done as well outside the thread's main loop, so be careful to protect private data of the thread used in its main loop.</p>
-<p>Example for a useful combination of an <a class="el" href="class_u_events_handler.html">UEventsHandler</a> and a <a class="el" href="class_u_thread_node.html">UThreadNode</a>, with safe data modification while not blocking the <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> call on a mutex: </p>
+<p>Note for multi-threading: the <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> method is called inside the <a class="el" href="class_u_events_manager.html">UEventsManager</a> thread. If the inherited class also inherits from UThreadNode, <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> is done as well outside the thread's main loop, so be careful to protect private data of the thread used in its main loop.</p>
+<p>Example for a useful combination of an <a class="el" href="class_u_events_handler.html">UEventsHandler</a> and a UThreadNode, with safe data modification while not blocking the <a class="el" href="class_u_events_handler.html#a188cdb3f5337ed944149609711ed34a6">handleEvent()</a> call on a mutex: </p>
 <div class="fragment"><pre class="fragment"><span class="preprocessor"> #include &quot;utilite/UThreadNode.h&quot;</span>
 <span class="preprocessor"> #include &quot;utilite/UEventsHandler.h&quot;</span>
 <span class="preprocessor"> #include &quot;utilite/UEventsManager.h&quot;</span>
@@ -119,7 +119,7 @@ Friends</h2></td></tr>
  };
 
  <span class="comment">// There is the thread counting indefinitely, the count can be reseted by sending a ResetEvent.</span>
- <span class="keyword">class </span>CounterThread : <span class="keyword">public</span> <a class="code" href="class_u_thread_node.html">UThreadNode</a>, <span class="keyword">public</span> <a class="code" href="class_u_events_handler.html">UEventsHandler</a> {
+ <span class="keyword">class </span>CounterThread : <span class="keyword">public</span> <a class="code" href="class_u_thread.html">UThreadNode</a>, <span class="keyword">public</span> <a class="code" href="class_u_events_handler.html">UEventsHandler</a> {
  <span class="keyword">public</span>:
     CounterThread() : state_(0), count_(0) {}
     <span class="keyword">virtual</span> ~CounterThread() {this-&gt;join(<span class="keyword">true</span>);}
@@ -182,7 +182,7 @@ Friends</h2></td></tr>
 <dd>
 <a class="el" href="class_u_event.html">UEvent</a> </dd>
 <dd>
-<a class="el" href="class_u_thread_node.html">UThreadNode</a> </dd></dl>
+UThreadNode </dd></dl>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="abfe2ba3d1fb92e59aff1978cbc21d134"></a><!-- doxytag: member="UEventsHandler::UEventsHandler" ref="abfe2ba3d1fb92e59aff1978cbc21d134" args="()" -->
 <div class="memitem">
@@ -304,7 +304,7 @@ Friends</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 21:46:48 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 22 2013 10:03:34 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

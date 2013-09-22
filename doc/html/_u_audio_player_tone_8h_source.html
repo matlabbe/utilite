@@ -28,7 +28,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">UtiLite
-   &#160;<span id="projectnumber">0.2.14</span>
+   &#160;<span id="projectnumber">0.3.1</span>
    </div>
    <div id="projectbrief">A lite utilities library</div>
   </td>
@@ -84,64 +84,61 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00007"></a>00007 <span class="preprocessor">#ifndef UTONEAUDIOPLAYER_H</span>
 <a name="l00008"></a>00008 <span class="preprocessor"></span><span class="preprocessor">#define UTONEAUDIOPLAYER_H</span>
 <a name="l00009"></a>00009 <span class="preprocessor"></span>
-<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;utilite/UtiLiteExp.h&quot;</span> <span class="comment">// DLL export/import defines</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;utilite/UtiLiteAudioExp.h&quot;</span> <span class="comment">// DLL export/import defines</span>
 <a name="l00011"></a>00011 
 <a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="_u_audio_player_8h.html">utilite/UAudioPlayer.h</a>&quot;</span>
 <a name="l00013"></a>00013 <span class="preprocessor">#include &lt;utilite/UThreadNode.h&gt;</span>
 <a name="l00014"></a>00014 <span class="preprocessor">#include &lt;string&gt;</span>
 <a name="l00015"></a>00015 
-<a name="l00016"></a>00016 <span class="keyword">namespace </span>FMOD
-<a name="l00017"></a>00017 {
-<a name="l00018"></a>00018 <span class="keyword">class </span>DSP;
-<a name="l00019"></a>00019 }
-<a name="l00020"></a>00020 
-<a name="l00027"></a><a class="code" href="class_u_audio_player_tone.html">00027</a> <span class="keyword">class </span>UTILITE_EXP <a class="code" href="class_u_audio_player_tone.html">UAudioPlayerTone</a> : <span class="keyword">public</span> <a class="code" href="class_u_audio_player.html">UAudioPlayer</a>, <span class="keyword">public</span> <a class="code" href="class_u_thread_node.html">UThreadNode</a>
-<a name="l00028"></a>00028 {
-<a name="l00029"></a>00029 <span class="keyword">public</span>:
-<a name="l00030"></a>00030     <a class="code" href="class_u_audio_player_tone.html">UAudioPlayerTone</a>(<span class="keywordtype">float</span> freq = 440.0f, <span class="keywordtype">float</span> vol = 0.5f,  <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> toneMs = 200, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> tickMs = 200);
-<a name="l00031"></a>00031     <a class="code" href="class_u_audio_player_tone.html">UAudioPlayerTone</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* filePath, <span class="keywordtype">float</span> vol = 0.5f,  <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> tickMs = 200);
-<a name="l00032"></a>00032 
-<a name="l00033"></a>00033     <span class="keyword">virtual</span> ~<a class="code" href="class_u_audio_player_tone.html">UAudioPlayerTone</a>();
-<a name="l00034"></a>00034 
-<a name="l00035"></a>00035     <span class="keyword">virtual</span> <span class="keywordtype">void</span> play();
-<a name="l00036"></a>00036     <span class="keyword">virtual</span> <span class="keywordtype">void</span> pause();
-<a name="l00037"></a>00037     <span class="keyword">virtual</span> <span class="keywordtype">void</span> stop();
-<a name="l00038"></a>00038     <span class="keyword">virtual</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> positionMs();
-<a name="l00039"></a>00039 
-<a name="l00040"></a>00040     <span class="keyword">virtual</span> <span class="keywordtype">void</span> setPositionMs(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> pos);
-<a name="l00041"></a>00041 
-<a name="l00042"></a>00042     <span class="comment">//setters</span>
-<a name="l00043"></a>00043     <span class="keywordtype">void</span> setFreq(<span class="keywordtype">float</span> freq) {_freq = freq;}
-<a name="l00044"></a>00044     <span class="keywordtype">void</span> setVol(<span class="keywordtype">float</span> vol) {_vol = vol;}
-<a name="l00045"></a>00045     <span class="keywordtype">void</span> setToneMs(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> toneMs) {_toneMs = toneMs;}
-<a name="l00046"></a>00046     <span class="keywordtype">void</span> setSilenceMs(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> tickMs) {_tickMs = tickMs;}
-<a name="l00047"></a>00047 
-<a name="l00048"></a>00048     <span class="comment">//getters</span>
-<a name="l00049"></a>00049     <span class="keywordtype">float</span> getFreq() {<span class="keywordflow">return</span> _freq;}
-<a name="l00050"></a>00050     <span class="keywordtype">float</span> getVol() {<span class="keywordflow">return</span> _vol;}
-<a name="l00051"></a>00051     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getToneMs() {<span class="keywordflow">return</span> _toneMs;}
-<a name="l00052"></a>00052     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getTickMs() {<span class="keywordflow">return</span> _tickMs;}
-<a name="l00053"></a>00053     <span class="keyword">virtual</span> <span class="keywordtype">int</span> init();
-<a name="l00054"></a>00054 
-<a name="l00055"></a>00055 <span class="keyword">protected</span>:
-<a name="l00056"></a>00056 
-<a name="l00057"></a>00057 <span class="keyword">private</span>:
-<a name="l00058"></a>00058 
-<a name="l00059"></a>00059     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_u_thread_node.html#a5236528e0d29f7946eccaffeaee86b4c">mainLoopBegin</a>();
-<a name="l00060"></a>00060     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_u_thread_node.html#ac8ffe8a5696e23731f86d6fa91edbb2a">mainLoop</a>();
-<a name="l00061"></a>00061     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_u_thread_node.html#a53f7ddba7a710f1236ef486ad40b3e8e">mainLoopKill</a>();
-<a name="l00062"></a>00062 
-<a name="l00063"></a>00063 <span class="keyword">private</span>:
-<a name="l00064"></a>00064     <span class="keywordtype">float</span> _freq;
-<a name="l00065"></a>00065     FMOD::DSP * _dsp;
-<a name="l00066"></a>00066 
-<a name="l00067"></a>00067     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _toneMs;
-<a name="l00068"></a>00068     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _tickMs;
-<a name="l00069"></a>00069     <span class="keywordtype">float</span> _vol;
-<a name="l00070"></a>00070 
-<a name="l00071"></a>00071 };
-<a name="l00072"></a>00072 
-<a name="l00073"></a>00073 <span class="preprocessor">#endif</span>
+<a name="l00016"></a>00016 <span class="keyword">class </span>FMOD_DSP;
+<a name="l00017"></a>00017 
+<a name="l00024"></a><a class="code" href="class_u_audio_player_tone.html">00024</a> <span class="keyword">class </span>UTILITEAUDIO_EXP <a class="code" href="class_u_audio_player_tone.html">UAudioPlayerTone</a> : <span class="keyword">public</span> <a class="code" href="class_u_audio_player.html">UAudioPlayer</a>, <span class="keyword">public</span> <a class="code" href="class_u_thread.html">UThread</a>
+<a name="l00025"></a>00025 {
+<a name="l00026"></a>00026 <span class="keyword">public</span>:
+<a name="l00027"></a>00027     <a class="code" href="class_u_audio_player_tone.html">UAudioPlayerTone</a>(<span class="keywordtype">float</span> freq = 440.0f, <span class="keywordtype">float</span> vol = 0.5f,  <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> toneMs = 200, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> tickMs = 200);
+<a name="l00028"></a>00028     <a class="code" href="class_u_audio_player_tone.html">UAudioPlayerTone</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* filePath, <span class="keywordtype">float</span> vol = 0.5f,  <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> tickMs = 200);
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030     <span class="keyword">virtual</span> ~<a class="code" href="class_u_audio_player_tone.html">UAudioPlayerTone</a>();
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032     <span class="keyword">virtual</span> <span class="keywordtype">void</span> play();
+<a name="l00033"></a>00033     <span class="keyword">virtual</span> <span class="keywordtype">void</span> pause();
+<a name="l00034"></a>00034     <span class="keyword">virtual</span> <span class="keywordtype">void</span> stop();
+<a name="l00035"></a>00035     <span class="keyword">virtual</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> positionMs();
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037     <span class="keyword">virtual</span> <span class="keywordtype">void</span> setPositionMs(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> pos);
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039     <span class="comment">//setters</span>
+<a name="l00040"></a>00040     <span class="keywordtype">void</span> setFreq(<span class="keywordtype">float</span> freq) {_freq = freq;}
+<a name="l00041"></a>00041     <span class="keywordtype">void</span> setVol(<span class="keywordtype">float</span> vol) {_vol = vol;}
+<a name="l00042"></a>00042     <span class="keywordtype">void</span> setToneMs(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> toneMs) {_toneMs = toneMs;}
+<a name="l00043"></a>00043     <span class="keywordtype">void</span> setSilenceMs(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> tickMs) {_tickMs = tickMs;}
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045     <span class="comment">//getters</span>
+<a name="l00046"></a>00046     <span class="keywordtype">float</span> getFreq() {<span class="keywordflow">return</span> _freq;}
+<a name="l00047"></a>00047     <span class="keywordtype">float</span> getVol() {<span class="keywordflow">return</span> _vol;}
+<a name="l00048"></a>00048     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getToneMs() {<span class="keywordflow">return</span> _toneMs;}
+<a name="l00049"></a>00049     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getTickMs() {<span class="keywordflow">return</span> _tickMs;}
+<a name="l00050"></a>00050     <span class="keyword">virtual</span> <span class="keywordtype">int</span> init();
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052 <span class="keyword">protected</span>:
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054 <span class="keyword">private</span>:
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_u_thread.html#ae9b8e091e7e3ba85cccd566ecaeca0bd">mainLoopBegin</a>();
+<a name="l00057"></a>00057     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_u_thread.html#add4ddbb2c5d732baf3bf48d2b01757b7">mainLoop</a>();
+<a name="l00058"></a>00058     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_u_thread.html#a889353b054af98d481753c7729fe0b30">mainLoopEnd</a>();
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060 <span class="keyword">private</span>:
+<a name="l00061"></a>00061     <span class="keywordtype">float</span> _freq;
+<a name="l00062"></a>00062     FMOD_DSP * _dsp;
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _toneMs;
+<a name="l00065"></a>00065     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _tickMs;
+<a name="l00066"></a>00066     <span class="keywordtype">float</span> _vol;
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068 };
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 <span class="preprocessor">#endif</span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -160,7 +157,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 18 2012 21:46:48 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 22 2013 10:03:34 for UtiLite by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
