@@ -507,11 +507,14 @@ void ULogger::write(ULogger::Level level,
 
 		if(level >= exitLevel_)
 		{
-			printf("\n*******\n%s message occurred!\n", levelName_[level]);
-			printf("  %s%s%s", levelStr.c_str(), time.c_str(), whereStr.c_str());
-			va_start(args, msg);
-			vprintf(msg, args);
-			va_end(args);
+			printf("\n*******\n%s message occurred! Application will now exit.\n", levelName_[level]);
+			if(type_ != kTypeConsole)
+			{
+				printf("  %s%s%s", levelStr.c_str(), time.c_str(), whereStr.c_str());
+				va_start(args, msg);
+				vprintf(msg, args);
+				va_end(args);
+			}
 			printf("\n*******\n");
 			destroyer_.setDoomed(0);
 			delete instance_; // If a FileLogger is used, this will close the file.
