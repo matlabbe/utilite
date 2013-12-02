@@ -17,20 +17,15 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "utilite/UEventsHandler.h"
+#include "utilite/UEventsSender.h"
 #include "utilite/UEventsManager.h"
 
-UEventsHandler::~UEventsHandler()
+UEventsSender::~UEventsSender()
 {
-	unregisterFromEventsManager();
+	UEventsManager::removeAllPipes(this);
 }
 
-
-void UEventsHandler::registerToEventsManager()
+void UEventsSender::post(UEvent * event, bool async) const
 {
-	UEventsManager::addHandler(this);
-}
-void UEventsHandler::unregisterFromEventsManager()
-{
-	UEventsManager::removeHandler(this);
+	UEventsManager::post(event, async, this);
 }

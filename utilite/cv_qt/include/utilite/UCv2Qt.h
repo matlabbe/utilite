@@ -23,11 +23,12 @@
 #include <QtGui/QImage>
 #include <opencv2/core/core.hpp>
 #include <utilite/UMath.h>
+#include <utilite/UThread.h>
 
 /**
  * Convert a cv::Mat image to a QImage. Support 
- * depth (float) image and RGB/BGR 8bits images.
- * @param image the cv::Mat image (can be 1 channel [CV_8U or CV_32F] or 3 channels [CV_U8])
+ * depth (float32, uint16) image and RGB/BGR 8bits images.
+ * @param image the cv::Mat image (can be 1 channel [CV_8U, CV_16U or CV_32F] or 3 channels [CV_U8])
  * @param isBgr if 3 channels, it is BGR or RGB order.
  * @return the QImage
  */
@@ -88,16 +89,89 @@ inline QImage uCvMat2QImage(const cv::Mat & image, bool isBgr = true)
 				else
 				{
 					*p = uchar(255.0f - ((data[x]-min)*255.0f)/(max-min));
+					if(*p == 255)
+					{
+						*p = 0;
+					}
 				}
 			}
 		}
+
+		QVector<QRgb> my_table;
+		for(int i = 0; i < 256; i++) my_table.push_back(qRgb(i,i,i));
+		qtemp.setColorTable(my_table);
     }
+	else if(image.depth() == CV_16U && image.channels()==1)
+	{
+		// Assume depth image (unsigned short in mm)
+		const unsigned short * data = (const unsigned short *)image.data;
+		unsigned short min=data[0], max=data[0];
+		for(unsigned int i=1; i<image.total(); ++i)
+		{
+			if(!uIsNan(data[i]) && data[i] > 0)
+			{
+				if((uIsNan(min) && data[i] > 0) ||
+				   (data[i] > 0 && data[i]<min))
+				{
+					min = data[i];
+				}
+				if((uIsNan(max) && data[i] > 0) ||
+				   (data[i] > 0 && data[i]>max))
+				{
+					max = data[i];
+				}
+			}
+		}
+
+		qtemp = QImage(image.cols, image.rows, QImage::Format_Indexed8);
+		for(int y = 0; y < image.rows; ++y, data += image.cols)
+		{
+			for(int x = 0; x < image.cols; ++x)
+			{
+				uchar * p = qtemp.scanLine (y) + x;
+				if(data[x] < min || data[x] > max || uIsNan(data[x]) || max == min)
+				{
+					*p = 0;
+				}
+				else
+				{
+					*p = uchar(255.0f - (float(data[x]-min)/float(max-min))*255.0f);
+					if(*p == 255)
+					{
+						*p = 0;
+					}
+				}
+			}
+		}
+
+		QVector<QRgb> my_table;
+		for(int i = 0; i < 256; i++) my_table.push_back(qRgb(i,i,i));
+		qtemp.setColorTable(my_table);
+	}
 	else if(!image.empty() && image.depth() != CV_8U)
 	{
-		printf("Wrong image format, must be 8_bits/3channels or (depth) 32bitsFloat/1channel\n");
+		printf("Wrong image format, must be 8_bits/3channels or (depth) 32bitsFloat/1channel, 16bits/1channel\n");
 	}
 	return qtemp;
 }
 
+class UCvMat2QImageThread : public UThread
+{
+public:
+	UCvMat2QImageThread(const cv::Mat & image, bool isBgr = true) :
+		image_(image),
+		isBgr_(isBgr) {}
+	QImage & getQImage() {return qtImage_;}
+protected:
+	virtual void mainLoop()
+	{
+		qtImage_ = uCvMat2QImage(image_, isBgr_);
+		this->kill();
+	}
+private:
+	cv::Mat image_;
+	bool isBgr_;
+	QImage qtImage_;
+};
 
 #endif /* UCV2QT_H_ */

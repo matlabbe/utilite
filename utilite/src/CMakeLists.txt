@@ -2,6 +2,7 @@
 SET(SRC_FILES
     UEventsManager.cpp
     UEventsHandler.cpp
+    UEventsSender.cpp
     UFile.cpp
     UDirectory.cpp
     UConversion.cpp
