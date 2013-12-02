@@ -330,6 +330,7 @@ ENDIF ()
 #include "utilite/ULogger.h"
 #include "utilite/UEventsManager.h"
 #include "utilite/UEventsHandler.h"
+#include "utilite/UEventsSender.h"
 #include "utilite/UEvent.h"
 #include "utilite/UProcessInfo.h"
 #include "utilite/UMutex.h"
