@@ -28,9 +28,9 @@
  * @see StateThread
  */
 #ifdef WIN32
-  #include "Win32/UThreadC.h"
+  #include "utilite/Win32/UThreadC.h"
 #else
-  #include "Posix/UThreadC.h"
+  #include "utilite/Posix/UThreadC.h"
 #endif
 
 #endif // UTHREADC_H
