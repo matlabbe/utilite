@@ -263,7 +263,7 @@ int main(int argc, char * argv[])
 						}
 						else
 						{
-							printf("Error: x axis and curve (%d) length is not the same!\n", j);
+							printf("Error: x axis (%d) and curve (%d) lengths are not the same!\n", (int)xAxis.size(), (int)data.size());
 							return -1;
 						}
 					}
