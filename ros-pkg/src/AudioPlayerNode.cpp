@@ -2,16 +2,16 @@
  * AudioPlayerNode.cpp
  */
 
-#include <fmod.hpp>
-#include <fmod_errors.h>
+#include <fmodex/fmod.hpp>
+#include <fmodex/fmod_errors.h>
 #include <ros/ros.h>
 #include <utilite/ULogger.h>
 #include <utilite/UMath.h>
 #include <utilite/UThreadNode.h>
 #include <utilite/UPlot.h>
 #include <utilite/USpectrogram.h>
-#include "uaudio/AudioFrame.h"
-#include "uaudio/AudioFrameFreqSqrdMagn.h"
+#include "utilite/AudioFrame.h"
+#include "utilite/AudioFrameFreqSqrdMagn.h"
 
 #include <QApplication>
 #include <signal.h>
@@ -208,7 +208,7 @@ bool initAudioPlayer(unsigned int decoderBufferSize, int fs, int channels, int b
 	return true;
 }
 
-void frameReceivedCallback(const uaudio::AudioFramePtr & msg)
+void frameReceivedCallback(const utilite::AudioFramePtr & msg)
 {
 	if(msg->data.size())
 	{
@@ -306,7 +306,7 @@ void frameReceivedCallback(const uaudio::AudioFramePtr & msg)
 	}
 }
 
-void frameFreqSqrdMagnReceivedCallback(const uaudio::AudioFrameFreqSqrdMagnPtr & msg)
+void frameFreqSqrdMagnReceivedCallback(const utilite::AudioFrameFreqSqrdMagnPtr & msg)
 {
 	if(!g_spectrogramAlreadyShown && g_spectrogram->isHidden())
 	{

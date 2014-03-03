@@ -9,12 +9,12 @@
 #include <signal.h>
 #include <utilite/UColorTable.h>
 #include <dynamic_reconfigure/server.h>
-#include <uimage/rgb2indConfig.h>
+#include <utilite/rgb2indConfig.h>
 
 image_transport::Publisher rosPublisher;
 UColorTable colorTable(UColorTable::kSize1024);
 
-void callback(uimage::rgb2indConfig &config, uint32_t level)
+void callback(utilite::rgb2indConfig &config, uint32_t level)
 {
 	if(config.color_table_size == 14)
 	{
@@ -70,8 +70,8 @@ int main(int argc, char * argv[])
 	image_transport::Subscriber image_sub = it.subscribe("image", 1, imgReceivedCallback);
 	rosPublisher = it.advertise("image_indexed", 1);
 
-	dynamic_reconfigure::Server<uimage::rgb2indConfig> server;
-	dynamic_reconfigure::Server<uimage::rgb2indConfig>::CallbackType f;
+	dynamic_reconfigure::Server<utilite::rgb2indConfig> server;
+	dynamic_reconfigure::Server<utilite::rgb2indConfig>::CallbackType f;
 	f = boost::bind(&callback, _1, _2);
 	server.setCallback(f);
 
