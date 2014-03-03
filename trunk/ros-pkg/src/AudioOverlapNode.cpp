@@ -7,9 +7,9 @@
 #include <utilite/ULogger.h>
 #include <utilite/UAudioCaptureFFT.h>
 
-#include "uaudio/AudioFrame.h"
-#include "uaudio/AudioFrameFreq.h"
-#include "uaudio/AudioFrameFreqSqrdMagn.h"
+#include "utilite/AudioFrame.h"
+#include "utilite/AudioFrameFreq.h"
+#include "utilite/AudioFrameFreqSqrdMagn.h"
 
 class FrameBuffer
 {
@@ -42,9 +42,9 @@ public:
 	{
 		ros::NodeHandle nh;
 		audioSubs_ = nh.subscribe("audioFrame", 1, &AudioOverlap::frameReceivedCallback, this);
-		audioFramePublisher_ = nh.advertise<uaudio::AudioFrame>("audioOverlappedFrame", 1);
-		audioFrameFreqPublisher_ = nh.advertise<uaudio::AudioFrameFreq>("audioOverlappedFrameFreq", 1);
-		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<uaudio::AudioFrameFreqSqrdMagn>("audioOverlappedFrameFreqSqrdMagn", 1);
+		audioFramePublisher_ = nh.advertise<utilite::AudioFrame>("audioOverlappedFrame", 1);
+		audioFrameFreqPublisher_ = nh.advertise<utilite::AudioFrameFreq>("audioOverlappedFrameFreq", 1);
+		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<utilite::AudioFrameFreqSqrdMagn>("audioOverlappedFrameFreqSqrdMagn", 1);
 	}
 	~AudioOverlap()
 	{
@@ -55,7 +55,7 @@ public:
 	}
 
 private:
-	void frameReceivedCallback(const uaudio::AudioFramePtr & msgReceived)
+	void frameReceivedCallback(const utilite::AudioFramePtr & msgReceived)
 	{
 		if(!msgReceived->data.size())
 		{
@@ -123,7 +123,7 @@ private:
 		{
 			if(audioFramePublisher_.getNumSubscribers())
 			{
-				uaudio::AudioFramePtr msg(new uaudio::AudioFrame);
+				utilite::AudioFramePtr msg(new utilite::AudioFrame);
 				msg->header.frame_id = msgReceived->header.frame_id;
 				msg->header.stamp = msgReceived->header.stamp;
 				msg->data = buffer.frame;
@@ -152,7 +152,7 @@ private:
 
 				if(audioFrameFreqPublisher_.getNumSubscribers())
 				{
-					uaudio::AudioFrameFreqPtr msg(new uaudio::AudioFrameFreq);
+					utilite::AudioFrameFreqPtr msg(new utilite::AudioFrameFreq);
 					msg->header.frame_id = msgReceived->header.frame_id;
 					msg->header.stamp = msgReceived->header.stamp;
 					msg->data.resize(freq.size()*freq[0].size());
@@ -167,7 +167,7 @@ private:
 				}
 				if(audioFrameFreqSqrdMagnPublisher_.getNumSubscribers())
 				{
-					uaudio::AudioFrameFreqSqrdMagnPtr msg(new uaudio::AudioFrameFreqSqrdMagn);
+					utilite::AudioFrameFreqSqrdMagnPtr msg(new utilite::AudioFrameFreqSqrdMagn);
 					msg->header.frame_id = msgReceived->header.frame_id;
 					msg->header.stamp = msgReceived->header.stamp;
 

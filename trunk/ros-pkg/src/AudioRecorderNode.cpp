@@ -16,9 +16,9 @@
 
 #include <utilite/UAudioCaptureFFT.h>
 
-#include "uaudio/AudioFrame.h"
-#include "uaudio/AudioFrameFreq.h"
-#include "uaudio/AudioFrameFreqSqrdMagn.h"
+#include "utilite/AudioFrame.h"
+#include "utilite/AudioFrameFreq.h"
+#include "utilite/AudioFrameFreqSqrdMagn.h"
 
 class EndEvent : public UEvent
 {
@@ -34,9 +34,9 @@ public:
 	{
 		micro_ = new UAudioCaptureFFT(UAudioEvent::kTypeFrame, deviceId, fs, frameLength, nChannels, sampleSize);
 		ros::NodeHandle nh("");
-		audioFramePublisher_ = nh.advertise<uaudio::AudioFrame>("audioFrame", 1);
-		audioFrameFreqPublisher_ = nh.advertise<uaudio::AudioFrameFreq>("audioFrameFreq", 1);
-		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<uaudio::AudioFrameFreqSqrdMagn>("audioFrameFreqSqrdMagn", 1);
+		audioFramePublisher_ = nh.advertise<utilite::AudioFrame>("audioFrame", 1);
+		audioFrameFreqPublisher_ = nh.advertise<utilite::AudioFrameFreq>("audioFrameFreq", 1);
+		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<utilite::AudioFrameFreqSqrdMagn>("audioFrameFreqSqrdMagn", 1);
 
 		ros::NodeHandle np("~");
 		pauseSrv_ = np.advertiseService("pause", &MicroWrapper::pause, this);
@@ -47,9 +47,9 @@ public:
 	{
 		micro_ = new UAudioCaptureFFT(UAudioEvent::kTypeFrame, fileName, frameRate);
 		ros::NodeHandle nh("");
-		audioFramePublisher_ = nh.advertise<uaudio::AudioFrame>("audioFrame", 1);
-		audioFrameFreqPublisher_ = nh.advertise<uaudio::AudioFrameFreq>("audioFrameFreq", 1);
-		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<uaudio::AudioFrameFreqSqrdMagn>("audioFrameFreqSqrdMagn", 1);
+		audioFramePublisher_ = nh.advertise<utilite::AudioFrame>("audioFrame", 1);
+		audioFrameFreqPublisher_ = nh.advertise<utilite::AudioFrameFreq>("audioFrameFreq", 1);
+		audioFrameFreqSqrdMagnPublisher_ = nh.advertise<utilite::AudioFrameFreqSqrdMagn>("audioFrameFreqSqrdMagn", 1);
 
 		ros::NodeHandle np("~");
 		pauseSrv_ = np.advertiseService("pause", &MicroWrapper::pause, this);
@@ -177,7 +177,7 @@ protected:
 			ros::Time now = ros::Time::now();
 			if(audioFramePublisher_.getNumSubscribers())
 			{
-				uaudio::AudioFramePtr msg(new uaudio::AudioFrame);
+				utilite::AudioFramePtr msg(new utilite::AudioFrame);
 				msg->header.frame_id = "micro";
 				msg->header.stamp = now;
 				msg->header.seq = seqNumber_;
@@ -203,7 +203,7 @@ protected:
 			{
 				if(audioFrameFreqPublisher_.getNumSubscribers())
 				{
-					uaudio::AudioFrameFreqPtr msg(new uaudio::AudioFrameFreq);
+					utilite::AudioFrameFreqPtr msg(new utilite::AudioFrameFreq);
 					msg->header.frame_id = "micro";
 					msg->header.stamp = now;
 					msg->header.seq = seqNumber_;
@@ -219,7 +219,7 @@ protected:
 				}
 				if(audioFrameFreqSqrdMagnPublisher_.getNumSubscribers())
 				{
-					uaudio::AudioFrameFreqSqrdMagnPtr msg(new uaudio::AudioFrameFreqSqrdMagn);
+					utilite::AudioFrameFreqSqrdMagnPtr msg(new utilite::AudioFrameFreqSqrdMagn);
 					msg->header.frame_id = "micro";
 					msg->header.stamp = now;
 					msg->header.seq = seqNumber_;

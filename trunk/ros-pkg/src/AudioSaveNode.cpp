@@ -6,10 +6,10 @@
 #include <utilite/UWav.h>
 #include <utilite/UMp3Encoder.h>
 #include <utilite/UFile.h>
-#include "uaudio/AudioFrame.h"
+#include "utilite/AudioFrame.h"
 
 #include <dynamic_reconfigure/server.h>
-#include <uaudio/audioSaveConfig.h>
+#include <utilite/audioSaveConfig.h>
 
 #define FILE_NAME_PREFIX "audio_saved"
 bool encodeToMp3 = true;
@@ -21,7 +21,7 @@ int channels = 0;
 int bits = 0;
 float rate = 0;
 
-void frameReceivedCallback(const uaudio::AudioFramePtr & msg)
+void frameReceivedCallback(const utilite::AudioFramePtr & msg)
 {
 	if(fp)
 	{
@@ -40,7 +40,7 @@ void frameReceivedCallback(const uaudio::AudioFramePtr & msg)
 	dataLength += fwrite(msg->data.data(), 1, msg->data.size(), fp);
 }
 
-void callback(uaudio::audioSaveConfig &config, uint32_t level)
+void callback(utilite::audioSaveConfig &config, uint32_t level)
 {
 	encodeToMp3 = config.encode_to_mp3;
 }
@@ -58,8 +58,8 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	dynamic_reconfigure::Server<uaudio::audioSaveConfig> server;
-	dynamic_reconfigure::Server<uaudio::audioSaveConfig>::CallbackType f;
+	dynamic_reconfigure::Server<utilite::audioSaveConfig> server;
+	dynamic_reconfigure::Server<utilite::audioSaveConfig>::CallbackType f;
 	f = boost::bind(&callback, _1, _2);
 	server.setCallback(f);
 

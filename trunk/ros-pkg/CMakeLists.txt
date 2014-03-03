@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
+SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
+
 find_package(UtiLite 0.3 REQUIRED)
 find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 find_package(Fmodex REQUIRED)
@@ -49,11 +51,7 @@ generate_messages(
 )
 
 #add dynamic reconfigure api
-generate_dynamic_reconfigure_options(cfg/AudioSave.cfg)
-generate_dynamic_reconfigure_options(cfg/Camera.cfg)
-generate_dynamic_reconfigure_options(cfg/MotionFilter.cfg)
-generate_dynamic_reconfigure_options(cfg/rgb2ind.cfg)
-generate_dynamic_reconfigure_options(cfg/xy2polar.cfg)
+generate_dynamic_reconfigure_options(cfg/AudioSave.cfg cfg/Camera.cfg cfg/MotionFilter.cfg cfg/rgb2ind.cfg cfg/xy2polar.cfg)
 
 ###################################
 ## catkin specific configuration ##
@@ -87,9 +85,9 @@ include_directories(
 )
 
 #image
-add_executable(camera src/CameraNode.cpp)
-add_dependencies(camera ${${PROJECT_NAME}_EXPORTED_TARGETS})
-target_link_libraries(camera ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
+add_executable(ucamera src/CameraNode.cpp)
+add_dependencies(ucamera ${${PROJECT_NAME}_EXPORTED_TARGETS})
+target_link_libraries(ucamera ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
 
 add_executable(rgb2ind src/RGB2IndexedNode.cpp)
 add_dependencies(rgb2ind ${${PROJECT_NAME}_EXPORTED_TARGETS})
@@ -100,16 +98,11 @@ add_dependencies(xy2polar ${${PROJECT_NAME}_EXPORTED_TARGETS})
 target_link_libraries(xy2polar ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
 
 add_executable(motion_filter src/MotionFilterNode.cpp)
-add_dependencies(motion ${${PROJECT_NAME}_EXPORTED_TARGETS})
+add_dependencies(motion_filter ${${PROJECT_NAME}_EXPORTED_TARGETS})
 target_link_libraries(motion_filter ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
 
 add_executable(canny_edge_detector src/CannyEdgeDetectorNode.cpp)
 target_link_libraries(canny_edge_detector ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
-
-
-add_executable(rtabmap src/CoreNode.cpp src/CoreWrapper.cpp)
-add_dependencies(rtabmap rtabmap_generate_messages_cpp)
-target_link_libraries(rtabmap rtabmap_ros ${catkin_LIBRARIES} ${RTABMap_LIBRARIES})
 
 QT4_WRAP_CPP(moc_srcs src/ImageViewQt.hpp)
 add_executable(image_view_qt src/ImageViewQtNode.cpp ${moc_srcs})
