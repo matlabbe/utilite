@@ -11,8 +11,8 @@
 
 #include <utilite/UMutex.h>
 
-#include <fmod.hpp>
-#include <fmod_errors.h>
+#include <fmodex/fmod.hpp>
+#include <fmodex/fmod_errors.h>
 
 /**
  * A sound system is used to encapsulate FMOD methods 

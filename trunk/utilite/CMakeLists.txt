@@ -1,23 +1,28 @@
 # Top-Level CmakeLists.txt
 cmake_minimum_required(VERSION 2.6)
-PROJECT( utilite )
+PROJECT( UtiLite )
+SET(PROJECT_PREFIX utilite)
 
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules")
 
 #######################
 # VERSION
 #######################
-SET(UTILITE_VERSION "0.3.0")
+SET(UTILITE_MAJOR_VERSION 0)
+SET(UTILITE_MINOR_VERSION 3)
+SET(UTILITE_PATCH_VERSION 1)
+SET(UTILITE_VERSION
+  ${UTILITE_MAJOR_VERSION}.${UTILITE_MINOR_VERSION}.${UTILITE_PATCH_VERSION})
+  
+SET(PROJECT_VERSION "${UTILITE_VERSION}")
 
-STRING(REGEX MATCHALL "[0-9]+" UTILITE_VERSION_PARTS "${UTILITE_VERSION}")
+SET(PROJECT_VERSION_MAJOR ${UTILITE_MAJOR_VERSION})
+SET(PROJECT_VERSION_MINOR ${UTILITE_MINOR_VERSION})
+SET(PROJECT_VERSION_PATCH ${UTILITE_PATCH_VERSION})
 
-LIST(GET UTILITE_VERSION_PARTS 0 UTILITE_VERSION_MAJOR)
-LIST(GET UTILITE_VERSION_PARTS 1 UTILITE_VERSION_MINOR)
-LIST(GET UTILITE_VERSION_PARTS 2 UTILITE_VERSION_PATCH)
+SET(PROJECT_SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
 
-SET(UTILITE_SOVERSION "${UTILITE_VERSION_MAJOR}.${UTILITE_VERSION_MINOR}")
-
-CONFIGURE_FILE(FindUtiLite.cmake.in FindUtiLite.cmake @ONLY)
+CONFIGURE_FILE(Version.h.in ${PROJECT_SOURCE_DIR}/include/${PROJECT_PREFIX}/Version.h)
 
 #######################
 # COMPILATION PARAMS
@@ -40,10 +45,7 @@ ENDIF()
 ADD_DEFINITIONS("-DUNICODE") # to test with UNICODE projects
 
 #Find libraries included with our project first
-IF(WIN32)
-   SET(CMAKE_INCLUDE_PATH "${PROJECT_SOURCE_DIR}/3rdParty/include;${CMAKE_INCLUDE_PATH}")
-   SET(CMAKE_LIBRARY_PATH "${PROJECT_SOURCE_DIR}/3rdParty/lib;${CMAKE_LIBRARY_PATH}")
-ELSEIF(APPLE)
+IF(APPLE)
    # For Mac ports
    SET(CMAKE_INCLUDE_PATH "/opt/local/include;${CMAKE_INCLUDE_PATH}")
    SET(CMAKE_LIBRARY_PATH "/opt/local/lib;${CMAKE_LIBRARY_PATH}")
@@ -118,6 +120,21 @@ SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
+####### INSTALL DIR #######
+# Offer the user the choice of overriding the installation directories
+set(INSTALL_LIB_DIR lib/${PROJECT_PREFIX}-${UTILITE_MAJOR_VERSION}.${UTILITE_MINOR_VERSION} CACHE PATH "Installation directory for libraries")
+set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
+set(INSTALL_INCLUDE_DIR include/${PROJECT_PREFIX}-${UTILITE_MAJOR_VERSION}.${UTILITE_MINOR_VERSION} CACHE PATH
+  "Installation directory for header files")
+if(WIN32 AND NOT CYGWIN)
+  set(DEF_INSTALL_CMAKE_DIR CMake)
+else()
+  set(DEF_INSTALL_CMAKE_DIR lib/${PROJECT_PREFIX}-${UTILITE_MAJOR_VERSION}.${UTILITE_MINOR_VERSION})
+endif()
+set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
+  "Installation directory for CMake files")
+ 
+
 #######################
 # BUILD OPTIONS
 #######################
@@ -130,9 +147,6 @@ OPTION(BUILD_EXAMPLES "Set to ON to build examples" ON)
 #######################
 # DEPENDENCIES
 #######################
-SET(CMAKE_INCLUDE_PATH "${PROJECT_SOURCE_DIR}/3rdParty/include;${CMAKE_INCLUDE_PATH}")
-SET(CMAKE_LIBRARY_PATH "${PROJECT_SOURCE_DIR}/3rdParty/lib;${CMAKE_LIBRARY_PATH}")
-
 IF(UNIX)
    FIND_PACKAGE(Pthreads REQUIRED)
 ENDIF(UNIX)
@@ -183,6 +197,41 @@ IF(BUILD_EXAMPLES)
 	ADD_SUBDIRECTORY( examples )
 ENDIF(BUILD_EXAMPLES)
 
+
+####
+# Setup UtiLiteConfig.cmake
+####
+# Create the UtiLiteConfig.cmake and UtiLiteConfigVersion files
+file(RELATIVE_PATH REL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/${INSTALL_CMAKE_DIR}" "${CMAKE_INSTALL_PREFIX}/${INSTALL_INCLUDE_DIR}")
+file(RELATIVE_PATH REL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/${INSTALL_CMAKE_DIR}" "${CMAKE_INSTALL_PREFIX}/${INSTALL_LIB_DIR}")
+   
+# ... for the build tree
+set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include" 
+					  "${PROJECT_SOURCE_DIR}/cv/include" 
+					  "${PROJECT_SOURCE_DIR}/cv_qt/include"
+					  "${PROJECT_SOURCE_DIR}/qt/include"
+					  "${PROJECT_SOURCE_DIR}/audio/include")
+set(CONF_LIB_DIR "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
+configure_file(UtiLiteConfig.cmake.in
+  "${PROJECT_BINARY_DIR}/UtiLiteConfig.cmake" @ONLY)
+  
+# ... for the install tree
+set(CONF_INCLUDE_DIRS "\${UtiLite_CMAKE_DIR}/${REL_INCLUDE_DIR}")
+set(CONF_LIB_DIR "\${UtiLite_CMAKE_DIR}/${REL_LIB_DIR}")
+configure_file(UtiLiteConfig.cmake.in
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/UtiLiteConfig.cmake" @ONLY)
+  
+# ... for both
+configure_file(UtiLiteConfigVersion.cmake.in
+  "${PROJECT_BINARY_DIR}/UtiLiteConfigVersion.cmake" @ONLY)
+
+# Install the UtiLiteConfig.cmake and UtiLiteConfigVersion.cmake
+install(FILES
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/UtiLiteConfig.cmake"
+  "${PROJECT_BINARY_DIR}/UtiLiteConfigVersion.cmake"
+  DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT devel)
+####
+
 #######################
 # CPACK (Packaging)
 #######################
@@ -218,9 +267,6 @@ set(CPACK_SOURCE_IGNORE_FILES
   "${PROJECT_SOURCE_DIR}/bin/.*Log"
   "\\\\.DS_Store"
 )
-
-# Share files
-INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/FindUtiLite.cmake DESTINATION share/${PROJECT_NAME} COMPONENT devel)
 
 IF(WIN32)
   # NOTE : Dependencies are installed in ressource-generator directory
