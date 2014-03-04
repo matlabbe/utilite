@@ -2,6 +2,7 @@
 # It defines the following variables
 #  UtiLite_INCLUDE_DIRS - include directories for UtiLite
 #  UtiLite_LIBRARIES    - libraries to link against
+#  UtiLite_RESOURCEGENERATOR - resources generator tool
 
 # Compute paths
 get_filename_component(UtiLite_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
@@ -12,3 +13,5 @@ find_library(UTILITE_QT_LIB NAMES utilite_qt NO_DEFAULT_PATH HINTS "@CONF_LIB_DI
 find_library(UTILITE_CV_LIB NAMES utilite_cv NO_DEFAULT_PATH HINTS "@CONF_LIB_DIR@")
 find_library(UTILITE_AUDIO_LIB NAMES utilite_audio NO_DEFAULT_PATH HINTS "@CONF_LIB_DIR@")
 set(UtiLite_LIBRARIES ${UTILITE_LIB} ${UTILITE_QT_LIB} ${UTILITE_CV_LIB} ${UTILITE_AUDIO_LIB})
+
+FIND_PROGRAM(UtiLite_RESOURCEGENERATOR NAME uresourcegenerator NO_DEFAULT_PATH HINTS "@CONF_BIN_DIR@/@CONF_RESGEN@")
