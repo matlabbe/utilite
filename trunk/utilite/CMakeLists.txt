@@ -202,9 +202,9 @@ ENDIF(BUILD_EXAMPLES)
 # Setup UtiLiteConfig.cmake
 ####
 #executable name
-get_property(uresourcegenerator_path TARGET uresourcegenerator PROPERTY LOCATION)
-get_filename_component(uresourcegenerator_name ${uresourcegenerator_path} NAME)
-set(CONF_RESGEN "${uresourcegenerator_name}")
+#get_property(uresourcegenerator_path TARGET uresourcegenerator PROPERTY LOCATION)
+#get_filename_component(uresourcegenerator_name ${uresourcegenerator_path} NAME)
+#set(CONF_RESGEN "${uresourcegenerator_name}")
 
 # Create the UtiLiteConfig.cmake and UtiLiteConfigVersion files
 file(RELATIVE_PATH REL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/${INSTALL_CMAKE_DIR}" "${CMAKE_INSTALL_PREFIX}/${INSTALL_INCLUDE_DIR}")
