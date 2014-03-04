@@ -201,9 +201,15 @@ ENDIF(BUILD_EXAMPLES)
 ####
 # Setup UtiLiteConfig.cmake
 ####
+#executable name
+get_property(uresourcegenerator_path TARGET uresourcegenerator PROPERTY LOCATION)
+get_filename_component(uresourcegenerator_name ${uresourcegenerator_path} NAME)
+set(CONF_RESGEN "${uresourcegenerator_name}")
+
 # Create the UtiLiteConfig.cmake and UtiLiteConfigVersion files
 file(RELATIVE_PATH REL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/${INSTALL_CMAKE_DIR}" "${CMAKE_INSTALL_PREFIX}/${INSTALL_INCLUDE_DIR}")
 file(RELATIVE_PATH REL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/${INSTALL_CMAKE_DIR}" "${CMAKE_INSTALL_PREFIX}/${INSTALL_LIB_DIR}")
+file(RELATIVE_PATH REL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/${INSTALL_CMAKE_DIR}" "${CMAKE_INSTALL_PREFIX}/${INSTALL_BIN_DIR}")
    
 # ... for the build tree
 set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include" 
@@ -212,12 +218,14 @@ set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include"
 					  "${PROJECT_SOURCE_DIR}/qt/include"
 					  "${PROJECT_SOURCE_DIR}/audio/include")
 set(CONF_LIB_DIR "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
+set(CONF_BIN_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 configure_file(UtiLiteConfig.cmake.in
   "${PROJECT_BINARY_DIR}/UtiLiteConfig.cmake" @ONLY)
   
 # ... for the install tree
 set(CONF_INCLUDE_DIRS "\${UtiLite_CMAKE_DIR}/${REL_INCLUDE_DIR}")
 set(CONF_LIB_DIR "\${UtiLite_CMAKE_DIR}/${REL_LIB_DIR}")
+set(CONF_BIN_DIR "\${UtiLite_CMAKE_DIR}/${REL_BIN_DIR}")
 configure_file(UtiLiteConfig.cmake.in
   "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/UtiLiteConfig.cmake" @ONLY)
   
