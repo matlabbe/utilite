@@ -13,6 +13,11 @@
 
 #include <QtGui/QWidget>
 #include <QtGui/QPainter>
+#include <QtGui/QMenu>
+#include <QtGui/QAction>
+#include <QtGui/QContextMenuEvent>
+#include <QtGui/QFileDialog>
+#include <QtCore/QDir>
 
 /**
  * UImageView is a QWidget to show an image, which
@@ -99,6 +104,24 @@ protected:
 			painter.scale(ratio, ratio);
 			painter.drawPixmap(QPoint(0,0), pixmap_);
 			painter.restore();
+		}
+	}
+
+	void contextMenuEvent(QContextMenuEvent * e)
+	{
+		QMenu menu;
+		QAction * save = menu.addAction("Save image...");
+		save->setEnabled(!pixmap_.isNull());
+		QAction * action = menu.exec(e->globalPos());
+		if(action == save)
+		{
+			QPixmap pixmap = pixmap_;
+			QString text;
+			text = QFileDialog::getSaveFileName(this, tr("Save figure to ..."), QDir::homePath() + QString("/image.png"), "*.png *.xpm *.jpg *.pdf");
+			if(!text.isEmpty())
+			{
+				pixmap.save(text);
+			}
 		}
 	}
 
