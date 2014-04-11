@@ -624,6 +624,20 @@ inline std::list<unsigned int> uLocalMaxima(const std::vector<T> & v)
 /**
  * Enum of cross matching methods (cross-correlation, cross-covariance) :
  * UXCorrRaw, UXCorrBiased, UXCorrUnbiased, UXCorrCoeff, UXCovRaw, UXCovBiased, UXCovUnbiased, UXCovCoeff.
+ *
+ * @code
+ * x1=[1.000000, 2.000000, 5.000000];
+ * x2=[2.000000, 5.000000, 1.000000];
+ * uXMatch(x1, x2, UXCorrRaw)=[1.000000, 7.000000, 17.000000, 29.000000, 10.000000];
+ * uXMatch(x1, x2, UXCorrBiased)=[0.333333, 2.333333, 5.666667, 9.666667, 3.333333];
+ * uXMatch(x1, x2, UXCorrUnbiased)=[1.000000, 3.500000, 5.666667, 14.500000, 10.000000];
+ * uXMatch(x1, x2, UXCorrCoeff)=[0.033333, 0.233333, 0.566667, 0.966667, 0.333333];
+ * uXMatch(x1, x2, UXCovRaw)=[2.777778, -2.777778, -4.333333, 5.888889, -1.555556];
+ * uXMatch(x1, x2, UXCovBiased)=[0.925926, -0.925926, -1.444444, 1.962963, -0.518519];
+ * uXMatch(x1, x2, UXCovUnbiased)=[2.777778, -1.388889, -1.444444, 2.944444, -1.555556];
+ * uXMatch(x1, x2, UXCovCoeff)=[0.320513, -0.320513, -0.500000, 0.679487, -0.179487];
+ * uXMatch(x1, x2, indexes, UXCovCoeff)=[0.320513, -0.320513, -0.500000, 0.679487, -0.179487];
+ * @endcode
  */
 enum UXMatchMethod{UXCorrRaw, UXCorrBiased, UXCorrUnbiased, UXCorrCoeff, UXCovRaw, UXCovBiased, UXCovUnbiased, UXCovCoeff};
 
