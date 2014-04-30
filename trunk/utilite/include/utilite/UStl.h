@@ -386,6 +386,18 @@ inline bool uContains(const std::multimap<K, V> & map, const K & key)
 }
 
 /**
+ * Check if the set contains the specified key.
+ * @param set the set
+ * @param key the key
+ * @return true if the value is found in the set, otherwise false
+ */
+template<class K>
+inline bool uContains(const std::set<K> & set, const K & key)
+{
+	return set.find(key) != set.end();
+}
+
+/**
  * Insert an item in the map. Contrary to the insert in the STL,
  * if the key already exists, the value will be replaced by the new one.
  */

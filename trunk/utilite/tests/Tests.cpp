@@ -495,6 +495,7 @@ void Tests::testUtilStl()
 	std::vector<int> vector;
 	std::map<int,int> map;
 	std::multimap<int,int> multimap;
+	std::set<int> set;
 	int val;
 
 	//std::list<K> uniqueKeys(const std::multimap<K, V> & mm)
@@ -652,6 +653,12 @@ void Tests::testUtilStl()
 	CPPUNIT_ASSERT( uContains(multimap, 1) == false );
 	multimap.insert(std::pair<int,int>(1,10));
 	CPPUNIT_ASSERT( uContains(multimap, 1) == true );
+
+	//bool contains(const std::multimap<K, V> & map, const K & key)
+	set.clear();
+	CPPUNIT_ASSERT( uContains(set, 1) == false );
+	set.insert(1);
+	CPPUNIT_ASSERT( uContains(set, 1) == true );
 
 	//void uInsert(std::map<K, V> & map, const std::pair<K, V> & pair)
 	map.clear();
