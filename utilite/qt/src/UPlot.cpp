@@ -1746,7 +1746,7 @@ void UPlot::setupUi()
 	_sceneRoot = _view->scene()->addText("");
 	_sceneRoot->translate(0,0);
 	_graphicsViewHolder = new QWidget(this);
-	_graphicsViewHolder->setMinimumSize(100,100);
+	_graphicsViewHolder->setMinimumSize(50,50);
 	_graphicsViewHolder->setMouseTracking(true);
 	_verticalAxis = new UPlotAxis(Qt::Vertical, 0, 1, this);
 	_horizontalAxis = new UPlotAxis(Qt::Horizontal, 0, 1, this);
@@ -1792,10 +1792,14 @@ void UPlot::setupUi()
 
 void UPlot::createActions()
 {
-	_aShowLegend = new QAction(tr("Show legend"), this);
+	_aShowLegend = new QAction(tr("legend"), this);
 	_aShowLegend->setCheckable(true);
-	_aShowGrid = new QAction(tr("Show grid"), this);
+	_aShowGrid = new QAction(tr("grid"), this);
 	_aShowGrid->setCheckable(true);
+	_aShowVAxis = new QAction(tr("vertical axis"), this);
+	_aShowVAxis->setCheckable(true);
+	_aShowHAxis = new QAction(tr("horizontal axis"), this);
+	_aShowHAxis->setCheckable(true);
 	_aShowRefreshRate = new QAction(tr("Show refresh rate"), this);
 	_aShowRefreshRate->setCheckable(true);
 	_aMouseTracking = new QAction(tr("Mouse tracking"), this);
@@ -1847,9 +1851,12 @@ void UPlot::createActions()
 void UPlot::createMenus()
 {
 	_menu = new QMenu(tr("Plot"), this);
-	_menu->addAction(_aShowLegend);
-	_menu->addAction(_aShowGrid);
-	_menu->addAction(_aShowRefreshRate);
+	QMenu * showMenu = _menu->addMenu(tr("Show"));
+	showMenu->addAction(_aShowLegend);
+	showMenu->addAction(_aShowGrid);
+	showMenu->addAction(_aShowVAxis);
+	showMenu->addAction(_aShowHAxis);
+	showMenu->addAction(_aShowRefreshRate);
 	_menu->addAction(_aMouseTracking);
 	_menu->addAction(_aGraphicsView);
 	_menu->addAction(_aKeepAllData);
@@ -2458,6 +2465,14 @@ void UPlot::contextMenuEvent(QContextMenuEvent * event)
 	{
 		this->showGrid(_aShowGrid->isChecked());
 	}
+	else if(action == _aShowVAxis)
+	{
+		this->showVerticalAxis(_aShowVAxis->isChecked());
+	}
+	else if(action == _aShowHAxis)
+	{
+		this->showHorizontalAxis(_aShowHAxis->isChecked());
+	}
 	else if(action == _aShowRefreshRate)
 	{
 		this->showRefreshRate(_aShowRefreshRate->isChecked());
@@ -2790,6 +2805,37 @@ void UPlot::showLegend(bool shown)
 {
 	_legend->setVisible(shown);
 	_aShowLegend->setChecked(shown);
+	this->update();
+	if(_aGraphicsView->isChecked())
+	{
+		QTimer::singleShot(10, this, SLOT(updateAxis()));
+	}
+}
+
+void UPlot::showVerticalAxis(bool shown)
+{
+	_verticalAxis->setVisible(shown);
+	this->update();
+	if(_aGraphicsView->isChecked())
+	{
+		QTimer::singleShot(10, this, SLOT(updateAxis()));
+	}
+}
+
+void UPlot::showHorizontalAxis(bool shown)
+{
+	_horizontalAxis->setVisible(shown);
+	this->update();
+	if(_aGraphicsView->isChecked())
+	{
+		QTimer::singleShot(10, this, SLOT(updateAxis()));
+	}
+}
+
+void UPlot::showAxes(bool verticalAxisShown, bool horizontalAxisShown)
+{
+	_verticalAxis->setVisible(verticalAxisShown);
+	_horizontalAxis->setVisible(horizontalAxisShown);
 	this->update();
 	if(_aGraphicsView->isChecked())
 	{

@@ -506,6 +506,9 @@ public:
 	QString title() const {return this->objectName();}
 	QPen getRandomPenColored();
 	void showLegend(bool shown);
+	void showVerticalAxis(bool shown);
+	void showHorizontalAxis(bool shown);
+	void showAxes(bool verticalAxisShown, bool horizontalAxisShown);
 	void showGrid(bool shown);
 	void showRefreshRate(bool shown);
 	void trackMouse(bool tracking);
@@ -598,6 +601,8 @@ private:
 	QMenu * _menu;
 	QAction * _aShowLegend;
 	QAction * _aShowGrid;
+	QAction * _aShowVAxis;
+	QAction * _aShowHAxis;
 	QAction * _aKeepAllData;
 	QAction * _aLimit0;
 	QAction * _aLimit10;
