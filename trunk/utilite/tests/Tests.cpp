@@ -1055,6 +1055,19 @@ void Tests::testMathFunctions()
 	CPPUNIT_ASSERT(uLocalMaxima(maximaV4, 2).size() == 1);
 	CPPUNIT_ASSERT(uLocalMaxima(maximaV5, 1).size() == 1);
 	CPPUNIT_ASSERT(uLocalMaxima(maximaV6.data(), 0).size() == 0);
+
+	//std::vector<T> uIncrementedArray(const T & start, const T & increment, unsigned int count)
+	//std::vector<T> uInvertArray(const std::vector<T> & v)
+	std::vector<int> increment = uIncrementedArray(1, 2, 3);
+	int incrementResult[3] = {1, 3, 5};
+	CPPUNIT_ASSERT(increment[0] == incrementResult[0]);
+	CPPUNIT_ASSERT(increment[1] == incrementResult[1]);
+	CPPUNIT_ASSERT(increment[2] == incrementResult[2]);
+
+	std::vector<int> invert = uInvertArray(increment);
+	CPPUNIT_ASSERT(invert[0] == increment[2]);
+	CPPUNIT_ASSERT(invert[1] == increment[1]);
+	CPPUNIT_ASSERT(invert[2] == increment[0]);
 }
 
 void Tests::testTimer()

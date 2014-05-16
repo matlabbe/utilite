@@ -64,6 +64,40 @@ inline bool uIsFinite(const T & value)
 }
 
 /**
+ * Make an incremented array like [0 1 2 3 4 5 6] for start=0, increment=1 and count=7.
+ * @param start value to start with
+ * @param increment increment value
+ * @param count size of the array
+ * @return incremented array
+ */
+template<class T>
+inline std::vector<T> uIncrementedArray(const T & start, const T & increment, unsigned int count)
+{
+	std::vector<T> v(count);
+	for(unsigned int i=0; i<count; ++i)
+	{
+		v[i] = increment*(T)i + start;
+	}
+	return v;
+}
+
+/**
+ * Invert the array like [0 1 2]->[2 1 0].
+ * @param v input array
+ * @return the inverted array
+ */
+template<class T>
+inline std::vector<T> uInvertArray(const std::vector<T> & v)
+{
+	std::vector<T> out(v.size());
+	for(unsigned int i=0; i<v.size(); ++i)
+	{
+		out[i] = v[v.size()-1-i];
+	}
+	return out;
+}
+
+/**
  * Get the maximum of a vector.
  * @param v the array
  * @param size the size of the array
