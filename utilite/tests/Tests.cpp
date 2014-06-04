@@ -744,33 +744,33 @@ void Tests::testUtilStl()
 
 void Tests::testDirectory()
 {
-	//bool UDirectory::dirExists(const char * dirPath);
-	CPPUNIT_ASSERT( UDirectory::exists("bad/directory/") == false );
-	CPPUNIT_ASSERT( UDirectory::exists("./") == true );
+	//bool UDir::dirExists(const char * dirPath);
+	CPPUNIT_ASSERT( UDir::exists("bad/directory/") == false );
+	CPPUNIT_ASSERT( UDir::exists("./") == true );
 #if WIN32
-	CPPUNIT_ASSERT( UDirectory::exists(".\\") == true );
+	CPPUNIT_ASSERT( UDir::exists(".\\") == true );
 #endif
-	CPPUNIT_ASSERT( UDirectory::exists(UDirectory::currentDir().c_str()) == true );
+	CPPUNIT_ASSERT( UDir::exists(UDir::currentDir().c_str()) == true );
 
-	//std::string UDirectory::getDir(const char * filePath);
-	CPPUNIT_ASSERT( UDirectory::getDir("a/directory/file").compare("a/directory") == 0 );
+	//std::string UDir::getDir(const char * filePath);
+	CPPUNIT_ASSERT( UDir::getDir("a/directory/file").compare("a/directory") == 0 );
 #if WIN32
-	CPPUNIT_ASSERT(UDirectory::getDir("a\\directory\\file").compare("a\\directory") == 0 );
+	CPPUNIT_ASSERT(UDir::getDir("a\\directory\\file").compare("a\\directory") == 0 );
 #endif
-	CPPUNIT_ASSERT( UDirectory::getDir("file").compare(".") == 0 );
-	CPPUNIT_ASSERT( UDirectory::getDir("").compare(".") == 0 );
+	CPPUNIT_ASSERT( UDir::getDir("file").compare(".") == 0 );
+	CPPUNIT_ASSERT( UDir::getDir("").compare(".") == 0 );
 
-	//std::string UDirectory::currentDir(bool trailingSeparator = false);
+	//std::string UDir::currentDir(bool trailingSeparator = false);
 
-	//bool UDirectory::makeDir(const char * dirPath);
-	CPPUNIT_ASSERT( UDirectory::makeDir("./LogTestUtil/dummyDirectory") == true );
-	CPPUNIT_ASSERT( UDirectory::makeDir("./LogTestUtil/dummyDirectory") == false );
+	//bool UDir::makeDir(const char * dirPath);
+	CPPUNIT_ASSERT( UDir::makeDir("./LogTestUtil/dummyDirectory") == true );
+	CPPUNIT_ASSERT( UDir::makeDir("./LogTestUtil/dummyDirectory") == false );
 
-	//bool UDirectory::removeDir(const char * dirPath);
-	CPPUNIT_ASSERT( UDirectory::removeDir("./LogTestUtil/dummyDirectory") == true );
-	CPPUNIT_ASSERT( UDirectory::removeDir("./LogTestUtil/dummyDirectory") == false );
+	//bool UDir::removeDir(const char * dirPath);
+	CPPUNIT_ASSERT( UDir::removeDir("./LogTestUtil/dummyDirectory") == true );
+	CPPUNIT_ASSERT( UDir::removeDir("./LogTestUtil/dummyDirectory") == false );
 
-	UDirectory dir("./data", "x");
+	UDir dir("./data", "x");
 	std::vector<std::string> fileNames = uListToVector(uSplit("1.x 2.x 10.x 11.x 101.x", ' '));
 	unsigned int i=0;
 	CPPUNIT_ASSERT(dir.getFileNames().size() == 5);
@@ -807,13 +807,21 @@ void Tests::testFile()
 
 	//int UTIL_EXP renameFile(const std::string &oldFilePath, const std::string &newFilePath);
 
-	//std::string UFile::getName(const std::string & filePath);
+	//std::string UFile::getName(const std::string & filePath, bool withExtension);
 	CPPUNIT_ASSERT( UFile::getName("").compare("") == 0 );
 	CPPUNIT_ASSERT( UFile::getName("testFile").compare("testFile") == 0 );
 	CPPUNIT_ASSERT( UFile::getName("./LogTestUtil/testFile.txt").compare("testFile.txt") == 0 );
+	CPPUNIT_ASSERT( UFile::getName("./LogTestUtil/testFile.txt", false).compare("testFile") == 0 );
+	CPPUNIT_ASSERT( UFile::getName("./LogTestUtil/testFile.txt.png", false).compare("testFile.txt") == 0 );
 #ifdef WIN32
 	CPPUNIT_ASSERT( UFile::getName(".\\LogTestUtil\\testFile.txt").compare("testFile.txt") == 0 );
 #endif
+
+	//std::string UFile::getExtension(const std::string & filePath);
+	CPPUNIT_ASSERT( UFile::getExtension("").compare("") == 0 );
+	CPPUNIT_ASSERT( UFile::getExtension("testFile").compare("") == 0 );
+	CPPUNIT_ASSERT( UFile::getExtension("testFile.txt").compare("txt") == 0 );
+	CPPUNIT_ASSERT( UFile::getExtension("./testFile.txt.png").compare("png") == 0 );
 }
 
 // TODO : some tests needed...

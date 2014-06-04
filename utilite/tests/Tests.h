@@ -36,9 +36,9 @@ public:
 
   void setUp()
   {
-	  if(!UDirectory::exists("./LogTestUtil"))
+	  if(!UDir::exists("./LogTestUtil"))
 	  {
-		  UDirectory::makeDir("./LogTestUtil");
+		  UDir::makeDir("./LogTestUtil");
 	  }
 
 	  ULogger::reset();

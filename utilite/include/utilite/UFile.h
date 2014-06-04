@@ -64,11 +64,12 @@ public:
 						  const std::string &newFilePath);
 
 	/**
-	 * Get the file name from a file path (with extension).
+	 * Get the file name from a file path (with extension or not).
 	 * @param filePath the file path
+	 * @param withExtension return file name with extension if true
 	 * @return the file name.
 	 */
-	static std::string getName(const std::string & filePath);
+	static std::string getName(const std::string & filePath, bool withExtension = true);
 
 	/**
 	 * Get the file extension.
@@ -116,7 +117,7 @@ public:
 	int rename(const std::string &newName)
 	{
 		std::string ext = this->getExtension();
-		std::string newPath = UDirectory::getDir(path_) + std::string("/") + newName;
+		std::string newPath = UDir::getDir(path_) + std::string("/") + newName;
 		if(ext.size())
 		{
 			newPath += std::string(".") + getExtension(path_);

@@ -118,7 +118,7 @@ private:
 	// If the list of files in the directory is refreshed
 	// on each call of takeImage()
 	bool _refreshDir;
-	UDirectory _dir;
+	UDir _dir;
 	int _count;
 	std::string _lastFileName;
 
