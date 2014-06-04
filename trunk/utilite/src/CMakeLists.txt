@@ -4,7 +4,7 @@ SET(SRC_FILES
     UEventsHandler.cpp
     UEventsSender.cpp
     UFile.cpp
-    UDirectory.cpp
+    UDir.cpp
     UConversion.cpp
     ULogger.cpp
     UThread.cpp

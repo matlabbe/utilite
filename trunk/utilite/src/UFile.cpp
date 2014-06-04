@@ -66,7 +66,7 @@ int UFile::rename(const std::string &oldFilePath,
     return std::rename(oldFilePath.c_str(), newFilePath.c_str());
 }
 
-std::string UFile::getName(const std::string & filePath)
+std::string UFile::getName(const std::string & filePath, bool withExtension)
 {
 	std::string fullPath = filePath;
 	std::string name;
@@ -81,13 +81,30 @@ std::string UFile::getName(const std::string & filePath)
 			name.insert(name.begin(), fullPath[i]);
 		}
 	}
+	if(!withExtension)
+	{
+		std::vector<std::string> parts = uListToVector(uSplit(name, '.')); // only remove the last extension if many '.'
+		if(parts.size() > 1)
+		{
+			std::string tmp;
+			for(unsigned int i=0; i<parts.size()-1; ++i)
+			{
+				if(i>0)
+				{
+					tmp += ".";
+				}
+				tmp += parts[i];
+			}
+			name = tmp;
+		}
+	}
 	return name;
 }
 
 std::string UFile::getExtension(const std::string &filePath)
 {
 	std::list<std::string> list = uSplit(filePath, '.');
-	if(list.size())
+	if(list.size()>1)
 	{
 		return list.back();
 	}

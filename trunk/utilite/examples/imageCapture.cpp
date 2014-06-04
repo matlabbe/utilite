@@ -121,7 +121,7 @@ protected:
 					}
 					else if(save_)
 					{
-						UDirectory::makeDir(targetDir_);
+						UDir::makeDir(targetDir_);
 					}
 				}
 
@@ -283,7 +283,7 @@ int main(int argc, char * argv[])
 		capture = new UVideoCapture(usbDevice, imageRate, false, imageWidth, imageHeight);
 		printf("Using usb camera %d\n", usbDevice);
 	}
-	else if(UDirectory::exists(path))
+	else if(UDir::exists(path))
 	{
 		// images
 		capture = new UImageFolderCapture(path, 1, false, imageRate, false, imageWidth, imageHeight);

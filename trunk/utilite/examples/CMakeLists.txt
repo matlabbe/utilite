@@ -38,6 +38,8 @@ IF(TARGET utilite_cv)
 	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/cv/include ${ZLIB_INCLUDE_DIRS})
 	ADD_EXECUTABLE(example-colorIndexesGenerator colorIndexesGenerator.cpp)
 	TARGET_LINK_LIBRARIES(example-colorIndexesGenerator utilite utilite_cv ${OpenCV_LIBS} ${ZLIB_LIBRARIES})
+	ADD_EXECUTABLE(example-imagesJoiner imagesJoiner.cpp)
+	TARGET_LINK_LIBRARIES(example-imagesJoiner utilite ${OpenCV_LIBS})
 ENDIF(TARGET utilite_cv)
 
 IF(TARGET utilite_audio AND TARGET utilite_qt)

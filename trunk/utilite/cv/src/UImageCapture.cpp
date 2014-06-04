@@ -192,7 +192,7 @@ UImageFolderCapture::~UImageFolderCapture(void)
 bool UImageFolderCapture::init()
 {
 	UDEBUG("");
-	_dir = UDirectory(_path, "jpg ppm png bmp pnm");
+	_dir = UDir(_path, "jpg ppm png bmp pnm");
 	_count = 0;
 	if(_path[_path.size()-1] != '\\' && _path[_path.size()-1] != '/')
 	{

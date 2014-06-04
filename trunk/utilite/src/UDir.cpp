@@ -60,7 +60,7 @@ int sortCallback( const dirent ** a,  const dirent ** b)
 }
 #endif
 
-UDirectory::UDirectory(const std::string & path, const std::string & extensions)
+UDir::UDir(const std::string & path, const std::string & extensions)
 {
 	extensions_ = uListToVector(uSplit(extensions, ' '));
 	path_ = path;
@@ -68,12 +68,12 @@ UDirectory::UDirectory(const std::string & path, const std::string & extensions)
 	this->update();
 }
 
-UDirectory::UDirectory(const UDirectory & dir)
+UDir::UDir(const UDir & dir)
 {
 	*this = dir;
 }
 
-UDirectory & UDirectory::operator=(const UDirectory & dir)
+UDir & UDir::operator=(const UDir & dir)
 {
 	extensions_ = dir.extensions_;
 	path_ = dir.path_;
@@ -88,11 +88,11 @@ UDirectory & UDirectory::operator=(const UDirectory & dir)
 	return *this;
 }
 
-UDirectory::~UDirectory()
+UDir::~UDir()
 {
 }
 
-void UDirectory::setPath(const std::string & path, const std::string & extensions)
+void UDir::setPath(const std::string & path, const std::string & extensions)
 {
 	extensions_ = uListToVector(uSplit(extensions, ' '));
 	path_ = path;
@@ -101,7 +101,7 @@ void UDirectory::setPath(const std::string & path, const std::string & extension
 	this->update();
 }
 
-void UDirectory::update()
+void UDir::update()
 {
 	if(exists(path_))
 	{
@@ -213,12 +213,12 @@ void UDirectory::update()
 	}
 }
 
-bool UDirectory::isValid()
+bool UDir::isValid()
 {
 	return exists(path_);
 }
 
-std::string UDirectory::getNextFileName()
+std::string UDir::getNextFileName()
 {
 	std::string fileName;
 	if(iFileName_ != fileNames_.end())
@@ -229,13 +229,13 @@ std::string UDirectory::getNextFileName()
 	return fileName;
 }
 
-void UDirectory::rewind()
+void UDir::rewind()
 {
 	iFileName_ = fileNames_.begin();
 }
 
 
-bool UDirectory::exists(const std::string & dirPath)
+bool UDir::exists(const std::string & dirPath)
 {
 	bool r = false;
 #if WIN32
@@ -259,7 +259,7 @@ bool UDirectory::exists(const std::string & dirPath)
 }
 
 // return the directory path of the file
-std::string UDirectory::getDir(const std::string & filePath)
+std::string UDir::getDir(const std::string & filePath)
 {
 	std::string dir = filePath;
 	int i=dir.size()-1;
@@ -295,7 +295,7 @@ std::string UDirectory::getDir(const std::string & filePath)
 	return dir;
 }
 
-std::string UDirectory::currentDir(bool trailingSeparator)
+std::string UDir::currentDir(bool trailingSeparator)
 {
 	std::string dir;
 	char * buffer;
@@ -319,7 +319,7 @@ std::string UDirectory::currentDir(bool trailingSeparator)
 	return dir;
 }
 
-bool UDirectory::makeDir(const std::string & dirPath)
+bool UDir::makeDir(const std::string & dirPath)
 {
 	int status;
 #if WIN32
@@ -330,7 +330,7 @@ bool UDirectory::makeDir(const std::string & dirPath)
 	return status==0;
 }
 
-bool UDirectory::removeDir(const std::string & dirPath)
+bool UDir::removeDir(const std::string & dirPath)
 {
 	int status;
 #if WIN32
@@ -341,7 +341,7 @@ bool UDirectory::removeDir(const std::string & dirPath)
 	return status==0;
 }
 
-std::string UDirectory::homeDir()
+std::string UDir::homeDir()
 {
 	std::string path;
 #if WIN32
@@ -362,7 +362,7 @@ std::string UDirectory::homeDir()
 	return path;
 }
 
-std::string UDirectory::separator()
+std::string UDir::separator()
 {
 #ifdef WIN32
 	return "\\";

@@ -55,7 +55,7 @@ int main(int argc, char * argv[])
 		exit(0);
 	}
 
-	std::string targetDir = UDirectory::currentDir(); // By default, use the current directory
+	std::string targetDir = UDir::currentDir(); // By default, use the current directory
 	std::string nspace; // namespace
 
 	int k;
