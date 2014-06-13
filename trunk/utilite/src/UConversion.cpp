@@ -23,6 +23,10 @@
 #include <string.h>
 #include <stdio.h>
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 std::string uReplaceChar(const std::string & str, char before, char after)
 {
 	std::string result = str;
