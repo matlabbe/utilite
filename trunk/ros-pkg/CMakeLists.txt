@@ -93,6 +93,10 @@ add_executable(rgb2ind src/RGB2IndexedNode.cpp)
 add_dependencies(rgb2ind ${${PROJECT_NAME}_EXPORTED_TARGETS})
 target_link_libraries(rgb2ind ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
 
+add_executable(rgb2mono src/RGB2MonoNode.cpp)
+add_dependencies(rgb2mono ${${PROJECT_NAME}_EXPORTED_TARGETS})
+target_link_libraries(rgb2mono ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
+
 add_executable(xy2polar src/Cartesian2PolarNode.cpp)
 add_dependencies(xy2polar ${${PROJECT_NAME}_EXPORTED_TARGETS})
 target_link_libraries(xy2polar ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
