@@ -1,5 +1,6 @@
         
-INSTALL(DIRECTORY include/${PROJECT_NAME} 
-        DESTINATION include 
+INSTALL(DIRECTORY include/
+        DESTINATION "${INSTALL_INCLUDE_DIR}"
 		COMPONENT devel
-        FILES_MATCHING PATTERN "*.h" PATTERN ".svn" EXCLUDE)
+        FILES_MATCHING PATTERN "*.h" 
+        PATTERN ".svn" EXCLUDE)
