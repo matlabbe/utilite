@@ -9,7 +9,7 @@
 #include "utilite/AudioFrame.h"
 
 #include <dynamic_reconfigure/server.h>
-#include <utilite/audioSaveConfig.h>
+#include <utilite/AudioSaveConfig.h>
 
 #define FILE_NAME_PREFIX "audio_saved"
 bool encodeToMp3 = true;
@@ -40,7 +40,7 @@ void frameReceivedCallback(const utilite::AudioFramePtr & msg)
 	dataLength += fwrite(msg->data.data(), 1, msg->data.size(), fp);
 }
 
-void callback(utilite::audioSaveConfig &config, uint32_t level)
+void callback(utilite::AudioSaveConfig &config, uint32_t level)
 {
 	encodeToMp3 = config.encode_to_mp3;
 }
@@ -58,8 +58,8 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	dynamic_reconfigure::Server<utilite::audioSaveConfig> server;
-	dynamic_reconfigure::Server<utilite::audioSaveConfig>::CallbackType f;
+	dynamic_reconfigure::Server<utilite::AudioSaveConfig> server;
+	dynamic_reconfigure::Server<utilite::AudioSaveConfig>::CallbackType f;
 	f = boost::bind(&callback, _1, _2);
 	server.setCallback(f);
 

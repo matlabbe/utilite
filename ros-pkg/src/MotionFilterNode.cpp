@@ -9,13 +9,13 @@
 #include <signal.h>
 
 #include <dynamic_reconfigure/server.h>
-#include <utilite/motionFilterConfig.h>
+#include <utilite/MotionFilterConfig.h>
 
 image_transport::Publisher rosPublisher;
 cv::Mat previousImage;
 double ratio = 0.2;
 
-void callback(utilite::motionFilterConfig &config, uint32_t level)
+void callback(utilite::MotionFilterConfig &config, uint32_t level)
 {
 	ratio = config.ratio;
 }
@@ -77,8 +77,8 @@ int main(int argc, char * argv[])
 	image_transport::Subscriber image_sub = it.subscribe("image", 1, imgReceivedCallback);
 	rosPublisher = it.advertise("image_motion", 1);
 
-	dynamic_reconfigure::Server<utilite::motionFilterConfig> server;
-	dynamic_reconfigure::Server<utilite::motionFilterConfig>::CallbackType f;
+	dynamic_reconfigure::Server<utilite::MotionFilterConfig> server;
+	dynamic_reconfigure::Server<utilite::MotionFilterConfig>::CallbackType f;
 	f = boost::bind(&callback, _1, _2);
 	server.setCallback(f);
 
