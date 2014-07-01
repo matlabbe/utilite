@@ -86,23 +86,23 @@ include_directories(
 
 #image
 add_executable(ucamera src/CameraNode.cpp)
-add_dependencies(ucamera ${${PROJECT_NAME}_EXPORTED_TARGETS})
+add_dependencies(ucamera ${PROJECT_NAME}_gencfg)
 target_link_libraries(ucamera ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
 
 add_executable(rgb2ind src/RGB2IndexedNode.cpp)
-add_dependencies(rgb2ind ${${PROJECT_NAME}_EXPORTED_TARGETS})
+add_dependencies(rgb2ind ${PROJECT_NAME}_gencfg)
 target_link_libraries(rgb2ind ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
 
 add_executable(rgb2mono src/RGB2MonoNode.cpp)
-add_dependencies(rgb2mono ${${PROJECT_NAME}_EXPORTED_TARGETS})
+add_dependencies(rgb2mono ${PROJECT_NAME}_gencfg)
 target_link_libraries(rgb2mono ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
 
 add_executable(xy2polar src/Cartesian2PolarNode.cpp)
-add_dependencies(xy2polar ${${PROJECT_NAME}_EXPORTED_TARGETS})
+add_dependencies(xy2polar ${PROJECT_NAME}_gencfg)
 target_link_libraries(xy2polar ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
 
 add_executable(motion_filter src/MotionFilterNode.cpp)
-add_dependencies(motion_filter ${${PROJECT_NAME}_EXPORTED_TARGETS})
+add_dependencies(motion_filter ${PROJECT_NAME}_gencfg)
 target_link_libraries(motion_filter ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
 
 add_executable(canny_edge_detector src/CannyEdgeDetectorNode.cpp)

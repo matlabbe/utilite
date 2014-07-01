@@ -22,7 +22,7 @@
 #include <utilite/UFile.h>
 
 #include <dynamic_reconfigure/server.h>
-#include <utilite/cameraConfig.h>
+#include <utilite/CameraConfig.h>
 
 class CameraWrapper : public UEventsHandler
 {
@@ -261,7 +261,7 @@ private:
 };
 
 CameraWrapper * camera = 0;
-void callback(utilite::cameraConfig &config, uint32_t level)
+void callback(utilite::CameraConfig &config, uint32_t level)
 {
 	if(camera)
 	{
@@ -281,8 +281,8 @@ int main(int argc, char** argv)
 
 	camera = new CameraWrapper(); // webcam device 0
 
-	dynamic_reconfigure::Server<utilite::cameraConfig> server;
-	dynamic_reconfigure::Server<utilite::cameraConfig>::CallbackType f;
+	dynamic_reconfigure::Server<utilite::CameraConfig> server;
+	dynamic_reconfigure::Server<utilite::CameraConfig>::CallbackType f;
 	f = boost::bind(&callback, _1, _2);
 	server.setCallback(f);
 
