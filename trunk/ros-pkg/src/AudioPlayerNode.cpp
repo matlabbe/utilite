@@ -283,7 +283,7 @@ void frameReceivedCallback(const utilite::AudioFramePtr & msg)
 				if(g_plot->isVisible() && ((msg->data.size() / msg->nChannels) / msg->sampleSize) % PLOT_SAMPLING_RATIO != 0)
 				{
 					QMetaObject::invokeMethod(g_plot, "hide");
-					ROS_WARN("Frame length (%d) must be a multiple of %d to show audio plot...", ((msg->data.size() / msg->nChannels) / msg->sampleSize), PLOT_SAMPLING_RATIO);
+					ROS_WARN("Frame length (%d) must be a multiple of %d to show audio plot...", (int)((msg->data.size() / msg->nChannels) / msg->sampleSize), PLOT_SAMPLING_RATIO);
 				}
 				else if(g_curveReceiving && g_curvePlaying)
 				{

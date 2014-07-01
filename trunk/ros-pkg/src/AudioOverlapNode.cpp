@@ -69,7 +69,7 @@ private:
 		}
 		else if(msgReceived->data.size() != msgReceived->frameLength * msgReceived->nChannels * msgReceived->sampleSize)
 		{
-			ROS_ERROR("frame bytes size (%d) != specifications (frameLength=%d * nChannels=%d * sampleSize=%d)", msgReceived->data.size(), msgReceived->frameLength, msgReceived->nChannels, msgReceived->sampleSize);
+			ROS_ERROR("frame bytes size (%d) != specifications (frameLength=%d * nChannels=%d * sampleSize=%d)", (int)msgReceived->data.size(), msgReceived->frameLength, msgReceived->nChannels, msgReceived->sampleSize);
 			return;
 		}
 
@@ -103,7 +103,7 @@ private:
 
 			// this should initialize FFTW stuff (to use Micro::computeFFT()) and
 			// no need to call micro_->init()
-			ROS_INFO("buffer.frame.size()=%d, frameLength = %d",buffer.frame.size(), buffer.frame.size() / (msgReceived->nChannels * msgReceived->sampleSize));
+			ROS_INFO("buffer.frame.size()=%d, frameLength = %d", (int)buffer.frame.size(), (int)buffer.frame.size() / (msgReceived->nChannels * msgReceived->sampleSize));
 			micro_ = new UAudioCaptureFFT(
 				UAudioEvent::kTypeFrame,
 				0, msgReceived->fs,
