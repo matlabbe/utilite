@@ -121,6 +121,7 @@ add_dependencies(save utilite_generate_messages_cpp)
 target_link_libraries(save ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
 
 add_executable(overlap src/AudioOverlapNode.cpp)
+add_dependencies(overlap utilite_generate_messages_cpp)
 target_link_libraries(overlap ${catkin_LIBRARIES} ${UtiLite_LIBRARIES})
 
 add_executable(player src/AudioPlayerNode.cpp)

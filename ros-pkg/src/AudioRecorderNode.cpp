@@ -320,7 +320,7 @@ int main(int argc, char** argv)
 		ROS_INFO("path = %s", path.c_str());
 		UDirectory dir(path, "wav mp3");
 		const std::list<std::string> & fileNames = dir.getFileNames();
-		ROS_INFO("files = %d", fileNames.size());
+		ROS_INFO("files = %d", (int)fileNames.size());
 		filePaths.resize(fileNames.size());
 		std::list<std::string>::const_iterator iter = fileNames.begin();
 		for(unsigned int i=0; i<filePaths.size(); ++i, ++iter)
