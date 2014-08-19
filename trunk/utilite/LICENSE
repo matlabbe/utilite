@@ -1,4 +1,3 @@
-/*
 Copyright (c) 2008-2014, Mathieu Labbe
 All rights reserved.
 
@@ -23,51 +22,3 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
-
-#ifndef SIMPLESTATETHREAD_H
-#define SIMPLESTATETHREAD_H
-
-#include "utilite/UThread.h"
-
-#include <string>
-
-class SimpleStateThread : public UThread
-{
-public:
-	SimpleStateThread(bool killItself = false) : _killItself(killItself) {}
-    virtual ~SimpleStateThread() {join(true);}
-
-protected:
-
-private:
-    virtual void mainLoop()
-    {
-    	if(_killItself)
-    	{
-    		doSomeWork();
-    		kill();
-    	}
-    	else
-    	{
-    		doSomeWork();
-    	}
-    }
-
-    void doSomeWork() const
-    {
-    	//play with dynamic memory
-    	float * array = new float[8820];
-    	uSleep(10);
-    	for(int i=0; i<8820; ++i)
-    	{
-    		array[i] = 0;
-    	}
-    	delete array;
-    }
-
-private:
-    bool _killItself;
-};
-
-#endif
