@@ -1,3 +1,30 @@
+/*
+Copyright (c) 2008-2014, Mathieu Labbe
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the
+      names of its contributors may be used to endorse or promote products
+      derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
 #include "UAudioSystem.h"
 #include <utilite/ULogger.h>
 
@@ -60,7 +87,7 @@ UAudioSystem::~UAudioSystem()
 {
     UDEBUG("");
     // Probleme ici lorsque l'application termine, _fmodSystem->close() plante...
-    // Appeler à la place System::release() dans le main
+    // Appeler ï¿½ la place System::release() dans le main
     if(_fmodSystem)
     {
     	UERROR("The audio system should already be released here (using UAudioSystem::release())...");
@@ -93,7 +120,7 @@ void UAudioSystem::init()
     //TODO : faire un check de version de FMOD
     unsigned int version;
     result = FMOD_System_GetVersion(_fmodSystem, &version);        UASSERT_MSG(result==FMOD_OK, FMOD_ErrorString(result));
-    if (version < FMOD_VERSION)    //Vérification de la version de la librairie FMOD du systmème
+    if (version < FMOD_VERSION)    //Vï¿½rification de la version de la librairie FMOD du systmï¿½me
     {
         UFATAL("Erreur!  Vous utilisez une vieille version de FMOD %08x.  Ce programme requiere la version %08x", version, FMOD_VERSION);
     }
