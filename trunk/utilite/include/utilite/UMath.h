@@ -916,4 +916,17 @@ inline std::vector<float> uHamming(unsigned int L)
 	return w;
 }
 
+/**
+ * Check if a value is in a defined range.
+ * @param value the value
+ * @param low lowest bound
+ * @param high highest bound
+ * @return true if the value is in the range [low <= value <= high], otherwise false.
+ */
+template <typename T>
+bool uIsInBounds(const T& value, const T& low, const T& high)
+{
+	return !(value < low) && !(value > high);
+}
+
 #endif // UMATH_H

@@ -1103,6 +1103,13 @@ void Tests::testMathFunctions()
 	CPPUNIT_ASSERT(invert[0] == increment[2]);
 	CPPUNIT_ASSERT(invert[1] == increment[1]);
 	CPPUNIT_ASSERT(invert[2] == increment[0]);
+
+	//bool uIsInBounds(const T& value, const T& low, const T& high)
+	CPPUNIT_ASSERT(uIsInBounds(1, 0, 2));
+	CPPUNIT_ASSERT(uIsInBounds(0, 0, 2));
+	CPPUNIT_ASSERT(uIsInBounds(2, 0, 2));
+	CPPUNIT_ASSERT(!uIsInBounds(-1, 0, 2));
+	CPPUNIT_ASSERT(!uIsInBounds(3, 0, 2));
 }
 
 void Tests::testTimer()
