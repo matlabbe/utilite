@@ -767,6 +767,12 @@ void Tests::testUtilStl()
 
 	// int uStrNumCmp(const std::string & a, const std::string & b)
 	CPPUNIT_ASSERT(uStrNumCmp("Image9.jpg", "Image10.jpg") == -1);
+
+	//bool uStrContains(const std::string & string, const std::string & substring)
+	CPPUNIT_ASSERT(uStrContains("hello_world", "hello"));
+	CPPUNIT_ASSERT(uStrContains("hello_world", "world"));
+	CPPUNIT_ASSERT(!uStrContains("hello_world", "alpha"));
+	CPPUNIT_ASSERT(!uStrContains("hello_world", "hello_world2"));
 }
 
 void Tests::testDirectory()
