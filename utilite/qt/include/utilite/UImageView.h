@@ -33,15 +33,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <QtGui/QWidget>
 #include <QtGui/QPainter>
-#include <QtGui/QMenu>
-#include <QtGui/QAction>
-#include <QtGui/QContextMenuEvent>
 #include <QtGui/QFileDialog>
+#include <QtGui/QMouseEvent>
 #include <QtCore/QDir>
+#include <QtCore/QDateTime>
 
 /**
  * UImageView is a QWidget to show an image, which
- * scales automatically when resizing the widget.
+ * scales automatically when resizing the widget. Save the
+ * image on right-click.
  *
  * @see setImage()
  *
@@ -50,7 +50,9 @@ class UTILITEQT_EXP UImageView : public QWidget
 {
 	Q_OBJECT;
 public:
-	UImageView(QWidget * parent = 0) : QWidget(parent) {}
+	UImageView(QWidget * parent = 0) :
+		QWidget(parent)
+	{}
 	~UImageView() {}
 	void setBackgroundBrush(const QBrush & brush) {brush_ = brush;}
 
@@ -127,21 +129,13 @@ protected:
 		}
 	}
 
-	void contextMenuEvent(QContextMenuEvent * e)
+	void mousePressEvent(QMouseEvent * e)
 	{
-		QMenu menu;
-		QAction * save = menu.addAction("Save image...");
-		save->setEnabled(!pixmap_.isNull());
-		QAction * action = menu.exec(e->globalPos());
-		if(action == save)
+		if(e->button() == Qt::RightButton)
 		{
-			QPixmap pixmap = pixmap_;
-			QString text;
-			text = QFileDialog::getSaveFileName(this, tr("Save figure to ..."), QDir::homePath() + QString("/image.png"), "*.png *.xpm *.jpg *.pdf");
-			if(!text.isEmpty())
-			{
-				pixmap.save(text);
-			}
+			QString name = (QDateTime::currentDateTime().toString("yyMMddhhmmsszzz") + ".png");
+			pixmap_.save(name);
+			printf("Saved screenshot \"%s\"\n", name.toStdString().c_str());
 		}
 	}
 
