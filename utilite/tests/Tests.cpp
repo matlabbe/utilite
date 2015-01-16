@@ -1078,6 +1078,11 @@ void Tests::testMathFunctions()
 	vF[3]=0.0f;
 	//inline float uNorm(const std::vector<float> & v)
 	CPPUNIT_ASSERT(uNorm(vF) == 5.0f);
+	CPPUNIT_ASSERT(uNormSquared(vF) == 25.0f);
+	CPPUNIT_ASSERT(uNorm(vF[0], vF[1]) == 5.0f);
+	CPPUNIT_ASSERT(uNormSquared(vF[0], vF[1]) == 25.0f);
+	CPPUNIT_ASSERT(uNorm(vF[0], vF[1], vF[2]) == 5.0f);
+	CPPUNIT_ASSERT(uNormSquared(vF[0], vF[1], vF[2]) == 25.0f);
 	//inline std::vector<float> uNormalize(const std::vector<float> & v)
 	vF = uNormalize(vF);
 	float rf = uNorm(vF);
