@@ -124,6 +124,12 @@ public:
 	std::string getNextFileName();
 
 	/**
+	 * Get the next file path.
+	 * @return the next file path
+	 */
+	std::string getNextFilePath();
+
+	/**
 	 * Get all file names.
 	 * @see UDir()
 	 * @return all the file names in directory matching the set extensions.
