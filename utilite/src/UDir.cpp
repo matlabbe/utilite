@@ -237,6 +237,17 @@ std::string UDir::getNextFileName()
 	return fileName;
 }
 
+std::string UDir::getNextFilePath()
+{
+	std::string filePath;
+	if(iFileName_ != fileNames_.end())
+	{
+		filePath = path_+separator()+*iFileName_;
+		++iFileName_;
+	}
+	return filePath;
+}
+
 void UDir::rewind()
 {
 	iFileName_ = fileNames_.begin();
