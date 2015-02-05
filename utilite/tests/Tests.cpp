@@ -510,6 +510,21 @@ void Tests::testConversion()
 	CPPUNIT_ASSERT( hex == 0x0f );
 	hex = uAscii2Hex('Z');
 	CPPUNIT_ASSERT( hex == 0x00 );
+
+	//uStr2Float/uStr2Double
+	std::string sA("1.5");
+	std::string sB("1,5");
+	std::string sC("1.1e-1");
+	std::string sD("1,1e-1");
+	CPPUNIT_ASSERT(uStr2Float(sA) == 1.5f);
+	CPPUNIT_ASSERT(uStr2Float(sB) == 1.5f);
+	CPPUNIT_ASSERT(uStr2Float(sC) == 0.11f);
+	CPPUNIT_ASSERT(uStr2Float(sD) == 0.11f);
+	CPPUNIT_ASSERT(uStr2Double(sA) == 1.5);
+	CPPUNIT_ASSERT(uStr2Double(sB) == 1.5);
+	CPPUNIT_ASSERT(uStr2Double(sC) == 0.11);
+	CPPUNIT_ASSERT(uStr2Double(sD) == 0.11);
+
 }
 
 void Tests::testUtilStl()

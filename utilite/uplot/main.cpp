@@ -26,6 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "utilite/UPlot.h"
+#include "utilite/UConversion.h"
 
 #include <QtGui/QApplication>
 #include <QtCore/QString>
@@ -96,7 +97,7 @@ int main(int argc, char * argv[])
 			++currentArg;
 			if(currentArg < argc)
 			{
-				width = std::atof(argv[currentArg]);
+				width = uStr2Float(argv[currentArg]);
 				if(width < 0)
 				{
 					showUsage();
@@ -113,7 +114,7 @@ int main(int argc, char * argv[])
 			++currentArg;
 			if(currentArg < argc)
 			{
-				height = std::atof(argv[currentArg]);
+				height = uStr2Float(argv[currentArg]);
 				if(height < 0)
 				{
 					showUsage();
