@@ -233,7 +233,7 @@ int main(int argc, char * argv[])
 		}
 		else if(strcmp(argv[i], "-fps") == 0 && i+1<argc)
 		{
-			imageRate = std::atof(argv[i+1]);
+			imageRate = uStr2Float(argv[i+1]);
 			if(imageRate < 0)
 			{
 				showUsage();
