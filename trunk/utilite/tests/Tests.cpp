@@ -413,9 +413,22 @@ void Tests::testConversion()
 	CPPUNIT_ASSERT( uToLowerCase("").compare("") == 0 );
 	CPPUNIT_ASSERT( uToLowerCase("Hello World!").compare("hello world!") == 0 );
 
+	//std::string number2str(const char & number)
+	string = uNumber2Str((char)-10);
+	CPPUNIT_ASSERT( string.compare("-10") == 0 );
+	string = uNumber2Str((char)10);
+	CPPUNIT_ASSERT( string.compare("10") == 0 );
+
+	//std::string number2str(const short & number)
+	string = uNumber2Str((short)-10);
+	CPPUNIT_ASSERT( string.compare("-10") == 0 );
+	string = uNumber2Str((short)10);
+	CPPUNIT_ASSERT( string.compare("10") == 0 );
+
+
 	//std::string number2str(const int & number)
-	string = uNumber2Str(0);
-	CPPUNIT_ASSERT( string.compare("0") == 0 );
+	string = uNumber2Str(-10);
+	CPPUNIT_ASSERT( string.compare("-10") == 0 );
 	string = uNumber2Str(10);
 	CPPUNIT_ASSERT( string.compare("10") == 0 );
 
@@ -1173,114 +1186,538 @@ void Tests::testTimer()
 void Tests::testVariant()
 {
 	UVariant v;
-	CPPUNIT_ASSERT(v.toChar() == 0);
-	CPPUNIT_ASSERT(v.toUChar() == 0);
-	CPPUNIT_ASSERT(v.toShort() == 0);
-	CPPUNIT_ASSERT(v.toUShort() == 0);
-	CPPUNIT_ASSERT(v.toInt() == 0);
-	CPPUNIT_ASSERT(v.toUInt() == 0);
-	CPPUNIT_ASSERT(v.toFloat() == 0);
-	CPPUNIT_ASSERT(v.toDouble() == 0);
-	CPPUNIT_ASSERT(v.toStr().size() == 0);
+	bool ok = false;
+	CPPUNIT_ASSERT(v.type() == UVariant::kUndef);
+	CPPUNIT_ASSERT(v.toBool() == false);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).size() == 0 && !ok);
 
-	v = UVariant((char)-5);
-	CPPUNIT_ASSERT(v.toChar() == -5);
-	CPPUNIT_ASSERT(v.toUChar() == 0);
-	CPPUNIT_ASSERT(v.toShort() == 0);
-	CPPUNIT_ASSERT(v.toUShort() == 0);
-	CPPUNIT_ASSERT(v.toInt() == 0);
-	CPPUNIT_ASSERT(v.toUInt() == 0);
-	CPPUNIT_ASSERT(v.toFloat() == 0);
-	CPPUNIT_ASSERT(v.toDouble() == 0);
-	CPPUNIT_ASSERT(v.toStr().size() == 0);
+	//bool
+	v = UVariant(true);
+	CPPUNIT_ASSERT(v.type() == UVariant::kBool);
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare("true") == 0 && ok);
 
-	v = UVariant((unsigned char)5);
-	CPPUNIT_ASSERT(v.toChar() == 0);
-	CPPUNIT_ASSERT(v.toUChar() == 5);
-	CPPUNIT_ASSERT(v.toShort() == 0);
-	CPPUNIT_ASSERT(v.toUShort() == 0);
-	CPPUNIT_ASSERT(v.toInt() == 0);
-	CPPUNIT_ASSERT(v.toUInt() == 0);
-	CPPUNIT_ASSERT(v.toFloat() == 0);
-	CPPUNIT_ASSERT(v.toDouble() == 0);
-	CPPUNIT_ASSERT(v.toStr().size() == 0);
+	v = UVariant(false);
+	CPPUNIT_ASSERT(v.toBool() == false);
+	CPPUNIT_ASSERT(v.type() == UVariant::kBool);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare("false") == 0 && ok);
 
-	v = UVariant((short)-5);
-	CPPUNIT_ASSERT(v.toChar() == 0);
-	CPPUNIT_ASSERT(v.toUChar() == 0);
-	CPPUNIT_ASSERT(v.toShort() == -5);
-	CPPUNIT_ASSERT(v.toUShort() == 0);
-	CPPUNIT_ASSERT(v.toInt() == 0);
-	CPPUNIT_ASSERT(v.toUInt() == 0);
-	CPPUNIT_ASSERT(v.toFloat() == 0);
-	CPPUNIT_ASSERT(v.toDouble() == 0);
-	CPPUNIT_ASSERT(v.toStr().size() == 0);
+	// char
+	v = UVariant((char)0);
+	CPPUNIT_ASSERT(v.toBool() == false);
+	CPPUNIT_ASSERT(v.type() == UVariant::kChar);
 
-	v = UVariant((unsigned short)5);
-	CPPUNIT_ASSERT(v.toChar() == 0);
-	CPPUNIT_ASSERT(v.toUChar() == 0);
-	CPPUNIT_ASSERT(v.toShort() == 0);
-	CPPUNIT_ASSERT(v.toUShort() == 5);
-	CPPUNIT_ASSERT(v.toInt() == 0);
-	CPPUNIT_ASSERT(v.toUInt() == 0);
-	CPPUNIT_ASSERT(v.toFloat() == 0);
-	CPPUNIT_ASSERT(v.toDouble() == 0);
-	CPPUNIT_ASSERT(v.toStr().size() == 0);
+	v = UVariant('z');
+	CPPUNIT_ASSERT(v.toChar(&ok) == 'z' && ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare("z") == 0 && ok);
 
-	v = UVariant((int)-5);
-	CPPUNIT_ASSERT(v.toChar() == 0);
-	CPPUNIT_ASSERT(v.toUChar() == 0);
-	CPPUNIT_ASSERT(v.toShort() == 0);
-	CPPUNIT_ASSERT(v.toUShort() == 0);
-	CPPUNIT_ASSERT(v.toInt() == -5);
-	CPPUNIT_ASSERT(v.toUInt() == 0);
-	CPPUNIT_ASSERT(v.toFloat() == 0);
-	CPPUNIT_ASSERT(v.toDouble() == 0);
-	CPPUNIT_ASSERT(v.toStr().size() == 0);
+	v = UVariant((char)std::numeric_limits<char>::min());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == std::numeric_limits<char>::min() && ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<char>::min() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<char>::min() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).size() == 1 && ok);
 
-	v = UVariant((unsigned int)5);
-	CPPUNIT_ASSERT(v.toChar() == 0);
-	CPPUNIT_ASSERT(v.toUChar() == 0);
-	CPPUNIT_ASSERT(v.toShort() == 0);
-	CPPUNIT_ASSERT(v.toUShort() == 0);
-	CPPUNIT_ASSERT(v.toInt() == 0);
-	CPPUNIT_ASSERT(v.toUInt() == 5);
-	CPPUNIT_ASSERT(v.toFloat() == 0);
-	CPPUNIT_ASSERT(v.toDouble() == 0);
-	CPPUNIT_ASSERT(v.toStr().size() == 0);
+	v = UVariant((char)std::numeric_limits<char>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).size() == 1 && ok);
 
-	v = UVariant(5.555f);
-	CPPUNIT_ASSERT(v.toChar() == 0);
-	CPPUNIT_ASSERT(v.toUChar() == 0);
-	CPPUNIT_ASSERT(v.toShort() == 0);
-	CPPUNIT_ASSERT(v.toUShort() == 0);
-	CPPUNIT_ASSERT(v.toInt() == 0);
-	CPPUNIT_ASSERT(v.toUInt() == 0);
-	CPPUNIT_ASSERT(v.toFloat() == 5.555f);
-	CPPUNIT_ASSERT(v.toDouble() == 0);
-	CPPUNIT_ASSERT(v.toStr().size() == 0);
+	// unsigned char
+	v = UVariant((unsigned char)0);
+	CPPUNIT_ASSERT(v.toBool() == false);
+	CPPUNIT_ASSERT(v.type() == UVariant::kUChar);
 
-	v = UVariant(5.555);
-	CPPUNIT_ASSERT(v.toChar() == 0);
-	CPPUNIT_ASSERT(v.toUChar() == 0);
-	CPPUNIT_ASSERT(v.toShort() == 0);
-	CPPUNIT_ASSERT(v.toUShort() == 0);
-	CPPUNIT_ASSERT(v.toInt() == 0);
-	CPPUNIT_ASSERT(v.toUInt() == 0);
-	CPPUNIT_ASSERT(v.toFloat() == 0);
-	CPPUNIT_ASSERT(v.toDouble() == 5.555);
-	CPPUNIT_ASSERT(v.toStr().size() == 0);
+	v = UVariant((unsigned char)std::numeric_limits<char>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<char>::max())) == 0 && ok);
 
+	v = UVariant((unsigned char)std::numeric_limits<unsigned char>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<unsigned char>::max())) == 0 && ok);
+
+	// short
+	v = UVariant((short)0);
+	CPPUNIT_ASSERT(v.toShort() == false);
+	CPPUNIT_ASSERT(v.type() == UVariant::kShort);
+
+	v = UVariant((short)std::numeric_limits<char>::min());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == std::numeric_limits<char>::min() && ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<char>::min() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<char>::min() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<char>::min())) == 0 && ok);
+
+	v = UVariant((short)std::numeric_limits<char>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<char>::max())) == 0 && ok);
+
+	v = UVariant((short)std::numeric_limits<unsigned char>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<unsigned char>::max())) == 0 && ok);
+
+	v = UVariant((short)std::numeric_limits<short>::min());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<short>::min() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<short>::min() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<short>::min())) == 0 && ok);
+
+	v = UVariant((short)std::numeric_limits<short>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<short>::max())) == 0 && ok);
+
+	// unsigned short
+	v = UVariant((unsigned short)0);
+	CPPUNIT_ASSERT(v.toBool() == false);
+	CPPUNIT_ASSERT(v.type() == UVariant::kUShort);
+
+	v = UVariant((unsigned short)std::numeric_limits<char>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<char>::max())) == 0 && ok);
+
+	v = UVariant((unsigned short)std::numeric_limits<unsigned char>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<unsigned char>::max())) == 0 && ok);
+
+	v = UVariant((unsigned short)std::numeric_limits<short>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<short>::max())) == 0 && ok);
+
+	v = UVariant((unsigned short)std::numeric_limits<unsigned short>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<unsigned short>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<unsigned short>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<unsigned short>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<unsigned short>::max())) == 0 && ok);
+
+	// int
+	v = UVariant((int)0);
+	CPPUNIT_ASSERT(v.toBool() == false);
+	CPPUNIT_ASSERT(v.type() == UVariant::kInt);
+
+	v = UVariant((int)std::numeric_limits<char>::min());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == std::numeric_limits<char>::min() && ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<char>::min() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<char>::min() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<char>::min())) == 0 && ok);
+
+	v = UVariant((int)std::numeric_limits<char>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<char>::max())) == 0 && ok);
+
+	v = UVariant((int)std::numeric_limits<unsigned char>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<unsigned char>::max())) == 0 && ok);
+
+	v = UVariant((int)std::numeric_limits<short>::min());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<short>::min() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<short>::min() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<short>::min())) == 0 && ok);
+
+	v = UVariant((int)std::numeric_limits<short>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<short>::max())) == 0 && ok);
+
+	v = UVariant((int)std::numeric_limits<unsigned short>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<unsigned short>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<unsigned short>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<unsigned short>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<unsigned short>::max())) == 0 && ok);
+
+	v = UVariant((int)std::numeric_limits<int>::min());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<int>::min() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<int>::min())) == 0 && ok);
+
+	v = UVariant((int)std::numeric_limits<int>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<int>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<int>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<int>::max())) == 0 && ok);
+
+	// unsigned int
+	v = UVariant((unsigned int)0);
+	CPPUNIT_ASSERT(v.toBool() == false);
+	CPPUNIT_ASSERT(v.type() == UVariant::kUInt);
+
+	v = UVariant((unsigned int)std::numeric_limits<char>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<char>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<char>::max())) == 0 && ok);
+
+	v = UVariant((unsigned int)std::numeric_limits<unsigned char>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<unsigned char>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<unsigned char>::max())) == 0 && ok);
+
+	v = UVariant((unsigned int)std::numeric_limits<short>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<short>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<short>::max())) == 0 && ok);
+
+	v = UVariant((unsigned int)std::numeric_limits<unsigned short>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == std::numeric_limits<unsigned short>::max() && ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<unsigned short>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<unsigned short>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<unsigned short>::max())) == 0 && ok);
+
+	v = UVariant((unsigned int)std::numeric_limits<int>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == std::numeric_limits<int>::max() && ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<int>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<int>::max())) == 0 && ok);
+
+	v = UVariant((unsigned int)std::numeric_limits<unsigned int>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == std::numeric_limits<unsigned int>::max() && ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<unsigned int>::max())) == 0 && ok);
+
+	//float
+	v = UVariant(0.0f);
+	CPPUNIT_ASSERT(v.toBool() == false);
+	CPPUNIT_ASSERT(v.type() == UVariant::kFloat);
+
+	v = UVariant((float)std::numeric_limits<float>::min());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == std::numeric_limits<float>::min() && ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == std::numeric_limits<float>::min() && ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<float>::min())) == 0 && ok);
+
+	v = UVariant((float)std::numeric_limits<float>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == std::numeric_limits<float>::max() && ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == std::numeric_limits<float>::max() && ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<float>::max())) == 0 && ok);
+
+	//double
+	v = UVariant(0.0);
+	CPPUNIT_ASSERT(v.toBool() == false);
+	CPPUNIT_ASSERT(v.type() == UVariant::kDouble);
+
+	v = UVariant((double)std::numeric_limits<float>::min());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == std::numeric_limits<float>::min() && ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == std::numeric_limits<float>::min() && ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<float>::min())) == 0 && ok);
+
+	v = UVariant((double)std::numeric_limits<float>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == std::numeric_limits<float>::max() && ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == std::numeric_limits<float>::max() && ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<float>::max())) == 0 && ok);
+
+	v = UVariant((double)std::numeric_limits<double>::min());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == std::numeric_limits<double>::min() && ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<double>::min())) == 0 && ok);
+
+	v = UVariant((double)std::numeric_limits<double>::max());
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == std::numeric_limits<double>::max() && ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare(uNumber2Str(std::numeric_limits<double>::max())) == 0 && ok);
+
+	// string
 	v = UVariant("5");
-	CPPUNIT_ASSERT(v.toChar() == 0);
-	CPPUNIT_ASSERT(v.toUChar() == 0);
-	CPPUNIT_ASSERT(v.toShort() == 0);
-	CPPUNIT_ASSERT(v.toUShort() == 0);
-	CPPUNIT_ASSERT(v.toInt() == 0);
-	CPPUNIT_ASSERT(v.toUInt() == 0);
-	CPPUNIT_ASSERT(v.toFloat() == 0);
-	CPPUNIT_ASSERT(v.toDouble() == 0);
-	CPPUNIT_ASSERT(v.toStr().compare("5") == 0);
+	CPPUNIT_ASSERT(v.type() == UVariant::kStr);
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare("5") == 0 && ok);
+
+	v = UVariant("");
+	CPPUNIT_ASSERT(v.type() == UVariant::kStr);
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare("") == 0 && ok);
+
+	v = UVariant("false");
+	CPPUNIT_ASSERT(v.type() == UVariant::kStr);
+	CPPUNIT_ASSERT(v.toBool() == false);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare("false") == 0 && ok);
+
+	v = UVariant("true");
+	CPPUNIT_ASSERT(v.type() == UVariant::kStr);
+	CPPUNIT_ASSERT(v.toBool() == true);
+	CPPUNIT_ASSERT(v.toChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUChar(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUShort(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toUInt(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toFloat(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toDouble(&ok) == 0 && !ok);
+	CPPUNIT_ASSERT(v.toStr(&ok).compare("true") == 0 && ok);
 }
 
 void Tests::testObjDeletionThread()

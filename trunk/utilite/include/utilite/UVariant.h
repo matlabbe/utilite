@@ -31,6 +31,7 @@ class UTILITE_EXP UVariant
 {
 public:
 	enum Type{
+		kBool,
 		kChar,
 		kUChar,
 		kShort,
@@ -44,6 +45,7 @@ public:
 		};
 public:
 	UVariant();
+	UVariant(const bool & value);
 	UVariant(const char & value);
 	UVariant(const unsigned char & value);
 	UVariant(const short & value);
@@ -52,19 +54,21 @@ public:
 	UVariant(const unsigned int & value);
 	UVariant(const float & value);
 	UVariant(const double & value);
+	UVariant(const char * value);
 	UVariant(const std::string & value);
 
 	Type type() const {return type_;}
 
-	char toChar() const;
-	unsigned char toUChar() const;
-	short toShort() const;
-	unsigned short toUShort() const;
-	int toInt() const;
-	unsigned int toUInt() const;
-	float toFloat() const;
-	double toDouble() const;
-	std::string toStr() const;
+	bool toBool() const;
+	char toChar(bool * ok = 0) const;
+	unsigned char toUChar(bool * ok = 0) const;
+	short toShort(bool * ok = 0) const;
+	unsigned short toUShort(bool * ok = 0) const;
+	int toInt(bool * ok = 0) const;
+	unsigned int toUInt(bool * ok = 0) const;
+	float toFloat(bool * ok = 0) const;
+	double toDouble(bool * ok = 0) const;
+	std::string toStr(bool * ok = 0) const;
 
 	virtual ~UVariant() {}
 

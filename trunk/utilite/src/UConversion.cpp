@@ -93,6 +93,26 @@ std::string uToLowerCase(const std::string & str)
 	return result;
 }
 
+std::string uNumber2Str(char number)
+{
+	return uNumber2Str((int)number);
+}
+
+std::string uNumber2Str(unsigned char number)
+{
+	return uNumber2Str((unsigned int)number);
+}
+
+std::string uNumber2Str(short number)
+{
+	return uNumber2Str((int)number);
+}
+
+std::string uNumber2Str(unsigned short number)
+{
+	return uNumber2Str((unsigned int)number);
+}
+
 std::string uNumber2Str(unsigned int number)
 {
 	std::stringstream s;
