@@ -101,6 +101,34 @@ std::string UTILITE_EXP uToUpperCase(const std::string & str);
 std::string UTILITE_EXP uToLowerCase(const std::string & str);
 
 /**
+ * Convert a number (char) to a string.
+ * @param number the number to convert in a string
+ * @return the string
+ */
+std::string UTILITE_EXP uNumber2Str(char number);
+
+/**
+ * Convert a number (unsigned char) to a string.
+ * @param number the number to convert in a string
+ * @return the string
+ */
+std::string UTILITE_EXP uNumber2Str(unsigned char number);
+
+/**
+ * Convert a number (short int) to a string.
+ * @param number the number to convert in a string
+ * @return the string
+ */
+std::string UTILITE_EXP uNumber2Str(short number);
+
+/**
+ * Convert a number (unsigned short int) to a string.
+ * @param number the number to convert in a string
+ * @return the string
+ */
+std::string UTILITE_EXP uNumber2Str(unsigned short number);
+
+/**
  * Convert a number (unsigned int) to a string.
  * @param number the number to convert in a string
  * @return the string
