@@ -43,6 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "utilite/UDirectory.h"
 #include "utilite/UMath.h"
 #include "utilite/UTimer.h"
+#include "utilite/UVariant.h"
 #include "utilite/UObjDeletionThread.h"
 #include "SemaphoreThread.h"
 
@@ -1167,6 +1168,119 @@ void Tests::testTimer()
 	uSleep(100);
 	uValue = timer.ticks();
 	CPPUNIT_ASSERT(uValue >= 0.09 && uValue < 0.11);
+}
+
+void Tests::testVariant()
+{
+	UVariant v;
+	CPPUNIT_ASSERT(v.toChar() == 0);
+	CPPUNIT_ASSERT(v.toUChar() == 0);
+	CPPUNIT_ASSERT(v.toShort() == 0);
+	CPPUNIT_ASSERT(v.toUShort() == 0);
+	CPPUNIT_ASSERT(v.toInt() == 0);
+	CPPUNIT_ASSERT(v.toUInt() == 0);
+	CPPUNIT_ASSERT(v.toFloat() == 0);
+	CPPUNIT_ASSERT(v.toDouble() == 0);
+	CPPUNIT_ASSERT(v.toStr().size() == 0);
+
+	v = UVariant((char)-5);
+	CPPUNIT_ASSERT(v.toChar() == -5);
+	CPPUNIT_ASSERT(v.toUChar() == 0);
+	CPPUNIT_ASSERT(v.toShort() == 0);
+	CPPUNIT_ASSERT(v.toUShort() == 0);
+	CPPUNIT_ASSERT(v.toInt() == 0);
+	CPPUNIT_ASSERT(v.toUInt() == 0);
+	CPPUNIT_ASSERT(v.toFloat() == 0);
+	CPPUNIT_ASSERT(v.toDouble() == 0);
+	CPPUNIT_ASSERT(v.toStr().size() == 0);
+
+	v = UVariant((unsigned char)5);
+	CPPUNIT_ASSERT(v.toChar() == 0);
+	CPPUNIT_ASSERT(v.toUChar() == 5);
+	CPPUNIT_ASSERT(v.toShort() == 0);
+	CPPUNIT_ASSERT(v.toUShort() == 0);
+	CPPUNIT_ASSERT(v.toInt() == 0);
+	CPPUNIT_ASSERT(v.toUInt() == 0);
+	CPPUNIT_ASSERT(v.toFloat() == 0);
+	CPPUNIT_ASSERT(v.toDouble() == 0);
+	CPPUNIT_ASSERT(v.toStr().size() == 0);
+
+	v = UVariant((short)-5);
+	CPPUNIT_ASSERT(v.toChar() == 0);
+	CPPUNIT_ASSERT(v.toUChar() == 0);
+	CPPUNIT_ASSERT(v.toShort() == -5);
+	CPPUNIT_ASSERT(v.toUShort() == 0);
+	CPPUNIT_ASSERT(v.toInt() == 0);
+	CPPUNIT_ASSERT(v.toUInt() == 0);
+	CPPUNIT_ASSERT(v.toFloat() == 0);
+	CPPUNIT_ASSERT(v.toDouble() == 0);
+	CPPUNIT_ASSERT(v.toStr().size() == 0);
+
+	v = UVariant((unsigned short)5);
+	CPPUNIT_ASSERT(v.toChar() == 0);
+	CPPUNIT_ASSERT(v.toUChar() == 0);
+	CPPUNIT_ASSERT(v.toShort() == 0);
+	CPPUNIT_ASSERT(v.toUShort() == 5);
+	CPPUNIT_ASSERT(v.toInt() == 0);
+	CPPUNIT_ASSERT(v.toUInt() == 0);
+	CPPUNIT_ASSERT(v.toFloat() == 0);
+	CPPUNIT_ASSERT(v.toDouble() == 0);
+	CPPUNIT_ASSERT(v.toStr().size() == 0);
+
+	v = UVariant((int)-5);
+	CPPUNIT_ASSERT(v.toChar() == 0);
+	CPPUNIT_ASSERT(v.toUChar() == 0);
+	CPPUNIT_ASSERT(v.toShort() == 0);
+	CPPUNIT_ASSERT(v.toUShort() == 0);
+	CPPUNIT_ASSERT(v.toInt() == -5);
+	CPPUNIT_ASSERT(v.toUInt() == 0);
+	CPPUNIT_ASSERT(v.toFloat() == 0);
+	CPPUNIT_ASSERT(v.toDouble() == 0);
+	CPPUNIT_ASSERT(v.toStr().size() == 0);
+
+	v = UVariant((unsigned int)5);
+	CPPUNIT_ASSERT(v.toChar() == 0);
+	CPPUNIT_ASSERT(v.toUChar() == 0);
+	CPPUNIT_ASSERT(v.toShort() == 0);
+	CPPUNIT_ASSERT(v.toUShort() == 0);
+	CPPUNIT_ASSERT(v.toInt() == 0);
+	CPPUNIT_ASSERT(v.toUInt() == 5);
+	CPPUNIT_ASSERT(v.toFloat() == 0);
+	CPPUNIT_ASSERT(v.toDouble() == 0);
+	CPPUNIT_ASSERT(v.toStr().size() == 0);
+
+	v = UVariant(5.555f);
+	CPPUNIT_ASSERT(v.toChar() == 0);
+	CPPUNIT_ASSERT(v.toUChar() == 0);
+	CPPUNIT_ASSERT(v.toShort() == 0);
+	CPPUNIT_ASSERT(v.toUShort() == 0);
+	CPPUNIT_ASSERT(v.toInt() == 0);
+	CPPUNIT_ASSERT(v.toUInt() == 0);
+	CPPUNIT_ASSERT(v.toFloat() == 5.555f);
+	CPPUNIT_ASSERT(v.toDouble() == 0);
+	CPPUNIT_ASSERT(v.toStr().size() == 0);
+
+	v = UVariant(5.555);
+	CPPUNIT_ASSERT(v.toChar() == 0);
+	CPPUNIT_ASSERT(v.toUChar() == 0);
+	CPPUNIT_ASSERT(v.toShort() == 0);
+	CPPUNIT_ASSERT(v.toUShort() == 0);
+	CPPUNIT_ASSERT(v.toInt() == 0);
+	CPPUNIT_ASSERT(v.toUInt() == 0);
+	CPPUNIT_ASSERT(v.toFloat() == 0);
+	CPPUNIT_ASSERT(v.toDouble() == 5.555);
+	CPPUNIT_ASSERT(v.toStr().size() == 0);
+
+	v = UVariant("5");
+	CPPUNIT_ASSERT(v.toChar() == 0);
+	CPPUNIT_ASSERT(v.toUChar() == 0);
+	CPPUNIT_ASSERT(v.toShort() == 0);
+	CPPUNIT_ASSERT(v.toUShort() == 0);
+	CPPUNIT_ASSERT(v.toInt() == 0);
+	CPPUNIT_ASSERT(v.toUInt() == 0);
+	CPPUNIT_ASSERT(v.toFloat() == 0);
+	CPPUNIT_ASSERT(v.toDouble() == 0);
+	CPPUNIT_ASSERT(v.toStr().compare("5") == 0);
 }
 
 void Tests::testObjDeletionThread()

@@ -52,6 +52,7 @@ class Tests : public CppUnit::TestFixture  {
   CPPUNIT_TEST( testFile );
   CPPUNIT_TEST( testMathFunctions );
   CPPUNIT_TEST( testTimer );
+  CPPUNIT_TEST( testVariant );
   CPPUNIT_TEST( testObjDeletionThread );
   CPPUNIT_TEST_SUITE_END();
 
@@ -95,6 +96,7 @@ public:
   void testFile();
   void testMathFunctions();
   void testTimer();
+  void testVariant();
   void testObjDeletionThread();
 };
 

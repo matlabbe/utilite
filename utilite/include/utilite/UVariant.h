@@ -1,74 +1,76 @@
 /*
-Copyright (c) 2008-2014, Mathieu Labbe
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*  utilite is a cross-platform library with
+*  useful utilities for fast and small developing.
+*  Copyright (C) 2010  Mathieu Labbe
+*
+*  utilite is free library: you can redistribute it and/or modify
+*  it under the terms of the GNU Lesser General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  utilite is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef UVARIANT_H
 #define UVARIANT_H
 
+#include "utilite/UtiLiteExp.h" // DLL export/import defines
 #include <string>
+#include <vector>
 
 /**
  * Experimental class...
  */
-class UVariant
+class UTILITE_EXP UVariant
 {
 public:
+	enum Type{
+		kChar,
+		kUChar,
+		kShort,
+		kUShort,
+		kInt,
+		kUInt,
+		kFloat,
+		kDouble,
+		kStr,
+		kUndef
+		};
+public:
+	UVariant();
+	UVariant(const char & value);
+	UVariant(const unsigned char & value);
+	UVariant(const short & value);
+	UVariant(const unsigned short & value);
+	UVariant(const int & value);
+	UVariant(const unsigned int & value);
+	UVariant(const float & value);
+	UVariant(const double & value);
+	UVariant(const std::string & value);
+
+	Type type() const {return type_;}
+
+	char toChar() const;
+	unsigned char toUChar() const;
+	short toShort() const;
+	unsigned short toUShort() const;
+	int toInt() const;
+	unsigned int toUInt() const;
+	float toFloat() const;
+	double toDouble() const;
+	std::string toStr() const;
+
 	virtual ~UVariant() {}
 
-	virtual std::string className() const = 0;
-
-	template<class T>
-	const T * data() const {
-		if(data_)
-			return (T*)data_;
-		return (const T*)constData_;
-	}
-
-	template<class T>
-	T * takeDataOwnership() {
-		T * data = (T*)data_;
-		constData_ = 0;
-		data_=0;
-		return data;
-	}
-
-protected:
-	UVariant(void * data) :
-		data_(data),
-		constData_(0)
-	{}
-
-	UVariant(const void * data) :
-		data_(0),
-		constData_(data)
-	{}
-
-protected:
-	void * data_;
-	const void * constData_;
+private:
+	Type type_;
+	std::vector<unsigned char> data_;
 };
 
 #endif /* UVARIANT_H */
