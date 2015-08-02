@@ -59,6 +59,18 @@ public:
 
 	Type type() const {return type_;}
 
+	bool isUndef() const {return type_ == kUndef;}
+	bool isBool() const {return type_ == kBool;}
+	bool isChar() const {return type_ == kChar;}
+	bool isUChar() const {return type_ == kUChar;}
+	bool isShort() const {return type_ == kShort;}
+	bool isUShort() const {return type_ == kUShort;}
+	bool isInt() const {return type_ == kInt;}
+	bool isUInt() const {return type_ == kUInt;}
+	bool isFloat() const {return type_ == kFloat;}
+	bool isDouble() const {return type_ == kDouble;}
+	bool isStr() const {return type_ == kStr;}
+
 	bool toBool() const;
 	char toChar(bool * ok = 0) const;
 	unsigned char toUChar(bool * ok = 0) const;
