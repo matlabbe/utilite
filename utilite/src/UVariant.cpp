@@ -19,6 +19,8 @@
 
 #include "utilite/UVariant.h"
 #include "utilite/UConversion.h"
+#include <limits>
+#include <string.h>
 
 UVariant::UVariant() :
 	type_(kUndef)
