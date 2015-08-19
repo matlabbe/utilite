@@ -1,6 +1,8 @@
 # utilite
 
 ## News 
+August 2015
+  * Moving To GitHub from [GoogleCode](https://code.google.com/p/utilite/).
 June 2012
   * Version 0.2.14
   * Qt widgets and audio library added, see below **New**.
