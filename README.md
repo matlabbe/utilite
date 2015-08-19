@@ -14,8 +14,8 @@ UtilLite is a lite c++ library that includes cross-platform (Windows, Linux, Mac
   * logger,
   * timer,
   * **New** Qt widgets [UPlot](http://utilite.googlecode.com/svn/trunk/doc/html/class_u_plot.html) and [USpectrogram](http://utilite.googlecode.com/svn/trunk/doc/html/class_u_spectrogram.html)
-  * <img src='http://utilite.googlecode.com/svn/trunk/doc/image/UPlot.gif' width='300'> <img src='http://utilite.googlecode.com/svn/trunk/doc/image/USpectrogram.png' width='300'>
-<b>New</b> audio library to capture frames from mic or a file (<a href='http://utilite.googlecode.com/svn/trunk/doc/html/class_u_audio_recorder.html'>UAudioRecorder</a> and <a href='http://utilite.googlecode.com/svn/trunk/doc/html/class_u_audio_player.html'>UAudioPlayer</a>, wav and mp3 supported),for fast algorithm prototyping and monitoring.
+  * ![UPlot](http://utilite.googlecode.com/svn/trunk/doc/image/UPlot.gif) <img src='http://utilite.googlecode.com/svn/trunk/doc/image/USpectrogram.png' width='300'>
+  * **New** audio library to capture frames from mic or a file (<a href='http://utilite.googlecode.com/svn/trunk/doc/html/class_u_audio_recorder.html'>UAudioRecorder</a> and <a href='http://utilite.googlecode.com/svn/trunk/doc/html/class_u_audio_player.html'>UAudioPlayer</a>, wav and mp3 supported),for fast algorithm prototyping and monitoring.
 
 ## Installation
 Build it from source : see <a href='http://code.google.com/p/utilite/source/checkout'>svn</a> and <a href='http://code.google.com/p/utilite/source/browse/trunk/utilite/README.txt'>README</a>.
