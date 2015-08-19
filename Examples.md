@@ -1,0 +1,351 @@
+
+These examples can be found at http://code.google.com/p/utilite/source/browse/trunk/utilite/examples. Please refer to the [API documentation](http://utilite.googlecode.com/svn/trunk/doc/html/index.html) for information about these classes.
+# Logger and events #
+Note : the communication used between threads is events-based.
+
+This example code can be found at [events.cpp](http://code.google.com/p/utilite/source/browse/trunk/utilite/examples/events.cpp)
+Output :
+```
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:53::main() This message is logged.
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "1" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "2" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "5" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "7" received!
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "11" received!
+```
+
+Code :
+```
+// Main include of the library
+#include <utilite/UtiLite.h>
+
+// Create a custom event.
+// The pure virtual method "getClassName()" of UEvent 
+// must be redefined by inherited classes and populated 
+// with their exact name. The name can be then used to 
+// determine the concrete class of an UEvent.
+class SpecialEvent : public UEvent {
+public:
+   SpecialEvent(int code) : UEvent(code) {}
+   ~SpecialEvent() {}
+
+   virtual std::string getClassName() const {
+      return "SpecialEvent";
+   }
+};
+
+// Create a simple events handler.
+// The pure virtual method "handleEvent(UEvent*)" must 
+// be redefined by inherited classes of UEventsHandler. This 
+// method will be called each time a new event is posted to the 
+// EventsManager. Since we receive all events, here we compare 
+// the UEvent class name with the one we want to handle (the SpecialEvent).
+class EventsPrinter : public UEventsHandler
+{
+public:
+   EventsPrinter() {}
+   ~EventsPrinter() {}
+
+protected:
+   virtual void handleEvent(UEvent * e) {
+      if(e->getClassName().compare("SpecialEvent") == 0) {
+         UINFO("SpecialEvent \"%d\" received!", e->getCode());
+      }
+   }
+};
+
+int main(int argc, char * argv[])
+{
+   // Set the logger type. The choices are kTypeConsole,
+   // kTypeFile or kTypeNoLog (nothing is logged).
+   ULogger::setType(ULogger::kTypeConsole);
+
+   // Set the logger severity level (kDebug, kInfo, kWarning, kError).
+   // All log entries under the severity level are not logged. Here,
+   // only debug messages are not logged.
+   ULogger::setLevel(ULogger::kInfo);
+
+   // Use a predefined Macro to easy logging. It can be
+   // called anywhere in the application as the logger is
+   // a Singleton.
+   UDEBUG("This message won't be logged because the "
+                 "severity level of the logger is set to kInfo.");
+   UINFO("This message is logged.");
+
+   // Let's create a simple EventsPrinter that will log all
+   // events it will received.
+   EventsPrinter p;
+
+   // Register the EventsPrinter to the EventsManager to
+   // receive events posted in the application.
+   UEventsManager::addHandler(&p);
+
+   // Post some events. As ULogger, UEventsManager
+   // is a Singleton and posting events is ThreadSafe.
+   UEventsManager::post(new SpecialEvent(1));
+   UEventsManager::post(new SpecialEvent(2));
+   UEventsManager::post(new SpecialEvent(5));
+   UEventsManager::post(new SpecialEvent(7));
+   UEventsManager::post(new SpecialEvent(11));
+
+   // Let some times to process the events and quit.
+   uSleep(10);
+
+   // Cleanup
+   UEventsManager::removeHandler(&p);
+
+   return 0;
+}
+```
+
+# Threads #
+This example code can be found at [simpleThread.cpp](http://code.google.com/p/utilite/source/browse/trunk/utilite/examples/simpleThread.cpp).
+Output :
+```
+Example with the UThread class
+
+This is called once before entering the main thread loop.
+This is the loop 1...
+This is the loop 2...
+This thread will now wait on a semaphore...
+Releasing the semaphore...
+Thread woke up!
+SimpleThread destructor
+```
+Code :
+```
+#include <utilite/UThread.h>
+#include <stdio.h>
+
+class SimpleThread : public UThread
+{
+public:
+   SimpleThread() : loopCount_(0) {}
+   ~SimpleThread() {
+      printf("SimpleThread destructor\n");
+      this->join(true);
+   }
+
+protected:
+   virtual void startInit() {
+      printf("This is called once before entering the main thread loop.\n");
+      loopCount_ = 1;
+   }
+
+   virtual void mainLoop() {
+      if(loopCount_ < 3) {
+         printf("This is the loop %d...\n", loopCount_++);
+         uSleep(10);
+      }
+      else {
+         printf("This thread will now wait on a semaphore...\n");
+         semaphore_.acquire();
+         printf("Thread woke up!\n");
+      }
+   }
+
+   virtual void killCleanup() {
+      printf("Releasing the semaphore...\n");
+      semaphore_.release();
+   }
+private:
+   int loopCount_;
+   USemaphore semaphore_;
+};
+
+int main(int argc, char * argv[])
+{
+   SimpleThread t;
+   printf("Example with the StateThread class\n\n");
+   t.start();
+   uSleep(100);
+   t.kill();
+   return 0;
+}
+```
+
+# Producer-Consumer problem #
+This example code can be found at [producerConsumer.cpp](http://code.google.com/p/utilite/source/browse/trunk/utilite/examples/producerConsumer.cpp).
+
+Output :
+```
+[ INFO] (2010-12-21 15:58:23) p500 posting 0
+[ INFO] (2010-12-21 15:58:23) p1000 posting 0
+[ INFO] (2010-12-21 15:58:23) Consumer received 0
+[ INFO] (2010-12-21 15:58:23) Consumer received 0
+[ INFO] (2010-12-21 15:58:23) p500 posting 1
+[ INFO] (2010-12-21 15:58:23) Consumer received 1
+[ INFO] (2010-12-21 15:58:24) p1000 posting 1
+[ INFO] (2010-12-21 15:58:24) Consumer received 1
+[ INFO] (2010-12-21 15:58:24) p500 posting 2
+[ INFO] (2010-12-21 15:58:24) Consumer received 2
+[ INFO] (2010-12-21 15:58:24) p500 posting 3
+[ INFO] (2010-12-21 15:58:24) Consumer received 3
+[ INFO] (2010-12-21 15:58:25) p1000 posting 2
+[ INFO] (2010-12-21 15:58:25) Consumer received 2
+[ INFO] (2010-12-21 15:58:25) p500 posting 4
+[ INFO] (2010-12-21 15:58:25) Consumer received 4
+[ INFO] (2010-12-21 15:58:25) p500 posting 5
+[ INFO] (2010-12-21 15:58:25) Consumer received 5
+[ INFO] (2010-12-21 15:58:26) p1000 posting 3
+[ INFO] (2010-12-21 15:58:26) Consumer received 3
+[ INFO] (2010-12-21 15:58:26) p500 posting 6
+[ INFO] (2010-12-21 15:58:26) Consumer received 6
+[ INFO] (2010-12-21 15:58:26) p500 posting 7
+[ INFO] (2010-12-21 15:58:26) Consumer received 7
+```
+
+Code :
+```
+#include <utilite/UThread.h>
+#include <utilite/UEventsHandler.h>
+#include <utilite/ULogger.h>
+#include <utilite/UEvent.h>
+#include <utilite/UEventsManager.h>
+
+/**
+ * Example of the producer-consumer problem.
+ */
+
+// The Producer class
+class Producer : public UThread
+{
+public:
+   Producer(const std::string & name, int ms) :
+      name_(name),
+      rate_(ms) ,
+      count_(0) {}
+
+   ~Producer() {
+      this->join(true);
+   }
+
+protected:
+   virtual void mainLoop() {
+      UINFO("%s posting %d", name_.c_str(), count_);
+      UEventsManager::post(new UEvent(count_++));
+      uSleep(rate_);
+   }
+
+private:
+   const std::string name_;
+   int rate_;
+   int count_;
+};
+
+// The Consumer class
+class Consumer : public UEventsHandler
+{
+public:
+   Consumer() {}
+   ~Consumer() {}
+
+protected:
+   virtual void handleEvent(UEvent * event) {
+      UINFO("Consumer received %d", event->getCode());
+   }
+};
+
+int main(int argc, char * argv[])
+{
+   ULogger::setType(ULogger::kTypeConsole);
+   ULogger::setPrintWhere(false);
+
+   Consumer c;
+   UEventsManager::addHandler(&c);
+
+   Producer p500("p500", 500); //post each 500 ms
+   Producer p1000("p1000", 1000); //post each 1000 ms
+
+   // Start the producer threads
+   p500.start();
+   p1000.start();
+
+   uSleep(3500);
+   return 0;
+}
+```
+
+# Events with threads #
+This example code can be found at [counterThread.cpp](http://code.google.com/p/utilite/source/browse/trunk/utilite/examples/counterThread.cpp).
+
+Output :
+```
+ count=0
+ count=1
+ count=2
+ count=3
+ count=4
+ Reset!
+ count=0
+ count=1
+ count=2
+ count=3
+ count=4
+```
+Code :
+```
+#include "utilite/UThread.h"
+#include "utilite/UEventsHandler.h"
+#include "utilite/UEventsManager.h"
+#include "utilite/UEvent.h"
+
+// Implement a simple event
+class ResetEvent : public UEvent
+{
+public:
+        ResetEvent() {}
+        virtual ~ResetEvent() {}
+        virtual std::string getClassName() const {return "ResetEvent";} // Must be implemented
+};
+
+// There is the thread counting indefinitely, the count can be reseted by sending a ResetEvent.
+class CounterThread : public UThread, public UEventsHandler
+{
+public:
+        CounterThread() : state_(0), count_(0) {}
+        virtual ~CounterThread() {this->join(true);}
+
+protected:
+        virtual void mainLoop() {
+                if(state_ == 1) {
+                        state_ = 0;
+                        // Do a long initialization, reset memory or other special long works... here
+                        // we reset the count. This could be done in the handleEvent() but
+                        // with many objects, it is more safe to do it here (in the thread's loop). A safe
+                        // way could be also to use a UMutex to protect this initialization in
+                        // the handleEvent(), but it is not recommended to do long works in handleEvent()
+                        // because this will add latency in the UEventsManager dispatching events loop.
+                        count_ = 0; // Reset the count
+                        printf("Reset!\n");
+                }
+
+                // Do some works...
+                printf("count=%d\n", count_++);
+                uSleep(100); // wait 100 ms
+        }
+        virtual void handleEvent(UEvent * event) {
+                if(event->getClassName().compare("ResetEvent") == 0) {
+                        state_ = 1;
+                }
+        }
+private:
+        int state_;
+        int count_;
+};
+
+int main(int argc, char * argv[])
+{
+        CounterThread counter;
+        counter.start();
+        UEventsManager::addHandler(&counter);
+
+        uSleep(500); // wait 500 ms before sending a reset event
+        UEventsManager::post(new ResetEvent());
+        uSleep(500); // wait 500 ms before termination
+
+        UEventsManager::removeHandler(&counter);
+        counter.join(true); // Kill and wait to finish
+        return 0;
+}
+```
