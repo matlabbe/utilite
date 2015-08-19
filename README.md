@@ -150,4 +150,4 @@ Output :
 [ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "11" received!
 ```
 
-More examples <a href='Examples.md'>here</a>.
+More examples [here](https://github.com/matlabbe/utilite/wiki/Examples).
