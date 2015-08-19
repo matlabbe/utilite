@@ -20,9 +20,11 @@ UtilLite is a lite c++ library that includes cross-platform (Windows, Linux, Mac
 Build it from source : see <a href='http://code.google.com/p/utilite/source/checkout'>svn</a> and <a href='http://code.google.com/p/utilite/source/browse/trunk/utilite/README.txt'>README</a>.
 
 ### Linux
-FULL install (Qt widgets and audio library)Install <a href='http://www.fmod.org/download'>Fmodex</a> libraries (on linux, includes should be installed in /usr/local/include/fmodex and libraries should be in /usr/local/lib)
+#### FULL install (Qt widgets and audio library). 
+Install <a href='http://www.fmod.org/download'>Fmodex</a> libraries (on linux, includes should be installed in `/usr/local/include/fmodex` and libraries should be in `/usr/local/lib`)
 
-``` $ sudo apt-get install libqt4-dev libmp3lame-dev libfftw3-dev libopencv-dev
+```bash
+ $ sudo apt-get install libqt4-dev libmp3lame-dev libfftw3-dev libopencv-dev
  $ svn checkout http://utilite.googlecode.com/svn/trunk/utilite utilite
  $ cd utilite/build
  $ cmake -DBUILD_AUDIO=ON -DBUILD_QT=ON -DBUILD_OPENCV=ON ..
@@ -30,8 +32,9 @@ FULL install (Qt widgets and audio library)Install <a href='http://www.fmod.org/
  $ make install
 ```
 
-Minimum install
-``` $ svn checkout http://utilite.googlecode.com/svn/trunk/utilite utilite
+#### Minimum install
+```bash
+ $ svn checkout http://utilite.googlecode.com/svn/trunk/utilite utilite
  $ cd utilite/build
  $ cmake ..
  $ make
@@ -41,7 +44,10 @@ Minimum install
 To build tests, add "-DBUILD_TESTS=ON". To not build examples, add "-DBUILD_EXAMPLES=OFF".
 
 ### Windows
-</li><li>Binaries <b>recommended</b>, see Downloads on the side of this page.</li><li>Source: FULL install (Qt widgets and audio library)
+#### Binaries **recommended**, see Downloads on the side of this page.
+
+#### Source 
+FULL install (Qt widgets and audio library)
 
  1. Install <a href='http://www.mingw.org/wiki/Getting_Started'>MinGW</a>
  2. Install <a href='http://qt.nokia.com/downloads/downloads#qt-lib'>Qt4 MinGW libraries</a>
@@ -60,7 +66,9 @@ $ mingw32-make install
 ### ROS
 First, you need to install the UtiLite standalone libraries. Follow Linux instructions <a href='https://code.google.com/p/utilite/#Linux'>above</a>.
 Now install the UtiLite ros-pkg in your src folder of your Catkin workspace.
-```$ cd ~/&lt;YOUR_CATKIN_WORKSPACE&gt;
+
+```bash
+$ cd ~/&lt;YOUR_CATKIN_WORKSPACE&gt;
 $ svn checkout http://utilite.googlecode.com/svn/trunk/ros-pkg src/utilite
 $ catkin_make
 ```
@@ -74,7 +82,7 @@ See <a href='UtiLite_ROS.md'>UtiLite_ROS</a> page for information about using la
 
 Create a custom event, called SpecialEvent :
 
-```
+```cpp
 class SpecialEvent : public UEvent {
 public:
    SpecialEvent(int code) : UEvent(code) {}
@@ -88,7 +96,7 @@ public:
 
 Create an events handler :
 
-```
+```cpp
 class EventsPrinter : public UEventsHandler {
 public:
    EventsPrinter() {}
@@ -105,7 +113,7 @@ protected:
 
 The main :
 
-```
+```cpp
 int main(int argc, char * argv[])
 {
    ULogger::setType(ULogger::kTypeConsole);
@@ -132,7 +140,8 @@ int main(int argc, char * argv[])
 
 Output :
 
-```[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:53::main() This message is logged.
+```bash
+[ INFO] (2010-09-25 18:08:20) eventsExample.cpp:53::main() This message is logged.
 [ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "1" received!
 [ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "2" received!
 [ INFO] (2010-09-25 18:08:20) eventsExample.cpp:32::handleEvent() SpecialEvent "5" received!
