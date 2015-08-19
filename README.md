@@ -1,14 +1,15 @@
 # utilite
 
 ## News 
-August 2015
-  * Moving To GitHub from [GoogleCode](https://code.google.com/p/utilite/).
-June 2012
-  * Version 0.2.14
-  * Qt widgets and audio library added, see below **New**.
+* August 2015
+ * Moving To GitHub from [GoogleCode](https://code.google.com/p/utilite/).
+
+* June 2012
+ * Version 0.2.14
+ * Qt widgets and audio library added, see below **New**.
 February 2012
-  * Version 0.2.13
-  * Added [API documentation](http://utilite.googlecode.com/svn/trunk/doc/html/index.html).
+ * Version 0.2.13
+ * Added [API documentation](http://utilite.googlecode.com/svn/trunk/doc/html/index.html).
 
 ## Overview
 UtilLite is a lite c++ library that includes cross-platform (Windows, Linux, Mac) useful utilities like :
