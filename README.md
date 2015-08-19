@@ -7,7 +7,8 @@ June 2012
 February 2012
   * Version 0.2.13
   * Added [API documentation](http://utilite.googlecode.com/svn/trunk/doc/html/index.html).
-# Overview #
+
+## Overview
 UtilLite is a lite c++ library that includes cross-platform (Windows, Linux, Mac) useful utilities like :
   * threads and safe inter-thread communication (events-based),
   * logger,
