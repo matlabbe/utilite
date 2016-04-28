@@ -1,4 +1,4 @@
-# utilite
+# utilite https://travis-ci.org/introlab/find-object.svg?branch=master
 
 ## News 
 * August 2015
