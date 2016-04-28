@@ -1,0 +1,15 @@
+language: cpp
+
+compiler:
+  - gcc
+  - clang
+
+addons:
+  apt:
+    packages:
+      - cmake
+
+script: 
+    - mkdir -p utilite/build && cd utilite/build
+    - cmake .. 
+    - make
