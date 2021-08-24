@@ -108,8 +108,8 @@ public:
 
 protected:
    virtual void handleEvent(UEvent * e) {
-      if(e-&gt;getClassName().compare("SpecialEvent") == 0) {
-         UINFO("SpecialEvent \"%d\" received!", e-&gt;getCode());
+      if(e->getClassName().compare("SpecialEvent") == 0) {
+         UINFO("SpecialEvent \"%d\" received!", e->getCode());
       }
    }
 };
