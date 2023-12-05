@@ -17,7 +17,7 @@ UtilLite is a lite c++ library that includes cross-platform (Windows, Linux, Mac
   * logger,
   * timer,
   * **New** Qt widgets [UPlot](http://matlabbe.github.io/utilite/class_u_plot.html) and [USpectrogram](http://matlabbe.github.io/utilite/class_u_spectrogram.html)
-  * ![UPlot](https://raw.githubusercontent.com/matlabbe/utilite/master/doc/image/UPlot.gif) <img src='http://utilite.googlecode.com/svn/trunk/doc/image/USpectrogram.png' width='300'>
+  * ![UPlot](https://raw.githubusercontent.com/matlabbe/utilite/master/doc/image/UPlot.gif) <img src='https://raw.githubusercontent.com/matlabbe/utilite/master/doc/image/USpectrogram.png' width='300'>
   * **New** audio library to capture frames from mic or a file (<a href='http://utilite.googlecode.com/svn/trunk/doc/html/class_u_audio_recorder.html'>UAudioRecorder</a> and <a href='http://utilite.googlecode.com/svn/trunk/doc/html/class_u_audio_player.html'>UAudioPlayer</a>, wav and mp3 supported),for fast algorithm prototyping and monitoring.
 
 ## Installation
