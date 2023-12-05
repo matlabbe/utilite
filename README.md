@@ -9,19 +9,24 @@
  * Qt widgets and audio library added, see below **New**.
 February 2012
  * Version 0.2.13
- * Added [API documentation]([http://utilite.googlecode.com/svn/trunk/doc/html/index.html](http://matlabbe.github.io/utilite/)).
+ * Added [API documentation](http://matlabbe.github.io/utilite/).
 
 ## Overview
 UtilLite is a lite c++ library that includes cross-platform (Windows, Linux, Mac) useful utilities like :
   * threads and safe inter-thread communication (events-based),
   * logger,
   * timer,
-  * **New** Qt widgets [UPlot](http://utilite.googlecode.com/svn/trunk/doc/html/class_u_plot.html) and [USpectrogram](http://utilite.googlecode.com/svn/trunk/doc/html/class_u_spectrogram.html)
+  * **New** Qt widgets [UPlot](http://matlabbe.github.io/utilite/class_u_plot.html) and [USpectrogram](http://matlabbe.github.io/utilite/class_u_spectrogram.html)
   * ![UPlot](https://raw.githubusercontent.com/matlabbe/utilite/master/doc/image/UPlot.gif) <img src='http://utilite.googlecode.com/svn/trunk/doc/image/USpectrogram.png' width='300'>
   * **New** audio library to capture frames from mic or a file (<a href='http://utilite.googlecode.com/svn/trunk/doc/html/class_u_audio_recorder.html'>UAudioRecorder</a> and <a href='http://utilite.googlecode.com/svn/trunk/doc/html/class_u_audio_player.html'>UAudioPlayer</a>, wav and mp3 supported),for fast algorithm prototyping and monitoring.
 
 ## Installation
-Build it from source : see <a href='http://code.google.com/p/utilite/source/checkout'>svn</a> and <a href='http://code.google.com/p/utilite/source/browse/trunk/utilite/README.txt'>README</a>.
+
+```
+$ cd utilite/build
+$ cmake ..
+$ make
+```
 
 ### Linux
 #### FULL install (Qt widgets and audio library). 
